@@ -1,0 +1,113 @@
+$primary-color-dark: #303F9F;
+$primary-color: #3F51B5;
+$primary-color-light: #C5CAE9;
+$primary-color-text: #FFFFFF;
+$accent-color: #00BCD4;
+$primary-text-color: #212121;
+$secondary-text-color: #727272;
+$divider-color: #B6B6B6;
+$assertive: $primary-color !default;
+$font-family-sans-serif:"Lato",
+"Helvetica Neue",
+"Roboto",
+"Segoe UI",
+sans-serif !default;
+$font-family-light-sans-serif:"Lato",
+"HelveticaNeue-Light",
+"Roboto-Light",
+"Segoe UI-Light"!default;
+$button-border-radius: 0px !default;
+$button-border-width: 0px !default;
+$headings-font-weight: 300;
+$font-size-list:13px;
+// sass mixing
+@mixin transition($transition-property, $transition-time) {
+    -webkit-transition: $transition-property $transition-time;
+    -moz-transition: $transition-property $transition-time;
+    -ms-transition: $transition-property $transition-time;
+    -o-transition: $transition-property $transition-time;
+    transition: $transition-property $transition-time;
+}
+
+@mixin clip-path($clip) {
+    -webkit-clip-path: $clip;
+    -moz-clip-path: $clip;
+    -ms-clip-path: $clip;
+    clip-path: $clip;
+}
+
+// end
+//sass start
+@font-face {
+    font-family: 'Lato';
+    src: url("../fonts/Lato-Bold.ttf");
+    font-weight: 700;
+}
+
+@font-face {
+    font-family: 'Lato';
+    src: url(../fonts/Lato-Regular.ttf);
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: 'Lato';
+    src: url(../fonts/Lato-Light.ttf);
+    font-weight: 300;
+}
+
+.home {
+    .wallet-holder {
+        position: relative;
+        background-color: #e4bc88;
+        border-bottom-right-radius: 5px;
+        border-top-right-radius: 5px;
+        border-right: #BF8652 3px inset;
+        .wallet-balance {
+            box-shadow: 2px 1px 4px #684A2E;
+            background-color: #e4bc88;
+            border-bottom-right-radius: 5px;
+            border-top-right-radius: 5px;
+            border-right: #BF8652 3px inset;
+            //        border-bottom: #BF8652 3px inset;
+            margin-right: 6px;
+            padding: 15px;
+            h2,
+            h3 {
+                margin: 0px;
+                //            color: white;
+            }
+            h3 {
+                font-size: 13px;
+                min-height: 17px;
+                font-weight: 400;
+            }
+            h2 {
+                font-size: 16px;
+                font-weight: 700;
+                min-height: 20px;
+            }
+        }
+        img {
+            position: absolute;
+            width: 35px;
+            top: 13px;
+            right: 2px;
+        }
+    }
+    .item{
+        padding-bottom: 8px;
+        h2,p,span{
+        margin: 0px;
+        }
+        h2{
+        font-size: 15px;
+        }
+        p{
+            font-size: 13px;
+        }
+        span{
+        font-size: 12px;
+        }
+    }
+}
