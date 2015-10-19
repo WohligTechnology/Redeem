@@ -6,6 +6,19 @@
         "C:/xampp/htdocs/redeem/plugins/cordova-plugin-whitelist/whitelist.js",
         "C:/xampp/htdocs/redeem/platforms/android/assets/www/plugins/cordova-plugin-console/www/logger.js",
         "C:/xampp/htdocs/redeem/plugins/cordova-plugin-splashscreen/src/tizen/SplashScreenProxy.js",
-        "C:/xampp/htdocs/redeem/www/lib/ionic/js/angular/angular-animate.js"
+        "C:/xampp/htdocs/redeem/www/lib/ionic/js/angular/angular-animate.js",
+        "C:/xampp/htdocs/redeem/www/lib/ionic/js/angular/angular-animate.min.js",
+        "C:/xampp/htdocs/redeem/www/lib/ionic/js/angular/angular-resource.js",
+        "C:/xampp/htdocs/redeem/www/lib/ionic/js/angular/angular-resource.min.js",
+        "C:/xampp/htdocs/redeem/www/lib/ionic/js/angular/angular-sanitize.js",
+        "C:/xampp/htdocs/redeem/www/lib/ionic/js/angular/angular-sanitize.min.js",
+        "C:/xampp/htdocs/redeem/www/lib/ionic/js/angular/angular.js",
+        "C:/xampp/htdocs/redeem/www/lib/ionic/js/angular/angular.min.js",
+        "C:/xampp/htdocs/redeem/gulpfile.js",
+        "C:/xampp/htdocs/redeem/plugins/cordova-plugin-splashscreen/src/browser/SplashScreenProxy.js",
+        "C:/xampp/htdocs/redeem/plugins/cordova-plugin-splashscreen/src/blackberry10/index.js",
+        "C:/xampp/htdocs/redeem/www/lib/ionic/js/angular-ui/angular-ui-router.js",
+        "C:/xampp/htdocs/redeem/www/lib/ionic/js/angular-ui/angular-ui-router.min.js",
+        "C:/xampp/htdocs/redeem/www/lib/ionic/js/ionic-angular.js"
     ]
 }

@@ -1,0 +1,17 @@
+<ion-view view-title="E-Commerce">
+    <ion-content>
+       <h1 class="category-header-txt">
+           Choose from popular online markets!
+       </h1>
+        <div class="category-container">
+            <div class="row" ng-repeat="ec in ecommerce">
+                <a href="#/app/redeem" style="text-decoration:none;color: black;" class="col" ng-repeat="ecomm in ec">
+                    <div class="img-holder">
+                        <img class="category-image" src="{{ecomm.imgurl}}" alt="">
+                    </div>
+                    <span>{{ecomm.company}}</span>
+                </a>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

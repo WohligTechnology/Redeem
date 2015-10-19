@@ -128,6 +128,7 @@ $font-size-list:13px;
     border-color: $assertive;
 }
 
+//re organize all the below CSS -_-
 .login-signup {
     ion-content {
         background-color: #212429;
@@ -170,7 +171,83 @@ $font-size-list:13px;
         background-color: #212429;
     }
 }
-.bg-assertive{
- background-color: $assertive !important;
+
+.bg-assertive {
+    background-color: $assertive !important;
     color: black !important;
+}
+
+.img-holder {
+    height: 70px;
+    width: auto;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.category-image {
+    max-height: 100%;
+    max-width: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    width: auto;
+}
+
+.category-container {
+    border: 1px #ddd solid;
+    margin: 10px;
+    .row+.row {
+        border-top: 1px #ddd solid;
+    }
+    .col+.col {
+        border-left: 1px #ddd solid;
+    }
+    .row {
+        margin: 0px;
+        padding: 0px;
+    }
+    span {
+        text-align: center;
+        display: block;
+        font-size: 13px;
+    }
+}
+
+.category-header-txt {
+    font-size: 13px;
+    font-weight: 500;
+    margin: 10px 20px !important;
+    text-align: center;
+}
+
+.tnc {
+    i {
+        float: right;
+        font-size: 18px;
+    }
+}
+
+.banner-holder {
+    height: 120px;
+}
+
+.banner-image {
+    @extend .category-image;
+}
+
+.redeem-btn {
+    float: right;
+    margin-right: 10px !important;
+    margin-left: 10px;
+    padding-right: 21px !important;
+    padding-left: 21px !important;
+}
+
+.enter-amount-input {
+    span.input-label {
+        width: 0%;
+        font-size: 16px;
+    }
 }

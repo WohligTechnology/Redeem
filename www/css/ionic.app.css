@@ -133,6 +133,61 @@ $dark:                            #444 !default;
   background-color: #e4bc88 !important;
   color: black !important; }
 
+.img-holder {
+  height: 70px;
+  width: auto;
+  margin-bottom: 10px;
+  position: relative; }
+
+.category-image, .banner-image {
+  max-height: 100%;
+  max-width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  width: auto; }
+
+.category-container {
+  border: 1px #ddd solid;
+  margin: 10px; }
+  .category-container .row + .row {
+    border-top: 1px #ddd solid; }
+  .category-container .col + .col {
+    border-left: 1px #ddd solid; }
+  .category-container .row {
+    margin: 0px;
+    padding: 0px; }
+  .category-container span {
+    text-align: center;
+    display: block;
+    font-size: 13px; }
+
+.category-header-txt {
+  font-size: 13px;
+  font-weight: 500;
+  margin: 10px 20px !important;
+  text-align: center; }
+
+.tnc i {
+  float: right;
+  font-size: 18px; }
+
+.banner-holder {
+  height: 120px; }
+
+.redeem-btn {
+  float: right;
+  margin-right: 10px !important;
+  margin-left: 10px;
+  padding-right: 21px !important;
+  padding-left: 21px !important; }
+
+.enter-amount-input span.input-label {
+  width: 0%;
+  font-size: 16px; }
+
 /*!
   Ionicons, v2.0.1
   Created by Ben Sperry for the Ionic Framework, http://ionicons.com/

@@ -46,6 +46,24 @@ angular.module('starter', ['ionic', 'starter.controllers'])
                 }
             }
         })
+        .state('app.ecommerce', {
+            url: '/ecommerce',
+            views: {
+                'menuContent': {
+                    templateUrl: 'templates/ecommerce.html',
+                    controller:'EcommerceCtrl'
+                }
+            }
+        })
+        .state('app.redeem', {
+            url: '/redeem',
+            views: {
+                'menuContent': {
+                    templateUrl: 'templates/redeem.html',
+                    controller:'RedeemCtrl'
+                }
+            }
+        })
 
     .state('app.browse', {
             url: '/browse',
@@ -57,13 +75,13 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         })
         .state('app.playlists', {
             url: '/playlists',
-            views: {
-                'menuContent': {
-                    templateUrl: 'templates/playlists.html',
-                    controller: 'PlaylistsCtrl'
-                }
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/playlists.html',
+                controller: 'PlaylistsCtrl'
             }
-        })
+        }
+    })
 
     .state('app.single', {
         url: '/playlists/:playlistId',

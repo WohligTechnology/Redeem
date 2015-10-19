@@ -1,65 +1,83 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout) {
+.controller('AppCtrl', function ($scope, $ionicModal, $timeout) {
 
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
+    // With the new view caching in Ionic, Controllers are only called
+    // when they are recreated or on app start, instead of every page change.
+    // To listen for when this page is active (for example, to refresh data),
+    // listen for the $ionicView.enter event:
+    //$scope.$on('$ionicView.enter', function(e) {
+    //});
 
-  // Form data for the login modal
-  $scope.loginData = {};
+    // Form data for the login modal
+    $scope.loginData = {};
 
-  // Create the login modal that we will use later
-  $ionicModal.fromTemplateUrl('templates/login.html', {
-    scope: $scope
-  }).then(function(modal) {
-    $scope.modal = modal;
-  });
+    // Create the login modal that we will use later
+    $ionicModal.fromTemplateUrl('templates/login.html', {
+        scope: $scope
+    }).then(function (modal) {
+        $scope.modal = modal;
+    });
 
-  // Triggered in the login modal to close it
-  $scope.closeLogin = function() {
-    $scope.modal.hide();
-  };
+    // Triggered in the login modal to close it
+    $scope.closeLogin = function () {
+        $scope.modal.hide();
+    };
 
-  // Open the login modal
-  $scope.login = function() {
-    $scope.modal.show();
-  };
+    // Open the login modal
+    $scope.login = function () {
+        $scope.modal.show();
+    };
 
-  // Perform the login action when the user submits the login form
-  $scope.doLogin = function() {
-    console.log('Doing login', $scope.loginData);
+    // Perform the login action when the user submits the login form
+    $scope.doLogin = function () {
+        console.log('Doing login', $scope.loginData);
 
-    // Simulate a login delay. Remove this and replace with your login
-    // code if using a login system
-    $timeout(function() {
-      $scope.closeLogin();
-    }, 1000);
-  };
+        // Simulate a login delay. Remove this and replace with your login
+        // code if using a login system
+        $timeout(function () {
+            $scope.closeLogin();
+        }, 1000);
+    };
 })
 
-.controller('PlaylistsCtrl', function($scope) {
-  $scope.playlists = [
-    { title: 'Reggae', id: 1 },
-    { title: 'Chill', id: 2 },
-    { title: 'Dubstep', id: 3 },
-    { title: 'Indie', id: 4 },
-    { title: 'Rap', id: 5 },
-    { title: 'Cowbell', id: 6 }
+.controller('PlaylistsCtrl', function ($scope) {
+    $scope.playlists = [
+        {
+            title: 'Reggae',
+            id: 1
+        },
+        {
+            title: 'Chill',
+            id: 2
+        },
+        {
+            title: 'Dubstep',
+            id: 3
+        },
+        {
+            title: 'Indie',
+            id: 4
+        },
+        {
+            title: 'Rap',
+            id: 5
+        },
+        {
+            title: 'Cowbell',
+            id: 6
+        }
   ];
 })
 
-.controller('LoginCtrl', function($scope, $stateParams,$location) {
-    $scope.activate = true;
+.controller('LoginCtrl', function ($scope, $stateParams, $location ) {
+        $scope.activate = true;
         $scope.tab = {
             left: true,
             right: false
         }
         $scope.clickTab = function (side) {
-//            $ionicScrollDelegate.scrollTop();
+            //            $ionicScrollDelegate.scrollTop();
             if (side === "left") {
                 $scope.tab.left = true;
                 $scope.tab.right = false;
@@ -69,10 +87,63 @@ angular.module('starter.controllers', [])
                 console.log("here");
             }
         };
-     $scope.doLogin = function() {
-         console.log("herer");
-         $location.path('app/home');
-     };
+        $scope.doLogin = function () {
+            console.log("herer");
+            $location.path('app/home');
+        };
+    })
+    .controller('PlaylistCtrl', function ($scope, $stateParams) {})
+    .controller('RedeemCtrl', function ($scope, $stateParams, $ionicModal, $timeout) {
+    $scope.readTNC=false;
+    $ionicModal.fromTemplateUrl('templates/tNc.html', {
+        scope: $scope
+    }).then(function (modal) {
+        $scope.modal = modal;
+    });
+
+    // Triggered in the tNc modal to close it
+    $scope.closeTNC = function () {
+        $scope.readTNC=true;
+        $scope.modal.hide();
+    };
+
+    // Open the tNc modal
+    $scope.tNc = function () {
+        $scope.modal.show();
+    };
 })
-    .controller('PlaylistCtrl', function($scope, $stateParams) {
-});
+    .controller('EcommerceCtrl', function ($scope, $stateParams) {
+
+        $scope.ecommerce = [
+            {
+                company: 'Amazon',
+                imgurl: 'img/categories/amazon.jpg'
+            },{
+                company: 'Flipkart',
+                imgurl: 'img/categories/flipkart.png'
+            },{
+                company: 'Jabong',
+                imgurl: 'img/categories/jabong-logo.jpg'
+            },{
+                company: 'Myntra',
+                imgurl: 'img/categories/flipkart.png'
+            },{
+                company: 'Flipkart',
+                imgurl: 'img/categories/flipkart.png'
+            },{
+                company: 'Flipkart',
+                imgurl: 'img/categories/flipkart.png'
+            },{
+                company: 'Flipkart',
+                imgurl: 'img/categories/flipkart.png'
+            },{
+                company: 'Flipkart',
+                imgurl: 'img/categories/flipkart.png'
+            },{
+                company: 'Flipkart',
+                imgurl: 'img/categories/flipkart.png'
+            }
+    ];
+        $scope.ecommerce = _.chunk($scope.ecommerce, 3);
+
+    });
