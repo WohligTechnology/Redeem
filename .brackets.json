@@ -1,0 +1,11 @@
+{
+    "jscodehints.detectedExclusions": [
+        "C:/xampp/htdocs/redeem/plugins/cordova-plugin-splashscreen/tests/tests.js",
+        "C:/xampp/htdocs/redeem/plugins/cordova-plugin-splashscreen/www/windows/SplashScreenProxy.js",
+        "C:/xampp/htdocs/redeem/plugins/cordova-plugin-splashscreen/www/splashscreen.js",
+        "C:/xampp/htdocs/redeem/plugins/cordova-plugin-whitelist/whitelist.js",
+        "C:/xampp/htdocs/redeem/platforms/android/assets/www/plugins/cordova-plugin-console/www/logger.js",
+        "C:/xampp/htdocs/redeem/plugins/cordova-plugin-splashscreen/src/tizen/SplashScreenProxy.js",
+        "C:/xampp/htdocs/redeem/www/lib/ionic/js/angular/angular-animate.js"
+    ]
+}

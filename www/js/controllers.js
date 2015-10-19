@@ -52,5 +52,27 @@ angular.module('starter.controllers', [])
   ];
 })
 
-.controller('PlaylistCtrl', function($scope, $stateParams) {
+.controller('LoginCtrl', function($scope, $stateParams,$location) {
+    $scope.activate = true;
+        $scope.tab = {
+            left: true,
+            right: false
+        }
+        $scope.clickTab = function (side) {
+//            $ionicScrollDelegate.scrollTop();
+            if (side === "left") {
+                $scope.tab.left = true;
+                $scope.tab.right = false;
+            } else {
+                $scope.tab.right = true;
+                $scope.tab.left = false;
+                console.log("here");
+            }
+        };
+     $scope.doLogin = function() {
+         console.log("herer");
+         $location.path('app/home');
+     };
+})
+    .controller('PlaylistCtrl', function($scope, $stateParams) {
 });

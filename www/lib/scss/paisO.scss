@@ -1,12 +1,4 @@
-$primary-color-dark: #303F9F;
-$primary-color: #3F51B5;
-$primary-color-light: #C5CAE9;
-$primary-color-text: #FFFFFF;
-$accent-color: #00BCD4;
-$primary-text-color: #212121;
-$secondary-text-color: #727272;
-$divider-color: #B6B6B6;
-$assertive: $primary-color !default;
+$assertive: #e4bc88 !default;
 $font-family-sans-serif:"Lato",
 "Helvetica Neue",
 "Roboto",
@@ -56,6 +48,14 @@ $font-size-list:13px;
     font-weight: 300;
 }
 
+.no-padding {
+    padding: 0 !important;
+}
+
+.no-margin {
+    margin: 0 !important;
+}
+
 .home {
     .wallet-holder {
         position: relative;
@@ -95,19 +95,82 @@ $font-size-list:13px;
             right: 2px;
         }
     }
-    .item{
-        padding-bottom: 8px;
-        h2,p,span{
-        margin: 0px;
-        }
-        h2{
-        font-size: 15px;
-        }
-        p{
+    .list {
+        margin-top: 10px;
+        margin-right: 10px;
+        margin-left: 10px;
+    }
+}
+
+.sidemenu {
+    ion-content {
+        background-color: #212429;
+    }
+    .item {
+        border-color: #2B2E35;
+        .item-content {
+            background-color: #212429 !important;
+            color: #91969D;
             font-size: 13px;
-        }
-        span{
-        font-size: 12px;
+            font-weight: 600!important;
         }
     }
+}
+
+.spacer-small {
+    height: 30px;
+}
+
+.active-tab {
+    border-style: solid;
+    border-width: 0px;
+    border-bottom-width: 2px;
+    border-color: $assertive;
+}
+
+.login-signup {
+    ion-content {
+        background-color: #212429;
+    }
+    .spacer-small {
+        @extend .spacer-small;
+        background-color: #212429;
+    }
+    .cover {
+        background-color: #212429;
+        img {
+            height: 100px;
+            background-color: #212429;
+        }
+    }
+    .input-label {
+        width: 0%;
+        color: white;
+        font-size: 13px;
+    }
+    .col {
+        background-color: #212429;
+        color: $assertive;
+        h5 {
+            color: white;
+            font-weight: 300;
+        }
+    }
+    .item {
+        background-color: #212429;
+        border-color: #212429;
+    }
+    .row {
+        box-shadow: -5px 4px 33px #000;
+    }
+    .forms {
+        box-shadow: -5px 0px 33px #000;
+    }
+    ion-scroll {
+        background-color: #212429;
+    }
+}
+.bg-assertive{
+ background-color: $assertive !important;
+    color: black !important;
 }

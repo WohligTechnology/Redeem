@@ -1,44 +1,56 @@
 <ion-side-menus enable-menu-with-back-views="false">
-  <ion-side-menu-content>
-    <ion-nav-bar class="bar-stable" align-title="center">
-      <ion-nav-back-button>
-      </ion-nav-back-button>
+    <ion-side-menu-content>
+        <ion-nav-bar class="bar-stable" align-title="center">
+            <ion-nav-back-button>
+            </ion-nav-back-button>
 
-      <ion-nav-buttons side="left">
-        <button class="button button-icon button-clear ion-navicon" menu-toggle="left">
-        </button>
-      </ion-nav-buttons>
-    </ion-nav-bar>
-    <ion-nav-view name="menuContent"></ion-nav-view>
-  </ion-side-menu-content>
+            <ion-nav-buttons side="left">
+                <button class="button button-icon button-clear ion-navicon" menu-toggle="left">
+                </button>
+            </ion-nav-buttons>
+            <ion-nav-buttons side="right">
+                <button class="button button-icon button-clear ion-ios-search">
+                </button>
+            </ion-nav-buttons>
+        </ion-nav-bar>
+        <ion-nav-view name="menuContent"></ion-nav-view>
+    </ion-side-menu-content>
 
-  <ion-side-menu side="left">
+    <ion-side-menu side="left" width="210" class="sidemenu">
+        <!--
     <ion-header-bar class="bar-stable" align-title="center">
       <h1 class="title">MENU</h1>
     </ion-header-bar>
-    <ion-content>
-      <ion-list>
-<!--
+-->
+        <ion-content>
+            <ion-list>
+                <!--
         <ion-item menu-close ng-click="login()">
           Login
         </ion-item>
 -->
-        <ion-item menu-close href="#/app/search">
-          Home
-        </ion-item>
-        <ion-item menu-close href="#/app/browse">
-          Wallet
-        </ion-item>
-         <ion-item menu-close href="#/app/browse">
-          Send Money
-        </ion-item>
-        <ion-item menu-close href="#/app/playlists">
-          Spend History
-        </ion-item>
-        <ion-item menu-close href="#/app/playlists">
-            About Us
-        </ion-item>
-      </ion-list>
-    </ion-content>
-  </ion-side-menu>
+                <ion-item class="item item-avatar" menu-close href="#/app/search">
+                    <img src="img/user.png" alt="">
+                    <p>Rohan Gada</p>
+                    <span>+919768254461</span>
+                </ion-item>
+                <ion-item menu-close href="#/app/search">
+<!--                    <div class="icon-container"><i class="icon ln-home4"></i></div>-->
+                    <span>Home</span>
+                </ion-item>
+                <ion-item menu-close href="#/app/browse">
+                    Wallet
+                </ion-item>
+                <ion-item menu-close href="#/app/browse">
+                    Send Money
+                </ion-item>
+                <ion-item menu-close href="#/app/playlists">
+                    Spend History
+                </ion-item>
+                <ion-item menu-close href="#/app/playlists">
+                    About Us
+                </ion-item>
+            </ion-list>
+        </ion-content>
+    </ion-side-menu>
 </ion-side-menus>

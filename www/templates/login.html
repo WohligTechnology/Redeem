@@ -1,25 +1,58 @@
-<ion-modal-view>
-  <ion-header-bar>
-    <h1 class="title">Login</h1>
-    <div class="buttons">
-      <button class="button button-clear" ng-click="closeLogin()">Close</button>
-    </div>
-  </ion-header-bar>
-  <ion-content>
-    <form ng-submit="doLogin()">
-      <div class="list">
-        <label class="item item-input">
-          <span class="input-label">Username</span>
-          <input type="text" ng-model="loginData.username">
-        </label>
-        <label class="item item-input">
-          <span class="input-label">Password</span>
-          <input type="password" ng-model="loginData.password">
-        </label>
-        <label class="item">
-          <button class="button button-block button-positive" type="submit">Log in</button>
-        </label>
-      </div>
-    </form>
-  </ion-content>
-</ion-modal-view>
+<ion-view>
+    <ion-content>
+       <div class="login-signup">
+            <div class="spacer-small"></div>
+        <div class="text-center cover">
+            <img src="img/ionic.png" alt="">
+        </div>
+        <div class="spacer-small"></div>
+        <div class="row no-padding">
+            <div class="col no-padding text-center" ng-class="{'active-tab':tab.left}">
+                <button class="button button-clear no-padding " ng-click="clickTab('left')">
+                    <h5>Log in</h5></button>
+            </div>
+            <div class="col no-padding text-center" ng-class="{'active-tab':tab.right}">
+                <button class="button button-clear no-padding " ng-click="clickTab('right')">
+                    <h5>Sign up</h5></button>
+            </div>
+        </div>
+        <ion-scroll style="height:400px;">
+        <div class="forms">
+            <form ng-submit="doLogin()" ng-show="tab.left">
+            <div class="list">
+                <label class="item item-input">
+                   <span class="input-label">+91</span>
+                    <input type="tel" placeholder="Phone Number">
+                </label>
+                <label class="item item-input">
+                    <input type="password" placeholder="Password">
+                </label>
+            </div>
+        </form>
+        <form ng-submit="doLogin()" ng-show="tab.right">
+            <div class="list">
+                <label class="item item-input">
+                    <input type="text" placeholder="Name">
+                </label>
+                <label class="item item-input">
+                    <input type="tel" placeholder="Phone number">
+                </label>
+                <label class="item item-input">
+                    <input type="password" placeholder="Password">
+                </label>
+                <label class="item item-input">
+                    <input type="password" placeholder="Confirm password">
+                </label>
+            </div>
+        </form>
+        </div>
+        </ion-scroll>
+       </div>
+    </ion-content>
+    <ion-footer-bar align-title="left" class="bar-assertive" ng-show="tab.left">
+        <button class="button button-clear button-block no-margin" ng-click="doLogin()">Log In</button>
+    </ion-footer-bar>
+    <ion-footer-bar align-title="left" class="bar-assertive" ng-show="tab.right">
+        <button class="button button-clear button-block no-margin">Sign Up</button>
+    </ion-footer-bar>
+</ion-view>
