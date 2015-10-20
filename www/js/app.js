@@ -82,6 +82,15 @@ angular.module('starter', ['ionic', 'starter.controllers'])
                 }
             }
         })
+    .state('app.sendmoney', {
+            url: '/sendmoney',
+            views: {
+                'menuContent': {
+                    templateUrl: 'templates/sendmoney.html',
+                    controller:'SendMoneyCtrl'
+                }
+            }
+        })
         .state('app.playlists', {
             url: '/playlists',
         views: {

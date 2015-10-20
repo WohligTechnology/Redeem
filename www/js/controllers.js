@@ -93,6 +93,7 @@ angular.module('starter.controllers', [])
         };
     })
     .controller('PlaylistCtrl', function ($scope, $stateParams) {})
+    .controller('SendMoneyCtrl', function ($scope, $stateParams) {})
     .controller('SpendHistoryCtrl', function ($scope, $stateParams) {
     
     $scope.spendhistory=[{
