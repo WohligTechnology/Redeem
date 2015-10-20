@@ -73,6 +73,15 @@ angular.module('starter', ['ionic', 'starter.controllers'])
                 }
             }
         })
+    .state('app.spendhistory', {
+            url: '/spendhistory',
+            views: {
+                'menuContent': {
+                    templateUrl: 'templates/spendhistory.html',
+                    controller:'SpendHistoryCtrl'
+                }
+            }
+        })
         .state('app.playlists', {
             url: '/playlists',
         views: {

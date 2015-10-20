@@ -93,6 +93,41 @@ angular.module('starter.controllers', [])
         };
     })
     .controller('PlaylistCtrl', function ($scope, $stateParams) {})
+    .controller('SpendHistoryCtrl', function ($scope, $stateParams) {
+    
+    $scope.spendhistory=[{
+        category: 'E-Commerce',
+        name: 'Amazon',
+        date: '21/10/2015',
+        success:true,
+        amount: '2000'
+    },{
+        category: 'Movie Bookings',
+        name: 'BookMyShow',
+        date: '20/10/2015',
+        success:false,
+        amount: '200'
+    },{
+        category: 'E-Commerce',
+        name: 'Flipkart',
+        date: '19/10/2015',
+        success:false,
+        amount: '1000'
+    },{
+        category: 'E-Commerce',
+        name: 'Myntra',
+        date: '15/10/2015',
+        success:true,
+        amount: '800'
+    },{
+        category: 'E-Commerce',
+        name: 'Amazon',
+        date: '21/10/2015',
+        success:true,
+        amount: '2000'
+    }];
+    
+})
     .controller('RedeemCtrl', function ($scope, $stateParams, $ionicModal, $timeout) {
     $scope.readTNC=false;
     $ionicModal.fromTemplateUrl('templates/tNc.html', {

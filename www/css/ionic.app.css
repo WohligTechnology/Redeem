@@ -188,6 +188,30 @@ $dark:                            #444 !default;
   width: 0%;
   font-size: 16px; }
 
+.border-left-failed {
+  border-left: 8px #D8000C solid !important;
+  border-top-left-radius: 7px;
+  border-bottom-left-radius: 7px;
+  margin-left: 5px !important;
+  padding-left: 15px !important; }
+
+.border-left-success {
+  border-left: 8px #4F8A10 solid !important;
+  border-top-left-radius: 7px;
+  border-bottom-left-radius: 7px;
+  padding-left: 20px !important; }
+
+.history-item {
+  position: relative;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+  padding-right: 10px !important; }
+  .history-item p {
+    position: absolute;
+    top: 19px;
+    right: 10px;
+    font-size: 17px; }
+
 /*!
   Ionicons, v2.0.1
   Created by Ben Sperry for the Ionic Framework, http://ionicons.com/

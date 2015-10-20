@@ -1,4 +1,6 @@
 $assertive: #e4bc88 !default;
+$success: #4F8A10 !default;
+$failed: #D8000C !default;
 $font-family-sans-serif:"Lato",
 "Helvetica Neue",
 "Roboto",
@@ -249,5 +251,30 @@ $font-size-list:13px;
     span.input-label {
         width: 0%;
         font-size: 16px;
+    }
+}
+.border-left-failed{
+    border-left: 8px $failed solid !important;
+    border-top-left-radius: 7px;
+    border-bottom-left-radius: 7px;
+    margin-left: 5px !important;
+    padding-left: 15px !important;
+}
+.border-left-success{
+    border-left: 8px $success solid !important;
+    border-top-left-radius: 7px;
+    border-bottom-left-radius: 7px;
+    padding-left: 20px !important;
+}
+.history-item{
+    position: relative;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+    padding-right: 10px !important;
+    p{
+        position: absolute;
+        top: 19px;
+        right: 10px;
+        font-size: 17px;
     }
 }
