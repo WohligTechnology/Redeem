@@ -91,6 +91,15 @@ angular.module('starter', ['ionic', 'starter.controllers'])
                 }
             }
         })
+    .state('app.wallet', {
+            url: '/wallet',
+            views: {
+                'menuContent': {
+                    templateUrl: 'templates/wallet.html',
+                    controller:'WalletCtrl'
+                }
+            }
+        })
         .state('app.playlists', {
             url: '/playlists',
         views: {

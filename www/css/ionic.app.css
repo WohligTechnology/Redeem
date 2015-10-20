@@ -36,13 +36,14 @@ $dark:                            #444 !default;
 .no-margin {
   margin: 0 !important; }
 
-.home .wallet-holder {
+.wallet-holder {
+  margin-top: 2px;
   position: relative;
   background-color: #e4bc88;
   border-bottom-right-radius: 5px;
   border-top-right-radius: 5px;
   border-right: #BF8652 3px inset; }
-  .home .wallet-holder .wallet-balance {
+  .wallet-holder .wallet-balance {
     box-shadow: 2px 1px 4px #684A2E;
     background-color: #e4bc88;
     border-bottom-right-radius: 5px;
@@ -50,18 +51,18 @@ $dark:                            #444 !default;
     border-right: #BF8652 3px inset;
     margin-right: 6px;
     padding: 15px; }
-    .home .wallet-holder .wallet-balance h2,
-    .home .wallet-holder .wallet-balance h3 {
+    .wallet-holder .wallet-balance h2,
+    .wallet-holder .wallet-balance h3 {
       margin: 0px; }
-    .home .wallet-holder .wallet-balance h3 {
+    .wallet-holder .wallet-balance h3 {
       font-size: 13px;
       min-height: 17px;
       font-weight: 400; }
-    .home .wallet-holder .wallet-balance h2 {
+    .wallet-holder .wallet-balance h2 {
       font-size: 16px;
       font-weight: 700;
       min-height: 20px; }
-  .home .wallet-holder img {
+  .wallet-holder img {
     position: absolute;
     width: 35px;
     top: 13px;
@@ -216,7 +217,12 @@ $dark:                            #444 !default;
   margin-left: 10px !important;
   margin-right: 10px !important; }
 
-.button-icon .icon:before, .button-icon.icon:before {
+.button {
+  font-size: 13px !important;
+  text-transform: uppercase; }
+
+.button-icon .icon:before,
+.button-icon.icon:before {
   font-size: 25px !important; }
 
 /*
@@ -243,6 +249,14 @@ $dark:                            #444 !default;
         font-size: 12px !important;
     }
 }*/
+.top-up-header {
+  border-bottom: 2px #e4bc88 solid; }
+  .top-up-header h4 {
+    font-size: 13px;
+    text-transform: uppercase;
+    text-align: right;
+    padding-right: 10px; }
+
 /*!
   Ionicons, v2.0.1
   Created by Ben Sperry for the Ionic Framework, http://ionicons.com/
