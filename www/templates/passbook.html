@@ -1,0 +1,38 @@
+<ion-view view-title="Passbook">
+   <div class="bar bar-subheader">
+            <div class="row no-padding">
+                <div class="col no-padding text-center" ng-class="{'active-tab':tab.left}">
+                    <button class="button button-clear no-padding " ng-click="clickTab('left')">
+                        <h5>Expired</h5></button>
+                </div>
+                <div class="col no-padding text-center" ng-class="{'active-tab':tab.right}">
+                    <button class="button button-clear no-padding " ng-click="clickTab('right')">
+                        <h5>Available</h5></button>
+                </div>
+                <div class="col no-padding text-center" ng-class="{'active-tab':tab.right}">
+                    <button class="button button-clear no-padding " ng-click="clickTab('right')">
+                        <h5>Used</h5></button>
+                </div>
+            </div>
+        </div>
+    <ion-content class="has-subheader">
+        
+        <div class="available list">
+            <ion-item ng-repeat="item in available track by $index" ng-click="openUp($index)">
+                <h4>{{item.date}}</h4>
+                <h5 ng-show="availableFlag[$index]">{{item.validity}}</h5>
+                <span>{{item.name}}</span>
+                <p>{{item.price}}</p>
+                <div class="separator"></div>
+                <div class="pass-btn" ng>
+                    <button class=" button button-block button-assertive">Redeem</button>
+                </div>
+            </ion-item>
+        </div>
+        <div class="expired list">
+            <ion-item ng-repeat="">
+                <h3>{{}}</h3>
+            </ion-item>
+        </div>
+    </ion-content>
+</ion-view>

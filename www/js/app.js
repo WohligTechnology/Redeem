@@ -64,6 +64,15 @@ angular.module('starter', ['ionic', 'starter.controllers'])
                 }
             }
         })
+        .state('app.passbook', {
+            url: '/passbook',
+            views: {
+                'menuContent': {
+                    templateUrl: 'templates/passbook.html',
+                    controller:'PassbookCtrl'
+                }
+            }
+        })
 
     .state('app.browse', {
             url: '/browse',

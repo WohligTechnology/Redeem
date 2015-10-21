@@ -70,7 +70,7 @@ angular.module('starter.controllers', [])
   ];
 })
 
-.controller('LoginCtrl', function ($scope, $stateParams, $location ) {
+.controller('LoginCtrl', function ($scope, $stateParams, $location) {
         $scope.activate = true;
         $scope.tab = {
             left: true,
@@ -93,92 +93,179 @@ angular.module('starter.controllers', [])
         };
     })
     .controller('PlaylistCtrl', function ($scope, $stateParams) {})
+    .controller('PassbookCtrl', function ($scope, $stateParams) {
+        $scope.$index=0;    
+        $scope.availableFlags=[{}];
+        $scope.openUp=function(index){
+            console.log(index);
+            _.each($scope.availableFlags,function(n){
+            $scope.availableFlags[n]=false;
+                console.log($scope.availableFlags[n]);
+            });
+            $scope.availableFlags[index]=true;
+            console.log($scope.availableFlags[index]);
+        }
+        $scope.available = [{
+                name: 'BookMyShow',
+                price: 500,
+                date: '22/10/2015',
+                voucher_number: 51,
+                validity: 20,
+                expiry_proximity: 'red'
+    },
+            {
+                name: 'Amazon',
+                price: 5000,
+                date: '23/10/2015',
+                voucher_number: 500,
+                validity: 20,
+                expiry_proximity: 'red'
+    },
+            {
+                name: 'Flipkart',
+                price: 400,
+                date: '30/10/2015',
+                voucher_number: 500,
+                validity: 20,
+                expiry_proximity: 'yellow'
+    },
+            {
+                name: 'Myntra',
+                price: 1200,
+                date: '10/11/2015',
+                voucher_number: 500,
+                validity: 20,
+                expiry_proximity: 'green'
+    },
+            {
+                name: 'Jabong',
+                price: 500,
+                date: '15/11/2015',
+                voucher_number: 500,
+                validity: 20,
+                expiry_proximity: 'green'
+    }];
+
+        $scope.expired = [
+        {
+                name: 'BookMyShow',
+                price: 500,
+                date: '22/10/2015',
+                voucher_number: 51,
+                validity: 20,
+                expiry_proximity: 'grey'
+    },
+            {
+                name: 'Jabong',
+                price: 600,
+                date: '15/11/2015',
+                voucher_number: 500,
+                validity: 20,
+                expiry_proximity: 'grey'
+    }];
+        $scope.used = [{
+                name: 'BookMyShow',
+                price: 500,
+                date: '22/10/2015',
+                voucher_number: 51,
+                validity: 20,
+                expiry_proximity: 'grey'
+    },
+            {
+                name: 'Jabong',
+                price: 600,
+                date: '15/11/2015',
+                voucher_number: 500,
+                validity: 20,
+                expiry_proximity: 'grey'
+    }];
+    })
     .controller('SendMoneyCtrl', function ($scope, $stateParams) {})
     .controller('WalletCtrl', function ($scope, $stateParams) {
-    
-})
+
+    })
     .controller('SpendHistoryCtrl', function ($scope, $stateParams) {
-    
-    $scope.spendhistory=[{
-        category: 'E-Commerce',
-        name: 'Amazon',
-        date: '21/10/2015',
-        success:true,
-        amount: '2000'
-    },{
-        category: 'Movie Bookings',
-        name: 'BookMyShow',
-        date: '20/10/2015',
-        success:false,
-        amount: '200'
-    },{
-        category: 'E-Commerce',
-        name: 'Flipkart',
-        date: '19/10/2015',
-        success:false,
-        amount: '1000'
-    },{
-        category: 'E-Commerce',
-        name: 'Myntra',
-        date: '15/10/2015',
-        success:true,
-        amount: '800'
-    },{
-        category: 'E-Commerce',
-        name: 'Amazon',
-        date: '21/10/2015',
-        success:true,
-        amount: '2000'
+        
+        $scope.spendhistory = [{
+            category: 'E-Commerce',
+            name: 'Amazon',
+            date: '21/10/2015',
+            success: true,
+            amount: '2000'
+    }, {
+            category: 'Movie Bookings',
+            name: 'BookMyShow',
+            date: '20/10/2015',
+            success: false,
+            amount: '200'
+    }, {
+            category: 'E-Commerce',
+            name: 'Flipkart',
+            date: '19/10/2015',
+            success: false,
+            amount: '1000'
+    }, {
+            category: 'E-Commerce',
+            name: 'Myntra',
+            date: '15/10/2015',
+            success: true,
+            amount: '800'
+    }, {
+            category: 'E-Commerce',
+            name: 'Amazon',
+            date: '21/10/2015',
+            success: true,
+            amount: '2000'
     }];
-    
-})
+
+    })
     .controller('RedeemCtrl', function ($scope, $stateParams, $ionicModal, $timeout) {
-    $scope.readTNC=false;
-    $ionicModal.fromTemplateUrl('templates/tNc.html', {
-        scope: $scope
-    }).then(function (modal) {
-        $scope.modal = modal;
-    });
+        $scope.readTNC = false;
+        $ionicModal.fromTemplateUrl('templates/tNc.html', {
+            scope: $scope
+        }).then(function (modal) {
+            $scope.modal = modal;
+        });
 
-    // Triggered in the tNc modal to close it
-    $scope.closeTNC = function () {
-        $scope.readTNC=true;
-        $scope.modal.hide();
-    };
+        // Triggered in the tNc modal to close it
+        $scope.closeTNC = function () {
+            $scope.readTNC = true;
+            $scope.modal.hide();
+        };
 
-    // Open the tNc modal
-    $scope.tNc = function () {
-        $scope.modal.show();
-    };
-})
+        // Open the tNc modal
+        $scope.tNc = function () {
+            $scope.modal.show();
+        };
+    })
     .controller('EcommerceCtrl', function ($scope, $stateParams) {
 
         $scope.ecommerce = [
             {
                 company: 'Amazon',
                 imgurl: 'img/categories/amazon.jpg'
-            },{
+            }, {
                 company: 'Flipkart',
                 imgurl: 'img/categories/flipkart.png'
-            },{
+            }, {
                 company: 'Jabong',
                 imgurl: 'img/categories/jabong-logo.jpg'
-            },{
+            }, {
                 company: 'Myntra',
                 imgurl: 'img/categories/flipkart.png'
-            },{
+            }, {
                 company: 'Flipkart',
                 imgurl: 'img/categories/flipkart.png'
-            },{
+            }, {
                 company: 'Flipkart',
                 imgurl: 'img/categories/flipkart.png'
-            },{
+            }, {
                 company: 'Flipkart',
                 imgurl: 'img/categories/flipkart.png'
-            },{
+            }, {
                 company: 'Flipkart',
                 imgurl: 'img/categories/flipkart.png'
-            },{
+            }, {
                 company: 'Flipkart',
                 imgurl: 'img/categories/flipkart.png'
             }
