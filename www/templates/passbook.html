@@ -1,6 +1,6 @@
 <ion-view view-title="Passbook">
-    <div class="bar bar-subheader">
-        <div class="row no-padding">
+    <div class="bar bar-subheader no-padding">
+        <div class="row ">
             <div class="col no-padding text-center" ng-class="{'active-tab':tab.left}">
                 <button class="button button-clear no-padding " ng-click="clickTab('left')">
                     <h5>Expired</h5></button>
@@ -15,22 +15,38 @@
             </div>
         </div>
     </div>
-    <ion-content class="has-subheader-passbook">
+    <ion-content class="has-subheader">
 
-        <div class="available list">
+        <div class="available list" ng-show="tab.center">
             <div class="passbook-entries" ng-repeat="item in available track by $index">
-                <ion-item ng-click="openUp($index)" ng-class="{'thinning-margin':!availableFlags[{{$index}}],'listed':!availableFlags[{{$index}}],'opened':availableFlags[{{$index}}]
+                <ion-item ng-click="openUp($index)" ng-class="{'thinning-margin':!availableFlags[{{$index}}],'listed':!availableFlags[{{$index}}],'opened':availableFlags[{{$index}}],'animated':availableFlags[{{$index}}],'flipInX':availableFlags[{{$index}}]
 }">
                     <h4>{{item.date}}</h4>
-                    <h5 ng-show="availableFlags[{{$index}}]">{{item.validity}}</h5>
                     <span>{{item.name}}</span>
-                    <p>{{item.price}}</p>
+                    <br>
+                    <h5 ng-show="availableFlags[{{$index}}]">Voucher Number : {{item.voucher_number}}</h5>
+                    <h5 ng-show="availableFlags[{{$index}}]">Validity : {{item.validity}} days</h5>
+                    <p>₹ {{item.price}}</p>
                     <div class="separator" ng-show="availableFlags[{{$index}}]"></div>
                 </ion-item>
 
                 <div class="padding-horizontal" ng-show="availableFlags[{{$index}}]">
                     <button class=" button button-block button-assertive">Redeem</button>
                 </div>
+            </div>
+        </div>
+        <div class="used list" ng-show="tab.right">
+            <div class="passbook-entries" ng-repeat="item in available track by $index">
+                <ion-item ng-click="openUp($index)" ng-class="{'thinning-margin':!availableFlags[{{$index}}],'listed':!availableFlags[{{$index}}],'opened':availableFlags[{{$index}}]
+}">
+                    <h4>{{item.date}}</h4>
+                    <span>{{item.name}}</span>
+                    <br>
+                    <h5 ng-show="availableFlags[{{$index}}]">Voucher Number : {{item.voucher_number}}</h5>
+                    <h5 ng-show="availableFlags[{{$index}}]">Validity : {{item.validity}} days</h5>
+                    <p>₹ {{item.price}}</p>
+                    <div class="separator" ng-show="availableFlags[{{$index}}]"></div>
+                </ion-item>
             </div>
         </div>
         <div class="expired list">

@@ -159,6 +159,22 @@ angular.module('starter.controllers', [])
                 expiry_proximity: 'yellow'
     },
             {
+                name: 'Amazon',
+                price: 5000,
+                date: '23/10/2015',
+                voucher_number: 500,
+                validity: 20,
+                expiry_proximity: 'red'
+    },
+            {
+                name: 'Flipkart',
+                price: 400,
+                date: '30/10/2015',
+                voucher_number: 500,
+                validity: 20,
+                expiry_proximity: 'yellow'
+    },
+            {
                 name: 'Myntra',
                 price: 1200,
                 date: '10/11/2015',
@@ -170,6 +186,30 @@ angular.module('starter.controllers', [])
                 name: 'Jabong',
                 price: 500,
                 date: '15/11/2015',
+                voucher_number: 500,
+                validity: 20,
+                expiry_proximity: 'green'
+    },
+            {
+                name: 'Amazon',
+                price: 5000,
+                date: '23/10/2015',
+                voucher_number: 500,
+                validity: 20,
+                expiry_proximity: 'red'
+    },
+            {
+                name: 'Flipkart',
+                price: 400,
+                date: '30/10/2015',
+                voucher_number: 500,
+                validity: 20,
+                expiry_proximity: 'yellow'
+    },
+            {
+                name: 'Myntra',
+                price: 1200,
+                date: '10/11/2015',
                 voucher_number: 500,
                 validity: 20,
                 expiry_proximity: 'green'

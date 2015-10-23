@@ -292,10 +292,12 @@ $font-size-list:13px;
     margin-left: 10px !important;
     margin-right: 10px !important;
 }
-.button{
+
+.button {
     font-size: 13px !important;
     text-transform: uppercase;
 }
+
 .button-icon .icon:before,
 .button-icon.icon:before {
     font-size: 25px !important;
@@ -327,19 +329,47 @@ $font-size-list:13px;
     }
 }*/
 
-.top-up-header{
+.top-up-header {
     border-bottom: 2px $assertive solid;
-    h4{
+    h4 {
         font-size: 13px;
         text-transform: uppercase;
         text-align: right;
         padding-right: 10px;
     }
 }
-.has-subheader-passbook{
-    top: 78px !important;
-}
-.thinning-margin{
+
+.thinning-margin {
     margin-left: 10px !important;
     margin-right: 10px !important;
+}
+
+.listed {
+    padding: 10px 16px 10px 16px !important;
+    position: relative;
+    p {
+        position: absolute;
+        top: 20px;
+        right: 16px;
+    }
+}
+
+.opened {
+    position: relative;
+    h4 {
+        float: right;
+    }
+    span {
+        font-weight: 600;
+    }
+    p {
+        position: absolute;
+        top: 36px;
+        right: 25px;
+        font-weight: 600;
+    }
+    h5{
+        margin-bottom: 2px !important;
+    font-size: 14px !important;
+    }
 }

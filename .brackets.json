@@ -47,6 +47,10 @@
         "C:/xampp/htdocs/redeem/platforms/android/platform_www/cordova-js-src/android/promptbasednativeapi.js",
         "C:/xampp/htdocs/redeem/platforms/android/platform_www/cordova-js-src/android/nativeapiprovider.js",
         "C:/xampp/htdocs/redeem/platforms/android/cordova/lib/spawn.js",
-        "C:/xampp/htdocs/redeem/platforms/android/cordova/lib/run.js"
+        "C:/xampp/htdocs/redeem/platforms/android/cordova/lib/run.js",
+        "C:/xampp/htdocs/redeem/platforms/android/cordova/lib/log.js",
+        "C:/xampp/htdocs/redeem/platforms/android/cordova/lib/exec.js",
+        "C:/xampp/htdocs/redeem/platforms/android/cordova/lib/emulator.js",
+        "C:/xampp/htdocs/redeem/platforms/android/cordova/lib/device.js"
     ]
 }
