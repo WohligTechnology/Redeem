@@ -76,6 +76,7 @@ angular.module('starter.controllers', [])
             left: true,
             right: false
         }
+        $scope.highlight=false;
         $scope.clickTab = function (side) {
             //            $ionicScrollDelegate.scrollTop();
             if (side === "left") {
@@ -94,17 +95,45 @@ angular.module('starter.controllers', [])
     })
     .controller('PlaylistCtrl', function ($scope, $stateParams) {})
     .controller('PassbookCtrl', function ($scope, $stateParams) {
-        $scope.$index=0;    
-        $scope.availableFlags=[{}];
-        $scope.openUp=function(index){
-            console.log(index);
-            _.each($scope.availableFlags,function(n){
-            $scope.availableFlags[n]=false;
-                console.log($scope.availableFlags[n]);
-            });
-            $scope.availableFlags[index]=true;
-            console.log($scope.availableFlags[index]);
+        $scope.availableFlags = {};
+        $scope.activate = true;
+        $scope.tab = {
+            left: false,
+            center: true,
+            right: false
         }
+        $scope.clickTab = function (side) {
+            //            $ionicScrollDelegate.scrollTop();
+            if (side === "left") {
+                $scope.tab.left = true;
+                $scope.tab.right = false;
+                $scope.tab.center=false;
+            } else if(side === "center"){
+                $scope.tab.right = false;
+                $scope.tab.left = false;
+                $scope.tab.center = true;
+            }else {
+                $scope.tab.right=true;
+                $scope.tab.left=false;
+                $scope.tab.center=false;
+            }
+        };
+        $scope.openUp = function (index) {
+            $scope.highlight=true;
+            console.log(index);
+            for (var i = 0; i < $scope.available.length; i++) {
+                $scope.availableFlags[i] = false;
+            }
+//                        _.each($scope.availableFlags, function (n) {
+//                            $scope.availableFlags[n] = false;
+//                            console.log($scope.availableFlags[n]);
+//                        });
+//                        $scope.availableFlags[index]=true;
+//                        console.log($scope.availableFlags[index]);
+            $scope.availableFlags[index] = $scope.availableFlags[index] === true ? false : true;
+            console.log($scope.availableFlags[index]);
+            $scope.$apply();
+        };
         $scope.available = [{
                 name: 'BookMyShow',
                 price: 500,
@@ -147,7 +176,7 @@ angular.module('starter.controllers', [])
     }];
 
         $scope.expired = [
-        {
+            {
                 name: 'BookMyShow',
                 price: 500,
                 date: '22/10/2015',
@@ -185,7 +214,7 @@ angular.module('starter.controllers', [])
 
     })
     .controller('SpendHistoryCtrl', function ($scope, $stateParams) {
-        
+
         $scope.spendhistory = [{
             category: 'E-Commerce',
             name: 'Amazon',
