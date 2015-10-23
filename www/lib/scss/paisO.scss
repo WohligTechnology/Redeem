@@ -368,8 +368,23 @@ $font-size-list:13px;
         right: 25px;
         font-weight: 600;
     }
-    h5{
+    h5 {
         margin-bottom: 2px !important;
-    font-size: 14px !important;
+        font-size: 14px !important;
+    }
+}
+
+.aboutus {
+    padding: 10px 20px;
+    p {
+        font-size: 14px;
+        line-height: 140%;
+        text-align: justify;
+    }
+    h4 {
+        font-size: 15px;
+        margin-bottom: 4px;
+        text-align: center;
+        font-weight: 600;
     }
 }

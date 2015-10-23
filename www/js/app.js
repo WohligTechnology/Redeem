@@ -109,6 +109,15 @@ angular.module('starter', ['ionic', 'starter.controllers'])
                 }
             }
         })
+    .state('app.aboutus', {
+            url: '/aboutus',
+            views: {
+                'menuContent': {
+                    templateUrl: 'templates/faqNaboutus.html',
+                    controller:'AboutUsCtrl'
+                }
+            }
+        })
         .state('app.playlists', {
             url: '/playlists',
         views: {
