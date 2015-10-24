@@ -241,14 +241,6 @@ $font-size-list:13px;
     @extend .category-image;
 }
 
-.redeem-btn {
-    float: right;
-    margin-right: 10px !important;
-    margin-left: 10px;
-    padding-right: 21px !important;
-    padding-left: 21px !important;
-}
-
 .enter-amount-input {
     span.input-label {
         width: 0%;
@@ -386,5 +378,28 @@ $font-size-list:13px;
         margin-bottom: 4px;
         text-align: center;
         font-weight: 600;
+    }
+}
+
+.faq {
+    .panel-group .panel + .panel {
+        margin-top: 0px;
+    }
+    .accordion-header {
+        .panel-heading {
+            border-bottom: 1px solid $assertive;
+            .panel-title {
+                background-color: white;
+                text-decoration: none;
+                padding: 8px 0px 8px 15px;
+                color: black;
+            }
+        }
+        a:-webkit-any-link {
+            text-decoration: none;
+        }
+    }
+    .panel-body {
+        border-top-color: white !important;
     }
 }

@@ -1,4 +1,4 @@
-angular.module('starter.controllers', [])
+angular.module('starter.controllers', ['ui.bootstrap'])
 
 .controller('AppCtrl', function ($scope, $ionicModal, $timeout) {
 
@@ -94,7 +94,9 @@ angular.module('starter.controllers', [])
         };
     })
     .controller('PlaylistCtrl', function ($scope, $stateParams) {})
+    .controller('ReferralCtrl', function ($scope, $stateParams) {})
     .controller('AboutUsCtrl', function ($scope, $stateParams) {
+        $scope.oneAtATime = true;
         $scope.activate = true;
         $scope.tab = {
             left: true,

@@ -51,7 +51,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
             views: {
                 'menuContent': {
                     templateUrl: 'templates/ecommerce.html',
-                    controller:'EcommerceCtrl'
+                    controller: 'EcommerceCtrl'
                 }
             }
         })
@@ -60,7 +60,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
             views: {
                 'menuContent': {
                     templateUrl: 'templates/redeem.html',
-                    controller:'RedeemCtrl'
+                    controller: 'RedeemCtrl'
                 }
             }
         })
@@ -69,7 +69,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
             views: {
                 'menuContent': {
                     templateUrl: 'templates/passbook.html',
-                    controller:'PassbookCtrl'
+                    controller: 'PassbookCtrl'
                 }
             }
         })
@@ -82,51 +82,60 @@ angular.module('starter', ['ionic', 'starter.controllers'])
                 }
             }
         })
-    .state('app.spendhistory', {
+        .state('app.spendhistory', {
             url: '/spendhistory',
             views: {
                 'menuContent': {
                     templateUrl: 'templates/spendhistory.html',
-                    controller:'SpendHistoryCtrl'
+                    controller: 'SpendHistoryCtrl'
                 }
             }
         })
-    .state('app.sendmoney', {
+        .state('app.sendmoney', {
             url: '/sendmoney',
             views: {
                 'menuContent': {
                     templateUrl: 'templates/sendmoney.html',
-                    controller:'SendMoneyCtrl'
+                    controller: 'SendMoneyCtrl'
                 }
             }
         })
-    .state('app.wallet', {
+        .state('app.wallet', {
             url: '/wallet',
             views: {
                 'menuContent': {
                     templateUrl: 'templates/wallet.html',
-                    controller:'WalletCtrl'
+                    controller: 'WalletCtrl'
                 }
             }
         })
-    .state('app.aboutus', {
+        .state('app.referral', {
+            url: '/referral',
+            views: {
+                'menuContent': {
+                    templateUrl: 'templates/referral.html',
+                    controller: 'ReferralCtrl'
+                }
+            }
+        })
+        .state('app.aboutus', {
             url: '/aboutus',
             views: {
                 'menuContent': {
                     templateUrl: 'templates/faqNaboutus.html',
-                    controller:'AboutUsCtrl'
+                    controller: 'AboutUsCtrl'
                 }
             }
         })
         .state('app.playlists', {
             url: '/playlists',
-        views: {
-            'menuContent': {
-                templateUrl: 'templates/playlists.html',
-                controller: 'PlaylistsCtrl'
+            views: {
+                'menuContent': {
+                    templateUrl: 'templates/playlists.html',
+                    controller: 'PlaylistsCtrl'
+                }
             }
-        }
-    })
+        })
 
     .state('app.single', {
         url: '/playlists/:playlistId',
