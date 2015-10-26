@@ -1,5 +1,5 @@
 <ion-view>
-    <ion-content>
+    <ion-content class="login-content">
        <div class="login-signup">
             <div class="spacer-small"></div>
         <div class="text-center cover">
@@ -16,7 +16,7 @@
                     <h5>Sign up</h5></button>
             </div>
         </div>
-        <ion-scroll style="height:400px;">
+        
         <div class="forms">
             <form ng-submit="doLogin()" ng-show="tab.left">
             <div class="list">
@@ -46,7 +46,7 @@
             </div>
         </form>
         </div>
-        </ion-scroll>
+        
        </div>
     </ion-content>
     <ion-footer-bar align-title="left" class="bar-assertive"  ng-show="tab.left">

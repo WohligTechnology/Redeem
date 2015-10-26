@@ -39,6 +39,44 @@ angular.module('starter.controllers', ['ui.bootstrap'])
             $scope.closeLogin();
         }, 1000);
     };
+    $scope.menu = [{
+        title: 'Home',
+        url: '#/app/home',
+        state: true
+    }, {
+        title: 'Wallet',
+        url: '#/app/wallet',
+        state: false
+    }, {
+        title: 'Send Money',
+        url: '#/app/sendmoney',
+        state: false
+    }, {
+        title: 'Passbook',
+        url: '#/app/passbook',
+        state: false
+    }, {
+        title: 'Spend History',
+        url: '#/app/spendhistory',
+        state: false
+    }, {
+        title: 'Referral',
+        url: '#/app/referral',
+        state: false
+    }, {
+        title: 'About Us',
+        url: '#/app/aboutus',
+        state: false
+    }];
+    $scope.activateMenu = function (index) {
+        console.log(index);
+        for (var i = 0; i < $scope.menu.length; i++) {
+            $scope.menu[i].state = false;
+            console.log($scope.menu[i].state)
+        }
+        $scope.menu[index].state = true;
+        console.log($scope.menu[index]);
+    };
 })
 
 .controller('PlaylistsCtrl', function ($scope) {
@@ -94,7 +132,53 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         };
     })
     .controller('PlaylistCtrl', function ($scope, $stateParams) {})
-    .controller('ReferralCtrl', function ($scope, $stateParams) {})
+    .controller('ReferralCtrl', function ($scope, $stateParams, $ionicBackdrop, $timeout) {
+        $scope.sharebutton = false;
+        $timeout(function () {
+            $scope.sharebutton = true;
+        }, 1000);
+        $scope.in=$scope.$index;
+        $scope.friends = [{
+            name: 'Rohan',
+            imgurl: 'img/profile.jpg',
+            price: 350
+    }, {
+            name: 'Chirag',
+            imgurl: 'img/profile.jpg',
+            price: 390
+    }, {
+            name: 'Tushar',
+            imgurl: 'img/profile.jpg',
+            price: 500
+    }, {
+            name: 'Chintan',
+            imgurl: 'img/profile.jpg',
+            price: 450
+    }, {
+            name: 'Mahesh',
+            imgurl: 'img/profile.jpg',
+            price: 390
+    }, {
+            name: 'Jay',
+            imgurl: 'img/profile.jpg',
+            price: 450
+    }, {
+            name: 'Amit',
+            imgurl: 'img/profile.jpg',
+            price: 450
+    }];
+        $scope.referralmoney = 0;
+        _.each($scope.friends, function (n) {
+            $scope.referralmoney += n.price;
+        });
+
+        $scope.shareIt = function () {
+            $ionicBackdrop.retain();
+            $timeout(function () {
+                $ionicBackdrop.release();
+            }, 1000);
+        };
+    })
     .controller('AboutUsCtrl', function ($scope, $stateParams) {
         $scope.oneAtATime = true;
         $scope.activate = true;
@@ -159,7 +243,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                 price: 500,
                 date: '22/10/2015',
                 voucher_number: 51,
-                validity: 20,
+                validity: '20/01/16',
                 expiry_proximity: 'red'
     },
             {
@@ -167,7 +251,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                 price: 5000,
                 date: '23/10/2015',
                 voucher_number: 500,
-                validity: 20,
+                validity: '20/01/16',
                 expiry_proximity: 'red'
     },
             {
@@ -175,7 +259,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                 price: 400,
                 date: '30/10/2015',
                 voucher_number: 500,
-                validity: 20,
+                validity: '20/01/16',
                 expiry_proximity: 'yellow'
     },
             {
@@ -183,7 +267,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                 price: 5000,
                 date: '23/10/2015',
                 voucher_number: 500,
-                validity: 20,
+                validity: '20/01/16',
                 expiry_proximity: 'red'
     },
             {
@@ -191,7 +275,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                 price: 400,
                 date: '30/10/2015',
                 voucher_number: 500,
-                validity: 20,
+                validity: '20/01/16',
                 expiry_proximity: 'yellow'
     },
             {
@@ -199,7 +283,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                 price: 1200,
                 date: '10/11/2015',
                 voucher_number: 500,
-                validity: 20,
+                validity: '20/01/16',
                 expiry_proximity: 'green'
     },
             {
@@ -207,7 +291,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                 price: 500,
                 date: '15/11/2015',
                 voucher_number: 500,
-                validity: 20,
+                validity: '20/01/16',
                 expiry_proximity: 'green'
     },
             {
@@ -215,7 +299,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                 price: 5000,
                 date: '23/10/2015',
                 voucher_number: 500,
-                validity: 20,
+                validity: '20/01/16',
                 expiry_proximity: 'red'
     },
             {
@@ -223,7 +307,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                 price: 400,
                 date: '30/10/2015',
                 voucher_number: 500,
-                validity: 20,
+                validity: '20/01/16',
                 expiry_proximity: 'yellow'
     },
             {
@@ -231,7 +315,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                 price: 1200,
                 date: '10/11/2015',
                 voucher_number: 500,
-                validity: 20,
+                validity: '20/01/16',
                 expiry_proximity: 'green'
     }];
 
@@ -241,7 +325,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                 price: 500,
                 date: '22/10/2015',
                 voucher_number: 51,
-                validity: 20,
+                validity: '20/01/16',
                 expiry_proximity: 'grey'
     },
             {
@@ -249,7 +333,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                 price: 600,
                 date: '15/11/2015',
                 voucher_number: 500,
-                validity: 20,
+                validity: '20/01/16',
                 expiry_proximity: 'grey'
     }];
         $scope.used = [{
@@ -257,7 +341,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                 price: 500,
                 date: '22/10/2015',
                 voucher_number: 51,
-                validity: 20,
+                validity: '20/01/16',
                 expiry_proximity: 'grey'
     },
             {
@@ -265,7 +349,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                 price: 600,
                 date: '15/11/2015',
                 voucher_number: 500,
-                validity: 20,
+                validity: '20/01/16',
                 expiry_proximity: 'grey'
     }];
     })

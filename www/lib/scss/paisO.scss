@@ -1,4 +1,5 @@
 $assertive: #e4bc88 !default;
+$positive: #FFDF00 !default;
 $success: #4F8A10 !default;
 $failed: #D8000C !default;
 $font-family-sans-serif:"Lato",
@@ -121,6 +122,11 @@ $font-size-list:13px;
     }
 }
 
+.active-menuitem {
+    border: 1px solid $assertive !important;
+    margin-bottom: 1px !important;
+}
+
 .spacer-small {
     height: 30px;
 }
@@ -134,8 +140,8 @@ $font-size-list:13px;
 
 //re organize all the below CSS -_-
 .login-signup {
-    ion-content {
-        background-color: #212429;
+    .scroll-content {
+        background-color: #212429 !important;
     }
     .spacer-small {
         @extend .spacer-small;
@@ -171,9 +177,10 @@ $font-size-list:13px;
     .forms {
         box-shadow: -5px 0px 33px #000;
     }
-    ion-scroll {
-        background-color: #212429;
-    }
+}
+
+.login-content {
+    background-color: #212429;
 }
 
 .bg-assertive {
@@ -348,6 +355,7 @@ $font-size-list:13px;
 
 .opened {
     position: relative;
+    border: 2px solid #ddd !important;
     h4 {
         float: right;
     }
@@ -403,3 +411,52 @@ $font-size-list:13px;
         border-top-color: white !important;
     }
 }
+
+.referral {
+    .referred-friend-item {
+        position: relative;
+        h2 {
+            font-size: 14px !important;
+        }
+        span {
+            position: absolute;
+            top: 23px;
+            right: 10px;
+        }
+    }
+    .friends-total-item {
+    position: relative;
+        border-top: 2px solid $assertive;
+    h1 {
+        position: absolute;
+        top: -6px;
+        left: 26px;
+        font-weight: 700;
+    }
+        span {
+            position: absolute;
+            top: 23px;
+            right: 10px;
+        }
+}
+}
+
+.button-share-container {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    z-index: 9999;
+    background-color: $assertive;
+    width: 56px;
+    height: 56px;
+    text-align: center;
+    border-radius: 56px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16);
+    .button-share {
+        color: white !important;
+    }
+    .button {
+        min-height: 56px !important;
+    }
+}
+

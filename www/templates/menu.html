@@ -34,28 +34,10 @@
                     <p>Rohan Gada</p>
                     <span>+919768254461</span>
                 </ion-item>
-                <ion-item menu-close href="#/app/home">
-<!--                    <div class="icon-container"><i class="icon ln-home4"></i></div>-->
-                    <span>Home</span>
+                <ion-item menu-close ng-repeat="menuitem in menu track by $index" ng-click="activateMenu($index)" href="{{menuitem.url}}" ng-class="{'active-menuitem': menuitem.state}">
+                    <span>{{menuitem.title}}</span>
                 </ion-item>
-                <ion-item menu-close href="#/app/wallet">
-                    Wallet
-                </ion-item>
-                <ion-item menu-close href="#/app/sendmoney">
-                    Send Money
-                </ion-item>
-                <ion-item menu-close href="#/app/passbook">
-                    Passbook
-                </ion-item>
-                <ion-item menu-close href="#/app/spendhistory">
-                    Spend History
-                </ion-item>
-                <ion-item menu-close href="#/app/referral">
-                    Referral
-                </ion-item>
-                   <ion-item menu-close href="#/app/aboutus">
-                    About Us
-                </ion-item>
+                
             </ion-list>
         </ion-content>
     </ion-side-menu>

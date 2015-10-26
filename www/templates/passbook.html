@@ -22,10 +22,11 @@
                 <ion-item ng-click="openUp($index)" ng-class="{'thinning-margin':!availableFlags[{{$index}}],'listed':!availableFlags[{{$index}}],'opened':availableFlags[{{$index}}],'animated':availableFlags[{{$index}}],'flipInX':availableFlags[{{$index}}]
 }">
                     <h4>{{item.date}}</h4>
-                    <span>{{item.name}}</span>
+                    <span ng-class="{'animated':availableFlags[{{$index}}],'flipInX':availableFlags[{{$index}}]
+}">{{item.name}}</span>
                     <br>
                     <h5 ng-show="availableFlags[{{$index}}]">Voucher Number : {{item.voucher_number}}</h5>
-                    <h5 ng-show="availableFlags[{{$index}}]">Validity : {{item.validity}} days</h5>
+                    <h5 ng-show="availableFlags[{{$index}}]">Valid Till : {{item.validity}}</h5>
                     <p>₹ {{item.price}}</p>
                     <div class="separator" ng-show="availableFlags[{{$index}}]"></div>
                 </ion-item>
@@ -37,13 +38,12 @@
         </div>
         <div class="used list" ng-show="tab.right">
             <div class="passbook-entries" ng-repeat="item in available track by $index">
-                <ion-item ng-click="openUp($index)" ng-class="{'thinning-margin':!availableFlags[{{$index}}],'listed':!availableFlags[{{$index}}],'opened':availableFlags[{{$index}}]
+                <ion-item ng-click="openUp($index)" ng-class="{'thinning-margin':!availableFlags[{{$index}}],'listed':!availableFlags[{{$index}}],'opened':availableFlags[{{$index}}],'animated':availableFlags[{{$index}}],'flipInX':availableFlags[{{$index}}]
 }">
                     <h4>{{item.date}}</h4>
                     <span>{{item.name}}</span>
                     <br>
                     <h5 ng-show="availableFlags[{{$index}}]">Voucher Number : {{item.voucher_number}}</h5>
-                    <h5 ng-show="availableFlags[{{$index}}]">Validity : {{item.validity}} days</h5>
                     <p>₹ {{item.price}}</p>
                     <div class="separator" ng-show="availableFlags[{{$index}}]"></div>
                 </ion-item>

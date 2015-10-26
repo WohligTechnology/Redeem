@@ -51,6 +51,23 @@
         "C:/xampp/htdocs/redeem/platforms/android/cordova/lib/log.js",
         "C:/xampp/htdocs/redeem/platforms/android/cordova/lib/exec.js",
         "C:/xampp/htdocs/redeem/platforms/android/cordova/lib/emulator.js",
-        "C:/xampp/htdocs/redeem/platforms/android/cordova/lib/device.js"
+        "C:/xampp/htdocs/redeem/platforms/android/cordova/lib/device.js",
+        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/debug/www/lib/ionic/js/ionic.min.js",
+        "C:/xampp/htdocs/redeem/www/lib/accordion/acordion-tpls-0.13.4.min.js",
+        "C:/xampp/htdocs/redeem/www/lib/accordion/accordion.min.js",
+        "C:/xampp/htdocs/redeem/platforms/android/cordova/lib/check_reqs.js",
+        "C:/xampp/htdocs/redeem/platforms/android/cordova/lib/build.js",
+        "C:/xampp/htdocs/redeem/platforms/android/cordova/lib/appinfo.js",
+        "C:/xampp/htdocs/redeem/platforms/android/cordova/lib/android_sdk_version.js",
+        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/debug/www/cordova_plugins.js",
+        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/debug/www/cordova.js",
+        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/debug/www/plugins/cordova-plugin-whitelist/whitelist.js",
+        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/debug/www/plugins/cordova-plugin-splashscreen/www/splashscreen.js",
+        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/debug/www/plugins/cordova-plugin-device/www/device.js",
+        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/debug/www/plugins/cordova-plugin-console/www/logger.js",
+        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/debug/www/plugins/cordova-plugin-console/www/console-via-logger.js",
+        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/debug/www/plugins/com.ionic.keyboard/www/keyboard.js",
+        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/debug/www/lib/lodash.min.js",
+        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/debug/www/lib/ionic/js/ionic.js"
     ]
 }

@@ -1,5 +1,30 @@
 <ion-view view-title="Referral">
-  <ion-content>
-  <h4 class="text-center padding-vertical">Coming soon!</h4>
-  </ion-content>
+    <ion-content class="referral" on-scroll-complete="shareTimeout()">
+        <!--  <h4 class="text-center padding-vertical no-margin">Coming soon!</h4>-->
+        <h1 class="category-header-txt">
+           Earn __ % of your referrals cashback!
+       </h1>
+        <div class="list">
+            <a class="item item-avatar referred-friend-item" href="#" ng-repeat="friend in friends track by $index">
+                <img ng-src="{{friend.imgurl}}">
+                <h2>{{friend.name}}</h2>
+                <!--                <p></p>-->
+                <span class="badge badge-positive">₹ {{friend.price}}</span>
+            </a>
+            <h1 class="category-header-txt">
+           Total referral earnings!
+            </h1>
+            <a class="item item-avatar friends-total-item" href="">
+                <img src="img/group.png" alt="">
+                <h1>{{friends.length}}</h1>
+                <h2>All friends</h2>
+                <span class="badge badge-positive">₹ {{referralmoney}}</span>
+            </a>
+        </div>
+
+    </ion-content>
+    <div class="button-share-container" ng-show="sharebutton" ng-class="{'animated':sharebutton,'bounceInUp':sharebutton}">
+        <button class="button button button-icon icon ion-android-share-alt button-share" ng-click="shareIt()">
+        </button>
+    </div>
 </ion-view>
