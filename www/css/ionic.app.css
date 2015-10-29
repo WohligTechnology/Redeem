@@ -276,7 +276,7 @@ $dark:                            #444 !default;
   .top-up-header h4 {
     font-size: 13px;
     text-transform: uppercase;
-    text-align: right;
+    text-align: left;
     padding-right: 10px; }
 
 .thinning-margin {

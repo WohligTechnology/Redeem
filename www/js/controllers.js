@@ -28,6 +28,24 @@ angular.module('starter.controllers', ['ui.bootstrap'])
     $scope.login = function () {
         $scope.modal.show();
     };
+    
+    
+    // Create the login modal that we will use later
+    $ionicModal.fromTemplateUrl('templates/balance-history.html', {
+        scope: $scope
+    }).then(function (modal) {
+        $scope.modal1 = modal;
+    });
+
+    // Triggered in the login modal to close it
+    $scope.closeHistory = function () {
+        $scope.modal1.hide();
+    };
+
+    // Open the login modal
+    $scope.history= function () {
+        $scope.modal1.show();
+    };
 
     // Perform the login action when the user submits the login form
     $scope.doLogin = function () {
@@ -358,7 +376,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         $scope.showAlert = function () {
             var alertPopup = $ionicPopup.alert({
                 title: 'Don\'t eat that!',
-                template: 'balance-history.html'
+                template: 'templates/balance-history.html'
             });
             alertPopup.then(function (res) {
                 console.log('Thank you for not eating my delicious ice cream cone');
