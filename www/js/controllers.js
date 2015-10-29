@@ -137,7 +137,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         $timeout(function () {
             $scope.sharebutton = true;
         }, 1000);
-        $scope.in=$scope.$index;
+        $scope.in = $scope.$index;
         $scope.friends = [{
             name: 'Rohan',
             imgurl: 'img/profile.jpg',
@@ -354,8 +354,18 @@ angular.module('starter.controllers', ['ui.bootstrap'])
     }];
     })
     .controller('SendMoneyCtrl', function ($scope, $stateParams) {})
-    .controller('WalletCtrl', function ($scope, $stateParams) {
-
+    .controller('WalletCtrl', function ($scope, $stateParams, $ionicPopup,$ionicScrollDelegate) {
+        $scope.showAlert = function () {
+            var alertPopup = $ionicPopup.alert({
+                title: 'Don\'t eat that!',
+                template: 'balance-history.html'
+            });
+            alertPopup.then(function (res) {
+                console.log('Thank you for not eating my delicious ice cream cone');
+            });
+        };
+    $ionicScrollDelegate.$getByHandle('mini').resize();
+    console.log($ionicScrollDelegate.$getByHandle('mini'));
     })
     .controller('SpendHistoryCtrl', function ($scope, $stateParams) {
 

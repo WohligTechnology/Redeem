@@ -68,6 +68,31 @@ $dark:                            #444 !default;
     top: 13px;
     right: 2px; }
 
+.wallet-content .col-80 + .col-20 {
+  padding-left: 0px; }
+
+.wallet-content .btns-wallet .btn-history {
+  margin-bottom: 0px !important;
+  margin-top: 5px; }
+
+.wallet-content .btns-wallet .col-20 {
+  position: relative; }
+
+.wallet-content .btns-wallet h6 {
+  position: absolute;
+  bottom: 10px;
+  left: 11px; }
+
+.wallet-content .pending-header {
+  border-bottom: 2px #e4bc88 solid; }
+  .wallet-content .pending-header h4 {
+    font-size: 12px;
+    text-transform: uppercase;
+    text-align: center;
+    padding-left: 10px;
+    margin: 5px;
+    margin-top: 20px; }
+
 .home .list {
   margin-top: 10px;
   margin-right: 10px;

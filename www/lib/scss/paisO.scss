@@ -99,6 +99,37 @@ $font-size-list:13px;
     }
 }
 
+.wallet-content {
+    .col-80+.col-20 {
+        padding-left: 0px;
+    }
+    .btns-wallet {
+        .btn-history {
+            margin-bottom: 0px !important;
+            margin-top: 5px;
+        }
+        .col-20 {
+            position: relative;
+        }
+        h6 {
+            position: absolute;
+            bottom: 10px;
+            left: 11px;
+        }
+    }
+    .pending-header {
+        border-bottom: 2px $assertive solid;
+        h4 {
+            font-size: 12px;
+            text-transform: uppercase;
+            text-align: center;
+            padding-left: 10px;
+            margin: 5px;
+            margin-top: 20px;
+        }
+    }
+}
+
 .home {
     .list {
         margin-top: 10px;
@@ -425,20 +456,20 @@ $font-size-list:13px;
         }
     }
     .friends-total-item {
-    position: relative;
+        position: relative;
         border-top: 2px solid $assertive;
-    h1 {
-        position: absolute;
-        top: -6px;
-        left: 26px;
-        font-weight: 700;
-    }
+        h1 {
+            position: absolute;
+            top: -6px;
+            left: 26px;
+            font-weight: 700;
+        }
         span {
             position: absolute;
             top: 23px;
             right: 10px;
         }
-}
+    }
 }
 
 .button-share-container {
@@ -459,4 +490,3 @@ $font-size-list:13px;
         min-height: 56px !important;
     }
 }
-

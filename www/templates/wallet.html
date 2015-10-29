@@ -1,23 +1,30 @@
 <ion-view view-title="Wallet">
     <ion-content>
-        <div class="wallet-holder">
-            <div class="wallet-balance">
-                <h3>Wallet Balance</h3>
-                <h2>₹ 2640/-</h2>
+        <div class="wallet-content">
+            <div class="wallet-holder">
+                <div class="wallet-balance">
+                    <h3>Wallet Balance</h3>
+                    <h2>₹ 2640/-</h2>
+                </div>
+                <img src="img/walletlock.png" alt="">
             </div>
-            <img src="img/walletlock.png" alt="">
-        </div>
-        <label class="item item-input">
-            <input type="number" placeholder="Amount">
-        </label>
-        <div class="padding">
-            <button class="button button-assertive button-block">ADD MONEY</button>
-        </div>
-        <div class="top-up-header">
-            <h4>Top up History</h4>
-        </div>
-            <ion-scroll direction="y" class="top-up-history" style="height:250px">
-                <ion-item>
+            <label class="item item-input">
+                <input type="number" placeholder="Enter amount here">
+            </label>
+            <div class="row btns-wallet no-padding">
+                <div class="col-80 padding-horizontal">
+                    <button class="button button-assertive button-block">ADD MONEY</button>
+                </div>
+                <div class="col-20 padding-horizontal">
+                    <button class="button button-icon btn-history icon ln-history button-clear button-assertive button-block" ng-click="showAlert()"></button>
+                    <h6 class="text-center no-margin">History</h6></div>
+            </div>
+            <div class="pending-header">
+                <h4>Requests pending approval</h4>
+            </div>
+            <ion-scroll direction="y" class="top-up-history" delegate-handle="mini">
+                <ion-list>
+                    <ion-item>
                     <h2>₹ 201 <span class="item-note">21/10/2015</span></h2>
                 </ion-item>
                 <ion-item>
@@ -47,6 +54,8 @@
                 <ion-item>
                     <h2>₹ 6010 <span class="item-note">21/10/2015</span></h2>
                 </ion-item>
-        </ion-scroll>
+                </ion-list>
+            </ion-scroll>
+        </div>
     </ion-content>
 </ion-view>
