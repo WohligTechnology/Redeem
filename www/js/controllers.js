@@ -455,8 +455,8 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                 company: 'Myntra',
                 imgurl: 'img/categories/flipkart.png'
             }, {
-                company: 'Flipkart',
-                imgurl: 'img/categories/flipkart.png'
+                company: 'Big Basket',
+                imgurl: 'img/categories/bigbasket.png'
             }, {
                 company: 'Flipkart',
                 imgurl: 'img/categories/flipkart.png'

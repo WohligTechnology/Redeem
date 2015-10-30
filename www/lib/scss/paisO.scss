@@ -2,6 +2,7 @@ $assertive: #e4bc88 !default;
 $positive: #FFDF00 !default;
 $success: #4F8A10 !default;
 $failed: #D8000C !default;
+$dark-secondary: #f1f3f4 !important;
 $font-family-sans-serif:"Lato",
 "Helvetica Neue",
 "Roboto",
@@ -59,6 +60,16 @@ $font-size-list:13px;
     margin: 0 !important;
 }
 
+.no-border {
+    border: 0 !important;
+}
+
+.menuitem {
+    .item-content {
+        background-color: $dark-secondary !important;
+    }
+}
+
 .wallet-holder {
     margin-top: 2px;
     position: relative;
@@ -100,7 +111,7 @@ $font-size-list:13px;
 }
 
 .wallet-content {
-    .col-80+.col-20 {
+    .col-20+.col-80 {
         padding-left: 0px;
     }
     .btns-wallet {
@@ -114,7 +125,6 @@ $font-size-list:13px;
         h6 {
             position: absolute;
             bottom: 10px;
-            left: 11px;
         }
     }
     .pending-header {
@@ -140,26 +150,27 @@ $font-size-list:13px;
 
 .sidemenu {
     ion-content {
-        background-color: #212429;
+        background-color: $dark-secondary;
     }
     .item {
-        border-color: #2B2E35;
         .item-content {
-            background-color: #212429 !important;
+            background-color: $dark-secondary;
             color: #91969D;
             font-size: 13px;
             font-weight: 600!important;
         }
     }
 }
-
+.has-subheader-custom{
+        top: 114px !important;
+}
 .active-menuitem {
     border: 1px solid $assertive !important;
     margin-bottom: 1px !important;
 }
 
 .spacer-small {
-    height: 30px;
+    height: 40px;
 }
 
 .active-tab {
@@ -172,46 +183,49 @@ $font-size-list:13px;
 //re organize all the below CSS -_-
 .login-signup {
     .scroll-content {
-        background-color: #212429 !important;
+        background-color: $dark-secondary !important;
     }
     .spacer-small {
         @extend .spacer-small;
-        background-color: #212429;
+        background-color: $dark-secondary;
     }
     .cover {
-        background-color: #212429;
+        background-color: $dark-secondary;
         img {
             height: 100px;
-            background-color: #212429;
+            background-color: $dark-secondary;
         }
     }
     .input-label {
         width: 0%;
-        color: white;
+        color: $assertive;
         font-size: 13px;
     }
     .col {
-        background-color: #212429;
+        background-color: $dark-secondary;
         color: $assertive;
         h5 {
-            color: white;
-            font-weight: 300;
+            color: $assertive;
+            font-weight: 500;
         }
     }
     .item {
-        background-color: #212429;
-        border-color: #212429;
+        background-color: $dark-secondary;
+        border-color: $dark-secondary;
     }
     .row {
-        box-shadow: -5px 4px 33px #000;
+        //            box-shadow: -5px 0px 7px #cfcfcf;
+        border-bottom: 1px #ddd solid;
+        /* line-height: 197%; */
+        box-shadow: 0px -12px 180px #E4BC88;
     }
     .forms {
-        box-shadow: -5px 0px 33px #000;
+        box-shadow: -5px 0px 12px #cfcfcf;
     }
 }
 
 .login-content {
-    background-color: #212429;
+    background-color: $dark-secondary;
 }
 
 .bg-assertive {
@@ -455,20 +469,21 @@ $font-size-list:13px;
             right: 10px;
         }
     }
-    .friends-total-item {
-        position: relative;
-        border-top: 2px solid $assertive;
-        h1 {
-            position: absolute;
-            top: -6px;
-            left: 26px;
-            font-weight: 700;
-        }
-        span {
-            position: absolute;
-            top: 23px;
-            right: 10px;
-        }
+}
+
+.friends-total-item {
+    position: relative;
+    border-top: 2px solid $assertive;
+    h1 {
+        position: absolute;
+        top: -6px;
+        left: 26px;
+        font-weight: 700;
+    }
+    span {
+        position: absolute;
+        top: 23px;
+        right: 10px;
     }
 }
 

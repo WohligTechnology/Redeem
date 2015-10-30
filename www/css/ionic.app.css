@@ -36,6 +36,12 @@ $dark:                            #444 !default;
 .no-margin {
   margin: 0 !important; }
 
+.no-border {
+  border: 0 !important; }
+
+.menuitem .item-content {
+  background-color: #f1f3f4 !important !important; }
+
 .wallet-holder {
   margin-top: 2px;
   position: relative;
@@ -68,7 +74,7 @@ $dark:                            #444 !default;
     top: 13px;
     right: 2px; }
 
-.wallet-content .col-80 + .col-20 {
+.wallet-content .col-20 + .col-80 {
   padding-left: 0px; }
 
 .wallet-content .btns-wallet .btn-history {
@@ -80,8 +86,7 @@ $dark:                            #444 !default;
 
 .wallet-content .btns-wallet h6 {
   position: absolute;
-  bottom: 10px;
-  left: 11px; }
+  bottom: 10px; }
 
 .wallet-content .pending-header {
   border-bottom: 2px #e4bc88 solid; }
@@ -99,22 +104,23 @@ $dark:                            #444 !default;
   margin-left: 10px; }
 
 .sidemenu ion-content {
-  background-color: #212429; }
+  background-color: #f1f3f4 !important; }
 
-.sidemenu .item {
-  border-color: #2B2E35; }
-  .sidemenu .item .item-content {
-    background-color: #212429 !important;
-    color: #91969D;
-    font-size: 13px;
-    font-weight: 600 !important; }
+.sidemenu .item .item-content {
+  background-color: #f1f3f4 !important;
+  color: #91969D;
+  font-size: 13px;
+  font-weight: 600 !important; }
+
+.has-subheader-custom {
+  top: 114px !important; }
 
 .active-menuitem {
   border: 1px solid #e4bc88 !important;
   margin-bottom: 1px !important; }
 
 .spacer-small, .login-signup .spacer-small {
-  height: 30px; }
+  height: 40px; }
 
 .active-tab {
   border-style: solid;
@@ -123,41 +129,43 @@ $dark:                            #444 !default;
   border-color: #e4bc88; }
 
 .login-signup .scroll-content {
-  background-color: #212429 !important; }
+  background-color: #f1f3f4 !important !important; }
 
 .login-signup .spacer-small {
-  background-color: #212429; }
+  background-color: #f1f3f4 !important; }
 
 .login-signup .cover {
-  background-color: #212429; }
+  background-color: #f1f3f4 !important; }
   .login-signup .cover img {
     height: 100px;
-    background-color: #212429; }
+    background-color: #f1f3f4 !important; }
 
 .login-signup .input-label {
   width: 0%;
-  color: white;
+  color: #e4bc88;
   font-size: 13px; }
 
 .login-signup .col {
-  background-color: #212429;
+  background-color: #f1f3f4 !important;
   color: #e4bc88; }
   .login-signup .col h5 {
-    color: white;
-    font-weight: 300; }
+    color: #e4bc88;
+    font-weight: 500; }
 
 .login-signup .item {
-  background-color: #212429;
-  border-color: #212429; }
+  background-color: #f1f3f4 !important;
+  border-color: #f1f3f4 !important; }
 
 .login-signup .row {
-  box-shadow: -5px 4px 33px #000; }
+  border-bottom: 1px #ddd solid;
+  /* line-height: 197%; */
+  box-shadow: 0px -12px 180px #E4BC88; }
 
 .login-signup .forms {
-  box-shadow: -5px 0px 33px #000; }
+  box-shadow: -5px 0px 12px #cfcfcf; }
 
 .login-content {
-  background-color: #212429; }
+  background-color: #f1f3f4 !important; }
 
 .bg-assertive {
   background-color: #e4bc88 !important;
@@ -345,15 +353,15 @@ $dark:                            #444 !default;
     top: 23px;
     right: 10px; }
 
-.referral .friends-total-item {
+.friends-total-item {
   position: relative;
   border-top: 2px solid #e4bc88; }
-  .referral .friends-total-item h1 {
+  .friends-total-item h1 {
     position: absolute;
     top: -6px;
     left: 26px;
     font-weight: 700; }
-  .referral .friends-total-item span {
+  .friends-total-item span {
     position: absolute;
     top: 23px;
     right: 10px; }
