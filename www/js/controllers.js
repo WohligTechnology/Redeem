@@ -453,19 +453,10 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                 imgurl: 'img/categories/jabong-logo.jpg'
             }, {
                 company: 'Myntra',
-                imgurl: 'img/categories/flipkart.png'
+                imgurl: 'img/categories/myntra.png'
             }, {
                 company: 'Big Basket',
                 imgurl: 'img/categories/bigbasket.png'
-            }, {
-                company: 'Flipkart',
-                imgurl: 'img/categories/flipkart.png'
-            }, {
-                company: 'Flipkart',
-                imgurl: 'img/categories/flipkart.png'
-            }, {
-                company: 'Flipkart',
-                imgurl: 'img/categories/flipkart.png'
             }, {
                 company: 'Flipkart',
                 imgurl: 'img/categories/flipkart.png'
