@@ -73,17 +73,23 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         title: 'Passbook',
         url: '#/app/passbook',
         state: false
-    }, {
-        title: 'Spend History',
-        url: '#/app/spendhistory',
-        state: false
-    }, {
+    }, 
+//                   {
+//        title: 'Spend History',
+//        url: '#/app/spendhistory',
+//        state: false
+//    }, 
+                   {
         title: 'Referral',
         url: '#/app/referral',
         state: false
     }, {
         title: 'About Us',
         url: '#/app/aboutus',
+        state: false
+    }, {
+        title: 'Logout',
+        url: '#/login',
         state: false
     }];
     $scope.activateMenu = function (index) {
@@ -373,10 +379,13 @@ angular.module('starter.controllers', ['ui.bootstrap'])
     })
     .controller('SendMoneyCtrl', function ($scope, $stateParams) {})
     .controller('WalletCtrl', function ($scope, $stateParams, $ionicScrollDelegate) {
-     $scope.indicator=false;   
-    $scope.toggleIndicator = function(){
-          $scope.indicator= $scope.indicator === true ? false : true;
+        $scope.indicator = true;
+        $scope.downIndicator = function () {
+            $scope.indicator = true;
         };
+        $scope.upIndicator= function(){
+            $scope.indicator=false;
+        }
         $ionicScrollDelegate.$getByHandle('mini').resize();
         console.log($ionicScrollDelegate.$getByHandle('mini'));
         $scope.pendings = [{
@@ -495,7 +504,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
     }];
 
     })
-    .controller('RedeemCtrl', function ($scope, $stateParams, $ionicModal, $timeout,$ionicPopup,$location) {
+    .controller('RedeemCtrl', function ($scope, $stateParams, $ionicModal, $timeout, $ionicPopup, $location) {
         $scope.readTNC = false;
         $scope.showAlert = function () {
             var alertPopup = $ionicPopup.alert({

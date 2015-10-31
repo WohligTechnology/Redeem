@@ -111,7 +111,7 @@ $font-size-list:13px;
 }
 
 .wallet-content {
-    .col-20+.col-80 {
+    .col-80+.col-20 {
         padding-left: 0px;
     }
     .btns-wallet {
@@ -121,19 +121,18 @@ $font-size-list:13px;
         }
         .col-20 {
             position: relative;
-        }
-        h6 {
-            position: absolute;
-            bottom: 10px;
+            h6 {
+                position: absolute;
+                bottom: 10px;
+                    right: 29%;
+            }
         }
     }
     .pending-header {
-        border-bottom: 2px $assertive solid;
+        border-bottom: 2px $assertive solid ;
         h4 {
-            font-size: 12px;
-            text-transform: uppercase;
+            font-size: 13px;
             text-align: center;
-            padding-left: 10px;
             margin: 5px;
             margin-top: 20px;
         }
@@ -163,7 +162,8 @@ $font-size-list:13px;
 }
 
 .has-subheader-custom {
-    top: 114px !important;
+//    top: 114px !important; 
+    top: 150px  !important;
 }
 
 .active-menuitem {
@@ -279,7 +279,10 @@ $font-size-list:13px;
     margin: 10px 20px !important;
     text-align: center;
 }
-
+.category-subheader-txt {
+    @extend .category-header-txt;
+    margin:5px 20px !important;
+}
 .tnc {
     i {
         float: right;
@@ -515,15 +518,26 @@ $font-size-list:13px;
         min-height: 56px !important;
     }
 }
-.custom-scroll{
+
+.custom-scroll {
     .scroll-view {
-    position: absolute;
-    display: block;
-    overflow: hidden;
-    margin-top: -1px;
-    top: 267px;
+        position: absolute;
+        display: block;
+        overflow: hidden;
+        margin-top: -1px;
+        top: 270px;
+        bottom: 0;
+        right: 0;
+        left: 0;
+    }
+    .pending-item{
+        padding: 10px 16px 10px 16px !important;
+    }
+    .scroll-indicate{
+        position: absolute;
     bottom: 0;
-    right: 0;
-    left: 0;
+    text-align: center;
+    left: 50%;
+           -webkit-transform: translate(-50%, -50%); transform: translate(-50%, -50%);
     }
 }

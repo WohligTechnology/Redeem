@@ -74,7 +74,7 @@ $dark:                            #444 !default;
     top: 13px;
     right: 2px; }
 
-.wallet-content .col-20 + .col-80 {
+.wallet-content .col-80 + .col-20 {
   padding-left: 0px; }
 
 .wallet-content .btns-wallet .btn-history {
@@ -83,18 +83,16 @@ $dark:                            #444 !default;
 
 .wallet-content .btns-wallet .col-20 {
   position: relative; }
-
-.wallet-content .btns-wallet h6 {
-  position: absolute;
-  bottom: 10px; }
+  .wallet-content .btns-wallet .col-20 h6 {
+    position: absolute;
+    bottom: 10px;
+    right: 29%; }
 
 .wallet-content .pending-header {
   border-bottom: 2px #e4bc88 solid; }
   .wallet-content .pending-header h4 {
-    font-size: 12px;
-    text-transform: uppercase;
+    font-size: 13px;
     text-align: center;
-    padding-left: 10px;
     margin: 5px;
     margin-top: 20px; }
 
@@ -113,7 +111,7 @@ $dark:                            #444 !default;
   font-weight: 600 !important; }
 
 .has-subheader-custom {
-  top: 114px !important; }
+  top: 150px  !important; }
 
 .active-menuitem {
   border: 1px solid #e4bc88 !important;
@@ -202,11 +200,14 @@ $dark:                            #444 !default;
     display: block;
     font-size: 13px; }
 
-.category-header-txt {
+.category-header-txt, .category-subheader-txt {
   font-size: 13px;
   font-weight: 500;
   margin: 10px 20px !important;
   text-align: center; }
+
+.category-subheader-txt {
+  margin: 5px 20px !important; }
 
 .tnc i {
   float: right;
@@ -394,10 +395,21 @@ $dark:                            #444 !default;
   display: block;
   overflow: hidden;
   margin-top: -1px;
-  top: 267px;
+  top: 270px;
   bottom: 0;
   right: 0;
   left: 0; }
+
+.custom-scroll .pending-item {
+  padding: 10px 16px 10px 16px !important; }
+
+.custom-scroll .scroll-indicate {
+  position: absolute;
+  bottom: 0;
+  text-align: center;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%); }
 
 /*!
   Ionicons, v2.0.1

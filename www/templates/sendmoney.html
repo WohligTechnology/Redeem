@@ -32,19 +32,20 @@
         <form ng-submit="sendMoney()">
             <div class="list no-margin">
                 <label class="item item-input">
-<!--                   <span class="input-label">+91</span>-->
+                    <!--                   <span class="input-label">+91</span>-->
                     <input type="tel" placeholder="Phone number">
                     <a href="" class="button contacts-button button-icon icon no-padding ln-contacts"></a>
                 </label>
-                <label class="item item-input">
-                    <input type="number" placeholder="Amount">
-                </label>
+           <label class="item item-input enter-amount-input">
+            <span class="input-label">₹</span>
+            <input type="number" placeholder="Enter amount">
+        </label>
                 <label class="item item-input">
                     <textarea placeholder="Comments"></textarea>
                 </label>
             </div>
-             <div class="padding">
-            <button class="button button-assertive button-block">Send</button>
+            <div class="padding">
+                <button class="button button-assertive button-block">Send</button>
             </div>
         </form>
     </ion-content>
