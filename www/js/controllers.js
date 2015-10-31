@@ -28,8 +28,8 @@ angular.module('starter.controllers', ['ui.bootstrap'])
     $scope.login = function () {
         $scope.modal.show();
     };
-    
-    
+
+
     // Create the login modal that we will use later
     $ionicModal.fromTemplateUrl('templates/balance-history.html', {
         scope: $scope
@@ -43,7 +43,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
     };
 
     // Open the login modal
-    $scope.history= function () {
+    $scope.history = function () {
         $scope.modal1.show();
     };
 
@@ -372,18 +372,93 @@ angular.module('starter.controllers', ['ui.bootstrap'])
     }];
     })
     .controller('SendMoneyCtrl', function ($scope, $stateParams) {})
-    .controller('WalletCtrl', function ($scope, $stateParams, $ionicPopup,$ionicScrollDelegate) {
-        $scope.showAlert = function () {
-            var alertPopup = $ionicPopup.alert({
-                title: 'Don\'t eat that!',
-                template: 'templates/balance-history.html'
-            });
-            alertPopup.then(function (res) {
-                console.log('Thank you for not eating my delicious ice cream cone');
-            });
+    .controller('WalletCtrl', function ($scope, $stateParams, $ionicScrollDelegate) {
+     $scope.indicator=false;   
+    $scope.toggleIndicator = function(){
+          $scope.indicator= $scope.indicator === true ? false : true;
         };
-    $ionicScrollDelegate.$getByHandle('mini').resize();
-    console.log($ionicScrollDelegate.$getByHandle('mini'));
+        $ionicScrollDelegate.$getByHandle('mini').resize();
+        console.log($ionicScrollDelegate.$getByHandle('mini'));
+        $scope.pendings = [{
+                name: 'BookMyShow',
+                price: 500,
+                date: '22/10/2015',
+                voucher_number: 51,
+                validity: '20/01/16',
+                expiry_proximity: 'red'
+    },
+            {
+                name: 'Amazon',
+                price: 5000,
+                date: '23/10/2015',
+                voucher_number: 500,
+                validity: '20/01/16',
+                expiry_proximity: 'red'
+    },
+            {
+                name: 'Flipkart',
+                price: 400,
+                date: '30/10/2015',
+                voucher_number: 500,
+                validity: '20/01/16',
+                expiry_proximity: 'yellow'
+    },
+            {
+                name: 'Amazon',
+                price: 5000,
+                date: '23/10/2015',
+                voucher_number: 500,
+                validity: '20/01/16',
+                expiry_proximity: 'red'
+    },
+            {
+                name: 'Flipkart',
+                price: 400,
+                date: '30/10/2015',
+                voucher_number: 500,
+                validity: '20/01/16',
+                expiry_proximity: 'yellow'
+    },
+            {
+                name: 'Myntra',
+                price: 1200,
+                date: '10/11/2015',
+                voucher_number: 500,
+                validity: '20/01/16',
+                expiry_proximity: 'green'
+    },
+            {
+                name: 'Jabong',
+                price: 500,
+                date: '15/11/2015',
+                voucher_number: 500,
+                validity: '20/01/16',
+                expiry_proximity: 'green'
+    },
+            {
+                name: 'Amazon',
+                price: 5000,
+                date: '23/10/2015',
+                voucher_number: 500,
+                validity: '20/01/16',
+                expiry_proximity: 'red'
+    },
+            {
+                name: 'Flipkart',
+                price: 400,
+                date: '30/10/2015',
+                voucher_number: 500,
+                validity: '20/01/16',
+                expiry_proximity: 'yellow'
+    },
+            {
+                name: 'Myntra',
+                price: 1200,
+                date: '10/11/2015',
+                voucher_number: 500,
+                validity: '20/01/16',
+                expiry_proximity: 'green'
+    }];
     })
     .controller('SpendHistoryCtrl', function ($scope, $stateParams) {
 
@@ -420,8 +495,17 @@ angular.module('starter.controllers', ['ui.bootstrap'])
     }];
 
     })
-    .controller('RedeemCtrl', function ($scope, $stateParams, $ionicModal, $timeout) {
+    .controller('RedeemCtrl', function ($scope, $stateParams, $ionicModal, $timeout,$ionicPopup,$location) {
         $scope.readTNC = false;
+        $scope.showAlert = function () {
+            var alertPopup = $ionicPopup.alert({
+                title: 'Redeem Progress',
+                template: '<div style="text-align: center;"><img src="img/pending.png" style="width: 25%;"></div><h5 style="text-align: center;margin-bottom:0">Request pending approval</h5>'
+            });
+            alertPopup.then(function (res) {
+                $location.path('app/wallet');
+            });
+        };
         $ionicModal.fromTemplateUrl('templates/tNc.html', {
             scope: $scope
         }).then(function (modal) {
@@ -458,8 +542,8 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                 company: 'Big Basket',
                 imgurl: 'img/categories/bigbasket.png'
             }, {
-                company: 'Flipkart',
-                imgurl: 'img/categories/flipkart.png'
+                company: 'Snapdeal',
+                imgurl: 'img/categories/snapdeal.png'
             }
     ];
         $scope.ecommerce = _.chunk($scope.ecommerce, 3);

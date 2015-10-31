@@ -358,13 +358,20 @@ $dark:                            #444 !default;
   border-top: 2px solid #e4bc88; }
   .friends-total-item h1 {
     position: absolute;
-    top: -6px;
-    left: 26px;
-    font-weight: 700; }
+    top: 18px;
+    left: 22px;
+    font-weight: 600;
+    font-size: 27px !important; }
+  .friends-total-item h2 {
+    position: absolute;
+    top: 24px;
+    left: 55px; }
   .friends-total-item span {
     position: absolute;
     top: 23px;
-    right: 10px; }
+    right: 10px;
+    font-size: 18px !important;
+    font-weight: 600 !important; }
 
 .button-share-container {
   position: fixed;
@@ -381,6 +388,16 @@ $dark:                            #444 !default;
     color: white !important; }
   .button-share-container .button {
     min-height: 56px !important; }
+
+.custom-scroll .scroll-view {
+  position: absolute;
+  display: block;
+  overflow: hidden;
+  margin-top: -1px;
+  top: 267px;
+  bottom: 0;
+  right: 0;
+  left: 0; }
 
 /*!
   Ionicons, v2.0.1

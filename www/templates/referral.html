@@ -1,22 +1,13 @@
 <ion-view view-title="Referral">
-   <div class="bar bar-subheader bar-stable no-padding">
-       <a class="item item-avatar item-stable friends-total-item" href="">
-                <img src="img/group.png" alt="">
-                <h1>{{friends.length}}</h1>
-                <h2>All friends</h2>
-                <span class="badge badge-positive">₹ {{referralmoney}}</span>
-            </a>
-   </div>
+    <div class="bar bar-subheader bar-stable no-padding">
+        <a class="item item-avatar item-stable friends-total-item" href="">
+            <h1>{{friends.length}}</h1>
+            <h2>Friendly Referrals</h2>
+            <span>₹ {{referralmoney}}</span>
+        </a>
+    </div>
     <ion-content class="referral has-subheader-custom" on-scroll-complete="shareTimeout()">
-        <!--  <h4 class="text-center padding-vertical no-margin">Coming soon!</h4>-->
-
         <div class="list">
-<!--
-            <h1 class="category-header-txt">
-           Total referral earnings!
-            </h1>
--->
-            
             <h1 class="category-header-txt">
                    Earn __ % of your referrals cashback!
                </h1>

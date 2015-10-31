@@ -161,9 +161,11 @@ $font-size-list:13px;
         }
     }
 }
-.has-subheader-custom{
-        top: 114px !important;
+
+.has-subheader-custom {
+    top: 114px !important;
 }
+
 .active-menuitem {
     border: 1px solid $assertive !important;
     margin-bottom: 1px !important;
@@ -476,14 +478,22 @@ $font-size-list:13px;
     border-top: 2px solid $assertive;
     h1 {
         position: absolute;
-        top: -6px;
-        left: 26px;
-        font-weight: 700;
+        top: 18px;
+        left: 22px;
+        font-weight: 600;
+        font-size: 27px !important;
+    }
+    h2 {
+        position: absolute;
+        top: 24px;
+        left: 55px;
     }
     span {
         position: absolute;
         top: 23px;
         right: 10px;
+        font-size: 18px !important;
+        font-weight: 600 !important;
     }
 }
 
@@ -503,5 +513,17 @@ $font-size-list:13px;
     }
     .button {
         min-height: 56px !important;
+    }
+}
+.custom-scroll{
+    .scroll-view {
+    position: absolute;
+    display: block;
+    overflow: hidden;
+    margin-top: -1px;
+    top: 267px;
+    bottom: 0;
+    right: 0;
+    left: 0;
     }
 }
