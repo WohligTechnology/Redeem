@@ -1,34 +1,41 @@
 <ion-view view-title="Home">
     <ion-content>
         <div class="home">
-            <div class="wallet-holder">
+            <ion-slide-box on-slide-changed="slideHasChanged($index)">
+                <ion-slide><img class="full-image" src="img/slides/slide1.jpg" alt=""></ion-slide>
+                <ion-slide><img class="full-image" src="img/slides/slide3.jpg" alt=""></ion-slide>
+                <ion-slide><img class="full-image" src="img/slides/slide4.jpg" alt=""></ion-slide>
+            </ion-slide-box>
+            <a href="#/app/wallet" style="text-decoration:none;">
+                <div class="wallet-holder" style="margin-top: -5px;">
                 <div class="wallet-balance">
                     <h3>Wallet Balance</h3>
                     <h2>₹ 2640/-</h2>
                 </div>
                 <img src="img/walletlock.png" alt="">
             </div>
+            </a>
             <div class="list list-inset">
-               <div class="item item-divider">Categories</div>
+                <div class="item item-divider">Categories</div>
                 <ion-item class="item item-avatar" href="#/app/ecommerce">
-                   <img src="img/ecommerce.png" alt="">
+                    <img src="img/ecommerce.png" alt="">
                     <h2>E-Commerce</h2>
                 </ion-item>
                 <ion-item class="item item-avatar" href="#/app/ecommerce">
-                   <img src="img/restaurant.png" alt="">
+                    <img src="img/restaurant.png" alt="">
                     <h2>Restaurants</h2>
                 </ion-item>
                 <ion-item class="item item-avatar" href="#/app/ecommerce">
-                   <img src="img/movie.png" alt="">
+                    <img src="img/movie.png" alt="">
                     <h2>Entertainment</h2>
                 </ion-item>
                 <ion-item class="item item-avatar" href="#/app/ecommerce">
-                   <img src="img/sports.png" alt="">
+                    <img src="img/sports.png" alt="">
                     <h2>Sports Merchandise</h2>
                 </ion-item>
                 <div class="item item-divider bg-assertive">View more</div>
             </div>
-<!--
+            <!--
             <div class="item item-divider">Recent Expenditures</div>
             <div class="item item-avatar">
                 <img src="img/amazon.jpg">

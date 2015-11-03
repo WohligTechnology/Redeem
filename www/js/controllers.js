@@ -58,39 +58,39 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         }, 1000);
     };
     $scope.menu = [{
-        title: 'Home',
-        url: '#/app/home',
-        state: true
+            title: 'Home',
+            url: '#/app/home',
+            state: true
     }, {
-        title: 'Wallet',
-        url: '#/app/wallet',
-        state: false
+            title: 'Wallet',
+            url: '#/app/wallet',
+            state: false
     }, {
-        title: 'Send Money',
-        url: '#/app/sendmoney',
-        state: false
+            title: 'Send Money',
+            url: '#/app/sendmoney',
+            state: false
     }, {
-        title: 'Passbook',
-        url: '#/app/passbook',
-        state: false
-    }, 
+            title: 'Passbook',
+            url: '#/app/passbook',
+            state: false
+    },
 //                   {
 //        title: 'Spend History',
 //        url: '#/app/spendhistory',
 //        state: false
 //    }, 
-                   {
-        title: 'Referral',
-        url: '#/app/referral',
-        state: false
+        {
+            title: 'Referral',
+            url: '#/app/referral',
+            state: false
     }, {
-        title: 'About Us',
-        url: '#/app/aboutus',
-        state: false
+            title: 'About Us',
+            url: '#/app/aboutus',
+            state: false
     }, {
-        title: 'Logout',
-        url: '#/login',
-        state: false
+            title: 'Logout',
+            url: '#/login',
+            state: false
     }];
     $scope.activateMenu = function (index) {
         console.log(index);
@@ -132,7 +132,9 @@ angular.module('starter.controllers', ['ui.bootstrap'])
   ];
 })
 
-.controller('LoginCtrl', function ($scope, $stateParams, $location) {
+.controller('LoginCtrl', function ($scope, $stateParams, $location, MyServices) {
+
+        $scope.user = {};
         $scope.activate = true;
         $scope.tab = {
             left: true,
@@ -151,9 +153,22 @@ angular.module('starter.controllers', ['ui.bootstrap'])
             }
         };
         $scope.doLogin = function () {
+            console.log($scope.user);
+            MyServices.loginUser($scope.user, function (data) {
+                if (data) {
+                    console.log(data);
+                }
+            }, function (err) {
+                if (err) {
+                    console.log(err);
+                }
+            });
+
             console.log("herer");
             $location.path('app/home');
         };
+
+
     })
     .controller('PlaylistCtrl', function ($scope, $stateParams) {})
     .controller('ReferralCtrl', function ($scope, $stateParams, $ionicBackdrop, $timeout) {
@@ -223,13 +238,23 @@ angular.module('starter.controllers', ['ui.bootstrap'])
             }
         };
     })
-    .controller('PassbookCtrl', function ($scope, $stateParams) {
+    .controller('PassbookCtrl', function ($scope, $stateParams,$ionicScrollDelegate) {
         $scope.availableFlags = {};
         $scope.activate = true;
         $scope.tab = {
             left: false,
             center: true,
             right: false
+        }
+        $scope.moveToUsed = function(){
+            
+            //service code to actually move,here!
+            
+            $scope.tab.left=false;
+            $scope.tab.center=false;
+            $scope.tab.right=true;
+            $ionicScrollDelegate.scrollTop();
+            
         }
         $scope.clickTab = function (side) {
             //            $ionicScrollDelegate.scrollTop();
@@ -383,8 +408,8 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         $scope.downIndicator = function () {
             $scope.indicator = true;
         };
-        $scope.upIndicator= function(){
-            $scope.indicator=false;
+        $scope.upIndicator = function () {
+            $scope.indicator = false;
         }
         $ionicScrollDelegate.$getByHandle('mini').resize();
         console.log($ionicScrollDelegate.$getByHandle('mini'));
@@ -411,62 +436,6 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                 voucher_number: 500,
                 validity: '20/01/16',
                 expiry_proximity: 'yellow'
-    },
-            {
-                name: 'Amazon',
-                price: 5000,
-                date: '23/10/2015',
-                voucher_number: 500,
-                validity: '20/01/16',
-                expiry_proximity: 'red'
-    },
-            {
-                name: 'Flipkart',
-                price: 400,
-                date: '30/10/2015',
-                voucher_number: 500,
-                validity: '20/01/16',
-                expiry_proximity: 'yellow'
-    },
-            {
-                name: 'Myntra',
-                price: 1200,
-                date: '10/11/2015',
-                voucher_number: 500,
-                validity: '20/01/16',
-                expiry_proximity: 'green'
-    },
-            {
-                name: 'Jabong',
-                price: 500,
-                date: '15/11/2015',
-                voucher_number: 500,
-                validity: '20/01/16',
-                expiry_proximity: 'green'
-    },
-            {
-                name: 'Amazon',
-                price: 5000,
-                date: '23/10/2015',
-                voucher_number: 500,
-                validity: '20/01/16',
-                expiry_proximity: 'red'
-    },
-            {
-                name: 'Flipkart',
-                price: 400,
-                date: '30/10/2015',
-                voucher_number: 500,
-                validity: '20/01/16',
-                expiry_proximity: 'yellow'
-    },
-            {
-                name: 'Myntra',
-                price: 1200,
-                date: '10/11/2015',
-                voucher_number: 500,
-                validity: '20/01/16',
-                expiry_proximity: 'green'
     }];
     })
     .controller('SpendHistoryCtrl', function ($scope, $stateParams) {

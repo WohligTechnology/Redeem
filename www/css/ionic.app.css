@@ -200,7 +200,7 @@ $dark:                            #444 !default;
     display: block;
     font-size: 13px; }
 
-.category-header-txt, .category-subheader-txt {
+.category-header-txt, .category-subheader-txt, .wallet-txt {
   font-size: 13px;
   font-weight: 500;
   margin: 10px 20px !important;
@@ -208,6 +208,11 @@ $dark:                            #444 !default;
 
 .category-subheader-txt {
   margin: 5px 20px !important; }
+
+.wallet-txt {
+  margin: 5px 20px !important;
+  font-size: 15px;
+  font-weight: 500; }
 
 .tnc i {
   float: right;
@@ -395,7 +400,7 @@ $dark:                            #444 !default;
   display: block;
   overflow: hidden;
   margin-top: -1px;
-  top: 270px;
+  top: 378px;
   bottom: 0;
   right: 0;
   left: 0; }

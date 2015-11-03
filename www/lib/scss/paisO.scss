@@ -283,6 +283,12 @@ $font-size-list:13px;
     @extend .category-header-txt;
     margin:5px 20px !important;
 }
+.wallet-txt{
+    @extend .category-header-txt;
+   margin: 5px 20px !important;
+    font-size: 15px;
+    font-weight: 500;
+}
 .tnc {
     i {
         float: right;
@@ -525,7 +531,7 @@ $font-size-list:13px;
         display: block;
         overflow: hidden;
         margin-top: -1px;
-        top: 270px;
+        top: 378px;
         bottom: 0;
         right: 0;
         left: 0;
