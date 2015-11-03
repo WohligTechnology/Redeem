@@ -1,6 +1,6 @@
 angular.module('starter.controllers', ['ui.bootstrap'])
 
-.controller('AppCtrl', function ($scope, $ionicModal, $timeout) {
+.controller('AppCtrl', function ($scope, $ionicModal, $timeout,MyServices) {
 
     // With the new view caching in Ionic, Controllers are only called
     // when they are recreated or on app start, instead of every page change.
@@ -29,7 +29,6 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         $scope.modal.show();
     };
 
-
     // Create the login modal that we will use later
     $ionicModal.fromTemplateUrl('templates/balance-history.html', {
         scope: $scope
@@ -46,7 +45,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
     $scope.history = function () {
         $scope.modal1.show();
     };
-
+    
     // Perform the login action when the user submits the login form
     $scope.doLogin = function () {
         console.log('Doing login', $scope.loginData);

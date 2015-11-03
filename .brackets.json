@@ -76,6 +76,9 @@
         "C:/xampp/htdocs/redeem/www/lib/angular-ui-router/src/stateDirectives.js",
         "C:/xampp/htdocs/redeem/www/lib/angular-ui-router/src/stateFilters.js",
         "C:/xampp/htdocs/redeem/www/lib/angular-ui-router/src/templateFactory.js",
-        "C:/xampp/htdocs/redeem/www/lib/angular-ui-router/src/urlMatcherFactory.js"
+        "C:/xampp/htdocs/redeem/www/lib/angular-ui-router/src/urlMatcherFactory.js",
+        "C:/xampp/htdocs/redeem/www/lib/angular-sanitize/index.js",
+        "C:/xampp/htdocs/redeem/www/lib/angular-ui-router/release/angular-ui-router.js",
+        "C:/xampp/htdocs/redeem/www/lib/angular-ui-router/src/urlRouter.js"
     ]
 }
