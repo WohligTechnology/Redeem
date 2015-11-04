@@ -1,6 +1,6 @@
 angular.module('starter.controllers', ['ui.bootstrap'])
 
-.controller('AppCtrl', function ($scope, $ionicModal, $timeout,MyServices) {
+.controller('AppCtrl', function ($scope, $ionicModal, $timeout, MyServices) {
 
     // With the new view caching in Ionic, Controllers are only called
     // when they are recreated or on app start, instead of every page change.
@@ -45,7 +45,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
     $scope.history = function () {
         $scope.modal1.show();
     };
-    
+
     // Perform the login action when the user submits the login form
     $scope.doLogin = function () {
         console.log('Doing login', $scope.loginData);
@@ -133,40 +133,63 @@ angular.module('starter.controllers', ['ui.bootstrap'])
 
 .controller('LoginCtrl', function ($scope, $stateParams, $location, MyServices) {
 
-        $scope.user = {};
-        $scope.activate = true;
-        $scope.tab = {
-            left: true,
-            right: false
+    $scope.user = {};
+    $scope.activate = true;
+    $scope.tab = {
+        left: true,
+        right: false
+    }
+    $scope.highlight = false;
+    $scope.clickTab = function (side) {
+        //            $ionicScrollDelegate.scrollTop();
+        if (side === "left") {
+            $scope.tab.left = true;
+            $scope.tab.right = false;
+        } else {
+            $scope.tab.right = true;
+            $scope.tab.left = false;
+            console.log("here");
         }
-        $scope.highlight = false;
-        $scope.clickTab = function (side) {
-            //            $ionicScrollDelegate.scrollTop();
-            if (side === "left") {
-                $scope.tab.left = true;
-                $scope.tab.right = false;
+    };
+    $scope.doLogin = function () {
+        console.log($scope.user);
+        MyServices.loginUser($scope.user, function (data) {
+            if (data) {
+                console.log(data);
+            }
+        }, function (err) {
+            if (err) {
+                console.log(err);
+            }
+        });
+
+        console.log("herer");
+        $location.path('app/home');
+    };
+
+
+})
+
+.controller('HomeCtrl', function ($scope, $stateParams, MyServices, $location) {
+        $scope.category = [];
+        MyServices.findCategories(function (data) {
+            if (data) {
+                $scope.category = data;
+                console.log(data);
+            }
+        }, function (err) {
+            if (err) {
+                console.log(err);
+            }
+        });
+        $scope.routeCategory = function (object) {
+            console.log(object);
+            if (object.listview == false) {
+                $location.path('app/gridview/' + object._id);
             } else {
-                $scope.tab.right = true;
-                $scope.tab.left = false;
-                console.log("here");
+                $location.path('app/listview/' + object._id);
             }
         };
-        $scope.doLogin = function () {
-            console.log($scope.user);
-            MyServices.loginUser($scope.user, function (data) {
-                if (data) {
-                    console.log(data);
-                }
-            }, function (err) {
-                if (err) {
-                    console.log(err);
-                }
-            });
-
-            console.log("herer");
-            $location.path('app/home');
-        };
-
 
     })
     .controller('PlaylistCtrl', function ($scope, $stateParams) {})
@@ -237,7 +260,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
             }
         };
     })
-    .controller('PassbookCtrl', function ($scope, $stateParams,$ionicScrollDelegate) {
+    .controller('PassbookCtrl', function ($scope, $stateParams, $ionicScrollDelegate) {
         $scope.availableFlags = {};
         $scope.activate = true;
         $scope.tab = {
@@ -245,15 +268,15 @@ angular.module('starter.controllers', ['ui.bootstrap'])
             center: true,
             right: false
         }
-        $scope.moveToUsed = function(){
-            
+        $scope.moveToUsed = function () {
+
             //service code to actually move,here!
-            
-            $scope.tab.left=false;
-            $scope.tab.center=false;
-            $scope.tab.right=true;
+
+            $scope.tab.left = false;
+            $scope.tab.center = false;
+            $scope.tab.right = true;
             $ionicScrollDelegate.scrollTop();
-            
+
         }
         $scope.clickTab = function (side) {
             //            $ionicScrollDelegate.scrollTop();
@@ -409,9 +432,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         };
         $scope.upIndicator = function () {
             $scope.indicator = false;
-        }
-        $ionicScrollDelegate.$getByHandle('mini').resize();
-        console.log($ionicScrollDelegate.$getByHandle('mini'));
+        };
         $scope.pendings = [{
                 name: 'BookMyShow',
                 price: 500,
@@ -500,8 +521,39 @@ angular.module('starter.controllers', ['ui.bootstrap'])
             $scope.modal.show();
         };
     })
-    .controller('EcommerceCtrl', function ($scope, $stateParams) {
+    .controller('ListViewCtrl', function ($scope, $stateParams) {
 
+    })
+    .controller('GridViewCtrl', function ($scope, $stateParams, MyServices, $ionicNavBarDelegate) {
+        $scope.params = $stateParams;
+
+        MyServices.findCategory($scope.params, function (data) {
+            console.log(data);
+            if (data) {
+                $scope.category = data;
+            }
+        }, function (err) {
+            if (err) {
+                console.log(err);
+            }
+        });
+        $scope.vendors = [];
+        MyServices.findVendorByCategory($scope.params, function (data) {
+            if (data) {
+                $scope.vendors = data;
+                $scope.vendors = _.chunk($scope.vendors, 3);
+                console.log($scope.vendors);    
+            }
+        }, function (err) {
+            if (err) {
+                console.log(err);
+            }
+        });
+
+        //        console.log($scope.vendors);
+        //        if ($scope.vendors.length != 0) {
+        //            
+        //        }
         $scope.ecommerce = [
             {
                 company: 'Amazon',

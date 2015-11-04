@@ -17,23 +17,10 @@
             </a>
             <div class="list list-inset">
                 <div class="item item-divider">Categories</div>
-                <ion-item class="item item-avatar" href="#/app/ecommerce">
+                <ion-item class="item item-avatar" ng-repeat="item in category | orderBy: item.order" ng-if="item.status" ng-click="routeCategory(item)">
                     <img src="img/ecommerce.png" alt="">
-                    <h2>E-Commerce</h2>
+                    <h2 style="line-height: 234%;">{{item.name}}</h2>
                 </ion-item>
-                <ion-item class="item item-avatar" href="#/app/ecommerce">
-                    <img src="img/restaurant.png" alt="">
-                    <h2>Restaurants</h2>
-                </ion-item>
-                <ion-item class="item item-avatar" href="#/app/ecommerce">
-                    <img src="img/movie.png" alt="">
-                    <h2>Entertainment</h2>
-                </ion-item>
-                <ion-item class="item item-avatar" href="#/app/ecommerce">
-                    <img src="img/sports.png" alt="">
-                    <h2>Sports Merchandise</h2>
-                </ion-item>
-                <div class="item item-divider bg-assertive">View more</div>
             </div>
         </div>
 

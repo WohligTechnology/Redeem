@@ -124,12 +124,12 @@ $font-size-list:13px;
             h6 {
                 position: absolute;
                 bottom: 10px;
-                    right: 29%;
+                right: 29%;
             }
         }
     }
     .pending-header {
-        border-bottom: 2px $assertive solid ;
+        border-bottom: 2px $assertive solid;
         h4 {
             font-size: 13px;
             text-align: center;
@@ -162,8 +162,8 @@ $font-size-list:13px;
 }
 
 .has-subheader-custom {
-//    top: 114px !important; 
-    top: 150px  !important;
+    //    top: 114px !important; 
+    top: 150px !important;
 }
 
 .active-menuitem {
@@ -258,8 +258,9 @@ $font-size-list:13px;
     margin: 10px;
     .row+.row {
         border-top: 1px #ddd solid;
+        margin-top: 0px !important;
     }
-    .col+.col {
+    .col-33+.col-33 {
         border-left: 1px #ddd solid;
     }
     .row {
@@ -279,16 +280,19 @@ $font-size-list:13px;
     margin: 10px 20px !important;
     text-align: center;
 }
+
 .category-subheader-txt {
     @extend .category-header-txt;
-    margin:5px 20px !important;
+    margin: 5px 20px !important;
 }
-.wallet-txt{
+
+.wallet-txt {
     @extend .category-header-txt;
-   margin: 5px 20px !important;
+    margin: 5px 20px !important;
     font-size: 15px;
     font-weight: 500;
 }
+
 .tnc {
     i {
         float: right;
@@ -536,14 +540,68 @@ $font-size-list:13px;
         right: 0;
         left: 0;
     }
-    .pending-item{
+    .pending-item {
         padding: 10px 16px 10px 16px !important;
     }
-    .scroll-indicate{
+    .scroll-indicate {
         position: absolute;
-    bottom: 0;
-    text-align: center;
-    left: 50%;
-           -webkit-transform: translate(-50%, -50%); transform: translate(-50%, -50%);
+        bottom: 0;
+        text-align: center;
+        left: 50%;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+}
+
+.video-set {
+    height: 100%;
+    width: 100%;
+    background-position: center center;
+    background-size: cover;
+    position: relative;
+    display: block;
+    overflow: hidden;
+    margin-top: -1px;
+    margin-bottom: 1px;
+    figure {
+        height: 180px;
+    }
+    .img-layer {
+        height: 100%;
+        background: -webkit-linear-gradient(rgba(63, 81, 181, 0.16) 18%, rgba(50, 64, 143, 0.68));
+        background: -moz-linear-gradient(rgba(63, 81, 181, 0.16) 18%, rgba(50, 64, 143, 0.68));
+        background: -ms-linear-gradient(rgba(63, 81, 181, 0.16) 18%, rgba(50, 64, 143, 0.68));
+        background: -o-linear-gradient(rgba(63, 81, 181, 0.16) 18%, rgba(50, 64, 143, 0.68));
+        position: relative;
+        @include transition(all,
+        0.5s);
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        span {
+            background-color: $positive;
+            color: white;
+            padding: 2px 8px 3px 8px;
+            float: right;
+        }
+        .bottom-txt {
+            position: absolute;
+            width: 100%;
+            bottom: 0px;
+            color: white;
+            h4 {
+                float: left;
+                color: white;
+                padding-left: 12px;
+                font-size: 15px;
+            }
+            p {
+                float: right;
+                font-size: 14px;
+                padding: 13px;
+                margin: 0px;
+                font-weight: 300;
+            }
+        }
     }
 }

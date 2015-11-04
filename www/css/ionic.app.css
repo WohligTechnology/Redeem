@@ -111,7 +111,7 @@ $dark:                            #444 !default;
   font-weight: 600 !important; }
 
 .has-subheader-custom {
-  top: 150px  !important; }
+  top: 150px !important; }
 
 .active-menuitem {
   border: 1px solid #e4bc88 !important;
@@ -189,8 +189,9 @@ $dark:                            #444 !default;
   border: 1px #ddd solid;
   margin: 10px; }
   .category-container .row + .row {
-    border-top: 1px #ddd solid; }
-  .category-container .col + .col {
+    border-top: 1px #ddd solid;
+    margin-top: 0px !important; }
+  .category-container .col-33 + .col-33 {
     border-left: 1px #ddd solid; }
   .category-container .row {
     margin: 0px;
@@ -415,6 +416,55 @@ $dark:                            #444 !default;
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%); }
+
+.video-set {
+  height: 100%;
+  width: 100%;
+  background-position: center center;
+  background-size: cover;
+  position: relative;
+  display: block;
+  overflow: hidden;
+  margin-top: -1px;
+  margin-bottom: 1px; }
+  .video-set figure {
+    height: 180px; }
+  .video-set .img-layer {
+    height: 100%;
+    background: -webkit-linear-gradient(rgba(63, 81, 181, 0.16) 18%, rgba(50, 64, 143, 0.68));
+    background: -moz-linear-gradient(rgba(63, 81, 181, 0.16) 18%, rgba(50, 64, 143, 0.68));
+    background: -ms-linear-gradient(rgba(63, 81, 181, 0.16) 18%, rgba(50, 64, 143, 0.68));
+    background: -o-linear-gradient(rgba(63, 81, 181, 0.16) 18%, rgba(50, 64, 143, 0.68));
+    position: relative;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    -ms-transition: all 0.5s;
+    -o-transition: all 0.5s;
+    transition: all 0.5s;
+    position: absolute;
+    bottom: 0;
+    width: 100%; }
+    .video-set .img-layer span {
+      background-color: #FFDF00;
+      color: white;
+      padding: 2px 8px 3px 8px;
+      float: right; }
+    .video-set .img-layer .bottom-txt {
+      position: absolute;
+      width: 100%;
+      bottom: 0px;
+      color: white; }
+      .video-set .img-layer .bottom-txt h4 {
+        float: left;
+        color: white;
+        padding-left: 12px;
+        font-size: 15px; }
+      .video-set .img-layer .bottom-txt p {
+        float: right;
+        font-size: 14px;
+        padding: 13px;
+        margin: 0px;
+        font-weight: 300; }
 
 /*!
   Ionicons, v2.0.1

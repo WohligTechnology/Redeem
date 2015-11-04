@@ -42,16 +42,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
             url: '/home',
             views: {
                 'menuContent': {
-                    templateUrl: 'templates/home.html'
+                    templateUrl: 'templates/home.html',
+                    controller:'HomeCtrl'
                 }
             }
         })
-        .state('app.ecommerce', {
-            url: '/ecommerce',
+        .state('app.gridview', {
+            url: '/gridview/:id',
             views: {
                 'menuContent': {
-                    templateUrl: 'templates/ecommerce.html',
-                    controller: 'EcommerceCtrl'
+                    templateUrl: 'templates/gridview.html',
+                    controller: 'GridViewCtrl'
                 }
             }
         })
@@ -115,6 +116,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
                 'menuContent': {
                     templateUrl: 'templates/referral.html',
                     controller: 'ReferralCtrl'
+                }
+            }
+        })
+        .state('app.listview', {
+            url: '/listview/:id',
+            views: {
+                'menuContent': {
+                    templateUrl: 'templates/listview.html',
+                    controller: 'ListViewCtrl'
                 }
             }
         })

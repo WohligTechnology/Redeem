@@ -79,6 +79,17 @@
         "C:/xampp/htdocs/redeem/www/lib/angular-ui-router/src/urlMatcherFactory.js",
         "C:/xampp/htdocs/redeem/www/lib/angular-sanitize/index.js",
         "C:/xampp/htdocs/redeem/www/lib/angular-ui-router/release/angular-ui-router.js",
-        "C:/xampp/htdocs/redeem/www/lib/angular-ui-router/src/urlRouter.js"
+        "C:/xampp/htdocs/redeem/www/lib/angular-ui-router/src/urlRouter.js",
+        "C:/xampp/htdocs/redeem/www/lib/angular-ui-router/src/view.js",
+        "C:/xampp/htdocs/redeem/www/lib/angular-ui-router/src/viewDirective.js",
+        "C:/xampp/htdocs/redeem/www/lib/angular-ui-router/src/viewScroll.js",
+        "C:/xampp/htdocs/redeem/www/lib/platform/platform.js",
+        "C:/xampp/htdocs/redeem/www/lib/angular-sanitize/angular-sanitize.min.js",
+        "C:/xampp/htdocs/redeem/www/lib/angular-sanitize/angular-sanitize.js",
+        "C:/xampp/htdocs/redeem/www/lib/angular-animate/index.js",
+        "C:/xampp/htdocs/redeem/www/lib/angular-animate/angular-animate.min.js",
+        "C:/xampp/htdocs/redeem/www/lib/angular-animate/angular-animate.js",
+        "C:/xampp/htdocs/redeem/www/lib/angular/index.js",
+        "C:/xampp/htdocs/redeem/www/lib/angular/angular.min.js"
     ]
 }
