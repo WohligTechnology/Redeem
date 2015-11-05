@@ -10,10 +10,10 @@
         </div>
         <label class="item item-input enter-amount-input">
             <span class="input-label">₹</span>
-            <input type="number" placeholder="Enter amount" ng-model="user.amount" ng-disabled="fixedinput">
+            <input type="number" placeholder="Amount" ng-model="user.amount" ng-change="isInLimit(user.amount)" ng-disabled="fixedinput">
         </label>
         <div class="row no-padding">
-            <div class="col no-padding" ng-repeat="item in quickMoney">
+            <div class="col no-padding" ng-repeat="item in vendor.amountselect">
                 <button class="button no-margin button-clear button-assertive button-block" ng-click="AddMoney()" style="
     font-size: 15px !important;">+ {{item}}</button>
             </div>

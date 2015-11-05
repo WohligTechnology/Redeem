@@ -196,7 +196,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         })
         $scope.slideIsSelected = function (index) {
             console.log($scope.banners[index]);
-            $location.path("/app/redeem/"+$scope.banners[index].vendorid);
+            $location.path("/app/redeem/" + $scope.banners[index].vendorid);
         };
         $scope.routeCategory = function (object) {
             console.log(object);
@@ -513,27 +513,37 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         $scope.readTNC = false;
         $scope.params = $stateParams;
         $scope.fixedinput = false;
-        $scope.amount = "Enter amount";
+        $scope.vendor = [];
         MyServices.findVendor($scope.params, function (data) {
             console.log(data);
             if (data) {
                 $scope.vendor = data;
-                console.log($scope.vendor.input);
                 if ($scope.vendor.input === "fixed") {
                     $scope.fixedinput = true;
-                } else if ($scope.vendor.input === "multiple")
+                } else if ($scope.vendor.input === "multiple") {
                     $scope.fixedinput = true;
-                else {
-                    $scope.amount = "Enter amount.";
+                } else {
+                    $scope.user={
+                        amount:0
+                    };
                     $scope.fixedinput = false;
                 }
-
             }
         }, function (err) {
             if (err) {
                 console.log(err);
             }
         });
+        $scope.isInLimit = function (value) {
+            console.log(value + " " + $scope.vendor.amountlimit);
+            if (limit === undefined)
+                return true;
+            else
+            if (value > $scope.vendor.amountlimit)
+                return false;
+            else
+                return true;
+        }
         $scope.showAlert = function () {
             var alertPopup = $ionicPopup.alert({
                 title: 'Redeem Progress',
@@ -563,7 +573,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         };
         //    MODAL END
 
-        $scope.quickMoney = [500, 1000, 1500];
+        //        $scope.quickMoney = [500, 1000, 1500];
         $scope.AddMoney = function () {
 
         };
