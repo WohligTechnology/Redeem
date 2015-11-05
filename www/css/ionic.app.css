@@ -431,10 +431,10 @@ $dark:                            #444 !default;
     height: 180px; }
   .video-set .img-layer {
     height: 100%;
-    background: -webkit-linear-gradient(rgba(63, 81, 181, 0.16) 18%, rgba(50, 64, 143, 0.68));
-    background: -moz-linear-gradient(rgba(63, 81, 181, 0.16) 18%, rgba(50, 64, 143, 0.68));
-    background: -ms-linear-gradient(rgba(63, 81, 181, 0.16) 18%, rgba(50, 64, 143, 0.68));
-    background: -o-linear-gradient(rgba(63, 81, 181, 0.16) 18%, rgba(50, 64, 143, 0.68));
+    background: -webkit-linear-gradient(rgba(63, 81, 181, 0.16) 18%, rgba(67, 47, 29, 0.68));
+    background: -moz-linear-gradient(rgba(63, 81, 181, 0.16) 18%, rgba(67, 47, 29, 0.68));
+    background: -ms-linear-gradient(rgba(63, 81, 181, 0.16) 18%, rgba(67, 47, 29, 0.68));
+    background: -o-linear-gradient(rgba(63, 81, 181, 0.16) 18%, rgba(67, 47, 29, 0.68));
     position: relative;
     -webkit-transition: all 0.5s;
     -moz-transition: all 0.5s;
@@ -458,7 +458,8 @@ $dark:                            #444 !default;
         float: left;
         color: white;
         padding-left: 12px;
-        font-size: 15px; }
+        font-size: 17px;
+        font-weight: 500; }
       .video-set .img-layer .bottom-txt p {
         float: right;
         font-size: 14px;

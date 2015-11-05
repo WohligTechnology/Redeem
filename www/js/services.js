@@ -25,6 +25,12 @@ angular.module('starter.services', [])
                 method: 'GET'
             }).success(callback).error(err);
         },
+        findBanner: function (callback, err) {
+            $http({
+                url: adminurl + 'banner/find',
+                method: 'GET'
+            }).success(callback).error(err);
+        },
         findVendorByCategory: function (category,callback, err) {
             $http({
                 url: adminurl + 'vendors/findVendorByCategoryID',

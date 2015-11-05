@@ -171,17 +171,33 @@ angular.module('starter.controllers', ['ui.bootstrap'])
 })
 
 .controller('HomeCtrl', function ($scope, $stateParams, MyServices, $location) {
+        $scope.banners = []
         $scope.category = [];
         MyServices.findCategories(function (data) {
             if (data) {
                 $scope.category = data;
                 console.log(data);
+
             }
         }, function (err) {
             if (err) {
                 console.log(err);
             }
         });
+        MyServices.findBanner(function (data) {
+            if (data) {
+                $scope.banners = data;
+                console.log($scope.banners);
+            }
+        }, function (err) {
+            if (err) {
+                console.log(err);
+            }
+        })
+        $scope.slideIsSelected = function (index) {
+            console.log($scope.banners[index]);
+            $location.path("/app/redeem/"+$scope.banners[index].vendorid);
+        };
         $scope.routeCategory = function (object) {
             console.log(object);
             if (object.listview == false) {
@@ -496,20 +512,20 @@ angular.module('starter.controllers', ['ui.bootstrap'])
     .controller('RedeemCtrl', function ($scope, $stateParams, $ionicModal, $timeout, $ionicPopup, $location, MyServices) {
         $scope.readTNC = false;
         $scope.params = $stateParams;
-    $scope.fixedinput=false;
+        $scope.fixedinput = false;
+        $scope.amount = "Enter amount";
         MyServices.findVendor($scope.params, function (data) {
             console.log(data);
             if (data) {
                 $scope.vendor = data;
                 console.log($scope.vendor.input);
-                if($scope.vendor.input === "fixed"){
-                        $scope.fixedinput=true;
-                    console.log("here fixed");
-                }
-                else if($scope.vendor.input === "multiple")
-                        $scope.fixedinput=true;
-                else{
-                    
+                if ($scope.vendor.input === "fixed") {
+                    $scope.fixedinput = true;
+                } else if ($scope.vendor.input === "multiple")
+                    $scope.fixedinput = true;
+                else {
+                    $scope.amount = "Enter amount.";
+                    $scope.fixedinput = false;
                 }
 
             }
@@ -527,8 +543,8 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                 $location.path('app/wallet');
             });
         };
-    
-//   TERMS AND CONDITIONS MODAL FUNCTIONS
+
+        //   TERMS AND CONDITIONS MODAL FUNCTIONS
         $ionicModal.fromTemplateUrl('templates/tNc.html', {
             scope: $scope
         }).then(function (modal) {
@@ -545,16 +561,38 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         $scope.tNc = function () {
             $scope.modal.show();
         };
-//    MODAL END
+        //    MODAL END
 
-    $scope.quickMoney=[500,1000,1500];
-    $scope.AddMoney=function(){
-        
-    };
-        
+        $scope.quickMoney = [500, 1000, 1500];
+        $scope.AddMoney = function () {
+
+        };
+
     })
-    .controller('ListViewCtrl', function ($scope, $stateParams) {
+    .controller('ListViewCtrl', function ($scope, $stateParams, MyServices) {
+        $scope.params = $stateParams;
 
+        MyServices.findCategory($scope.params, function (data) {
+            console.log(data);
+            if (data) {
+                $scope.category = data;
+            }
+        }, function (err) {
+            if (err) {
+                console.log(err);
+            }
+        });
+        $scope.vendors = [];
+        MyServices.findVendorByCategory($scope.params, function (data) {
+            if (data) {
+                $scope.vendors = data;
+                console.log($scope.vendors);
+            }
+        }, function (err) {
+            if (err) {
+                console.log(err);
+            }
+        });
     })
     .controller('GridViewCtrl', function ($scope, $stateParams, MyServices, $ionicNavBarDelegate) {
         $scope.params = $stateParams;
@@ -573,7 +611,8 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         MyServices.findVendorByCategory($scope.params, function (data) {
             if (data) {
                 $scope.vendors = data;
-                $scope.vendors = _.chunk($scope.vendors, 3);
+                if ($scope.vendors.length > 0)
+                    $scope.vendors = _.chunk($scope.vendors, 3);
                 console.log($scope.vendors);
             }
         }, function (err) {
