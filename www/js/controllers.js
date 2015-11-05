@@ -493,8 +493,31 @@ angular.module('starter.controllers', ['ui.bootstrap'])
     }];
 
     })
-    .controller('RedeemCtrl', function ($scope, $stateParams, $ionicModal, $timeout, $ionicPopup, $location) {
+    .controller('RedeemCtrl', function ($scope, $stateParams, $ionicModal, $timeout, $ionicPopup, $location, MyServices) {
         $scope.readTNC = false;
+        $scope.params = $stateParams;
+    $scope.fixedinput=false;
+        MyServices.findVendor($scope.params, function (data) {
+            console.log(data);
+            if (data) {
+                $scope.vendor = data;
+                console.log($scope.vendor.input);
+                if($scope.vendor.input === "fixed"){
+                        $scope.fixedinput=true;
+                    console.log("here fixed");
+                }
+                else if($scope.vendor.input === "multiple")
+                        $scope.fixedinput=true;
+                else{
+                    
+                }
+
+            }
+        }, function (err) {
+            if (err) {
+                console.log(err);
+            }
+        });
         $scope.showAlert = function () {
             var alertPopup = $ionicPopup.alert({
                 title: 'Redeem Progress',
@@ -504,6 +527,8 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                 $location.path('app/wallet');
             });
         };
+    
+//   TERMS AND CONDITIONS MODAL FUNCTIONS
         $ionicModal.fromTemplateUrl('templates/tNc.html', {
             scope: $scope
         }).then(function (modal) {
@@ -520,6 +545,13 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         $scope.tNc = function () {
             $scope.modal.show();
         };
+//    MODAL END
+
+    $scope.quickMoney=[500,1000,1500];
+    $scope.AddMoney=function(){
+        
+    };
+        
     })
     .controller('ListViewCtrl', function ($scope, $stateParams) {
 
@@ -542,18 +574,13 @@ angular.module('starter.controllers', ['ui.bootstrap'])
             if (data) {
                 $scope.vendors = data;
                 $scope.vendors = _.chunk($scope.vendors, 3);
-                console.log($scope.vendors);    
+                console.log($scope.vendors);
             }
         }, function (err) {
             if (err) {
                 console.log(err);
             }
         });
-
-        //        console.log($scope.vendors);
-        //        if ($scope.vendors.length != 0) {
-        //            
-        //        }
         $scope.ecommerce = [
             {
                 company: 'Amazon',

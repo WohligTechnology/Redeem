@@ -57,7 +57,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
             }
         })
         .state('app.redeem', {
-            url: '/redeem',
+            url: '/redeem/:id',
             views: {
                 'menuContent': {
                     templateUrl: 'templates/redeem.html',

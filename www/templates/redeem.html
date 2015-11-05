@@ -1,4 +1,9 @@
-<ion-view view-title="Amazon">
+<ion-view>
+    <ion-nav-title>
+        <h1 class="title">
+           {{vendor.name}}
+       </h1>
+    </ion-nav-title>
     <ion-content>
         <div class="banner-holder">
             <img class="full-image" src="img/banners/amazon.png" alt="">
@@ -13,17 +18,12 @@
 -->
         <label class="item item-input enter-amount-input">
             <span class="input-label">₹</span>
-            <input type="number" placeholder="Enter amount">
+            <input type="number" placeholder="Enter amount" ng-model="user.amount" ng-disabled="fixedinput">
         </label>
         <div class="row no-padding">
-            <div class="col no-padding">
-                <button class="button no-margin button-clear button-assertive button-block">+ ₹ 500</button>
-            </div>
-            <div class="col no-padding">
-                <button class="button no-margin button-clear button-assertive button-block">+ ₹ 1000</button>
-            </div>
-            <div class="col no-padding">
-                <button no-paddingutton class="button no-margin button-clear button-assertive button-block">+ ₹ 1500</button>
+            <div class="col no-padding" ng-repeat="item in quickMoney">
+                <button class="button no-margin button-clear button-assertive button-block" ng-click="AddMoney()" style="
+    font-size: 15px !important;">+ {{item}}</button>
             </div>
         </div>
         <div class="padding">

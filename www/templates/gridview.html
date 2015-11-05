@@ -10,7 +10,7 @@
        </h1>
         <div class="category-container">
             <div class="row" ng-repeat="row in vendors" ng-if="vendors.length!=0">
-                <a href="#/app/redeem" style="text-decoration:none;color: black;" class="col-33 padding animated pulse" ng-repeat="item in row" ng-if="item.status">
+                <a href="#/app/redeem/{{item._id}}" style="text-decoration:none;color: black;" class="col-33 padding animated pulse" ng-repeat="item in row" ng-if="item.status" >
                     <div class="img-holder">
                         <img class="category-image" src="img/categories/vendors.png" alt="">
                     </div>
