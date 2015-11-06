@@ -606,3 +606,14 @@ $font-size-list:13px;
         }
     }
 }
+.brdr-danger{
+        border: 2px solid #D43E3E;
+}
+.redeem{
+    .col+.col{
+        border-left: 1px solid #ddd;
+    }
+    .col{
+        border-bottom: 1px solid #ddd;
+    }
+}

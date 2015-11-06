@@ -514,19 +514,23 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         $scope.params = $stateParams;
         $scope.fixedinput = false;
         $scope.vendor = [];
+        $scope.crossedLimit = false;
         MyServices.findVendor($scope.params, function (data) {
             console.log(data);
             if (data) {
                 $scope.vendor = data;
-                if ($scope.vendor.input === "fixed") {
-                    $scope.fixedinput = true;
-                } else if ($scope.vendor.input === "multiple") {
-                    $scope.fixedinput = true;
+                if ($scope.vendor.length != 0) {
+                    $scope.empty = false;
+                    $scope.placeholdertext = "Enter Amount";
+                    if ($scope.vendor.input === "fixed" || $scope.vendor.input === "multiple") {
+                        $scope.fixedinput = true;
+                        $scope.placeholdertext = "Select amount";
+                    } else {
+                        $scope.fixedinput = false;
+                        $scope.placeholdertext = "Enter amount";
+                    }
                 } else {
-                    $scope.user={
-                        amount:0
-                    };
-                    $scope.fixedinput = false;
+                    $scope.empty = true;
                 }
             }
         }, function (err) {
@@ -536,13 +540,15 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         });
         $scope.isInLimit = function (value) {
             console.log(value + " " + $scope.vendor.amountlimit);
-            if (limit === undefined)
-                return true;
+            if ($scope.vendor.amountlimit === undefined)
+                $scope.crossedLimit = false;
+
             else
             if (value > $scope.vendor.amountlimit)
-                return false;
+                $scope.crossedLimit = true;
             else
-                return true;
+                $scope.crossedLimit = false;
+
         }
         $scope.showAlert = function () {
             var alertPopup = $ionicPopup.alert({

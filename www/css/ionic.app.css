@@ -467,6 +467,15 @@ $dark:                            #444 !default;
         margin: 0px;
         font-weight: 300; }
 
+.brdr-danger {
+  border: 2px solid #D43E3E; }
+
+.redeem .col + .col {
+  border-left: 1px solid #ddd; }
+
+.redeem .col {
+  border-bottom: 1px solid #ddd; }
+
 /*!
   Ionicons, v2.0.1
   Created by Ben Sperry for the Ionic Framework, http://ionicons.com/

@@ -5,22 +5,30 @@
        </h1>
     </ion-nav-title>
     <ion-content>
-        <div class="banner-holder">
-            <img class="full-image" src="img/banners/amazon.png" alt="">
-        </div>
-        <label class="item item-input enter-amount-input">
-            <span class="input-label">₹</span>
-            <input type="number" placeholder="Amount" ng-model="user.amount" ng-change="isInLimit(user.amount)" ng-disabled="fixedinput">
-        </label>
-        <div class="row no-padding">
-            <div class="col no-padding" ng-repeat="item in vendor.amountselect">
-                <button class="button no-margin button-clear button-assertive button-block" ng-click="AddMoney()" style="
-    font-size: 15px !important;">+ {{item}}</button>
+        <div class="redeem">
+            <div class="banner-holder">
+                <img class="full-image" src="img/banners/amazon.png" alt="">
             </div>
+            <label class="item item-input enter-amount-input" ng-class="{'brdr-danger':crossedLimit}">
+                <span class="input-label">₹</span>
+                <input type="number" placeholder="{{placeholdertext}}" ng-model="user.amount" ng-change="isInLimit(user.amount)" ng-disabled="fixedinput">
+            </label>
+            <div class="row no-padding">
+                <div class="col no-padding" ng-repeat="item in vendor.amountselect">
+                    <button class="button no-margin button-clear button-assertive button-block" ng-click="AddMoney()" style="
+    font-size: 16px !important;">₹ {{item}}</button>
+                </div>
+            </div>
+            <div class="item-note padding" ng-hide="fixedinput">
+                <span>Redeem limit : {{vendor.amountlimit}}</span>
+            </div>
+            <div class="padding">
+                <button class="button button-block button-assertive no-margin" ng-click="showAlert()">REDEEM</button>
+            </div>
+            <ion-item class="tnc" ng-click="tNc();">
+                Terms & conditions
+                <i class="icon" ng-class="{'ln-clipboard-check':readTNC,'ln-chevron-right':!readTNC}"></i>
+            </ion-item>
         </div>
-        <div class="padding">
-            <button class="button button-block button-assertive" ng-click="showAlert()">REDEEM</button>
-        </div>
-        <ion-item class="tnc" ng-click="tNc();">Terms & conditions <i class="icon" ng-class="{'ln-clipboard-check':readTNC,'ln-chevron-right':!readTNC}"></i></ion-item>
     </ion-content>
 </ion-view>
