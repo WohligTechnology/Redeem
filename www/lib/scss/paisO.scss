@@ -3,6 +3,7 @@ $positive: #FFDF00 !default;
 $success: #4F8A10 !default;
 $failed: #D8000C !default;
 $dark-secondary: #f1f3f4 !important;
+$danger: #D43E3E;
 $font-family-sans-serif:"Lato",
 "Helvetica Neue",
 "Roboto",
@@ -630,8 +631,8 @@ $font-size-list:13px;
 }
 
 .brdr-danger {
-    border-bottom: 2px solid #D43E3E !important;
-    border-top: 2px solid #D43E3E !important;
+    border-bottom: 2px solid $danger !important;
+    border-top: 2px solid $danger !important;
     margin-bottom: -3px !important;
     margin-top: -2px !important;
 }
@@ -660,4 +661,7 @@ $font-size-list:13px;
     input[type="color"] {
         padding-left: 5px;
     }
+}
+.red-color{
+    color: $danger;
 }

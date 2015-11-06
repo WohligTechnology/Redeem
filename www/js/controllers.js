@@ -515,6 +515,9 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         $scope.fixedinput = false;
         $scope.vendor = [];
         $scope.crossedLimit = false;
+        $scope.user = {
+            amount: undefined
+        };
         MyServices.findVendor($scope.params, function (data) {
             console.log(data);
             if (data) {
@@ -541,22 +544,11 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         $scope.isInLimit = function (value) {
             if ($scope.vendor.amountlimit === undefined)
                 $scope.crossedLimit = false;
-
             else
             if (value > $scope.vendor.amountlimit)
                 $scope.crossedLimit = true;
             else
                 $scope.crossedLimit = false;
-
-        }
-        $scope.showAlert = function () {
-            var alertPopup = $ionicPopup.alert({
-                title: 'Redeem Progress',
-                template: '<div style="text-align: center;"><img src="img/pending.png" style="width: 25%;"></div><h5 style="text-align: center;margin-bottom:0">Request pending approval</h5>'
-            });
-            alertPopup.then(function (res) {
-                $location.path('app/wallet');
-            });
         };
 
         //   TERMS AND CONDITIONS MODAL FUNCTIONS
@@ -579,8 +571,40 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         //    MODAL END
 
         //        $scope.quickMoney = [500, 1000, 1500];
-        $scope.AddMoney = function () {
-
+        $scope.AddMoney = function (buttonvalue) {
+            console.log(buttonvalue);
+            $scope.user.amount = buttonvalue;
+        };
+        $scope.addRedeemTransaction = function () {
+            if ($scope.user.amount === 0 || $scope.user.amount === undefined)
+                $scope.zeroAmount();
+            else
+                $scope.proceedAlert();
+        };
+        $scope.proceedAlert = function () {
+            var alertPopup = $ionicPopup.alert({
+                title: 'Redeem Progress',
+                template: '<div style="text-align: center;"><img src="img/pending.png" style="width: 25%;"></div><h5 style="text-align: center;margin-bottom:0">Request pending approval</h5>'
+            });
+            alertPopup.then(function (res) {
+                $location.path('app/wallet');
+            });
+        };
+        $scope.zeroBalance = function () {
+            var alertPopup = $ionicPopup.alert({
+                title: 'Warning',
+                template: '<div style="text-align: center;"><img src="img/pending.png" style="width: 25%;"></div><h5 style="text-align: center;margin-bottom:0">Request pending approval</h5>'
+            });
+            alertPopup.then(function (res) {
+                $location.path('app/wallet');
+            });
+        };
+        $scope.zeroAmount = function () {
+            var alertPopup = $ionicPopup.alert({
+                title: 'Invalid amount',
+                template: '<h5 style="text-align: center;margin-bottom:0">Please enter a valid amount.</h5>'
+            });
+            alertPopup.then(function (res) {});
         };
 
     })

@@ -519,6 +519,9 @@ $dark:                            #444 !default;
 .redeem input[type="color"] {
   padding-left: 5px; }
 
+.red-color {
+  color: #D43E3E; }
+
 /*!
   Ionicons, v2.0.1
   Created by Ben Sperry for the Ionic Framework, http://ionicons.com/
