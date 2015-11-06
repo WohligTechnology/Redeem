@@ -542,13 +542,18 @@ angular.module('starter.controllers', ['ui.bootstrap'])
             }
         });
         $scope.isInLimit = function (value) {
-            if ($scope.vendor.amountlimit === undefined)
+            if ($scope.vendor.amountlimit === undefined) {
                 $scope.crossedLimit = false;
-            else
-            if (value > $scope.vendor.amountlimit)
-                $scope.crossedLimit = true;
-            else
-                $scope.crossedLimit = false;
+                return true;
+            } else {
+                if (value > $scope.vendor.amountlimit) {
+                    $scope.crossedLimit = true;
+                    return true;
+                } else {
+                    $scope.crossedLimit = false;
+                    return false;
+                }
+            }
         };
 
         //   TERMS AND CONDITIONS MODAL FUNCTIONS
@@ -576,8 +581,10 @@ angular.module('starter.controllers', ['ui.bootstrap'])
             $scope.user.amount = buttonvalue;
         };
         $scope.addRedeemTransaction = function () {
-            if ($scope.user.amount === 0 || $scope.user.amount === undefined)
+            if ($scope.user.amount === null || $scope.user.amount === 0 || $scope.user.amount === undefined)
                 $scope.zeroAmount();
+            else if ($scope.vendor.amountlimit != undefined && $scope.isInLimit($scope.user.amount, $scope.vendor.amountlimit))
+                $scope.exceedingLimit();
             else
                 $scope.proceedAlert();
         };
@@ -603,6 +610,13 @@ angular.module('starter.controllers', ['ui.bootstrap'])
             var alertPopup = $ionicPopup.alert({
                 title: 'Invalid amount',
                 template: '<h5 style="text-align: center;margin-bottom:0">Please enter a valid amount.</h5>'
+            });
+            alertPopup.then(function (res) {});
+        };
+        $scope.exceedingLimit = function () {
+            var alertPopup = $ionicPopup.alert({
+                title: 'Exceeding Limit',
+                template: '<h5 style="text-align: center;margin-bottom:0">The amount redeem limit is ' + $scope.vendor.amountlimit + '.</h5>'
             });
             alertPopup.then(function (res) {});
         };
