@@ -64,6 +64,10 @@ $font-size-list:13px;
     border: 0 !important;
 }
 
+.no-border-bottom {
+    border-bottom: 0 !important;
+}
+
 .menuitem {
     .item-content {
         background-color: $dark-secondary !important;
@@ -313,14 +317,32 @@ $font-size-list:13px;
         width: 0%;
         font-size: 16px;
     }
+    .item-input input {
+        margin-right: 10px;
+    }
+    textarea,
+    input[type="text"],
+    input[type="password"],
+    input[type="datetime"],
+    input[type="datetime-local"],
+    input[type="date"],
+    input[type="month"],
+    input[type="time"],
+    input[type="week"],
+    input[type="number"],
+    input[type="email"],
+    input[type="url"],
+    input[type="search"],
+    input[type="tel"],
+    input[type="color"] {
+        padding-left: 5px;
+    }
 }
 
 .border-left-failed {
     border-right: 8px $failed solid !important;
     border-top-right-radius: 7px;
     border-bottom-right-radius: 7px;
-    //    margin-left: 5px !important;
-    //    padding-left: 15px !important;
     p {
         right: 5px !important;
     }
@@ -606,14 +628,36 @@ $font-size-list:13px;
         }
     }
 }
-.brdr-danger{
-        border: 2px solid #D43E3E;
+
+.brdr-danger {
+    border-bottom: 2px solid #D43E3E !important;
+    border-top: 2px solid #D43E3E !important;
+    margin-bottom: -3px !important;
+    margin-top: -2px !important;
 }
-.redeem{
-    .col+.col{
+
+.redeem {
+    .col+.col {
         border-left: 1px solid #ddd;
     }
-    .col{
-        border-bottom: 1px solid #ddd;
+    .item-input input {
+        margin-right: 10px;
+    }
+    textarea,
+    input[type="text"],
+    input[type="password"],
+    input[type="datetime"],
+    input[type="datetime-local"],
+    input[type="date"],
+    input[type="month"],
+    input[type="time"],
+    input[type="week"],
+    input[type="number"],
+    input[type="email"],
+    input[type="url"],
+    input[type="search"],
+    input[type="tel"],
+    input[type="color"] {
+        padding-left: 5px;
     }
 }

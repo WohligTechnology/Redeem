@@ -39,6 +39,9 @@ $dark:                            #444 !default;
 .no-border {
   border: 0 !important; }
 
+.no-border-bottom {
+  border-bottom: 0 !important; }
+
 .menuitem .item-content {
   background-color: #f1f3f4 !important !important; }
 
@@ -225,6 +228,26 @@ $dark:                            #444 !default;
 .enter-amount-input span.input-label {
   width: 0%;
   font-size: 16px; }
+
+.enter-amount-input .item-input input {
+  margin-right: 10px; }
+
+.enter-amount-input textarea,
+.enter-amount-input input[type="text"],
+.enter-amount-input input[type="password"],
+.enter-amount-input input[type="datetime"],
+.enter-amount-input input[type="datetime-local"],
+.enter-amount-input input[type="date"],
+.enter-amount-input input[type="month"],
+.enter-amount-input input[type="time"],
+.enter-amount-input input[type="week"],
+.enter-amount-input input[type="number"],
+.enter-amount-input input[type="email"],
+.enter-amount-input input[type="url"],
+.enter-amount-input input[type="search"],
+.enter-amount-input input[type="tel"],
+.enter-amount-input input[type="color"] {
+  padding-left: 5px; }
 
 .border-left-failed {
   border-right: 8px #D8000C solid !important;
@@ -468,13 +491,33 @@ $dark:                            #444 !default;
         font-weight: 300; }
 
 .brdr-danger {
-  border: 2px solid #D43E3E; }
+  border-bottom: 2px solid #D43E3E !important;
+  border-top: 2px solid #D43E3E !important;
+  margin-bottom: -3px !important;
+  margin-top: -2px !important; }
 
 .redeem .col + .col {
   border-left: 1px solid #ddd; }
 
-.redeem .col {
-  border-bottom: 1px solid #ddd; }
+.redeem .item-input input {
+  margin-right: 10px; }
+
+.redeem textarea,
+.redeem input[type="text"],
+.redeem input[type="password"],
+.redeem input[type="datetime"],
+.redeem input[type="datetime-local"],
+.redeem input[type="date"],
+.redeem input[type="month"],
+.redeem input[type="time"],
+.redeem input[type="week"],
+.redeem input[type="number"],
+.redeem input[type="email"],
+.redeem input[type="url"],
+.redeem input[type="search"],
+.redeem input[type="tel"],
+.redeem input[type="color"] {
+  padding-left: 5px; }
 
 /*!
   Ionicons, v2.0.1

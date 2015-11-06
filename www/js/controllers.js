@@ -539,7 +539,6 @@ angular.module('starter.controllers', ['ui.bootstrap'])
             }
         });
         $scope.isInLimit = function (value) {
-            console.log(value + " " + $scope.vendor.amountlimit);
             if ($scope.vendor.amountlimit === undefined)
                 $scope.crossedLimit = false;
 

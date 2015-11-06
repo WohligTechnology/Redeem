@@ -9,7 +9,7 @@
             <div class="banner-holder">
                 <img class="full-image" src="img/banners/amazon.png" alt="">
             </div>
-            <label class="item item-input enter-amount-input" ng-class="{'brdr-danger':crossedLimit}">
+            <label class="item item-input enter-amount-input padding" ng-class="{'brdr-danger':crossedLimit,'no-border-bottom':!crossedLimit}">
                 <span class="input-label">₹</span>
                 <input type="number" placeholder="{{placeholdertext}}" ng-model="user.amount" ng-change="isInLimit(user.amount)" ng-disabled="fixedinput">
             </label>
@@ -25,7 +25,7 @@
             <div class="padding">
                 <button class="button button-block button-assertive no-margin" ng-click="showAlert()">REDEEM</button>
             </div>
-            <ion-item class="tnc" ng-click="tNc();">
+            <ion-item class="tnc" ng-click="tNc()">
                 Terms & conditions
                 <i class="icon" ng-class="{'ln-clipboard-check':readTNC,'ln-chevron-right':!readTNC}"></i>
             </ion-item>
