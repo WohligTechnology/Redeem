@@ -43,6 +43,20 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         $scope.modal1.show();
     };
 
+    $ionicModal.fromTemplateUrl('templates/upgradekyc.html', {
+        scope: $scope
+    }).then(function (modal) {
+        $scope.modal2 = modal;
+    });
+
+    $scope.closeUpgrade = function () {
+        $scope.modal2.hide();
+    };
+
+    $scope.upgrade = function () {
+        $scope.modal2.show();
+    };
+
     $scope.menu = [{
         title: 'Home',
         url: '#/app/home',
