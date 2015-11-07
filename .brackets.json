@@ -92,6 +92,8 @@
         "C:/xampp/htdocs/redeem/www/lib/angular/index.js",
         "C:/xampp/htdocs/redeem/www/lib/angular/angular.min.js",
         "C:/xampp/htdocs/redeem/www/lib/angular/angular.js",
-        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/debug/www/lib/platform/platform.js"
+        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/debug/www/lib/platform/platform.js",
+        "C:/xampp/htdocs/redeem/www/lib/js/jstorage.js",
+        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/debug/www/lib/ionic/js/ionic.bundle.min.js"
     ]
 }

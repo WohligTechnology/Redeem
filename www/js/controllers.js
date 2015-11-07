@@ -44,39 +44,33 @@ angular.module('starter.controllers', ['ui.bootstrap'])
     };
 
     $scope.menu = [{
-            title: 'Home',
-            url: '#/app/home',
-            state: true
+        title: 'Home',
+        url: '#/app/home',
+        state: true
     }, {
-            title: 'Wallet',
-            url: '#/app/wallet',
-            state: false
+        title: 'Wallet',
+        url: '#/app/wallet',
+        state: false
     }, {
-            title: 'Send Money',
-            url: '#/app/sendmoney',
-            state: false
+        title: 'Send Money',
+        url: '#/app/sendmoney',
+        state: false
     }, {
-            title: 'Passbook',
-            url: '#/app/passbook',
-            state: false
-    },
-//                   {
-//        title: 'Spend History',
-//        url: '#/app/spendhistory',
-//        state: false
-//    }, 
-        {
-            title: 'Referral',
-            url: '#/app/referral',
-            state: false
+        title: 'Passbook',
+        url: '#/app/passbook',
+        state: false
     }, {
-            title: 'About Us',
-            url: '#/app/aboutus',
-            state: false
+        title: 'Referral',
+        url: '#/app/referral',
+        state: false
     }, {
-            title: 'Logout',
-            url: '#/login',
-            state: false
+        title: 'About Us',
+        url: '#/app/aboutus',
+        state: false
+    }, {
+        title: 'Logout',
+        url: '#/login',
+        state: false
     }];
     $scope.activateMenu = function (index) {
         console.log(index);
@@ -120,8 +114,8 @@ angular.module('starter.controllers', ['ui.bootstrap'])
 
 .controller('LoginCtrl', function ($scope, $stateParams, $location, MyServices, $ionicScrollDelegate) {
     $scope.focus = [];
-    $scope.isFocused =function(index){
-        $scope.focus[index]=true;
+    $scope.isFocused = function (index) {
+        $scope.focus[index] = true;
     }
     $scope.user = {};
     $scope.signup = {};
@@ -163,7 +157,6 @@ angular.module('starter.controllers', ['ui.bootstrap'])
     };
     $scope.doSignup = function () {
         console.log($scope.signup);
-
         MyServices.signupUser($scope.signup, function (data) {
             if (data)
                 console.log(data);
@@ -178,10 +171,24 @@ angular.module('starter.controllers', ['ui.bootstrap'])
 
 })
 
-.controller('HomeCtrl', function ($scope, $stateParams, MyServices, $location) {
+.controller('HomeCtrl', function ($scope, $stateParams, MyServices, $location, $ionicLoading, $timeout) {
         $scope.banners = []
         $scope.category = [];
+        $scope.show = function () {
+            $ionicLoading.show({
+                template: '<ion-spinner icon="crescent" class="spinner-assertive"></ion-spinner>'
+            });
+        };
+        $scope.hide = function () {
+
+            $ionicLoading.hide();
+        };
+        $scope.show();
+        $timeout(function () {
+            $scope.hide();
+        }, 3000);
         MyServices.findCategories(function (data) {
+
             if (data) {
                 $scope.category = data;
                 console.log(data);
@@ -193,6 +200,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
             }
         });
         MyServices.findBanner(function (data) {
+            $scope.hide();
             if (data) {
                 $scope.banners = data;
                 console.log($scope.banners);
@@ -449,8 +457,18 @@ angular.module('starter.controllers', ['ui.bootstrap'])
     }];
     })
     .controller('SendMoneyCtrl', function ($scope, $stateParams) {})
-    .controller('WalletCtrl', function ($scope, $stateParams, $ionicScrollDelegate) {
+    .controller('WalletCtrl', function ($scope, $stateParams, $ionicScrollDelegate, MyServices) {
         $scope.indicator = true;
+        if (MyServices.getUser()) {
+            $scope.user = MyServices.getUser();
+            console.log($scope.user);
+        }
+        $scope.walletBalance = 0;
+        if ($scope.user.balance === null || $scope.user.balance === undefined)
+            $scope.walletBalance = 0;
+        else
+            $scope.walletBalance = $scope.user.balance;
+    
         $scope.downIndicator = function () {
             $scope.indicator = true;
         };
@@ -517,8 +535,9 @@ angular.module('starter.controllers', ['ui.bootstrap'])
     }];
 
     })
-    .controller('RedeemCtrl', function ($scope, $stateParams, $ionicModal, $timeout, $ionicPopup, $location, MyServices) {
+    .controller('RedeemCtrl', function ($scope, $stateParams, $ionicModal, $timeout, $ionicPopup, $location, MyServices, $ionicLoading) {
         $scope.readTNC = false;
+
         $scope.params = $stateParams;
         $scope.fixedinput = false;
         $scope.vendor = [];
@@ -526,9 +545,23 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         $scope.user = {
             amount: undefined
         };
+        $scope.show = function () {
+            $ionicLoading.show({
+                template: '<ion-spinner icon="crescent" class="spinner-assertive"></ion-spinner>'
+            });
+        };
+        $scope.hide = function () {
+
+            $ionicLoading.hide();
+        };
+        $scope.show();
+        $timeout(function () {
+            $scope.hide();
+        }, 3000);
         MyServices.findVendor($scope.params, function (data) {
             console.log(data);
             if (data) {
+                $scope.hide();
                 $scope.vendor = data;
                 if ($scope.vendor.length != 0) {
                     $scope.empty = false;
@@ -660,7 +693,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
 
         $scope.show = function () {
             $ionicLoading.show({
-                template: 'Loading...'
+                template: '<ion-spinner icon="crescent" class="spinner-assertive"></ion-spinner>'
             });
         };
         $scope.hide = function () {

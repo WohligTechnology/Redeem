@@ -4,12 +4,12 @@
             <div class="wallet-holder">
                 <div class="wallet-balance">
                     <h3>Wallet Balance</h3>
-                    <h2>₹ 2640/-</h2>
+                    <h2>₹ {{walletBalance}}/-</h2>
                 </div>
                 <img src="img/walletlock.png" alt="">
             </div>
 
-            <label class="item item-input enter-amount-input">
+            <label class="item item-input enter-amount-input no-border">
                 <span class="input-label">₹</span>
                 <input type="number" placeholder="Enter amount">
             </label>
@@ -27,16 +27,17 @@
             <h1 class="wallet-txt">
                 Get 10% more every time you add balance!
             </h1>
-            <div class="spacer-small"></div>
-            <div class="spacer-small"></div>
+            <div class="separator"></div>
+            <div class="money-limit-upgrade">
+                <h1 class="limit-txt">
+                  Your monthly limit is 10,000
+               </h1>
+                <button class="button no-margin button-clear button-assertive button-block" ng-click="AddMoney(item)" style="font-size: 15px !important;">Upgrade your limit to 1,00,000</button>
+            </div>
+            <div class="separator"></div>
             <div class="pending-header">
                 <h4>Requests pending approval</h4>
             </div>
-
-        </div>
-    </ion-content>
-    <div class="custom-scroll" on-drag-up="upIndicator()" on-drag-down="downIndicator()">
-        <ion-scroll direction="y">
             <ion-list>
                 <ion-item class="pending-item" ng-repeat="item in pendings">
                     <h4>{{item.date}}</h4>
@@ -47,9 +48,9 @@
     right: 10px;">₹ {{item.price}}</p>
                 </ion-item>
             </ion-list>
-        </ion-scroll>
-        <div class="scroll-indicate" style="display:none;">
-            <i class="icon" ng-class="{'ln-chevron-down':indicator,'ln-chevron-up':!indicator}" style="font-size: 17px; color:#909090"></i>
+
         </div>
-    </div>
+        </div>
+    </ion-content>
+
 </ion-view>

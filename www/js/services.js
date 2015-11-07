@@ -65,7 +65,6 @@ angular.module('starter.services', [])
                 }
             }).success(callback).error(err);
         },
-        
         setNotify: function (data) {
             $.jStorage.set("notify", data);
         },
