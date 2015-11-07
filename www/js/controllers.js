@@ -29,33 +29,20 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         $scope.modal.show();
     };
 
-    // Create the login modal that we will use later
     $ionicModal.fromTemplateUrl('templates/balance-history.html', {
         scope: $scope
     }).then(function (modal) {
         $scope.modal1 = modal;
     });
 
-    // Triggered in the login modal to close it
     $scope.closeHistory = function () {
         $scope.modal1.hide();
     };
 
-    // Open the login modal
     $scope.history = function () {
         $scope.modal1.show();
     };
 
-    // Perform the login action when the user submits the login form
-    $scope.doLogin = function () {
-        console.log('Doing login', $scope.loginData);
-
-        // Simulate a login delay. Remove this and replace with your login
-        // code if using a login system
-        $timeout(function () {
-            $scope.closeLogin();
-        }, 1000);
-    };
     $scope.menu = [{
             title: 'Home',
             url: '#/app/home',
@@ -131,9 +118,13 @@ angular.module('starter.controllers', ['ui.bootstrap'])
   ];
 })
 
-.controller('LoginCtrl', function ($scope, $stateParams, $location, MyServices) {
-
+.controller('LoginCtrl', function ($scope, $stateParams, $location, MyServices, $ionicScrollDelegate) {
+    $scope.focus = [];
+    $scope.isFocused =function(index){
+        $scope.focus[index]=true;
+    }
     $scope.user = {};
+    $scope.signup = {};
     $scope.activate = true;
     $scope.tab = {
         left: true,
@@ -141,7 +132,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
     }
     $scope.highlight = false;
     $scope.clickTab = function (side) {
-        //            $ionicScrollDelegate.scrollTop();
+        $ionicScrollDelegate.scrollTop();
         if (side === "left") {
             $scope.tab.left = true;
             $scope.tab.right = false;
@@ -155,6 +146,13 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         console.log($scope.user);
         MyServices.loginUser($scope.user, function (data) {
             if (data) {
+                if (data.value === false) {
+                    console.log("invalid data");
+                } else {
+                    MyServices.setUser(data);
+                    $location.path('app/home');
+                }
+
                 console.log(data);
             }
         }, function (err) {
@@ -162,8 +160,18 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                 console.log(err);
             }
         });
+    };
+    $scope.doSignup = function () {
+        console.log($scope.signup);
 
-        console.log("herer");
+        MyServices.signupUser($scope.signup, function (data) {
+            if (data)
+                console.log(data);
+        }, function (err) {
+            if (err)
+                console.log(data);
+        });
+        console.log("signup");
         $location.path('app/home');
     };
 
@@ -256,7 +264,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
             }, 1000);
         };
     })
-    .controller('AboutUsCtrl', function ($scope, $stateParams) {
+    .controller('AboutUsCtrl', function ($scope, $stateParams, $ionicScrollDelegate) {
         $scope.oneAtATime = true;
         $scope.activate = true;
         $scope.tab = {
@@ -265,7 +273,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         }
         $scope.highlight = false;
         $scope.clickTab = function (side) {
-            //            $ionicScrollDelegate.scrollTop();
+            $ionicScrollDelegate.scrollTop();
             if (side === "left") {
                 $scope.tab.left = true;
                 $scope.tab.right = false;
@@ -295,7 +303,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
 
         }
         $scope.clickTab = function (side) {
-            //            $ionicScrollDelegate.scrollTop();
+            $ionicScrollDelegate.scrollTop();
             if (side === "left") {
                 $scope.tab.left = true;
                 $scope.tab.right = false;
@@ -647,9 +655,22 @@ angular.module('starter.controllers', ['ui.bootstrap'])
             }
         });
     })
-    .controller('GridViewCtrl', function ($scope, $stateParams, MyServices, $ionicNavBarDelegate) {
+    .controller('GridViewCtrl', function ($scope, $stateParams, MyServices, $ionicNavBarDelegate, $ionicLoading, $timeout) {
         $scope.params = $stateParams;
 
+        $scope.show = function () {
+            $ionicLoading.show({
+                template: 'Loading...'
+            });
+        };
+        $scope.hide = function () {
+
+            $ionicLoading.hide();
+        };
+        $scope.show();
+        $timeout(function () {
+            $scope.hide();
+        }, 3000);
         MyServices.findCategory($scope.params, function (data) {
             console.log(data);
             if (data) {
@@ -662,6 +683,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         });
         $scope.vendors = [];
         MyServices.findVendorByCategory($scope.params, function (data) {
+            $scope.hide();
             if (data) {
                 $scope.vendors = data;
                 if ($scope.vendors.length > 0)

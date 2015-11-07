@@ -1,4 +1,4 @@
-var adminurl = "http://192.168.0.106:1337/";
+var adminurl = "http://192.168.0.108:1337/";
 //var adminurl = "http://wohlig.in:81/";
 //var adminurl = "http://130.211.164.146:81/";
 //var adminurl = "http://localhost:1337/";
@@ -14,9 +14,16 @@ angular.module('starter.services', [])
                 url: adminurl + 'user/login',
                 method: 'POST',
                 data: {
-                    "username": userData.username,
+                    "mobile": userData.mobile,
                     "password": userData.password
                 }
+            }).success(callback).error(err);
+        },
+        signupUser: function (signupData, callback, err) {
+            $http({
+                url: adminurl + 'user/save',
+                method: 'POST',
+                data: signupData
             }).success(callback).error(err);
         },
         findCategories: function (callback, err) {

@@ -22,34 +22,46 @@
                     <div class="list">
                         <label class="item item-input">
                             <span class="input-label">+91</span>
-                            <input type="tel" placeholder="Phone Number" ng-model="user.contact">
+                            <input type="number" placeholder="Phone Number" ng-model="user.mobile">
                         </label>
                         <label class="item item-input">
                             <input type="password" placeholder="Password" ng-model="user.password">
                         </label>
                     </div>
                 </form>
-                <form ng-submit="doLogin()" ng-show="tab.right">
+                <form ng-show="tab.right">
                     <div class="list">
-                        <label class="item item-input">
-                            <input type="text" placeholder="Name">
+                        <label class="item item-input label-tag" ng-class="{'brdr-yellow':required}">
+                            <input type="text" ng-focus="isFocused(0)" ng-model="signup.name" placeholder="Name">
+                            <span ng-show="focus[0]">Name</span>
                         </label>
-                        <label class="item item-input">
-                            <input type="tel" placeholder="Phone number">
+
+                        <label class="item item-input label-tag">
+                            <input type="tel" ng-focus="isFocused(1)" ng-model="signup.mobile" placeholder="Phone number">
+                            <span ng-show="focus[1]">Phone number</span>
+
                         </label>
-                           <label class="item item-input">
-                            <input type="email" placeholder="Email">
+                        <label class="item item-input label-tag">
+                            <input type="email" ng-focus="isFocused(2)" ng-model="signup.email" placeholder="Email">
+                            <span ng-show="focus[2]">Email</span>
+
                         </label>
-                        <label class="item item-input">
-                            <input type="password" placeholder="Password">
+                        <label class="item item-input label-tag">
+                            <input type="password" ng-focus="isFocused(3)" ng-model="signup.password" placeholder="Password">
+                            <span ng-show="focus[3]">Password</span>
+
                         </label>
-                        <label class="item item-input">
-                            <input type="password" placeholder="Confirm password">
+                        <label class="item item-input label-tag">
+                            <input type="password" ng-focus="isFocused(4)" ng-model="signup.confirmpassword" placeholder="Confirm password">
+                            <span ng-show="focus[4]">Confirm password</span>
+
                         </label>
-                        <label class="item item-input">
-                            <input type="text" placeholder="Promo code (If any)">
+                        <label class="item item-input label-tag">
+                            <input type="text" ng-focus="isFocused(5)" ng-model="signup.promo" placeholder="Promo code (If any)">
+                            <span ng-show="focus[5]">Promo code</span>
+
                         </label>
-                        
+
                     </div>
                 </form>
             </div>
@@ -60,6 +72,6 @@
         <button class="button button-clear button-block no-margin" style="color:#000" ng-click="doLogin()">Log In</button>
     </ion-footer-bar>
     <ion-footer-bar align-title="left" class="bar-assertive" ng-show="tab.right">
-        <button class="button button-clear button-block no-margin" style="color:#000" ng-click="doLogin()">Sign Up</button>
+        <button class="button button-clear button-block no-margin" style="color:#000" ng-click="doSignup()">Sign Up</button>
     </ion-footer-bar>
 </ion-view>
