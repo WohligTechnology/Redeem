@@ -33,6 +33,13 @@ angular.module('starter.services', [])
                 data: userData
             }).success(callback).error(err);
         },
+        addTransaction: function (transactionData, callback, err) {
+            $http({
+                url: adminurl + 'transaction/save',
+                method: 'POST',
+                data: transactionData
+            }).success(callback).error(err);
+        },
         findCategories: function (callback, err) {
             $http({
                 url: adminurl + 'category/find',

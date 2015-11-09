@@ -83,14 +83,13 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         console.log($scope.menu[index]);
     };
     $scope.refreshUser = function () {
-
         if (MyServices.getUser()) {
             $scope.user = MyServices.getUser();
             console.log($scope.user);
         }
     };
 
-    //common update user function
+    //    GLOBAL update user function
 
     $scope.updateUser = function (user) {
         $scope.flag = undefined;
@@ -109,6 +108,9 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         else
             return true;
     };
+
+    //    GLOBAL addTransaction updateTransaction function
+
     $scope.addTransaction = function (transaction) {
         $scope.flag = undefined;
         MyServices.addTransaction(transaction, function (data2) {
@@ -548,15 +550,14 @@ angular.module('starter.controllers', ['ui.bootstrap'])
 
                 }
             });
-
         };
         $scope.addMoney = function () {
+            $scope.transaction = {};
             $scope.refreshUser();
-            console.log($scope.wallet.amount);
             if ($scope.wallet.amount === 0 || $scope.wallet.amount === undefined || $scope.wallet.amount === null) {
-                $scope.alertUser("Invalid Amount", "cannot add Rs. 0 to wallet.");
+                $scope.alertUser("Invalid Amount", "can not add Rs. 0 to wallet.");
             } else if ($scope.wallet.amount < 0) {
-                $scope.alertUser("Invalid Amount", "Amount cannot be negative.");
+                $scope.alertUser("Invalid Amount", "Amount can not be negative.");
             } else if ($scope.wallet.amount > $scope.user.walletLimit) {
                 $scope.upgradeAlert();
             } else {
@@ -564,13 +565,22 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                 $scope.ctrlUser.balance = $scope.user.balance + $scope.wallet.amount;
                 console.log($scope.ctrlUser);
                 if ($scope.updateUser($scope.ctrlUser)) {
-                    $scope.user.balance = $scope.ctrlUser.balance;
-                    $scope.alertUser("Success", "Money added to your wallet.");
-                    MyServices.setUser($scope.user);
+                    $scope.transaction = {
+                        from: $scope.user._id,
+                        to: $scope.user._id,
+                        type: "balance",
+                        currentbalance: $scope.ctrlUser.balance
+                    };
+                    if ($scope.addTransaction($scope.transaction)) {
+                        $scope.user.balance = $scope.ctrlUser.balance;
+                        $scope.alertUser("Success", "Money added to your wallet.");
+                        MyServices.setUser($scope.user);
+                    } else {
+                        $scope.alertUser("Transaction status", "Failed");
+                    }
                 } else {
                     $scope.alertUser("Failed", "Failed");
                 }
-
             }
         };
         $scope.pendings = [{
