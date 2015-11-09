@@ -4,19 +4,19 @@
             <div class="wallet-holder">
                 <div class="wallet-balance">
                     <h3>Wallet Balance</h3>
-                    <h2>₹ {{walletBalance}}/-</h2>
+                    <h2>₹ {{user.balance }}/-</h2>
                 </div>
                 <img src="img/walletlock.png" alt="">
             </div>
 
             <label class="item item-input enter-amount-input no-border">
                 <span class="input-label">₹</span>
-                <input type="number" placeholder="Enter amount">
+                <input type="number" placeholder="Enter amount" ng-model="wallet.amount">
             </label>
             <div class="row btns-wallet no-padding">
 
                 <div class="col-80 padding-horizontal">
-                    <button class="button button-assertive button-block" style="color:black">ADD MONEY</button>
+                    <button class="button button-assertive button-block" ng-click="addMoney()" style="color:black">ADD MONEY</button>
                 </div>
                 <div class="col-20 padding-horizontal">
 

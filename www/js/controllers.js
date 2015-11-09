@@ -2,29 +2,16 @@ angular.module('starter.controllers', ['ui.bootstrap'])
 
 .controller('AppCtrl', function ($scope, $ionicModal, $timeout, MyServices) {
 
-    // With the new view caching in Ionic, Controllers are only called
-    // when they are recreated or on app start, instead of every page change.
-    // To listen for when this page is active (for example, to refresh data),
-    // listen for the $ionicView.enter event:
-    //$scope.$on('$ionicView.enter', function(e) {
-    //});
-
-    // Form data for the login modal
+    $scope.user = {};
     $scope.loginData = {};
-
-    // Create the login modal that we will use later
     $ionicModal.fromTemplateUrl('templates/login.html', {
         scope: $scope
     }).then(function (modal) {
         $scope.modal = modal;
     });
-
-    // Triggered in the login modal to close it
     $scope.closeLogin = function () {
         $scope.modal.hide();
     };
-
-    // Open the login modal
     $scope.login = function () {
         $scope.modal.show();
     };
@@ -94,6 +81,50 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         }
         $scope.menu[index].state = true;
         console.log($scope.menu[index]);
+    };
+    $scope.refreshUser = function () {
+
+        if (MyServices.getUser()) {
+            $scope.user = MyServices.getUser();
+            console.log($scope.user);
+        }
+    };
+
+    //common update user function
+
+    $scope.updateUser = function (user) {
+        $scope.flag = undefined;
+        MyServices.updateUser(user, function (data2) {
+            if (data2) {
+                console.log(data2);
+                if (data2.value === false)
+                    $scope.flag = false;
+                else
+                    $scope.flag = true;
+            }
+        }, function (err) {});
+        console.log($scope.flag);
+        if ($scope.flag === false)
+            return false;
+        else
+            return true;
+    };
+    $scope.addTransaction = function (transaction) {
+        $scope.flag = undefined;
+        MyServices.addTransaction(transaction, function (data2) {
+            if (data2) {
+                console.log(data2);
+                if (data2.value === false)
+                    $scope.flag = false;
+                else
+                    $scope.flag = true;
+            }
+        }, function (err) {});
+        console.log($scope.flag);
+        if ($scope.flag === false)
+            return false;
+        else
+            return true;
     };
 })
 
@@ -188,6 +219,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
 .controller('HomeCtrl', function ($scope, $stateParams, MyServices, $location, $ionicLoading, $timeout) {
         $scope.banners = []
         $scope.category = [];
+        $scope.refreshUser();
         $scope.show = function () {
             $ionicLoading.show({
                 template: '<ion-spinner icon="crescent" class="spinner-assertive"></ion-spinner>'
@@ -471,23 +503,75 @@ angular.module('starter.controllers', ['ui.bootstrap'])
     }];
     })
     .controller('SendMoneyCtrl', function ($scope, $stateParams) {})
-    .controller('WalletCtrl', function ($scope, $stateParams, $ionicScrollDelegate, MyServices) {
+    .controller('WalletCtrl', function ($scope, $stateParams, $ionicScrollDelegate, MyServices, $ionicPopup, $location) {
+        //Here $scope.user is a global varianble.
         $scope.indicator = true;
-        if (MyServices.getUser()) {
-            $scope.user = MyServices.getUser();
-            console.log($scope.user);
-        }
+        $scope.ctrlUser = {};
+        $scope.refreshUser();
+        $scope.wallet = {
+            amount: undefined
+        };
+        $scope.transaction = {};
+        console.log($scope.user);
         $scope.walletBalance = 0;
         if ($scope.user.balance === null || $scope.user.balance === undefined)
             $scope.walletBalance = 0;
         else
             $scope.walletBalance = $scope.user.balance;
-    
+
         $scope.downIndicator = function () {
             $scope.indicator = true;
         };
         $scope.upIndicator = function () {
             $scope.indicator = false;
+        };
+        $scope.alertUser = function (alertTitle,
+            alertDesc) {
+            var alertPopup = $ionicPopup.alert({
+                title: alertTitle,
+                template: '<h5 style="text-align: center;margin-bottom:0">' + alertDesc + '</h5>'
+            });
+            alertPopup.then(function (res) {
+                $location.path('app/wallet');
+            });
+
+        };
+        $scope.upgradeAlert = function () {
+            var confirmPopup = $ionicPopup.confirm({
+                title: 'Exceeding limit',
+                template: '<h5 style="text-align: center;margin-bottom:0">Amount exceeding monthly limit.<br>Do you want to upgrade KYC?</h5>'
+            });
+            confirmPopup.then(function (res) {
+                if (res) {
+                    $scope.upgrade();
+                } else {
+
+                }
+            });
+
+        };
+        $scope.addMoney = function () {
+            $scope.refreshUser();
+            console.log($scope.wallet.amount);
+            if ($scope.wallet.amount === 0 || $scope.wallet.amount === undefined || $scope.wallet.amount === null) {
+                $scope.alertUser("Invalid Amount", "cannot add Rs. 0 to wallet.");
+            } else if ($scope.wallet.amount < 0) {
+                $scope.alertUser("Invalid Amount", "Amount cannot be negative.");
+            } else if ($scope.wallet.amount > $scope.user.walletLimit) {
+                $scope.upgradeAlert();
+            } else {
+                $scope.ctrlUser._id = $scope.user._id;
+                $scope.ctrlUser.balance = $scope.user.balance + $scope.wallet.amount;
+                console.log($scope.ctrlUser);
+                if ($scope.updateUser($scope.ctrlUser)) {
+                    $scope.user.balance = $scope.ctrlUser.balance;
+                    $scope.alertUser("Success", "Money added to your wallet.");
+                    MyServices.setUser($scope.user);
+                } else {
+                    $scope.alertUser("Failed", "Failed");
+                }
+
+            }
         };
         $scope.pendings = [{
                 name: 'BookMyShow',
@@ -556,7 +640,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         $scope.fixedinput = false;
         $scope.vendor = [];
         $scope.crossedLimit = false;
-        $scope.user = {
+        $scope.redeem = {
             amount: undefined
         };
         $scope.show = function () {
@@ -633,12 +717,12 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         //        $scope.quickMoney = [500, 1000, 1500];
         $scope.AddMoney = function (buttonvalue) {
             console.log(buttonvalue);
-            $scope.user.amount = buttonvalue;
+            $scope.redeem.amount = buttonvalue;
         };
         $scope.addRedeemTransaction = function () {
-            if ($scope.user.amount === null || $scope.user.amount === 0 || $scope.user.amount === undefined)
+            if ($scope.redeem.amount === null || $scope.redeem.amount === 0 || $scope.redeem.amount === undefined)
                 $scope.zeroAmount();
-            else if ($scope.vendor.amountlimit != undefined && $scope.isInLimit($scope.user.amount, $scope.vendor.amountlimit))
+            else if ($scope.vendor.amountlimit != undefined && $scope.isInLimit($scope.redeem.amount, $scope.vendor.amountlimit))
                 $scope.exceedingLimit();
             else
                 $scope.proceedAlert();
@@ -742,27 +826,4 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                 console.log(err);
             }
         });
-        $scope.ecommerce = [
-            {
-                company: 'Amazon',
-                imgurl: 'img/categories/amazon.jpg'
-            }, {
-                company: 'Flipkart',
-                imgurl: 'img/categories/flipkart.png'
-            }, {
-                company: 'Jabong',
-                imgurl: 'img/categories/jabong-logo.jpg'
-            }, {
-                company: 'Myntra',
-                imgurl: 'img/categories/myntra.png'
-            }, {
-                company: 'Big Basket',
-                imgurl: 'img/categories/bigbasket.png'
-            }, {
-                company: 'Snapdeal',
-                imgurl: 'img/categories/snapdeal.png'
-            }
-    ];
-        $scope.ecommerce = _.chunk($scope.ecommerce, 3);
-
     });

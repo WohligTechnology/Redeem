@@ -26,6 +26,13 @@ angular.module('starter.services', [])
                 data: signupData
             }).success(callback).error(err);
         },
+        updateUser: function (userData, callback, err) {
+            $http({
+                url: adminurl + 'user/save',
+                method: 'POST',
+                data: userData
+            }).success(callback).error(err);
+        },
         findCategories: function (callback, err) {
             $http({
                 url: adminurl + 'category/find',
