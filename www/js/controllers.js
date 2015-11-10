@@ -513,6 +513,50 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         $scope.wallet = {
             amount: undefined
         };
+        $scope.monthlyRemaining = undefined;
+        $scope.inTheSameMonth = function (d) {
+            $scope.now = new Date();
+            $scope.nowMonth = $scope.now.getMonth() + 1;
+            $scope.checkMonth = d.getMonth() + 1;
+            if ($scope.checkMonth === $scope.nowMonth)
+                return true;
+            else
+                return false;
+        };
+        $scope.isRemaining = function () {
+            $scope.monthlyRemaining = null;
+            $scope.transactions = [];
+            $scope.today = new Date();
+            if ($scope.today.getDay() === 0) {
+                if ($scope.updatedKYC === true)
+                    $scope.user.amoutLimit = 100000;
+                else
+                    $scope.user.amountLimit = 10000;
+            }
+            $scope.transaction = {
+                type: "balance"
+            };
+            MyServices.findByType($scope.transaction, function (data) {
+                if (data) {
+                    $scope.transactions = data;
+                }
+            }, function (err) {
+
+            });
+
+            _.each($scope.transactions, function (trans) {
+                if (trans != null || trans != undefined)
+                    if (trans.from === trans.to) { // this means its an add money transaction
+                        if (inTheSameMonth(trans.timestamp)) {
+                            $scope.monthlyRemaining = $scope.monthlyRemaining + trams.amount;
+                        }
+                    }
+            });
+            if ($scope.monthlyRemaining) {
+
+            }
+        };
+        $scope.isRemaining();
         $scope.transaction = {};
         console.log($scope.user);
         $scope.walletBalance = 0;
@@ -536,7 +580,6 @@ angular.module('starter.controllers', ['ui.bootstrap'])
             alertPopup.then(function (res) {
                 $location.path('app/wallet');
             });
-
         };
         $scope.upgradeAlert = function () {
             var confirmPopup = $ionicPopup.confirm({
@@ -561,18 +604,23 @@ angular.module('starter.controllers', ['ui.bootstrap'])
             } else if ($scope.wallet.amount > $scope.user.walletLimit) {
                 $scope.upgradeAlert();
             } else {
-                $scope.ctrlUser._id = $scope.user._id;
-                $scope.ctrlUser.balance = $scope.user.balance + $scope.wallet.amount;
+                $scope.ctrlUser = {
+                    _id: $scope.user._id,
+                    balance: $scope.user.balance + $scope.wallet.amount,
+                    walletLimit: $scope.user.walletLimit - $scope.wallet.amount
+                }; //updates walletLimit,see isRemainging for more on walletLimit
                 console.log($scope.ctrlUser);
                 if ($scope.updateUser($scope.ctrlUser)) {
                     $scope.transaction = {
                         from: $scope.user._id,
                         to: $scope.user._id,
                         type: "balance",
-                        currentbalance: $scope.ctrlUser.balance
+                        currentbalance: $scope.ctrlUser.balance,
+                        amount: $scope.wallet.amount
                     };
                     if ($scope.addTransaction($scope.transaction)) {
                         $scope.user.balance = $scope.ctrlUser.balance;
+                        $scope.user.walletLimit = $scope.ctrlUser.walletLimit;
                         $scope.alertUser("Success", "Money added to your wallet.");
                         MyServices.setUser($scope.user);
                     } else {

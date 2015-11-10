@@ -1,4 +1,4 @@
-var adminurl = "http://192.168.0.108:1337/";
+var adminurl = "http://192.168.0.109:1337/";
 //var adminurl = "http://wohlig.in:81/";
 //var adminurl = "http://130.211.164.146:81/";
 //var adminurl = "http://localhost:1337/";
@@ -58,6 +58,15 @@ angular.module('starter.services', [])
                 method: 'POST',
                 data: {
                     "category": category.id
+                }
+            }).success(callback).error(err);
+        },
+        findByType: function (transactionType,callback, err) {
+            $http({
+                url: adminurl + 'transaction/findByType',
+                method: 'POST',
+                data: {
+                    "type": transactionType.type
                 }
             }).success(callback).error(err);
         },

@@ -1,32 +1,21 @@
 <ion-side-menus enable-menu-with-back-views="true">
-    <ion-side-menu-content >
+    <ion-side-menu-content>
         <ion-nav-bar class="bar-stable" align-title="center">
-<!--
-            <ion-nav-back-button>
-            </ion-nav-back-button>
--->
-
             <ion-nav-buttons side="left">
                 <button class="button button-icon button-clear ion-navicon" menu-toggle="left">
                 </button>
             </ion-nav-buttons>
-<!--
-            <ion-nav-buttons side="right">
-                <button class="button button-icon button-clear ion-ios-search">
-                </button>
-            </ion-nav-buttons>
--->
         </ion-nav-bar>
         <ion-nav-view name="menuContent"></ion-nav-view>
     </ion-side-menu-content>
 
-    <ion-side-menu side="left" width="24 0" class="sidemenu" >
+    <ion-side-menu side="left" width="240" class="sidemenu">
         <ion-content>
             <ion-list>
                 <ion-item class="item item-avatar menuitem no-border" menu-close href="#/app/search">
                     <img src="img/user.png" alt="">
-                    <p>Rohan Gada</p>
-                    <span>+919768254461</span>
+                    <p>{{user.name}}</p>
+                    <span>+91{{user.mobile}}</span>
                 </ion-item>
                 <ion-item class=" menuitem no-border" menu-close ng-repeat="menuitem in menu track by $index" ng-click="activateMenu($index)" href="{{menuitem.url}}" ng-class="{'active-menuitem': menuitem.state}">
                     <span>{{menuitem.title}}</span>
