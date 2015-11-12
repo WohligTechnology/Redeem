@@ -61,13 +61,10 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         state: false
     }];
     $scope.activateMenu = function (index) {
-        console.log(index);
         for (var i = 0; i < $scope.menu.length; i++) {
             $scope.menu[i].state = false;
-            console.log($scope.menu[i].state)
         }
         $scope.menu[index].state = true;
-        console.log($scope.menu[index]);
     };
     $scope.refreshUser = function () {
         if (MyServices.getUser()) {
@@ -94,6 +91,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
             return false;
         else
             return true;
+        return $scope.flag;
     };
 
     //    GLOBAL addTransaction updateTransaction function
@@ -129,34 +127,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
     };
 })
 
-.controller('PlaylistsCtrl', function ($scope) {
-    $scope.playlists = [
-        {
-            title: 'Reggae',
-            id: 1
-        },
-        {
-            title: 'Chill',
-            id: 2
-        },
-        {
-            title: 'Dubstep',
-            id: 3
-        },
-        {
-            title: 'Indie',
-            id: 4
-        },
-        {
-            title: 'Rap',
-            id: 5
-        },
-        {
-            title: 'Cowbell',
-            id: 6
-        }
-  ];
-})
+.controller('PlaylistsCtrl', function ($scope) {})
 
 .controller('LoginCtrl', function ($scope, $stateParams, $location, MyServices, $ionicScrollDelegate) {
     $scope.focus = [];
@@ -615,6 +586,8 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                 $scope.alertUser("Invalid Amount", "can not add Rs. 0 to wallet.", 'app/wallet');
             } else if ($scope.wallet.amount < 0) {
                 $scope.alertUser("Invalid Amount", "Amount can not be negative.", 'app/wallet');
+            } else if ($scope.user.walletLimit <= 0) {
+                $scope.alertUser("Monthly limit reached", "To add more money upgrade your KYC. The user is given a monthly limit of Rs.10000", 'app/wallet');
             } else if ($scope.wallet.amount > $scope.user.walletLimit) {
                 $scope.upgradeAlert();
             } else {
@@ -637,6 +610,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                         $scope.user.walletLimit = $scope.ctrlUser.walletLimit;
                         $scope.alertUser("Success", "Money added to your wallet.", 'app/wallet');
                         MyServices.setUser($scope.user);
+                        $scope.wallet.amount = undefined;
                     } else {
                         $scope.alertUser("Transaction status", "Failed", 'app/wallet');
                     }
@@ -813,7 +787,6 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                     };
                     if ($scope.addTransaction($scope.transaction)) {
                         $scope.user.balance = $scope.ctrlUser.balance;
-                        $scope.alertUser("Success", "Money added to your wallet.");
                         $scope.proceedAlert();
                     } else {
                         $scope.alertUser("Redeem Progress", "Redeeming amount FAILED");
