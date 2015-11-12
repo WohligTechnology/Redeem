@@ -6,5 +6,54 @@
         </div>
     </ion-header-bar>
     <ion-content>
+        <h1 class="category-header-txt">Upload Pan card</h1>
+        <div class="rel" style="position:relative">
+            <div class="button-upload-container">
+                <button class="button button button-icon icon ln-upload button-upload" ng-click="shareIt()">
+                </button>
+            </div>
+            <div class="item">
+                <h2>Pan card</h2>
+            </div>
+        </div>
+        <h1 class="category-header-txt">Upload either of the following</h1>
+        <ion-list class="upgrade-container">
+            <label class="item item-radio">
+                <input type="radio" name="group">
+                <div class="item-content">
+                    Passport
+                </div>
+                <i class="radio-icon ion-checkmark"></i>
+            </label>
+            <label class="item item-radio">
+                <input type="radio" name="group">
+                <div class="item-content">
+                    Driving license
+                </div>
+                <i class="radio-icon ion-checkmark"></i>
+            </label>
+            <label class="item item-radio">
+                <input type="radio" name="group">
+                <div class="item-content">
+                    Aadhar card
+                </div>
+                <i class="radio-icon ion-checkmark"></i>
+            </label>
+            <label class="item item-radio">
+                <input type="radio" name="group">
+                <div class="item-content">
+                    Voter ID
+                </div>
+                <i class="radio-icon ion-checkmark"></i>
+            </label>
+            <div class="button-upload-container">
+                <button class="button button button-icon icon ln-upload button-upload" ng-click="shareIt()">
+                </button>
+            </div>
+        </ion-list>
+        <div class="spacer-small"></div>
+        <div class="padding">
+            <button class="button button-assertive button-block" style="color:black" ng-click="upgradeIt()">submit</button>
+        </div>
     </ion-content>
 </ion-modal-view>

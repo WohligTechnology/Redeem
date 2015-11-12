@@ -1,6 +1,6 @@
 angular.module('starter.controllers', ['ui.bootstrap'])
 
-.controller('AppCtrl', function ($scope, $ionicModal, $timeout, MyServices) {
+.controller('AppCtrl', function ($scope, $ionicModal, $timeout, MyServices, $ionicPopup, $location) {
 
     $scope.user = {};
     $scope.loginData = {};
@@ -30,19 +30,6 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         $scope.modal1.show();
     };
 
-    $ionicModal.fromTemplateUrl('templates/upgradekyc.html', {
-        scope: $scope
-    }).then(function (modal) {
-        $scope.modal2 = modal;
-    });
-
-    $scope.closeUpgrade = function () {
-        $scope.modal2.hide();
-    };
-
-    $scope.upgrade = function () {
-        $scope.modal2.show();
-    };
 
     $scope.menu = [{
         title: 'Home',
@@ -128,6 +115,18 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         else
             return true;
     };
+
+    $scope.alertUser = function (alertTitle,
+        alertDesc, link) {
+        var alertPopup = $ionicPopup.alert({
+            title: alertTitle,
+            template: '<h5 style="text-align: center;margin-bottom:0">' + alertDesc + '</h5>'
+        });
+        alertPopup.then(function (res) {
+            if (link)
+                $location.path('app/wallet');
+        });
+    };
 })
 
 .controller('PlaylistsCtrl', function ($scope) {
@@ -201,6 +200,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                 console.log(err);
             }
         });
+        $location.path('app/home');
     };
     $scope.doSignup = function () {
         console.log($scope.signup);
@@ -505,7 +505,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
     }];
     })
     .controller('SendMoneyCtrl', function ($scope, $stateParams) {})
-    .controller('WalletCtrl', function ($scope, $stateParams, $ionicScrollDelegate, MyServices, $ionicPopup, $location) {
+    .controller('WalletCtrl', function ($scope, $stateParams, $ionicScrollDelegate, MyServices, $ionicPopup, $location, $ionicModal) {
         //Here $scope.user is a global varianble.
         $scope.indicator = true;
         $scope.ctrlUser = {};
@@ -557,6 +557,31 @@ angular.module('starter.controllers', ['ui.bootstrap'])
             }
         };
         $scope.isRemaining();
+        $ionicModal.fromTemplateUrl('templates/upgradekyc.html', {
+            scope: $scope
+        }).then(function (modal) {
+            $scope.modal2 = modal;
+        });
+
+        $scope.closeUpgrade = function () {
+            $scope.modal2.hide();
+        };
+
+        $scope.upgrade = function () {
+            $scope.modal2.show();
+        };
+        $scope.upgradeIt = function () {
+            console.log("here");
+            var alertPopup = $ionicPopup.alert({
+                title: 'Upgrade status.',
+                template: '<h5 style="text-align: center;margin-bottom:0">Thank you. Your request for upgrade is in progress.</h5>'
+            });
+            alertPopup.then(function (res) {
+                $location.path('app/home');
+                $scope.closeUpgrade();
+            });
+
+        };
         $scope.transaction = {};
         console.log($scope.user);
         $scope.walletBalance = 0;
@@ -571,16 +596,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         $scope.upIndicator = function () {
             $scope.indicator = false;
         };
-        $scope.alertUser = function (alertTitle,
-            alertDesc) {
-            var alertPopup = $ionicPopup.alert({
-                title: alertTitle,
-                template: '<h5 style="text-align: center;margin-bottom:0">' + alertDesc + '</h5>'
-            });
-            alertPopup.then(function (res) {
-                $location.path('app/wallet');
-            });
-        };
+
         $scope.upgradeAlert = function () {
             var confirmPopup = $ionicPopup.confirm({
                 title: 'Exceeding limit',
@@ -589,18 +605,16 @@ angular.module('starter.controllers', ['ui.bootstrap'])
             confirmPopup.then(function (res) {
                 if (res) {
                     $scope.upgrade();
-                } else {
-
-                }
+                } else {}
             });
         };
         $scope.addMoney = function () {
             $scope.transaction = {};
             $scope.refreshUser();
             if ($scope.wallet.amount === 0 || $scope.wallet.amount === undefined || $scope.wallet.amount === null) {
-                $scope.alertUser("Invalid Amount", "can not add Rs. 0 to wallet.");
+                $scope.alertUser("Invalid Amount", "can not add Rs. 0 to wallet.", 'app/wallet');
             } else if ($scope.wallet.amount < 0) {
-                $scope.alertUser("Invalid Amount", "Amount can not be negative.");
+                $scope.alertUser("Invalid Amount", "Amount can not be negative.", 'app/wallet');
             } else if ($scope.wallet.amount > $scope.user.walletLimit) {
                 $scope.upgradeAlert();
             } else {
@@ -621,13 +635,13 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                     if ($scope.addTransaction($scope.transaction)) {
                         $scope.user.balance = $scope.ctrlUser.balance;
                         $scope.user.walletLimit = $scope.ctrlUser.walletLimit;
-                        $scope.alertUser("Success", "Money added to your wallet.");
+                        $scope.alertUser("Success", "Money added to your wallet.", 'app/wallet');
                         MyServices.setUser($scope.user);
                     } else {
-                        $scope.alertUser("Transaction status", "Failed");
+                        $scope.alertUser("Transaction status", "Failed", 'app/wallet');
                     }
                 } else {
-                    $scope.alertUser("Failed", "Failed");
+                    $scope.alertUser("Failed", "Failed", 'app/wallet');
                 }
             }
         };
@@ -693,11 +707,12 @@ angular.module('starter.controllers', ['ui.bootstrap'])
     })
     .controller('RedeemCtrl', function ($scope, $stateParams, $ionicModal, $timeout, $ionicPopup, $location, MyServices, $ionicLoading) {
         $scope.readTNC = false;
-
         $scope.params = $stateParams;
         $scope.fixedinput = false;
-        $scope.vendor = [];
+        $scope.vendor = {};
+        $scope.transaction = {};
         $scope.crossedLimit = false;
+        $scope.ctrlUser = {};
         $scope.redeem = {
             amount: undefined
         };
@@ -782,8 +797,31 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                 $scope.zeroAmount();
             else if ($scope.vendor.amountlimit != undefined && $scope.isInLimit($scope.redeem.amount, $scope.vendor.amountlimit))
                 $scope.exceedingLimit();
-            else
-                $scope.proceedAlert();
+            else {
+                $scope.ctrlUser = {
+                    _id: $scope.user._id,
+                    balance: $scope.user.balance - $scope.redeem.amount
+                }; //updates walletLimit,see isRemainging for more on walletLimit
+                console.log($scope.ctrlUser);
+                if ($scope.updateUser($scope.ctrlUser)) {
+                    $scope.transaction = {
+                        from: $scope.user._id,
+                        to: $scope.vendor._id,
+                        type: "redeem",
+                        currentbalance: $scope.ctrlUser.balance,
+                        amount: $scope.redeem.amount
+                    };
+                    if ($scope.addTransaction($scope.transaction)) {
+                        $scope.user.balance = $scope.ctrlUser.balance;
+                        $scope.alertUser("Success", "Money added to your wallet.");
+                        $scope.proceedAlert();
+                    } else {
+                        $scope.alertUser("Redeem Progress", "Redeeming amount FAILED");
+                    }
+                } else {
+                    $scope.alertUser("Failed", "Failed");
+                }
+            }
         };
         $scope.proceedAlert = function () {
             var alertPopup = $ionicPopup.alert({

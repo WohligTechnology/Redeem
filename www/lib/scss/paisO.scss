@@ -1,4 +1,4 @@
-$assertive: #e4bc88 !default;
+    $assertive: #e4bc88 !default;
 $positive: #FFDF00 !default;
 $success: #4F8A10 !default;
 $failed: #D8000C !default;
@@ -298,12 +298,14 @@ $font-size-list:13px;
     @extend .category-header-txt;
     margin: 5px 20px !important;
 }
-.limit-txt{
+
+.limit-txt {
     font-size: 15px;
     font-weight: 500;
     margin: 5px 20px 10px 20px !important;
     text-align: center;
 }
+
 .tnc {
     i {
         float: right;
@@ -558,6 +560,28 @@ $font-size-list:13px;
     }
 }
 
+.button-upload-container {
+    position: absolute;
+    bottom: -19px;
+    right: 25px;
+    z-index: 9999;
+    background-color: $assertive;
+    width: 56px;
+    height: 56px;
+    text-align: center;
+    border-radius: 56px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16);
+    .button-upload {
+        color: black !important;
+    }
+    .button {
+        min-height: 56px !important;
+    }
+}
+.rel {
+    position: relative !important;
+}
+
 .custom-scroll {
     .scroll-view {
         position: absolute;
@@ -694,8 +718,9 @@ $font-size-list:13px;
         text-transform: uppercase;
     }
 }
-.money-limit-upgrade{
-    .button{
+
+.money-limit-upgrade {
+    .button {
         min-height: 25px;
     }
 }
