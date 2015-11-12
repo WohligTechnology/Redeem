@@ -67,10 +67,10 @@
 
         </div>
     </ion-content>
-    <ion-footer-bar align-title="left" class="bar-assertive" ng-show="tab.left">
+    <ion-footer-bar align-title="left" ng-hide="hideButtonOnInput" class="bar-assertive" ng-show="tab.left">
         <button class="button button-clear button-block no-margin" style="color:#000" ng-click="doLogin()">Log In</button>
     </ion-footer-bar>
-    <ion-footer-bar align-title="left" class="bar-assertive" ng-show="tab.right">
+    <ion-footer-bar align-title="left" ng-hide="hideButtonOnInput" class="bar-assertive" ng-show="tab.right">
         <button class="button button-clear button-block no-margin" style="color:#000" ng-click="doSignup()">Sign Up</button>
     </ion-footer-bar>
 </ion-view>

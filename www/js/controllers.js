@@ -16,19 +16,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         $scope.modal.show();
     };
 
-    $ionicModal.fromTemplateUrl('templates/balance-history.html', {
-        scope: $scope
-    }).then(function (modal) {
-        $scope.modal1 = modal;
-    });
 
-    $scope.closeHistory = function () {
-        $scope.modal1.hide();
-    };
-
-    $scope.history = function () {
-        $scope.modal1.show();
-    };
 
 
     $scope.menu = [{
@@ -57,10 +45,16 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         state: false
     }, {
         title: 'Logout',
-        url: '#/login',
+        url: '#',
         state: false
     }];
     $scope.activateMenu = function (index) {
+        console.log($scope.menu[index].title);
+        if ($scope.menu[index].title === "Logout") {
+            console.log("logout thayeche");
+            $.jStorage.flush();
+            $location.path('login');
+        }
         for (var i = 0; i < $scope.menu.length; i++) {
             $scope.menu[i].state = false;
         }
@@ -131,6 +125,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
 
 .controller('LoginCtrl', function ($scope, $stateParams, $location, MyServices, $ionicScrollDelegate) {
     $scope.focus = [];
+    $scope.hideButtonOnInput = false;
     $scope.isFocused = function (index) {
         $scope.focus[index] = true;
     }
@@ -140,7 +135,14 @@ angular.module('starter.controllers', ['ui.bootstrap'])
     $scope.tab = {
         left: true,
         right: false
-    }
+    };
+    window.addEventListener('native.keyboardshow', function () {
+        console.log("here")
+        $scope.hideButtonOnInput = true;
+    });
+    window.addEventListener('native.keyboardhide', function () {
+        $scope.hideButtonOnInput = false;
+    });
     $scope.highlight = false;
     $scope.clickTab = function (side) {
         $ionicScrollDelegate.scrollTop();
@@ -580,6 +582,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
             });
         };
         $scope.addMoney = function () {
+            //change alert texts 
             $scope.transaction = {};
             $scope.refreshUser();
             if ($scope.wallet.amount === 0 || $scope.wallet.amount === undefined || $scope.wallet.amount === null) {
@@ -620,29 +623,55 @@ angular.module('starter.controllers', ['ui.bootstrap'])
             }
         };
         $scope.pendings = [{
-                name: 'BookMyShow',
-                price: 500,
-                date: '22/10/2015',
-                voucher_number: 51,
-                validity: '20/01/16',
-                expiry_proximity: 'red'
-    },
-            {
-                name: 'Amazon',
-                price: 5000,
-                date: '23/10/2015',
-                voucher_number: 500,
-                validity: '20/01/16',
-                expiry_proximity: 'red'
-    },
-            {
-                name: 'Flipkart',
-                price: 400,
-                date: '30/10/2015',
-                voucher_number: 500,
-                validity: '20/01/16',
-                expiry_proximity: 'yellow'
+            name: 'BookMyShow',
+            price: 500,
+            date: '22/10/2015',
+            voucher_number: 51,
+            validity: '20/01/16',
+            expiry_proximity: 'red'
+    }, {
+            name: 'Amazon',
+            price: 5000,
+            date: '23/10/2015',
+            voucher_number: 500,
+            validity: '20/01/16',
+            expiry_proximity: 'red'
+    }, {
+            name: 'Flipkart',
+            price: 400,
+            date: '30/10/2015',
+            voucher_number: 500,
+            validity: '20/01/16',
+            expiry_proximity: 'yellow'
     }];
+        $ionicModal.fromTemplateUrl('templates/balance-history.html', {
+            scope: $scope
+        }).then(function (modal) {
+            $scope.modal1 = modal;
+        });
+
+        $scope.closeHistory = function () {
+            $scope.modal1.hide();
+        };
+
+        $scope.history = function () {
+            $scope.modal1.show();
+            $scope.getHistory();
+        };
+        $scope.balanceHistory = [];
+        $scope.transactionFilter = {
+            type: "balance"
+        };
+        $scope.getHistory = function () {
+            MyServices.findByType($scope.transactionFilter, function (data) {
+                if (data) {
+                    $scope.balanceHistory = data;
+                    console.log($scope.balanceHistory);
+                }
+            }, function (err) {
+                
+            });
+        };
     })
     .controller('SpendHistoryCtrl', function ($scope, $stateParams) {
 

@@ -1,46 +1,19 @@
 <ion-modal-view>
-    <ion-header-bar  align-title="center">
+    <ion-header-bar align-title="center">
         <h1 class="title">Balance History</h1>
         <div class="buttons padding-horizontal ">
             <button class="button button-clear" ng-click="closeHistory()"><i class="icon ion-ios-close-empty"></i></button>
         </div>
     </ion-header-bar>
     <ion-content>
-<!--
+        <!--
         <div class="top-up-header">
             <h4>Top up History</h4>
         </div>
 -->
         <div class="list">
-            <ion-item>
-                <h2>₹ 201 <span class="item-note">21/10/2015</span></h2>
-            </ion-item>
-            <ion-item>
-                <h2>₹ 202 <span class="item-note">21/10/2015</span></h2>
-            </ion-item>
-            <ion-item>
-                <h2>₹ 503 <span class="item-note">21/10/2015</span></h2>
-            </ion-item>
-            <ion-item>
-                <h2>₹ 504 <span class="item-note">21/10/2015</span></h2>
-            </ion-item>
-            <ion-item>
-                <h2>₹ 605 <span class="item-note">21/10/2015</span></h2>
-            </ion-item>
-            <ion-item>
-                <h2>₹ 606 <span class="item-note">21/10/2015</span></h2>
-            </ion-item>
-            <ion-item>
-                <h2>₹ 607 <span class="item-note">21/10/2015</span></h2>
-            </ion-item>
-            <ion-item>
-                <h2>₹ 608 <span class="item-note">21/10/2015</span></h2>
-            </ion-item>
-            <ion-item>
-                <h2>₹ 609 <span class="item-note">21/10/2015</span></h2>
-            </ion-item>
-            <ion-item>
-                <h2>₹ 6010 <span class="item-note">21/10/2015</span></h2>
+            <ion-item ng-repeat="item in balanceHistory | orderBy: '-timestamp'">
+                <h2>₹ {{item.amount}} <span class="item-note">{{item.timestamp | date:'dd/MM/yyyy h:mm a'}}</span></h2>
             </ion-item>
         </div>
     </ion-content>
