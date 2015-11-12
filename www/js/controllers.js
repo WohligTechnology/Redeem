@@ -2,7 +2,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
 
 .controller('AppCtrl', function ($scope, $ionicModal, $timeout, MyServices, $ionicPopup, $location) {
 
-    $scope.user = {};
+    $scope.user = MyServices.getUser();
     $scope.loginData = {};
     $ionicModal.fromTemplateUrl('templates/login.html', {
         scope: $scope
@@ -16,7 +16,13 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         $scope.modal.show();
     };
 
-
+    $scope.refreshUser = function () {
+        if (MyServices.getUser()) {
+            $scope.user = MyServices.getUser();
+            console.log($scope.user);
+        }
+    };
+    $scope.refreshUser();
 
 
     $scope.menu = [{
@@ -51,8 +57,9 @@ angular.module('starter.controllers', ['ui.bootstrap'])
     $scope.activateMenu = function (index) {
         console.log($scope.menu[index].title);
         if ($scope.menu[index].title === "Logout") {
-            console.log("logout thayeche");
+            $scope.user = {};
             $.jStorage.flush();
+            console.log(MyServices.getUser());
             $location.path('login');
         }
         for (var i = 0; i < $scope.menu.length; i++) {
@@ -60,12 +67,8 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         }
         $scope.menu[index].state = true;
     };
-    $scope.refreshUser = function () {
-        if (MyServices.getUser()) {
-            $scope.user = MyServices.getUser();
-            console.log($scope.user);
-        }
-    };
+
+
 
     //    GLOBAL update user function
 
@@ -129,7 +132,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
     $scope.isFocused = function (index) {
         $scope.focus[index] = true;
     }
-    $scope.user = {};
+    $scope.login = {};
     $scope.signup = {};
     $scope.activate = true;
     $scope.tab = {
@@ -156,14 +159,16 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         }
     };
     $scope.doLogin = function () {
-        console.log($scope.user);
-        MyServices.loginUser($scope.user, function (data) {
+        console.log($scope.login);
+        MyServices.loginUser($scope.login, function (data) {
             if (data) {
                 if (data.value === false) {
                     console.log("invalid data");
                 } else {
                     MyServices.setUser(data);
                     $location.path('app/home');
+                    $scope.user = MyServices.getUser();
+                    console.log($scope.user);
                 }
 
                 console.log(data);
@@ -669,7 +674,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                     console.log($scope.balanceHistory);
                 }
             }, function (err) {
-                
+
             });
         };
     })
