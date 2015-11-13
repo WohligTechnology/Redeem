@@ -2,6 +2,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
 
 .controller('AppCtrl', function ($scope, $ionicModal, $timeout, MyServices, $ionicPopup, $location) {
 
+    $scope.user = {};
     $scope.user = MyServices.getUser();
     $scope.loginData = {};
     $ionicModal.fromTemplateUrl('templates/login.html', {
@@ -23,8 +24,6 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         }
     };
     $scope.refreshUser();
-
-
     $scope.menu = [{
         title: 'Home',
         url: '#/app/home',
@@ -54,10 +53,11 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         url: '#',
         state: false
     }];
+
     $scope.activateMenu = function (index) {
         console.log($scope.menu[index].title);
         if ($scope.menu[index].title === "Logout") {
-            $scope.user = {};
+            $scope.user = null;
             $.jStorage.flush();
             console.log(MyServices.getUser());
             $location.path('login');
@@ -128,7 +128,10 @@ angular.module('starter.controllers', ['ui.bootstrap'])
 
 .controller('LoginCtrl', function ($scope, $stateParams, $location, MyServices, $ionicScrollDelegate) {
     $scope.focus = [];
-    $scope.hideButtonOnInput = false;
+    $scope.hideButtonOnInput = {
+        left: false,
+        right: false
+    };
     $scope.isFocused = function (index) {
         $scope.focus[index] = true;
     }
@@ -141,10 +144,14 @@ angular.module('starter.controllers', ['ui.bootstrap'])
     };
     window.addEventListener('native.keyboardshow', function () {
         console.log("here")
-        $scope.hideButtonOnInput = true;
+        $scope.hideButtonOnInput.left = true;
+        $scope.hideButtonOnInput.right = true;
     });
     window.addEventListener('native.keyboardhide', function () {
-        $scope.hideButtonOnInput = false;
+        if ($scope.tab.left === true)
+            $scope.hideButtonOnInput.left = false;
+        else
+            $scope.hideButtonOnInput.right = false;
     });
     $scope.highlight = false;
     $scope.clickTab = function (side) {
@@ -166,7 +173,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                     console.log("invalid data");
                 } else {
                     MyServices.setUser(data);
-                    $location.path('app/home');
+                    $location.url('app/home');
                     $scope.user = MyServices.getUser();
                     console.log($scope.user);
                 }
@@ -178,26 +185,28 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                 console.log(err);
             }
         });
-        $location.path('app/home');
     };
     $scope.doSignup = function () {
         console.log($scope.signup);
         MyServices.signupUser($scope.signup, function (data) {
-            if (data)
+            if (data) {
                 console.log(data);
+                $scope.tab.left = true;
+                $scope.tab.right = false;
+            }
         }, function (err) {
             if (err)
                 console.log(data);
         });
-        console.log("signup");
-        $location.path('app/home');
     };
 
 
 })
 
 .controller('HomeCtrl', function ($scope, $stateParams, MyServices, $location, $ionicLoading, $timeout) {
-        $scope.banners = []
+        $scope.banners = [];
+        $scope.user = {};
+        $scope.user = MyServices.getUser();
         $scope.category = [];
         $scope.refreshUser();
         $scope.show = function () {
@@ -485,6 +494,8 @@ angular.module('starter.controllers', ['ui.bootstrap'])
     .controller('SendMoneyCtrl', function ($scope, $stateParams) {})
     .controller('WalletCtrl', function ($scope, $stateParams, $ionicScrollDelegate, MyServices, $ionicPopup, $location, $ionicModal) {
         //Here $scope.user is a global varianble.
+        $scope.user = {};
+        $scope.user = MyServices.getUser();
         $scope.indicator = true;
         $scope.ctrlUser = {};
         $scope.refreshUser();
@@ -663,15 +674,50 @@ angular.module('starter.controllers', ['ui.bootstrap'])
             $scope.modal1.show();
             $scope.getHistory();
         };
+        $scope.requestpending = [];
+        $scope.transactionPendingFilter = {
+            type: "redeem",
+            from: $scope.user._id
+        };
+        $scope.getRedeem = function () {
+            MyServices.findByTypeUser($scope.transactionPendingFilter, function (data) {
+                    if (data) {
+                        $scope.requestpending = data;
+                        $scope.item={};
+                        console.log($scope.requestpending);
+                        _.each($scope.requestpending, function (key) {
+                            $scope.item.id = key.to;
+                            console.log($scope.item.id);
+                            MyServices.findVendor($scope.item, function (data) {
+                                    console.log(data);
+                                    if (data) {
+                                        key.vendorname = data.name;
+                                    }
+                                },
+                                function (err) {
+                                    if (err) {
+                                        console.log(err);
+                                    }
+                                });
+                        });
+                    }
+                },
+                function (err) {
+
+                });
+        };
+        $scope.getRedeem();
         $scope.balanceHistory = [];
         $scope.transactionFilter = {
-            type: "balance"
+            type: "balance",
+            from: $scope.user._id
         };
         $scope.getHistory = function () {
-            MyServices.findByType($scope.transactionFilter, function (data) {
+            MyServices.findByTypeUser($scope.transactionFilter, function (data) {
                 if (data) {
                     $scope.balanceHistory = data;
                     console.log($scope.balanceHistory);
+                    console.log($scope.transactionFilter);
                 }
             }, function (err) {
 
@@ -716,6 +762,8 @@ angular.module('starter.controllers', ['ui.bootstrap'])
     .controller('RedeemCtrl', function ($scope, $stateParams, $ionicModal, $timeout, $ionicPopup, $location, MyServices, $ionicLoading) {
         $scope.readTNC = false;
         $scope.params = $stateParams;
+        $scope.user = {};
+        $scope.user = MyServices.getUser();
         $scope.fixedinput = false;
         $scope.vendor = {};
         $scope.transaction = {};
@@ -817,7 +865,11 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                         to: $scope.vendor._id,
                         type: "redeem",
                         currentbalance: $scope.ctrlUser.balance,
-                        amount: $scope.redeem.amount
+                        amount: $scope.redeem.amount,
+                        name: $scope.user.name,
+                        email: $scope.user.email,
+                        vendor: $scope.vendor.name,
+                        referral: $scope.user.referral
                     };
                     if ($scope.addTransaction($scope.transaction)) {
                         $scope.user.balance = $scope.ctrlUser.balance;
@@ -898,7 +950,6 @@ angular.module('starter.controllers', ['ui.bootstrap'])
             });
         };
         $scope.hide = function () {
-
             $ionicLoading.hide();
         };
         $scope.show();

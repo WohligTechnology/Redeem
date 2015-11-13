@@ -41,13 +41,13 @@
                 <h4>Requests pending approval</h4>
             </div>
             <ion-list>
-                <ion-item class="pending-item" ng-repeat="item in pendings">
-                    <h4>{{item.date}}</h4>
-                    <span>{{item.name}}</span>
+                <ion-item class="pending-item" ng-repeat="item in requestpending | orderBy: '-timestamp'">
+                    <h4>{{item.timestamp |  date:'dd/MM/yyyy'}}</h4>
+                    <span>{{item.vendorname}}</span>
                     <br>
                     <p style="    position: absolute;
     top: 18px;
-    right: 10px;">₹ {{item.price}}</p>
+    right: 10px;">₹ {{item.amount}}</p>
                 </ion-item>
             </ion-list>
 
