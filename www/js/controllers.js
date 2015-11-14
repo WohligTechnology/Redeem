@@ -703,7 +703,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                     }
                 },
                 function (err) {
-
+                
                 });
         };
         $scope.getRedeem();
