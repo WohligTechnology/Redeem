@@ -104,6 +104,12 @@ angular.module('starter.services', [])
         getNotify: function () {
             return $.jStorage.get("notify");
         },
+        setOTP: function (data) {
+            $.jStorage.set("otp", data);
+        },
+        getOTP: function () {
+            return $.jStorage.get("otp");
+        },
         setUser: function (data) {
             $.jStorage.set("user", data);
         },

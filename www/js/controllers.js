@@ -131,7 +131,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
 
 .controller('PlaylistsCtrl', function ($scope) {})
 
-.controller('LoginCtrl', function ($scope, $stateParams, $location, MyServices, $ionicScrollDelegate) {
+.controller('LoginCtrl', function ($scope, $stateParams, $location, MyServices, $ionicScrollDelegate, $ionicModal, $ionicPopup) {
     $scope.focus = [];
     $scope.hideButtonOnInput = {
         left: false,
@@ -167,10 +167,13 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         if (side === "left") {
             $scope.tab.left = true;
             $scope.tab.right = false;
+            $scope.hideButtonOnInput.left = false;
+            $scope.hideButtonOnInput.right = true;
         } else {
             $scope.tab.right = true;
             $scope.tab.left = false;
-            console.log("here");
+            $scope.hideButtonOnInput.right = false;
+            $scope.hideButtonOnInput.left = true;
         }
     };
     $scope.doLogin = function () {
@@ -185,7 +188,6 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                     $scope.user = MyServices.getUser();
                     console.log($scope.user);
                 }
-
                 console.log(data);
             }
         }, function (err) {
@@ -194,8 +196,64 @@ angular.module('starter.controllers', ['ui.bootstrap'])
             }
         });
     };
+    //    $ionicModal.fromTemplateUrl('templates/otp.html', {
+    //        scope: $scope
+    //    }).then(function (modal) {
+    //        $scope.modal3 = modal;
+    //    });
+    //    $scope.closeOTP = function () {
+    //        $scope.modal3.hide();
+    //    };
+    //    $scope.otp = function () {
+    //        $scope.modal3.show();
+    //    };
+    $scope.otp = 0;
+    $scope.generateOTP = function () {
+        $scope.otp = Math.floor(100000 + Math.random() * 900000);
+        MyServices.setOTP($scope.otp);
+    };
+    $scope.checkOTP = function () {
+        $scope.generateOTP();
+        var confirmPopup = $ionicPopup.confirm({
+            title: 'Paiso',
+            template: '<h5 style="text-align:center">We&apos;ll send an OTP on the following number :</h5><h4 class="text-center">+91 ' + $scope.signup.mobile + '</h4>'
+        });
+        confirmPopup.then(function (res) {
+            if (res) {
+                var myPopup = $ionicPopup.show({
+                    template: '<input type="number" ng-model="data.inputotp" style="margin: 0px auto;width:100px;text-align:center;font-size:20px">',
+                    title: 'Enter the OTP',
+                    subTitle: 'please input the 6-digit OTP',
+                    scope: $scope,
+                    buttons: [
+                        {
+                            text: 'Cancel'
+                        },
+                        {
+                            text: '<b>Verify</b>',
+                            type: 'button-positive',
+                            onTap: function (e) {
+                                if (!$scope.data.inputotp) {
+                                    //don't allow the user to close unless he enters wifi password
+                                    e.preventDefault();
+                                } else {
+                                    if ($scope.data.inputotp === $scope.otp) {
+                                        $scope.doSignup();
+                                        return $scope.data.inputotp;
+                                    }
+                                }
+                            }
+                        }
+                        ]
+                });
+            } else {
+
+            }
+        });
+    };
     $scope.doSignup = function () {
         console.log($scope.signup);
+
         MyServices.signupUser($scope.signup, function (data) {
             if (data) {
                 console.log(data);
@@ -207,8 +265,6 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                 console.log(data);
         });
     };
-
-
 })
 
 .controller('HomeCtrl', function ($scope, $stateParams, MyServices, $location, $ionicLoading, $timeout) {

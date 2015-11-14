@@ -1,0 +1,20 @@
+<ion-modal-view>
+    <ion-header-bar align-title="center">
+        <h1 class="title">Paiso</h1>
+        <div class="buttons padding-horizontal">
+            <button class="button button-clear button-icon ion-ios-close-empty" ng-click="closeOTP()"></button>
+        </div>
+    </ion-header-bar>
+    <ion-content>
+        <h5 class="text-center">We'll send a OTP on the following number :</h5>
+        <h4 class="text-center">+91 {{signup.mobile}}</h4>
+        <div class="row no-padding">
+            <div class="col no-padding">
+                <button class="button button-block  no-margin">Cancel</button>
+            </div>
+            <div class="col no-padding">
+                <button class="button button-block button-assertive no-margin">OK</button>
+            </div>
+        </div>    
+    </ion-content>
+</ion-modal-view>
