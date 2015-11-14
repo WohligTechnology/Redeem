@@ -16,7 +16,9 @@ angular.module('starter.controllers', ['ui.bootstrap'])
     $scope.login = function () {
         $scope.modal.show();
     };
-
+    if (!MyServices.getUser()) {
+        $location.url("/login");
+    }
     $scope.refreshUser = function () {
         if (MyServices.getUser()) {
             $scope.user = MyServices.getUser();
@@ -74,15 +76,18 @@ angular.module('starter.controllers', ['ui.bootstrap'])
 
     $scope.updateUser = function (user) {
         $scope.flag = undefined;
-        MyServices.updateUser(user, function (data2) {
-            if (data2) {
-                console.log(data2);
-                if (data2.value === false)
-                    $scope.flag = false;
-                else
-                    $scope.flag = true;
-            }
-        }, function (err) {});
+        if (user.balance >= 0)
+            MyServices.updateUser(user, function (data2) {
+                if (data2) {
+                    console.log(data2);
+                    if (data2.value === false)
+                        $scope.flag = false;
+                    else
+                        $scope.flag = true;
+                }
+            }, function (err) {});
+        else
+            $scope.flag = false;
         console.log($scope.flag);
         if ($scope.flag === false)
             return false;
@@ -132,6 +137,9 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         left: false,
         right: false
     };
+    if (MyServices.getUser()) {
+        $location.url("/app/home");
+    }
     $scope.isFocused = function (index) {
         $scope.focus[index] = true;
     }
@@ -683,7 +691,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
             MyServices.findByTypeUser($scope.transactionPendingFilter, function (data) {
                     if (data) {
                         $scope.requestpending = data;
-                        $scope.item={};
+                        $scope.item = {};
                         console.log($scope.requestpending);
                         _.each($scope.requestpending, function (key) {
                             $scope.item.id = key.to;
@@ -703,7 +711,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                     }
                 },
                 function (err) {
-                
+
                 });
         };
         $scope.getRedeem();
@@ -877,8 +885,13 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                     } else {
                         $scope.alertUser("Redeem Progress", "Redeeming amount FAILED");
                     }
+                    MyServices.setUser($scope.user);
                 } else {
-                    $scope.alertUser("Failed", "Failed");
+                    if ($scope.ctrlUser.balance < 0)
+                        $scope.alertUser("Redeem Failed", "Not enough balance in your wallet");
+                    else
+                        $scope.alertUser("Redeem Failed", "Server error. Try again.");
+
                 }
             }
         };
