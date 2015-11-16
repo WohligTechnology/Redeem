@@ -34,6 +34,16 @@ angular.module('starter.services', [])
                 data: userData
             }).success(callback).error(err);
         },
+        findUserByMobile: function (userData, callback, err) {
+            console.log(userData);
+            $http({
+                url: adminurl + 'user/findUserByMobile',
+                method: 'POST',
+                data: {
+                    "mobile": userData.referral
+                }
+            }).success(callback).error(err);
+        },
         addTransaction: function (transactionData, callback, err) {
             $http({
                 url: adminurl + 'transaction/save',
@@ -53,7 +63,7 @@ angular.module('starter.services', [])
                 method: 'GET'
             }).success(callback).error(err);
         },
-        findVendorByCategory: function (category,callback, err) {
+        findVendorByCategory: function (category, callback, err) {
             $http({
                 url: adminurl + 'vendors/findVendorByCategoryID',
                 method: 'POST',
@@ -62,7 +72,7 @@ angular.module('starter.services', [])
                 }
             }).success(callback).error(err);
         },
-        findByType: function (transactionType,callback, err) {
+        findByType: function (transactionType, callback, err) {
             $http({
                 url: adminurl + 'transaction/findByType',
                 method: 'POST',
@@ -71,7 +81,7 @@ angular.module('starter.services', [])
                 }
             }).success(callback).error(err);
         },
-        findByTypeUser: function (transactionFilter,callback, err) {
+        findByTypeUser: function (transactionFilter, callback, err) {
             $http({
                 url: adminurl + 'transaction/findByTypeUser',
                 method: 'POST',
@@ -116,6 +126,12 @@ angular.module('starter.services', [])
         },
         getUser: function () {
             return $.jStorage.get("user");
+        },
+        setReferrer: function (data) {
+            $.jStorage.set("referrer", data);
+        },
+        getReferrer: function () {
+            return $.jStorage.get("referrer");
         }
     };
 });

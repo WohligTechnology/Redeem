@@ -70,8 +70,6 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         $scope.menu[index].state = true;
     };
 
-
-
     //    GLOBAL update user function
 
     $scope.updateUser = function (user) {
@@ -144,7 +142,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
     }
     $scope.isFocused = function (index) {
         $scope.focus[index] = true;
-    }
+    };
     $scope.login = {};
     $scope.signup = {};
     $scope.activate = true;
@@ -179,7 +177,6 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         }
     };
     $scope.doLogin = function () {
-        console.log($scope.login);
         MyServices.loginUser($scope.login, function (data) {
             if (data) {
                 if (data.value === false) {
@@ -208,6 +205,21 @@ angular.module('starter.controllers', ['ui.bootstrap'])
     $scope.data = {};
     $scope.checkOTP = function () {
         $scope.generateOTP();
+        if ($scope.signup.referral === "" || $scope.signup.referral === null || $scope.signup.referral === undefined) {
+
+        } else {
+            MyServices.findUserByMobile($scope.signup, function (data) {
+                if (data) {
+                    MyServices.setReferrer(data);
+                } else {
+
+                }
+            }, function (err) {
+                if (err) {
+
+                }
+            });
+        }
         var confirmPopup = $ionicPopup.confirm({
             title: 'Paiso',
             template: '<h5 style="text-align:center">We&apos;ll send an OTP on the following number :</h5><h4 class="text-center">+91 ' + $scope.signup.mobile + '</h4>'
@@ -246,12 +258,10 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         });
     };
     $scope.doSignup = function () {
-        console.log($scope.signup);
-
         MyServices.signupUser($scope.signup, function (data) {
             if (data) {
                 console.log(data);
-                $scope.alertUser("","Welcome, "+data.name+".");
+                $scope.alertUser("", "Welcome, " + data.name + ".");
                 $scope.tab.left = true;
                 $scope.tab.right = false;
             }
@@ -746,9 +756,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                         console.log($scope.requestpending);
                         _.each($scope.requestpending, function (key) {
                             $scope.item.id = key.to;
-                            console.log($scope.item.id);
                             MyServices.findVendor($scope.item, function (data) {
-                                    console.log(data);
                                     if (data) {
                                         key.vendorname = data.name;
                                     }
@@ -845,7 +853,6 @@ angular.module('starter.controllers', ['ui.bootstrap'])
             $scope.hide();
         }, 3000);
         MyServices.findVendor($scope.params, function (data) {
-            console.log(data);
             if (data) {
                 $scope.hide();
                 $scope.vendor = data;
@@ -919,7 +926,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                     balance: $scope.user.balance - $scope.redeem.amount
                 }; //updates walletLimit,see isRemainging for more on walletLimit
                 console.log($scope.ctrlUser);
-                if ($scope.updateUser($scope.ctrlUser)==true) {
+                if ($scope.updateUser($scope.ctrlUser) == true) {
                     $scope.transaction = {
                         from: $scope.user._id,
                         to: $scope.vendor._id,

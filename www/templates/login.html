@@ -36,7 +36,7 @@
                         </label>
 
                         <label class="item item-input label-tag">
-                            <input type="tel" ng-focus="isFocused(1)" ng-model="signup.mobile" placeholder="Phone number">
+                            <input type="tel" ng-focus="isFocused(1)" ng-model="signup.mobile" placeholder="Phone number" required>
                             <span ng-show="focus[1]">Phone number</span>
 
                         </label>
@@ -46,18 +46,18 @@
 
                         </label>
                         <label class="item item-input label-tag">
-                            <input type="password" ng-focus="isFocused(3)" ng-model="signup.password" placeholder="Password">
+                            <input type="password" ng-focus="isFocused(3)" ng-model="signup.password" placeholder="Password" required>
                             <span ng-show="focus[3]">Password</span>
 
                         </label>
                         <label class="item item-input label-tag">
-                            <input type="password" ng-focus="isFocused(4)" ng-model="signup.confirmpassword" placeholder="Confirm password">
+                            <input type="password" ng-focus="isFocused(4)" ng-model="confirmpassword" placeholder="Confirm password">
                             <span ng-show="focus[4]">Confirm password</span>
 
                         </label>
                         <label class="item item-input label-tag">
-                            <input type="text" ng-focus="isFocused(5)" ng-model="signup.promo" placeholder="Promo code (If any)">
-                            <span ng-show="focus[5]">Promo code</span>
+                            <input type="tel" ng-focus="isFocused(5)" ng-model="signup.referral" placeholder="Referral code (If any)">
+                            <span ng-show="focus[5]">Referral code</span>
 
                         </label>
 
