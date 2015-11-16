@@ -111,6 +111,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
                 }
             }
         })
+        .state('app.search', {
+            url: '/search',
+            views: {
+                'menuContent': {
+                    templateUrl: 'templates/search.html',
+                    controller: 'SearchCtrl'
+                }
+            }
+        })
         .state('app.referral', {
             url: '/referral',
             views: {

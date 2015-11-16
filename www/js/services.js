@@ -1,4 +1,4 @@
-var adminurl = "http://192.168.0.106:1337/";
+var adminurl = "http://192.168.0.110:1337/";
 //var adminurl = "http://wohlig.in:81/";
 //var adminurl = "http://130.211.164.146:81/";
 //var adminurl = "http://localhost:1337/";

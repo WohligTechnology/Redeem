@@ -130,6 +130,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
 })
 
 .controller('PlaylistsCtrl', function ($scope) {})
+.controller('SearchCtrl', function ($scope) {})
 
 .controller('LoginCtrl', function ($scope, $stateParams, $location, MyServices, $ionicScrollDelegate, $ionicModal, $ionicPopup) {
     $scope.focus = [];
@@ -196,22 +197,14 @@ angular.module('starter.controllers', ['ui.bootstrap'])
             }
         });
     };
-    //    $ionicModal.fromTemplateUrl('templates/otp.html', {
-    //        scope: $scope
-    //    }).then(function (modal) {
-    //        $scope.modal3 = modal;
-    //    });
-    //    $scope.closeOTP = function () {
-    //        $scope.modal3.hide();
-    //    };
-    //    $scope.otp = function () {
-    //        $scope.modal3.show();
-    //    };
     $scope.otp = 0;
     $scope.generateOTP = function () {
         $scope.otp = Math.floor(100000 + Math.random() * 900000);
         MyServices.setOTP($scope.otp);
+        console.log($scope.otp);
     };
+    
+    $scope.data={};
     $scope.checkOTP = function () {
         $scope.generateOTP();
         var confirmPopup = $ionicPopup.confirm({
@@ -233,11 +226,12 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                             text: '<b>Verify</b>',
                             type: 'button-positive',
                             onTap: function (e) {
+                                console.log($scope.data.inputotp);
                                 if (!$scope.data.inputotp) {
                                     //don't allow the user to close unless he enters wifi password
                                     e.preventDefault();
                                 } else {
-                                    if ($scope.data.inputotp === $scope.otp) {
+                                    if ($scope.data.inputotp === MyServices.getOTP()) {
                                         $scope.doSignup();
                                         return $scope.data.inputotp;
                                     }
@@ -913,10 +907,11 @@ angular.module('starter.controllers', ['ui.bootstrap'])
             $scope.redeem.amount = buttonvalue;
         };
         $scope.addRedeemTransaction = function () {
-            if ($scope.redeem.amount === null || $scope.redeem.amount === 0 || $scope.redeem.amount === undefined)
+            if ($scope.redeem.amount === null || $scope.redeem.amount === 0 || $scope.redeem.amount === undefined || $scope.redeem.amount < 0)
                 $scope.zeroAmount();
             else if ($scope.vendor.amountlimit != undefined && $scope.isInLimit($scope.redeem.amount, $scope.vendor.amountlimit))
                 $scope.exceedingLimit();
+            
             else {
                 $scope.ctrlUser = {
                     _id: $scope.user._id,
