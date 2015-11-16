@@ -75,6 +75,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
     //    GLOBAL update user function
 
     $scope.updateUser = function (user) {
+        console.log(user);
         $scope.flag = undefined;
         if (user.balance >= 0)
             MyServices.updateUser(user, function (data2) {
@@ -130,7 +131,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
 })
 
 .controller('PlaylistsCtrl', function ($scope) {})
-.controller('SearchCtrl', function ($scope) {})
+    .controller('SearchCtrl', function ($scope) {})
 
 .controller('LoginCtrl', function ($scope, $stateParams, $location, MyServices, $ionicScrollDelegate, $ionicModal, $ionicPopup) {
     $scope.focus = [];
@@ -203,8 +204,8 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         MyServices.setOTP($scope.otp);
         console.log($scope.otp);
     };
-    
-    $scope.data={};
+
+    $scope.data = {};
     $scope.checkOTP = function () {
         $scope.generateOTP();
         var confirmPopup = $ionicPopup.confirm({
@@ -237,8 +238,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                                     }
                                 }
                             }
-                        }
-                        ]
+                        }]
                 });
             } else {
 
@@ -251,6 +251,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         MyServices.signupUser($scope.signup, function (data) {
             if (data) {
                 console.log(data);
+                $scope.alertUser("","Welcome, "+data.name+".");
                 $scope.tab.left = true;
                 $scope.tab.right = false;
             }
@@ -911,14 +912,14 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                 $scope.zeroAmount();
             else if ($scope.vendor.amountlimit != undefined && $scope.isInLimit($scope.redeem.amount, $scope.vendor.amountlimit))
                 $scope.exceedingLimit();
-            
+
             else {
                 $scope.ctrlUser = {
                     _id: $scope.user._id,
                     balance: $scope.user.balance - $scope.redeem.amount
                 }; //updates walletLimit,see isRemainging for more on walletLimit
                 console.log($scope.ctrlUser);
-                if ($scope.updateUser($scope.ctrlUser)) {
+                if ($scope.updateUser($scope.ctrlUser)==true) {
                     $scope.transaction = {
                         from: $scope.user._id,
                         to: $scope.vendor._id,

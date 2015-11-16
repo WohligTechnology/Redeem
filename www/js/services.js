@@ -27,6 +27,7 @@ angular.module('starter.services', [])
             }).success(callback).error(err);
         },
         updateUser: function (userData, callback, err) {
+            console.log(userData);
             $http({
                 url: adminurl + 'user/save',
                 method: 'POST',
