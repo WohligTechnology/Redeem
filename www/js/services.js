@@ -40,7 +40,7 @@ angular.module('starter.services', [])
                 url: adminurl + 'user/findUserByMobile',
                 method: 'POST',
                 data: {
-                    "mobile": userData.referral
+                    "mobile": userData.referrer
                 }
             }).success(callback).error(err);
         },

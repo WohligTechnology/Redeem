@@ -51,6 +51,10 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         url: '#/app/aboutus',
         state: false
     }, {
+        title: 'Notification',
+        url: '#/app/aboutus',
+        state: false
+    }, {
         title: 'Logout',
         url: '#',
         state: false
@@ -115,8 +119,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
             return true;
     };
 
-    $scope.alertUser = function (alertTitle,
-        alertDesc, link) {
+    $scope.alertUser = function (alertTitle, alertDesc, link) {
         var alertPopup = $ionicPopup.alert({
             title: alertTitle,
             template: '<h5 style="text-align: center;margin-bottom:0">' + alertDesc + '</h5>'
@@ -196,29 +199,34 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         });
     };
     $scope.otp = 0;
+    $scope.referrer = {};
     $scope.generateOTP = function () {
         $scope.otp = Math.floor(100000 + Math.random() * 900000);
         MyServices.setOTP($scope.otp);
         console.log($scope.otp);
     };
-
+    $scope.checkReferral = function () {
+        MyServices.findUserByMobile($scope.signup, function (data) {
+                if (data) {
+                    $scope.referrer = data;
+                    return true;
+                } else {
+                    return false;
+                }
+            },
+            function (err) {
+                if (err) {
+                    return false;
+                }
+            });
+    };
     $scope.data = {};
     $scope.checkOTP = function () {
         $scope.generateOTP();
-        if ($scope.signup.referral === "" || $scope.signup.referral === null || $scope.signup.referral === undefined) {
-
+        if ($scope.checkReferral()) {
+            // referral verified
         } else {
-            MyServices.findUserByMobile($scope.signup, function (data) {
-                if (data) {
-                    MyServices.setReferrer(data);
-                } else {
-
-                }
-            }, function (err) {
-                if (err) {
-
-                }
-            });
+            // referral code validation
         }
         var confirmPopup = $ionicPopup.confirm({
             title: 'Paiso',
@@ -261,7 +269,15 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         MyServices.signupUser($scope.signup, function (data) {
             if (data) {
                 console.log(data);
-                $scope.alertUser("", "Welcome, " + data.name + ".");
+                $scope.checkReferral();
+                $scope.referrer.referral.push(data.id);
+                if ($scope.referrer) {
+                    MyServices.updateUser($scope.referrer, function (data2) {
+                        if (data2) {
+                            console.log(data2);
+                        }
+                    }, function (err) {});
+                }
                 $scope.tab.left = true;
                 $scope.tab.right = false;
             }
