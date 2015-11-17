@@ -23,8 +23,28 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         if (MyServices.getUser()) {
             $scope.user = MyServices.getUser();
             console.log($scope.user);
+        } else {
+
         }
     };
+
+    $scope.referralBadge = undefined;
+    $scope.newReferral = function () {
+        MyServices.findUser(MyServices.getUser(), function (data) {
+            if (data) {
+                if (data.referral.length > $scope.user.referral.length) {
+                    MyServices.setUser(data);
+                    $scope.referralBadge = data.referral.length - $scope.user.referral.length;
+                }
+            }
+        }, function (err) {
+
+        });
+    };
+    $scope.testCall = function () {
+        console.log("in here");
+    };
+    $scope.newReferral();
     $scope.refreshUser();
     $scope.menu = [{
         title: 'Home',
@@ -45,7 +65,8 @@ angular.module('starter.controllers', ['ui.bootstrap'])
     }, {
         title: 'Referral',
         url: '#/app/referral',
-        state: false
+        state: false,
+        badgecount: $scope.referralBadge
     }, {
         title: 'About Us',
         url: '#/app/aboutus',
@@ -185,6 +206,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                 if (data.value === false) {
                     console.log("invalid data");
                 } else {
+                    console.log("herer");
                     MyServices.setUser(data);
                     $location.url('app/home');
                     $scope.user = MyServices.getUser();
@@ -270,7 +292,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
             if (data) {
                 console.log(data);
                 $scope.checkReferral();
-                $scope.referrer.referral.push(data.id);
+                $scope.referrer.referral.unshift(data.id);
                 if ($scope.referrer) {
                     MyServices.updateUser($scope.referrer, function (data2) {
                         if (data2) {
@@ -289,6 +311,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
 })
 
 .controller('HomeCtrl', function ($scope, $stateParams, MyServices, $location, $ionicLoading, $timeout) {
+
         $scope.banners = [];
         $scope.user = {};
         $scope.user = MyServices.getUser();
@@ -300,7 +323,6 @@ angular.module('starter.controllers', ['ui.bootstrap'])
             });
         };
         $scope.hide = function () {
-
             $ionicLoading.hide();
         };
         $scope.show();
@@ -308,11 +330,9 @@ angular.module('starter.controllers', ['ui.bootstrap'])
             $scope.hide();
         }, 3000);
         MyServices.findCategories(function (data) {
-
             if (data) {
                 $scope.category = data;
                 console.log(data);
-
             }
         }, function (err) {
             if (err) {
@@ -345,7 +365,27 @@ angular.module('starter.controllers', ['ui.bootstrap'])
 
     })
     .controller('PlaylistCtrl', function ($scope, $stateParams) {})
-    .controller('ReferralCtrl', function ($scope, $stateParams, $ionicBackdrop, $timeout) {
+    .controller('ReferralCtrl', function ($scope, $stateParams, $ionicBackdrop, $timeout, MyServices) {
+        $scope.newReferral();
+        $scope.user = MyServices.getUser();
+        $scope.friendlist = [];
+        $scope.getThisUser = function (id) {
+            $scope.user = {
+                _id: id
+            };
+            MyServices.findUser($scope.user, function (data) {
+
+                if (data) {
+                    console.log(data);
+                    $scope.friendlist.unshift(data);
+                }
+            }, function (err) {});
+        };
+        if ($scope.user.referral != null || $scope.user.referral != undefined)
+            _.each($scope.user.referral, function (key) {
+                $scope.getThisUser(key);
+            });
+        console.log($scope.friendlist);
         $scope.sharebutton = false;
         $timeout(function () {
             $scope.sharebutton = true;
@@ -393,6 +433,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         };
     })
     .controller('AboutUsCtrl', function ($scope, $stateParams, $ionicScrollDelegate) {
+
         $scope.oneAtATime = true;
         $scope.activate = true;
         $scope.tab = {
@@ -413,6 +454,8 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         };
     })
     .controller('PassbookCtrl', function ($scope, $stateParams, $ionicScrollDelegate) {
+
+
         $scope.availableFlags = {};
         $scope.activate = true;
         $scope.tab = {
@@ -579,6 +622,8 @@ angular.module('starter.controllers', ['ui.bootstrap'])
     .controller('SendMoneyCtrl', function ($scope, $stateParams) {})
     .controller('WalletCtrl', function ($scope, $stateParams, $ionicScrollDelegate, MyServices, $ionicPopup, $location, $ionicModal) {
         //Here $scope.user is a global varianble.
+
+
         $scope.user = {};
         $scope.user = MyServices.getUser();
         $scope.indicator = true;
@@ -843,6 +888,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
 
     })
     .controller('RedeemCtrl', function ($scope, $stateParams, $ionicModal, $timeout, $ionicPopup, $location, MyServices, $ionicLoading) {
+
         $scope.readTNC = false;
         $scope.params = $stateParams;
         $scope.user = {};

@@ -5,8 +5,8 @@
                 <button class="button button-icon button-clear ion-navicon" menu-toggle="left">
                 </button>
             </ion-nav-buttons>
-               <ion-nav-buttons side="right">
-                <button class="button button-icon button-clear ion-ios-search" >
+            <ion-nav-buttons side="right">
+                <button class="button button-icon button-clear ion-ios-search">
                 </button>
             </ion-nav-buttons>
         </ion-nav-bar>
@@ -23,6 +23,7 @@
                 </ion-item>
                 <ion-item class=" menuitem no-border" menu-close ng-repeat="menuitem in menu track by $index" ng-click="activateMenu($index)" href="{{menuitem.url}}" ng-class="{'active-menuitem': menuitem.state}">
                     <span>{{menuitem.title}}</span>
+                    <span class="badge badge-assertive" ng-if="menuitem.badgecount != null || menuitem.badgecount != undefined">{{menuitem.badgecount}}</span>
                 </ion-item>
 
             </ion-list>

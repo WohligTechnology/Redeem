@@ -26,6 +26,15 @@ angular.module('starter.services', [])
                 data: signupData
             }).success(callback).error(err);
         },
+        findUser: function (signupData, callback, err) {
+            $http({
+                url: adminurl + 'user/findone',
+                method: 'POST',
+                data:{
+                    "_id": signupData._id
+                }
+            }).success(callback).error(err);
+        },
         updateUser: function (userData, callback, err) {
             console.log(userData);
             $http({
