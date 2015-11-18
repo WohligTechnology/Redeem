@@ -221,16 +221,18 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         });
     };
     $scope.otp = 0;
-    $scope.referrer = {};
+    $scope.ctrlUser = {};
     $scope.generateOTP = function () {
         $scope.otp = Math.floor(100000 + Math.random() * 900000);
         MyServices.setOTP($scope.otp);
         console.log($scope.otp);
     };
     $scope.checkReferral = function () {
+        console.log($scope.signup);
         MyServices.findUserByMobile($scope.signup, function (data) {
                 if (data) {
-                    $scope.referrer = data;
+                    console.log(data);
+                    $scope.ctrlUser = data;
                     return true;
                 } else {
                     return false;
@@ -287,18 +289,22 @@ angular.module('starter.controllers', ['ui.bootstrap'])
             }
         });
     };
+    $scope.referralData = {};
     $scope.doSignup = function () {
         MyServices.signupUser($scope.signup, function (data) {
             if (data) {
                 console.log(data);
                 $scope.checkReferral();
-                $scope.referrer.referral.unshift(data.id);
-                if ($scope.referrer) {
-                    MyServices.updateUser($scope.referrer, function (data2) {
-                        if (data2) {
-                            console.log(data2);
-                        }
-                    }, function (err) {});
+                $scope.referralData = {
+                    _id: data._id,
+                    amountearned: 0
+                };
+                console.log($scope.ctrlUser);
+                if ($scope.ctrlUser.value !== false) {
+                    if ($scope.ctrlUser.referral) {
+                        $scope.ctrlUser.referral.unshift($scope.referralData);
+                    }
+//                    $scope.updateUser($scope.ctrlUser);
                 }
                 $scope.tab.left = true;
                 $scope.tab.right = false;
@@ -311,7 +317,6 @@ angular.module('starter.controllers', ['ui.bootstrap'])
 })
 
 .controller('HomeCtrl', function ($scope, $stateParams, MyServices, $location, $ionicLoading, $timeout) {
-
         $scope.banners = [];
         $scope.user = {};
         $scope.user = MyServices.getUser();
@@ -727,6 +732,21 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                 } else {}
             });
         };
+        $scope.reffererUser = {};
+        $scope.findUserByReferralIDMobile = function (user) {
+            $scope.flag = undefined;
+            MyServices.findUserByReferralIDMobile(user, function (data2) {
+                if (data2) {
+                    $scope.reffererUser = data2;
+                    $scope.flag = true;
+                }
+            }, function (err) {});
+            console.log($scope.flag);
+            if ($scope.flag === false)
+                return false;
+            else
+                return true;
+        };
         $scope.addMoney = function () {
             //change alert texts 
             $scope.transaction = {};
@@ -758,8 +778,19 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                         $scope.user.balance = $scope.ctrlUser.balance;
                         $scope.user.walletLimit = $scope.ctrlUser.walletLimit;
                         $scope.alertUser("Success", "Money added to your wallet.", 'app/wallet');
+                        //                        MyServices.findUserByReferralIDMobile($scope.user, function (data) {
+                        //                            if (data) {
+                        //                                console.log(data);
+                        //                            }
+                        //                        }, function (err) {
+                        //                            console.log(err);
+                        //                        });
                         MyServices.setUser($scope.user);
+                        if ($scope.findUserByReferralIDMobile($scope.user)) {
+                            console.log($scope.reffererUser);
+                        }
                         $scope.wallet.amount = undefined;
+
                     } else {
                         $scope.alertUser("Transaction status", "Failed", 'app/wallet');
                     }
@@ -972,7 +1003,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         //    MODAL END
 
         //        $scope.quickMoney = [500, 1000, 1500];
-        $scope.AddMoney = function (buttonvalue) {
+        $scope.selectMoney = function (buttonvalue) {
             console.log(buttonvalue);
             $scope.redeem.amount = buttonvalue;
         };

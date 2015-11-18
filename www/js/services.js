@@ -1,4 +1,4 @@
-var adminurl = "http://192.168.0.110:1337/";
+var adminurl = "http://192.168.0.117:1337/";
 //var adminurl = "http://wohlig.in:81/";
 //var adminurl = "http://130.211.164.146:81/";
 //var adminurl = "http://localhost:1337/";
@@ -30,7 +30,7 @@ angular.module('starter.services', [])
             $http({
                 url: adminurl + 'user/findone',
                 method: 'POST',
-                data:{
+                data: {
                     "_id": signupData._id
                 }
             }).success(callback).error(err);
@@ -50,6 +50,17 @@ angular.module('starter.services', [])
                 method: 'POST',
                 data: {
                     "mobile": userData.referrer
+                }
+            }).success(callback).error(err);
+        },
+        findUserByReferralIDMobile: function (userData, callback, err) {
+            console.log(userData);
+            $http({
+                url: adminurl + 'user/findUserByMobile',
+                method: 'POST',
+                data: {
+                    "mobile": userData.referrer,
+                    "_id": userData._id
                 }
             }).success(callback).error(err);
         },
