@@ -174,6 +174,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         left: true,
         right: false
     };
+
     window.addEventListener('native.keyboardshow', function () {
         console.log("here")
         $scope.hideButtonOnInput.left = true;
@@ -199,6 +200,28 @@ angular.module('starter.controllers', ['ui.bootstrap'])
             $scope.hideButtonOnInput.right = false;
             $scope.hideButtonOnInput.left = true;
         }
+    };
+    $scope.updateUser = function (user) {
+        console.log(user);
+        $scope.flag = undefined;
+        if (user.balance >= 0)
+            MyServices.updateUser(user, function (data2) {
+                if (data2) {
+                    console.log(data2);
+                    if (data2.value === false)
+                        $scope.flag = false;
+                    else
+                        $scope.flag = true;
+                }
+            }, function (err) {});
+        else
+            $scope.flag = false;
+        console.log($scope.flag);
+        if ($scope.flag === false)
+            return false;
+        else
+            return true;
+        return $scope.flag;
     };
     $scope.doLogin = function () {
         MyServices.loginUser($scope.login, function (data) {
@@ -273,10 +296,11 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                             onTap: function (e) {
                                 console.log($scope.data.inputotp);
                                 if (!$scope.data.inputotp) {
-                                    //don't allow the user to close unless he enters wifi password
+                                    //don't allow the user to close unless he enters otp password
                                     e.preventDefault();
                                 } else {
                                     if ($scope.data.inputotp === MyServices.getOTP()) {
+                                        console.log("in signup");
                                         $scope.doSignup();
                                         return $scope.data.inputotp;
                                     }
@@ -296,15 +320,18 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                 console.log(data);
                 $scope.checkReferral();
                 $scope.referralData = {
-                    _id: data._id,
+                    _id: data.id,
                     amountearned: 0
                 };
-                console.log($scope.ctrlUser);
-                if ($scope.ctrlUser.value !== false) {
+                if ($scope.signup.referrer != "" || $scope.signup.referrer != null || $scope.signup.referrer != undefined) {
                     if ($scope.ctrlUser.referral) {
                         $scope.ctrlUser.referral.unshift($scope.referralData);
                     }
-//                    $scope.updateUser($scope.ctrlUser);
+                    if ($scope.updateUser($scope.ctrlUser)) {
+
+                    } else {
+                        //handle referral not successful here
+                    }
                 }
                 $scope.tab.left = true;
                 $scope.tab.right = false;
