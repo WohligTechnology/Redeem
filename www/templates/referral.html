@@ -3,10 +3,10 @@
         <h1 class="category-subheader-txt">
                    Your referral code is your phone number
                    <br>
-                   9768999331
+                   {{user.mobile}}
                </h1>
         <a class="item item-avatar item-stable friends-total-item" href="" style="border-top:0px;">
-            <h1>{{friends.length}}</h1>
+            <h1>{{friendlist.length}}</h1>
             <h2>Friendly Referrals</h2>
             <span>₹ {{referralmoney}}</span>
         </a>
@@ -18,7 +18,7 @@
             <a class="item item-avatar referred-friend-item" href="#" ng-repeat="friend in friendlist track by $index">
                 <img ng-src="{{friend.imgurl}}">
                 <h2>{{friend.name}}</h2>
-                <span class="badge badge-positive">₹ {{friend.price}}</span>
+                <span class="badge badge-positive">₹ {{friend.amountearned | number:2}}</span>
             </a>
         </div>
 

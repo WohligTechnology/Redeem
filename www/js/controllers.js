@@ -425,21 +425,24 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         };
         $scope.refreshUser();
         $scope.friendlist = [];
-        $scope.getThisUser = function (id) {
+        $scope.getThisUser = function (id, amountearned) {
             $scope.user = {
                 _id: id
             };
+            console.log(id);
             MyServices.findUser($scope.user, function (data) {
 
                 if (data) {
                     console.log(data);
+                    data.amountearned = amountearned;
                     $scope.friendlist.unshift(data);
                 }
             }, function (err) {});
         };
+        var i = 0;
         if ($scope.user.referral != null || $scope.user.referral != undefined)
             _.each($scope.user.referral, function (key) {
-                $scope.getThisUser(key);
+                $scope.getThisUser(key._id, key.amountearned);
             });
         console.log($scope.friendlist);
         $scope.sharebutton = false;
@@ -477,8 +480,8 @@ angular.module('starter.controllers', ['ui.bootstrap'])
             price: 450
     }];
         $scope.referralmoney = 0;
-        _.each($scope.friends, function (n) {
-            $scope.referralmoney += n.price;
+        _.each($scope.friendlist, function (n) {
+            $scope.referralmoney += n.amountearned;
         });
 
         $scope.shareIt = function () {
@@ -486,6 +489,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
             $timeout(function () {
                 $ionicBackdrop.release();
             }, 1000);
+            window.plugins.socialsharing.share('Message only');
         };
     })
     .controller('AboutUsCtrl', function ($scope, $stateParams, $ionicScrollDelegate) {
