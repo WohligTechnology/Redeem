@@ -529,8 +529,8 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         };
         $scope.refreshUser();
         $scope.availableFlags = {};
-            $scope.available = [];
-$scope.used=[];
+        $scope.available = [];
+        $scope.used = [];
         $scope.activate = true;
         $scope.tab = {
             left: false,
@@ -558,7 +558,7 @@ $scope.used=[];
 
         };
         $scope.loadUsed = function () {
-            $scope.passbookUsed= {
+            $scope.passbookUsed = {
                 from: $scope.user._id,
                 type: "redeem",
                 passbook: "used"
@@ -634,8 +634,14 @@ $scope.used=[];
         $scope.openUp = function (index) {
             $scope.highlight = true;
             console.log(index);
-            for (var i = 0; i < $scope.available.length; i++) {
-                $scope.availableFlags[i] = false;
+            if ($scope.tab.center === true) {
+                for (var i = 0; i < $scope.available.length; i++) {
+                    $scope.availableFlags[i] = false;
+                }
+            } else if ($scope.tab.right === true) {
+                for (var i = 0; i < $scope.used.length; i++) {
+                    $scope.availableFlags[i] = false;
+                }
             }
             //                        _.each($scope.availableFlags, function (n) {
             //                            $scope.availableFlags[n] = false;
@@ -646,10 +652,7 @@ $scope.used=[];
             $scope.availableFlags[index] = $scope.availableFlags[index] === true ? false : true;
             console.log($scope.availableFlags[index]);
         };
-        
 
-        
-        
     })
     .controller('SendMoneyCtrl', function ($scope, $stateParams) {})
     .controller('WalletCtrl', function ($scope, $stateParams, $ionicScrollDelegate, MyServices, $ionicPopup, $location, $ionicModal) {
