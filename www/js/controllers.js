@@ -513,9 +513,21 @@ angular.module('starter.controllers', ['ui.bootstrap'])
             }
         };
     })
-    .controller('PassbookCtrl', function ($scope, $stateParams, $ionicScrollDelegate) {
+    .controller('PassbookCtrl', function ($scope, $stateParams, $ionicScrollDelegate, MyServices) {
+        $scope.user = {};
+        $scope.user = MyServices.getUser();
+        $scope.refreshUser = function () {
+            MyServices.findUser($scope.user, function (data) {
+                if (data) {
+                    console.log(data);
+                    MyServices.setUser(data);
+                    $scope.user = MyServices.getUser();
+                }
+            }, function (err) {
 
-
+            });
+        };
+        $scope.refreshUser();
         $scope.availableFlags = {};
         $scope.activate = true;
         $scope.tab = {
@@ -524,15 +536,44 @@ angular.module('starter.controllers', ['ui.bootstrap'])
             right: false
         }
         $scope.moveToUsed = function () {
-
-            //service code to actually move,here!
-
             $scope.tab.left = false;
             $scope.tab.center = false;
             $scope.tab.right = true;
             $ionicScrollDelegate.scrollTop();
 
-        }
+        };
+        $scope.available = [];
+        $scope.passbookAvailable = {
+            from: $scope.user._id,
+            type: "redeem",
+            passbook: "available"
+        };
+        $scope.loadPassbook = function () {
+            MyServices.findPassbookEntry($scope.passbookAvailable, function (data) {
+                    if (data) {
+                        $scope.available = data;
+                        $scope.item = {};
+                        console.log($scope.available);
+                        _.each($scope.available, function (key) {
+                            $scope.item.id = key.to;
+                            MyServices.findVendor($scope.item, function (data) {
+                                    if (data) {
+                                        key.vendorname = data.name;
+                                    }
+                                },
+                                function (err) {
+                                    if (err) {
+                                        console.log(err);
+                                    }
+                                });
+                        });
+                    }
+                },
+                function (err) {
+
+                });
+        };
+        $scope.loadPassbook();
         $scope.clickTab = function (side) {
             $ionicScrollDelegate.scrollTop();
             if (side === "left") {
@@ -564,7 +605,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
             $scope.availableFlags[index] = $scope.availableFlags[index] === true ? false : true;
             console.log($scope.availableFlags[index]);
         };
-        $scope.available = [{
+        $scope.available1 = [{
                 name: 'BookMyShow',
                 price: 500,
                 date: '22/10/2015',
@@ -829,7 +870,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
             } else {
                 $scope.ctrlUser = {
                     _id: $scope.user._id,
-                    balance: $scope.user.balance + $scope.wallet.amount,
+                    balance: $scope.user.balance + ($scope.wallet.amount / 100) * 110,
                     walletLimit: $scope.user.walletLimit - $scope.wallet.amount
                 }; //updates walletLimit,see isRemainging for more on walletLimit
                 console.log($scope.ctrlUser);

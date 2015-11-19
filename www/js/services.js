@@ -1,4 +1,4 @@
-var adminurl = "http://192.168.0.112:1337/";
+var adminurl = "http://192.168.0.105:1337/";
 //var adminurl = "http://wohlig.in:81/";
 //var adminurl = "http://130.211.164.146:81/";
 //var adminurl = "http://localhost:1337/";
@@ -109,6 +109,17 @@ angular.module('starter.services', [])
                 data: {
                     "type": transactionFilter.type,
                     "from": transactionFilter.from
+                }
+            }).success(callback).error(err);
+        },
+        findPassbookEntry: function (transactionFilter, callback, err) {
+            $http({
+                url: adminurl + 'transaction/findPassbookEntry',
+                method: 'POST',
+                data: {
+                    "type": transactionFilter.type,
+                    "from": transactionFilter.from,
+                    "passbook": transactionFilter.passbook
                 }
             }).success(callback).error(err);
         },
