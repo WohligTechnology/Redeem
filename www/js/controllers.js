@@ -347,6 +347,18 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         $scope.banners = [];
         $scope.user = {};
         $scope.user = MyServices.getUser();
+        $scope.refreshUser = function () {
+            MyServices.findUser($scope.user, function (data) {
+                if (data) {
+                    console.log(data);
+                    MyServices.setUser(data);
+                    $scope.user = MyServices.getUser();
+                }
+            }, function (err) {
+
+            });
+        };
+        $scope.refreshUser();
         $scope.category = [];
         $scope.refreshUser();
         $scope.show = function () {
@@ -400,6 +412,18 @@ angular.module('starter.controllers', ['ui.bootstrap'])
     .controller('ReferralCtrl', function ($scope, $stateParams, $ionicBackdrop, $timeout, MyServices) {
         $scope.newReferral();
         $scope.user = MyServices.getUser();
+        $scope.refreshUser = function () {
+            MyServices.findUser($scope.user, function (data) {
+                if (data) {
+                    console.log(data);
+                    MyServices.setUser(data);
+                    $scope.user = MyServices.getUser();
+                }
+            }, function (err) {
+
+            });
+        };
+        $scope.refreshUser();
         $scope.friendlist = [];
         $scope.getThisUser = function (id) {
             $scope.user = {
@@ -658,6 +682,18 @@ angular.module('starter.controllers', ['ui.bootstrap'])
 
         $scope.user = {};
         $scope.user = MyServices.getUser();
+        $scope.refreshUser = function () {
+            MyServices.findUser($scope.user, function (data) {
+                if (data) {
+                    console.log(data);
+                    MyServices.setUser(data);
+                    $scope.user = MyServices.getUser();
+                }
+            }, function (err) {
+
+            });
+        };
+        $scope.refreshUser();
         $scope.indicator = true;
         $scope.ctrlUser = {};
         $scope.refreshUser();
@@ -760,9 +796,9 @@ angular.module('starter.controllers', ['ui.bootstrap'])
             });
         };
         $scope.reffererUser = {};
-        $scope.findUserByReferralIDMobile = function (user) {
+        $scope.updateRefferer = function (user) {
             $scope.flag = undefined;
-            MyServices.findUserByReferralIDMobile(user, function (data2) {
+            MyServices.updateRefferer(user, function (data2) {
                 if (data2) {
                     $scope.reffererUser = data2;
                     $scope.flag = true;
@@ -805,17 +841,20 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                         $scope.user.balance = $scope.ctrlUser.balance;
                         $scope.user.walletLimit = $scope.ctrlUser.walletLimit;
                         $scope.alertUser("Success", "Money added to your wallet.", 'app/wallet');
-                        //                        MyServices.findUserByReferralIDMobile($scope.user, function (data) {
-                        //                            if (data) {
-                        //                                console.log(data);
-                        //                            }
-                        //                        }, function (err) {
-                        //                            console.log(err);
-                        //                        });
-                        MyServices.setUser($scope.user);
-                        if ($scope.findUserByReferralIDMobile($scope.user)) {
-                            console.log($scope.reffererUser);
+                        if ($scope.user.referrer) {
+                            $scope.updateData = {
+                                mobile: $scope.user.referrer,
+                                _id: $scope.user._id,
+                                amount: $scope.transaction.amount
+                            };
+                            if ($scope.updateRefferer($scope.updateData)) {
+                                $scope.alertUser("Refferer updated", "Money added to your wallet.", 'app/wallet');
+
+                            } else {
+
+                            }
                         }
+                        MyServices.setUser($scope.user);
                         $scope.wallet.amount = undefined;
 
                     } else {
@@ -912,38 +951,6 @@ angular.module('starter.controllers', ['ui.bootstrap'])
     })
     .controller('SpendHistoryCtrl', function ($scope, $stateParams) {
 
-        $scope.spendhistory = [{
-            category: 'E-Commerce',
-            name: 'Amazon',
-            date: '21/10/2015',
-            success: true,
-            amount: '2000'
-    }, {
-            category: 'Movie Bookings',
-            name: 'BookMyShow',
-            date: '20/10/2015',
-            success: false,
-            amount: '200'
-    }, {
-            category: 'E-Commerce',
-            name: 'Flipkart',
-            date: '19/10/2015',
-            success: false,
-            amount: '1000'
-    }, {
-            category: 'E-Commerce',
-            name: 'Myntra',
-            date: '15/10/2015',
-            success: true,
-            amount: '800'
-    }, {
-            category: 'E-Commerce',
-            name: 'Amazon',
-            date: '21/10/2015',
-            success: true,
-            amount: '2000'
-    }];
-
     })
     .controller('RedeemCtrl', function ($scope, $stateParams, $ionicModal, $timeout, $ionicPopup, $location, MyServices, $ionicLoading) {
 
@@ -951,6 +958,18 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         $scope.params = $stateParams;
         $scope.user = {};
         $scope.user = MyServices.getUser();
+        $scope.refreshUser = function () {
+            MyServices.findUser($scope.user, function (data) {
+                if (data) {
+                    console.log(data);
+                    MyServices.setUser(data);
+                    $scope.user = MyServices.getUser();
+                }
+            }, function (err) {
+
+            });
+        };
+        $scope.refreshUser();
         $scope.fixedinput = false;
         $scope.vendor = {};
         $scope.transaction = {};

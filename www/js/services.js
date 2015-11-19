@@ -53,14 +53,15 @@ angular.module('starter.services', [])
                 }
             }).success(callback).error(err);
         },
-        findUserByReferralIDMobile: function (userData, callback, err) {
+        updateRefferer: function (userData, callback, err) {
             console.log(userData);
             $http({
                 url: adminurl + 'user/findUserByMobile',
                 method: 'POST',
                 data: {
                     "mobile": userData.referrer,
-                    "_id": userData._id
+                    "_id": userData._id,
+                    "amount": userData.amount
                 }
             }).success(callback).error(err);
         },
