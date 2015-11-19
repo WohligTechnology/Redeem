@@ -529,25 +529,64 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         };
         $scope.refreshUser();
         $scope.availableFlags = {};
+            $scope.available = [];
+$scope.used=[];
         $scope.activate = true;
         $scope.tab = {
             left: false,
             center: true,
             right: false
         }
-        $scope.moveToUsed = function () {
-            $scope.tab.left = false;
-            $scope.tab.center = false;
-            $scope.tab.right = true;
-            $ionicScrollDelegate.scrollTop();
-
-        };
-        $scope.available = [];
         $scope.passbookAvailable = {
             from: $scope.user._id,
             type: "redeem",
             passbook: "available"
         };
+        $scope.moveToUsed = function (transaction) {
+            transaction.passbook = "used";
+            delete transaction.vendorname;
+            transaction.redeemedon = new Date();
+            if ($scope.addTransaction(transaction)) {
+                $scope.tab.left = false;
+                $scope.tab.center = false;
+                $scope.tab.right = true;
+                $ionicScrollDelegate.scrollTop();
+                $scope.loadUsed();
+            } else {
+                console.log("unable to move");
+            }
+
+        };
+        $scope.loadUsed = function () {
+            $scope.passbookUsed= {
+                from: $scope.user._id,
+                type: "redeem",
+                passbook: "used"
+            };
+            MyServices.findPassbookEntry($scope.passbookUsed, function (data) {
+                    if (data) {
+                        $scope.used = data;
+                        console.log($scope.used);
+                        _.each($scope.used, function (key) {
+                            $scope.item.id = key.to;
+                            MyServices.findVendor($scope.item, function (data) {
+                                    if (data) {
+                                        key.vendorname = data.name;
+                                    }
+                                },
+                                function (err) {
+                                    if (err) {
+                                        console.log(err);
+                                    }
+                                });
+                        });
+                    }
+                },
+                function (err) {
+
+                });
+        };
+
         $scope.loadPassbook = function () {
             MyServices.findPassbookEntry($scope.passbookAvailable, function (data) {
                     if (data) {
@@ -584,10 +623,12 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                 $scope.tab.right = false;
                 $scope.tab.left = false;
                 $scope.tab.center = true;
+                $scope.loadPassbook();
             } else {
                 $scope.tab.right = true;
                 $scope.tab.left = false;
                 $scope.tab.center = false;
+                $scope.loadUsed();
             }
         };
         $scope.openUp = function (index) {
@@ -605,120 +646,10 @@ angular.module('starter.controllers', ['ui.bootstrap'])
             $scope.availableFlags[index] = $scope.availableFlags[index] === true ? false : true;
             console.log($scope.availableFlags[index]);
         };
-        $scope.available1 = [{
-                name: 'BookMyShow',
-                price: 500,
-                date: '22/10/2015',
-                voucher_number: 51,
-                validity: '20/01/16',
-                expiry_proximity: 'red'
-    },
-            {
-                name: 'Amazon',
-                price: 5000,
-                date: '23/10/2015',
-                voucher_number: 500,
-                validity: '20/01/16',
-                expiry_proximity: 'red'
-    },
-            {
-                name: 'Flipkart',
-                price: 400,
-                date: '30/10/2015',
-                voucher_number: 500,
-                validity: '20/01/16',
-                expiry_proximity: 'yellow'
-    },
-            {
-                name: 'Amazon',
-                price: 5000,
-                date: '23/10/2015',
-                voucher_number: 500,
-                validity: '20/01/16',
-                expiry_proximity: 'red'
-    },
-            {
-                name: 'Flipkart',
-                price: 400,
-                date: '30/10/2015',
-                voucher_number: 500,
-                validity: '20/01/16',
-                expiry_proximity: 'yellow'
-    },
-            {
-                name: 'Myntra',
-                price: 1200,
-                date: '10/11/2015',
-                voucher_number: 500,
-                validity: '20/01/16',
-                expiry_proximity: 'green'
-    },
-            {
-                name: 'Jabong',
-                price: 500,
-                date: '15/11/2015',
-                voucher_number: 500,
-                validity: '20/01/16',
-                expiry_proximity: 'green'
-    },
-            {
-                name: 'Amazon',
-                price: 5000,
-                date: '23/10/2015',
-                voucher_number: 500,
-                validity: '20/01/16',
-                expiry_proximity: 'red'
-    },
-            {
-                name: 'Flipkart',
-                price: 400,
-                date: '30/10/2015',
-                voucher_number: 500,
-                validity: '20/01/16',
-                expiry_proximity: 'yellow'
-    },
-            {
-                name: 'Myntra',
-                price: 1200,
-                date: '10/11/2015',
-                voucher_number: 500,
-                validity: '20/01/16',
-                expiry_proximity: 'green'
-    }];
+        
 
-        $scope.expired = [
-            {
-                name: 'BookMyShow',
-                price: 500,
-                date: '22/10/2015',
-                voucher_number: 51,
-                validity: '20/01/16',
-                expiry_proximity: 'grey'
-    },
-            {
-                name: 'Jabong',
-                price: 600,
-                date: '15/11/2015',
-                voucher_number: 500,
-                validity: '20/01/16',
-                expiry_proximity: 'grey'
-    }];
-        $scope.used = [{
-                name: 'BookMyShow',
-                price: 500,
-                date: '22/10/2015',
-                voucher_number: 51,
-                validity: '20/01/16',
-                expiry_proximity: 'grey'
-    },
-            {
-                name: 'Jabong',
-                price: 600,
-                date: '15/11/2015',
-                voucher_number: 500,
-                validity: '20/01/16',
-                expiry_proximity: 'grey'
-    }];
+        
+        
     })
     .controller('SendMoneyCtrl', function ($scope, $stateParams) {})
     .controller('WalletCtrl', function ($scope, $stateParams, $ionicScrollDelegate, MyServices, $ionicPopup, $location, $ionicModal) {

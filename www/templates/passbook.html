@@ -18,7 +18,7 @@
     <ion-content class="has-subheader">
 
         <div class="available list" ng-show="tab.center">
-            <div class="passbook-entries" ng-repeat="item in available | orderBy: '-timestamp'">
+            <div class="passbook-entries" ng-repeat="item in available track by $index | orderBy: '-timestamp'" >
                 <ion-item ng-click="openUp($index)" ng-class="{'thinning-margin':!availableFlags[{{$index}}],'listed':!availableFlags[{{$index}}],'opened':availableFlags[{{$index}}],'animated':availableFlags[{{$index}}],'flipInX':availableFlags[{{$index}}]
 }">
                     <h4>{{item.timestamp |  date:'dd/MM/yyyy'}}</h4>
@@ -32,19 +32,19 @@
                 </ion-item>
 
                 <div class="padding-horizontal" ng-show="availableFlags[{{$index}}]">
-                    <button class=" button button-block button-assertive" ng-click="moveToUsed()">Move to used</button>
+                    <button class=" button button-block button-assertive" ng-click="moveToUsed(item)">Move to used</button>
                 </div>
             </div>
         </div>
         <div class="used list" ng-show="tab.right">
-            <div class="passbook-entries" ng-repeat="item in used track by $index">
+            <div class="passbook-entries" ng-repeat="item in used track by $index | orderBy: '-timestamp'" >
                 <ion-item ng-click="openUp($index)" ng-class="{'thinning-margin':!availableFlags[{{$index}}],'listed':!availableFlags[{{$index}}],'opened':availableFlags[{{$index}}],'animated':availableFlags[{{$index}}],'flipInX':availableFlags[{{$index}}]
 }">
                     <h4>{{item.timestamp |  date:'dd/MM/yyyy'}}</h4>
                     <span>{{item.vendorname}}</span>
                     <br>
                     <h5 ng-show="availableFlags[{{$index}}]">Voucher Number : {{item.vouchernumber}}</h5>
-                    <h5 ng-show="availableFlags[{{$index}}]">Redeemed on : 21/11/2015</h5>
+                    <h5 ng-show="availableFlags[{{$index}}]">Redeemed on : {{item.redeemedon |  date:'dd/MM/yyyy'}}</h5>
 
                     <p>₹ {{item.amount}}</p>
                     <div class="separator" ng-show="availableFlags[{{$index}}]"></div>
