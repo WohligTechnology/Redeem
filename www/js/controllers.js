@@ -161,6 +161,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         left: false,
         right: false
     };
+    $scope.confirmpassword = "";
     if (MyServices.getUser()) {
         $location.url("/app/home");
     }
@@ -224,24 +225,36 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         return $scope.flag;
     };
     $scope.doLogin = function () {
-        MyServices.loginUser($scope.login, function (data) {
-            if (data) {
-                if (data.value === false) {
-                    console.log("invalid data");
-                } else {
-                    console.log("herer");
-                    MyServices.setUser(data);
-                    $location.url('app/home');
-                    $scope.user = MyServices.getUser();
-                    console.log($scope.user);
+        $scope.validation = {
+            mobile: "",
+            password: ""
+        };
+        if ($scope.login.mobile === "" || $scope.login.mobile === null || $scope.login.mobile === undefined) {
+            $scope.validation.mobile = "ng-dirty";
+        } else if ($scope.login.password === "" || $scope.login.password === null || $scope.login.password === undefined) {
+            $scope.validation.password = "ng-dirty";
+            console.log("in herer");
+        } else {
+            MyServices.loginUser($scope.login, function (data) {
+                if (data) {
+                    if (data.value === false) {
+                        console.log("invalid data");
+                    } else {
+                        console.log("herer");
+                        MyServices.setUser(data);
+                        $location.url('app/home');
+                        $scope.user = MyServices.getUser();
+                        console.log($scope.user);
+                    }
+                    console.log(data);
                 }
-                console.log(data);
-            }
-        }, function (err) {
-            if (err) {
-                console.log(err);
-            }
-        });
+            }, function (err) {
+                if (err) {
+                    console.log(err);
+                }
+            });
+        }
+
     };
     $scope.otp = 0;
     $scope.ctrlUser = {};
@@ -267,6 +280,20 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                 }
             });
     };
+    $scope.confirmed = undefined;
+    $scope.checkPassword = function () {
+        console.log("in confirmation");
+        console.log($scope.signup.confirmpassword);
+        console.log($scope.signup.password);
+        if ($scope.signup.password != "" || $scope.signup.password != null || $scope.signup.password != undefined) {
+            if ($scope.signup.confirmpassword === $scope.signup.password) {
+                $scope.confirmed = true;
+                console.log("herer");
+            } else {
+                $scope.confirmed = false;
+            }
+        }
+    }
     $scope.data = {};
     $scope.checkOTP = function () {
         $scope.generateOTP();
@@ -280,34 +307,42 @@ angular.module('starter.controllers', ['ui.bootstrap'])
             template: '<h5 style="text-align:center">We&apos;ll send an OTP on the following number :</h5><h4 class="text-center">+91 ' + $scope.signup.mobile + '</h4>'
         });
         confirmPopup.then(function (res) {
+
             if (res) {
-                var myPopup = $ionicPopup.show({
-                    template: '<input type="number" ng-model="data.inputotp" style="margin: 0px auto;width:100px;text-align:center;font-size:20px">',
-                    title: 'Enter the OTP',
-                    subTitle: 'please input the 6-digit OTP',
-                    scope: $scope,
-                    buttons: [
-                        {
-                            text: 'Cancel'
+                var alertPopup = $ionicPopup.alert({
+                    title: 'Debug',
+                    template: '<h5 style="text-align:center">OTP : ' + $scope.otp + '</h5>'
+                });
+                alertPopup.then(function (res) {
+                    var myPopup = $ionicPopup.show({
+                        template: '<input type="number" ng-model="data.inputotp" style="margin: 0px auto;width:100px;text-align:center;font-size:20px">',
+                        title: 'Enter the OTP',
+                        subTitle: 'please input the 6-digit OTP',
+                        scope: $scope,
+                        buttons: [
+                            {
+                                text: 'Cancel'
                         },
-                        {
-                            text: '<b>Verify</b>',
-                            type: 'button-positive',
-                            onTap: function (e) {
-                                console.log($scope.data.inputotp);
-                                if (!$scope.data.inputotp) {
-                                    //don't allow the user to close unless he enters otp password
-                                    e.preventDefault();
-                                } else {
-                                    if ($scope.data.inputotp === MyServices.getOTP()) {
-                                        console.log("in signup");
-                                        $scope.doSignup();
-                                        return $scope.data.inputotp;
+                            {
+                                text: '<b>Verify</b>',
+                                type: 'button-positive',
+                                onTap: function (e) {
+                                    console.log($scope.data.inputotp);
+                                    if (!$scope.data.inputotp) {
+                                        //don't allow the user to close unless he enters otp password
+                                        e.preventDefault();
+                                    } else {
+                                        if ($scope.data.inputotp === MyServices.getOTP()) {
+                                            console.log("in signup");
+                                            $scope.doSignup();
+                                            return $scope.data.inputotp;
+                                        }
                                     }
                                 }
-                            }
                         }]
+                    });
                 });
+
             } else {
 
             }
@@ -315,6 +350,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
     };
     $scope.referralData = {};
     $scope.doSignup = function () {
+        delete $scope.signup.confirmpassword;
         MyServices.signupUser($scope.signup, function (data) {
             if (data) {
                 console.log(data);

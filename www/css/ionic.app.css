@@ -42,6 +42,12 @@ $dark:                            #444 !default;
 .no-border-bottom {
   border-bottom: 0 !important; }
 
+.brdr-green {
+  border-bottom: 2px solid green !important; }
+
+.brdr-red {
+  border-bottom: 2px solid red !important; }
+
 .menuitem .item-content {
   background-color: #f1f3f4 !important !important; }
 
@@ -570,6 +576,9 @@ $dark:                            #444 !default;
 
 .money-limit-upgrade .button {
   min-height: 25px; }
+
+.login-input {
+  margin-right: 15px !important; }
 
 /*!
   Ionicons, v2.0.1

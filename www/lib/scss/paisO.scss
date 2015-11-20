@@ -69,6 +69,14 @@
         border-bottom: 0 !important;
     }
     
+    .brdr-green {
+        border-bottom: 2px solid green !important;
+    }
+    
+    .brdr-red {
+        border-bottom: 2px solid red !important;
+    }
+    
     .menuitem {
         .item-content {
             background-color: $dark-secondary !important;
@@ -120,7 +128,7 @@
             padding-left: 0px;
         }
         .btns-wallet {
-                margin-top: 2px;
+            margin-top: 2px;
             .btn-history {
                 margin-bottom: 0px !important;
                 margin-top: 5px;
@@ -723,4 +731,8 @@
         .button {
             min-height: 25px;
         }
+    }
+    
+    .login-input {
+        margin-right: 15px !important;
     }

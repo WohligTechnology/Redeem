@@ -21,42 +21,42 @@
                     <div class="list">
                         <label class="item item-input">
                             <span class="input-label">+91</span>
-                            <input type="tel" placeholder="Phone Number" ng-model="login.mobile">
+                            <input type="tel" placeholder="Phone Number" class="login-input" ng-model="login.mobile">
                         </label>
                         <label class="item item-input">
-                            <input type="password" placeholder="Password" ng-model="login.password">
+                            <input type="password" placeholder="Password" class="login-input" ng-model="login.password">
                         </label>
                     </div>
                 </form>
                 <form ng-show="tab.right">
                     <div class="list">
                         <label class="item item-input label-tag" ng-class="{'brdr-yellow':required}">
-                            <input type="text" ng-focus="isFocused(0)" ng-model="signup.name" placeholder="Name">
+                            <input type="text" ng-focus="isFocused(0)" class="login-input" ng-model="signup.name" placeholder="Name">
                             <span ng-show="focus[0]">Name</span>
                         </label>
 
                         <label class="item item-input label-tag">
-                            <input type="tel" ng-focus="isFocused(1)" ng-model="signup.mobile" placeholder="Phone number" required>
+                            <input type="tel" ng-focus="isFocused(1)" class="login-input" ng-model="signup.mobile" placeholder="Phone number" required>
                             <span ng-show="focus[1]">Phone number</span>
 
                         </label>
                         <label class="item item-input label-tag">
-                            <input type="email" ng-focus="isFocused(2)" ng-model="signup.email" placeholder="Email">
+                            <input type="email" ng-focus="isFocused(2)" class="login-input" ng-model="signup.email" placeholder="Email">
                             <span ng-show="focus[2]">Email</span>
 
                         </label>
                         <label class="item item-input label-tag">
-                            <input type="password" ng-focus="isFocused(3)" ng-model="signup.password" placeholder="Password" required>
+                            <input type="password" ng-focus="isFocused(3)" class="login-input" ng-model="signup.password" placeholder="Password" required>
                             <span ng-show="focus[3]">Password</span>
 
                         </label>
-                        <label class="item item-input label-tag">
-                            <input type="password" ng-focus="isFocused(4)" ng-model="confirmpassword" placeholder="Confirm password">
+                        <label class="item item-input label-tag" >
+                            <input type="password" ng-focus="isFocused(4)" class="login-input" ng-class="{'brdr-green': confirmed,'no-border':!confirmed}" ng-model="signup.confirmpassword" ng-change="checkPassword()" placeholder="Confirm password">
                             <span ng-show="focus[4]">Confirm password</span>
 
                         </label>
                         <label class="item item-input label-tag">
-                            <input type="tel" ng-focus="isFocused(5)" ng-model="signup.referrer" placeholder="Referral code (If any)">
+                            <input type="tel" ng-focus="isFocused(5)" class="login-input" ng-model="signup.referrer" placeholder="Referral code (If any)">
                             <span ng-show="focus[5]">Referral code</span>
 
                         </label>
