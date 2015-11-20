@@ -25,6 +25,15 @@
             <div class="padding">
                 <button class="button button-block button-assertive no-margin" ng-click="addRedeemTransaction()">REDEEM</button>
             </div>
+            <a class="item item-icon-left padding-vertical" href="#">
+                <i class="icon ion-ios-world-outline"></i> www.{{vendor.name | lowercase}}.com
+            </a>
+            <a class="item item-icon-left padding-vertical" href="#">
+                <i class="icon ln-smartphone"></i> Android app link
+            </a>
+            <a class="item item-icon-left padding-vertical" href="#">
+                <i class="icon ln-iphone"></i> iOS app link
+            </a>
             <ion-item class="tnc" ng-click="tNc()">
                 Terms & conditions
                 <i class="icon" ng-class="{'ln-clipboard-check':readTNC,'ln-chevron-right':!readTNC}"></i>

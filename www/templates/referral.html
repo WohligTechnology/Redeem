@@ -8,7 +8,7 @@
         <a class="item item-avatar item-stable friends-total-item" href="" style="border-top:0px;">
             <h1>{{friendlist.length}}</h1>
             <h2>Friendly Referrals</h2>
-            <span>₹ {{referralmoney}}</span>
+            <span>₹ {{referralmoney | number:2}}</span>
         </a>
     </div>
     <ion-content class="referral has-subheader-custom" on-scroll-complete="shareTimeout()">
@@ -16,7 +16,7 @@
             <h1 class="category-header-txt"> Earn 1 % of your referral's wallet balance!
 </h1>
             <a class="item item-avatar referred-friend-item" href="#" ng-repeat="friend in friendlist track by $index">
-                <img ng-src="{{friend.imgurl}}">
+                <img ng-src="img/profile.jpg">
                 <h2>{{friend.name}}</h2>
                 <span class="badge badge-positive">₹ {{friend.amountearned | number:2}}</span>
             </a>

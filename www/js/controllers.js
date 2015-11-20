@@ -425,6 +425,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         };
         $scope.refreshUser();
         $scope.friendlist = [];
+        $scope.referralmoney = 0;
         $scope.getThisUser = function (id, amountearned) {
             $scope.user = {
                 _id: id
@@ -435,6 +436,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                 if (data) {
                     console.log(data);
                     data.amountearned = amountearned;
+                    $scope.referralmoney += data.amountearned;
                     $scope.friendlist.unshift(data);
                 }
             }, function (err) {});
@@ -479,17 +481,15 @@ angular.module('starter.controllers', ['ui.bootstrap'])
             imgurl: 'img/profile.jpg',
             price: 450
     }];
-        $scope.referralmoney = 0;
-        _.each($scope.friendlist, function (n) {
-            $scope.referralmoney += n.amountearned;
-        });
+
+
 
         $scope.shareIt = function () {
             $ionicBackdrop.retain();
             $timeout(function () {
                 $ionicBackdrop.release();
             }, 1000);
-            window.plugins.socialsharing.share('Message only');
+            window.plugins.socialsharing.share('Now get extra money on your balance! only on Paiso App! Download the app from Playstore and use the following Referral code : ' + $scope.user.mobile + ' . Paiso,An eWallet you can trust. -' + $scope.user.name);
         };
     })
     .controller('AboutUsCtrl', function ($scope, $stateParams, $ionicScrollDelegate) {
@@ -625,7 +625,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                 $scope.tab.left = false;
                 $scope.tab.center = true;
                 $scope.loadPassbook();
-//                $scope.openUp(0);
+                //                $scope.openUp(0);
             } else {
                 $scope.tab.right = true;
                 $scope.tab.left = false;
