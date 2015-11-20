@@ -552,6 +552,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                 $scope.tab.right = true;
                 $ionicScrollDelegate.scrollTop();
                 $scope.loadUsed();
+                $scope.openUp(0);
             } else {
                 console.log("unable to move");
             }
@@ -624,11 +625,13 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                 $scope.tab.left = false;
                 $scope.tab.center = true;
                 $scope.loadPassbook();
+//                $scope.openUp(0);
             } else {
                 $scope.tab.right = true;
                 $scope.tab.left = false;
                 $scope.tab.center = false;
                 $scope.loadUsed();
+                $scope.openUp(0);
             }
         };
         $scope.openUp = function (index) {
