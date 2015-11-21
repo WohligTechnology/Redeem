@@ -1,6 +1,6 @@
-    $assertive: #e4bc88 !default;
-    $positive: #FFDF00 !default;
-    $success: #4F8A10 !default;
+    $assertive: #0060aa !default;
+    $positive: #ef7f1a !default;
+    $success: #0060aa !default;
     $failed: #D8000C !default;
     $dark-secondary: #f1f3f4 !important;
     $danger: #D43E3E;
@@ -86,13 +86,13 @@
     .wallet-holder {
         margin-top: 2px;
         position: relative;
-        background-color: #e4bc88;
+        background-color: $assertive;
         border-bottom-right-radius: 5px;
         border-top-right-radius: 5px;
         border-right: #BF8652 3px inset;
         .wallet-balance {
             box-shadow: 2px 1px 4px #684A2E;
-            background-color: #e4bc88;
+            background-color: $assertive;
             border-bottom-right-radius: 5px;
             border-top-right-radius: 5px;
             border-right: #BF8652 3px inset;
@@ -102,7 +102,7 @@
             h2,
             h3 {
                 margin: 0px;
-                //            color: white;
+                color: white;
             }
             h3 {
                 font-size: 13px;
@@ -143,7 +143,7 @@
             }
         }
         .wallet-txt {
-            margin: 15px 20px 10px 20px !important;
+            margin: 0px 20px 10px 20px !important;
             font-size: 15px;
             font-weight: 500;
             text-align: center;
@@ -157,7 +157,7 @@
             }
         }
         .separator {
-            border: 1px solid #E4BC88;
+            border: 1px solid $assertive;
         }
     }
     
@@ -241,7 +241,7 @@
             //            box-shadow: -5px 0px 7px #cfcfcf;
             border-bottom: 1px #ddd solid;
             /* line-height: 197%; */
-            box-shadow: 0px -12px 180px #E4BC88;
+            box-shadow: 0px -12px 180px $assertive;
         }
         .forms {
             box-shadow: -5px 0px 12px #cfcfcf;
@@ -254,7 +254,7 @@
     
     .bg-assertive {
         background-color: $assertive !important;
-        color: black !important;
+        color: white !important;
     }
     
     .img-holder {
@@ -367,7 +367,7 @@
     }
     
     .border-left-success {
-        border-left: 8px $success solid !important;
+        border-left: 8px $assertive solid !important;
         border-top-left-radius: 7px;
         border-bottom-left-radius: 7px;
         //    padding-left: 20px !important;
@@ -498,7 +498,7 @@
                     background-color: white;
                     text-decoration: none;
                     padding: 8px 0px 8px 15px;
-                    color: black;
+                    color: white;
                 }
             }
             a:-webkit-any-link {
@@ -579,7 +579,7 @@
         border-radius: 56px;
         box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16);
         .button-upload {
-            color: black !important;
+            color: white !important;
         }
         .button {
             min-height: 56px !important;
@@ -630,10 +630,10 @@
         }
         .img-layer {
             height: 100%;
-            background: -webkit-linear-gradient(rgba(63, 81, 181, 0.16) 18%, rgba(67, 47, 29, 0.68));
-            background: -moz-linear-gradient(rgba(63, 81, 181, 0.16) 18%, rgba(67, 47, 29, 0.68));
-            background: -ms-linear-gradient(rgba(63, 81, 181, 0.16) 18%, rgba(67, 47, 29, 0.68));
-            background: -o-linear-gradient(rgba(63, 81, 181, 0.16) 18%, rgba(67, 47, 29, 0.68));
+            background: -webkit-linear-gradient(rgba(63, 81, 181, 0.16) 18%, rgba(100, 157, 202, 0.68));
+            background: -moz-linear-gradient(rgba(63, 81, 181, 0.16) 18%, rgba(100, 157, 202, 0.68));
+            background: -ms-linear-gradient(rgba(63, 81, 181, 0.16) 18%, rgba(100, 157, 202, 0.68));
+            background: -o-linear-gradient(rgba(63, 81, 181, 0.16) 18%, rgba(100, 157, 202, 0.68));
             position: relative;
             @include transition(all,
             0.5s);
@@ -735,4 +735,15 @@
     
     .login-input {
         margin-right: 15px !important;
+    }
+    
+    .title {
+        img {
+            height: 100%;
+            padding: 5px 0;
+        }
+    }
+    
+    .slider-pager .slider-pager-page {
+        color: $assertive !important;
     }

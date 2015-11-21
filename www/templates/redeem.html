@@ -25,15 +25,23 @@
             <div class="padding">
                 <button class="button button-block button-assertive no-margin" ng-click="addRedeemTransaction()">REDEEM</button>
             </div>
-            <a class="item item-icon-left padding-vertical" href="#">
-                <i class="icon ion-ios-world-outline"></i> www.{{vendor.name | lowercase}}.com
+            <a class="item item-icon-left" href="#">
+                <i class="icon ion-ios-world-outline assertive"></i> www.{{vendor.name | lowercase}}.com
             </a>
-            <a class="item item-icon-left padding-vertical" href="#">
-                <i class="icon ln-smartphone"></i> Android app link
+            <a class="item item-icon-left" href="#">
+                <i class="icon ln-smartphone assertive"></i> Android app link
             </a>
-            <a class="item item-icon-left padding-vertical" href="#">
-                <i class="icon ln-iphone"></i> iOS app link
+            <a class="item item-icon-left" href="#">
+                <i class="icon ln-iphone assertive"></i> iOS app link
             </a>
+            <div class="row">
+                <div class="col"><a class="item item-icon-left padding-vertical no-border" href="#">
+                <i class="icon ion-social-facebook-outline assertive"></i> @fb.me/{{vendor.name | limitTo:3 | lowercase }}
+            </a></div>
+                <div class="col"><a class="item item-icon-left padding-vertical no-border" href="#">
+                <i class="icon ion-social-twitter-outline assertive"></i> @t.co/{{vendor.name | limitTo:3 | lowercase }}
+            </a></div>
+            </div>
             <ion-item class="tnc" ng-click="tNc()">
                 Terms & conditions
                 <i class="icon" ng-class="{'ln-clipboard-check':readTNC,'ln-chevron-right':!readTNC}"></i>

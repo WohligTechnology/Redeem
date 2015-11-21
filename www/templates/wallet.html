@@ -13,6 +13,10 @@
                 <span class="input-label">₹</span>
                 <input type="number" placeholder="Enter amount" ng-model="wallet.amount">
             </label>
+            <div class="padding no-margin">
+                <button class="button button-assertive button-block" ng-click="addMoney()" style="">ADD MONEY</button>
+            </div>
+            <!--
             <div class="row btns-wallet no-padding">
 
                 <div class="col-80 padding-horizontal">
@@ -24,6 +28,7 @@
                     <h6 class="text-center no-margin">History</h6>
                 </div>
             </div>
+-->
             <h1 class="wallet-txt">
                 Get 10% more every time you add balance!
             </h1>
@@ -36,7 +41,16 @@
             </div>
             <div class="spacer-small"></div>
             <div class="spacer-small"></div>
-<!--
+            <div class="rel" style="position:relative;border-bottom:2px solid #0060AA;">
+                <div class="button-upload-container">
+                    <button class="button button button-icon icon ln-history button-upload" ng-click="history()">
+                    </button>
+                </div>
+                <div class="item">
+                    <h2>Balance history</h2>
+                </div>
+            </div>
+            <!--
             <div class="separator"></div>
             <div class="pending-header">
                 <h4>Requests pending approval</h4>

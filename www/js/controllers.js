@@ -157,6 +157,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
 
 .controller('LoginCtrl', function ($scope, $stateParams, $location, MyServices, $ionicScrollDelegate, $ionicModal, $ionicPopup) {
     $scope.focus = [];
+    $scope.confirmP = "Confirm Password";
     $scope.hideButtonOnInput = {
         left: false,
         right: false
@@ -288,7 +289,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         if ($scope.signup.password != "" || $scope.signup.password != null || $scope.signup.password != undefined) {
             if ($scope.signup.confirmpassword === $scope.signup.password) {
                 $scope.confirmed = true;
-                console.log("herer");
+                $scope.confirmP = "Password matching";
             } else {
                 $scope.confirmed = false;
             }
@@ -303,7 +304,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
             // referral code validation
         }
         var confirmPopup = $ionicPopup.confirm({
-            title: 'Paiso',
+            title: 'PAiSO',
             template: '<h5 style="text-align:center">We&apos;ll send an OTP on the following number :</h5><h4 class="text-center">+91 ' + $scope.signup.mobile + '</h4>'
         });
         confirmPopup.then(function (res) {
@@ -369,6 +370,16 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                         //handle referral not successful here
                     }
                 }
+                //                MyServices.findUser(data, function (data) {
+                //                    if (data2) {
+                //                        console.log(data2);
+                //                        MyServices.setUser(data2);
+                //                        $scope.user = MyServices.getUser();
+                //                        $location.path('app/home');
+                //                    }
+                //                }, function (err) {
+                //
+                //                });
                 $scope.tab.left = true;
                 $scope.tab.right = false;
             }
@@ -525,7 +536,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
             $timeout(function () {
                 $ionicBackdrop.release();
             }, 1000);
-            window.plugins.socialsharing.share('Now get extra money on your balance! only on Paiso App! Download the app from Playstore and use the following Referral code : ' + $scope.user.mobile + ' . Paiso,An eWallet you can trust. -' + $scope.user.name);
+            window.plugins.socialsharing.share('Hey!Check this out!<br> Now get more and more money on your balance! only on PAiSO App! Download the app from Playstore and use the following Referral code : ' + $scope.user.mobile + ' . <br> - ' + $scope.user.name);
         };
     })
     .controller('AboutUsCtrl', function ($scope, $stateParams, $ionicScrollDelegate) {
@@ -814,11 +825,12 @@ angular.module('starter.controllers', ['ui.bootstrap'])
             });
         };
         $scope.reffererUser = {};
-        $scope.updateRefferer = function (user) {
+        $scope.updateReferrer = function (user) {
             $scope.flag = undefined;
-            MyServices.updateRefferer(user, function (data2) {
+            MyServices.updateReferrer(user, function (data2) {
                 if (data2) {
                     $scope.reffererUser = data2;
+                    console.log(data2);
                     $scope.flag = true;
                 }
             }, function (err) {});
@@ -865,9 +877,10 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                                 _id: $scope.user._id,
                                 amount: $scope.transaction.amount
                             };
-                            if ($scope.updateRefferer($scope.updateData)) {
-                                $scope.alertUser("Refferer updated", "Money added to your wallet.", 'app/wallet');
-
+                            console.log($scope.updateData);
+                            if ($scope.updateReferrer($scope.updateData)) {
+                                
+                                $scope.refreshUser();
                             } else {
 
                             }
@@ -956,6 +969,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
             from: $scope.user._id
         };
         $scope.getHistory = function () {
+            console.log("herer");
             MyServices.findByTypeUser($scope.transactionFilter, function (data) {
                 if (data) {
                     $scope.balanceHistory = data;

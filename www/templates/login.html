@@ -52,7 +52,7 @@
                         </label>
                         <label class="item item-input label-tag" >
                             <input type="password" ng-focus="isFocused(4)" class="login-input" ng-class="{'brdr-green': confirmed,'no-border':!confirmed}" ng-model="signup.confirmpassword" ng-change="checkPassword()" placeholder="Confirm password">
-                            <span ng-show="focus[4]">Confirm password</span>
+                            <span ng-show="focus[4]" ng-bind-html="confirmP"></span>
 
                         </label>
                         <label class="item item-input label-tag">
@@ -68,9 +68,9 @@
         </div>
     </ion-content>
     <ion-footer-bar align-title="left" ng-hide="hideButtonOnInput.left" class="bar-assertive" ng-show="tab.left">
-        <button class="button button-clear button-block no-margin" style="color:#000" ng-click="doLogin()">Log In</button>
+        <button class="button button-clear button-block no-margin" ng-click="doLogin()">Log In</button>
     </ion-footer-bar>
     <ion-footer-bar align-title="left" ng-hide="hideButtonOnInput.right" class="bar-assertive" ng-show="tab.right">
-        <button class="button button-clear button-block no-margin" style="color:#000" ng-click="checkOTP()">Sign Up</button>
+        <button class="button button-clear button-block no-margin" ng-click="checkOTP()">Sign Up</button>
     </ion-footer-bar>
 </ion-view>

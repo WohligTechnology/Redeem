@@ -13,7 +13,7 @@
 -->
         <div class="list">
             <ion-item ng-repeat="item in balanceHistory | orderBy: '-timestamp'" ng-if="item.amount != null">
-                <h2>₹ {{item.amount}} <span class="item-note">{{item.timestamp | date:'dd/MM/yyyy h:mm a'}}</span></h2>
+                <h2>₹ {{item.amount}} <span class="item-note">{{item.timestamp | date:'mediumDate'}}</span></h2>
             </ion-item>
         </div>
     </ion-content>

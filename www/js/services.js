@@ -53,13 +53,13 @@ angular.module('starter.services', [])
                 }
             }).success(callback).error(err);
         },
-        updateRefferer: function (userData, callback, err) {
+        updateReferrer: function (userData, callback, err) {
             console.log(userData);
             $http({
-                url: adminurl + 'user/findUserByMobile',
+                url: adminurl + 'user/updateReferrer',
                 method: 'POST',
                 data: {
-                    "mobile": userData.referrer,
+                    "mobile": userData.mobile,
                     "_id": userData._id,
                     "amount": userData.amount
                 }
@@ -129,6 +129,15 @@ angular.module('starter.services', [])
                 method: 'POST',
                 data: {
                     "_id": category.id
+                }
+            }).success(callback).error(err);
+        },
+        findVendor: function (vendor, callback, err) {
+            $http({
+                url: adminurl + 'vendors/findone',
+                method: 'POST',
+                data: {
+                    "_id": vendor.id
                 }
             }).success(callback).error(err);
         },
