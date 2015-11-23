@@ -402,7 +402,6 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                         $location.path('app/home');
                     }
                 }, function (err) {
-
                 });
 
             }
@@ -1069,7 +1068,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                     $scope.placeholdertext = "Enter Amount";
                     if ($scope.vendor.input === "fixed" || $scope.vendor.input === "multiple") {
                         $scope.fixedinput = true;
-                        $scope.placeholdertext = "Select amount to redeem";
+                        $scope.placeholdertext = "Select amount to redeem below ..";
                     } else {
                         $scope.fixedinput = false;
                         $scope.placeholdertext = "Enter amount to redeem here ..";

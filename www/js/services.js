@@ -1,7 +1,7 @@
 //var adminurl = "http://192.168.0.114:1337/";
 //var adminurl = "http://wohlig.in:81/";
-//var adminurl = "http://104.154.90.30/";
-var adminurl = "http://localhost:1337/";
+var adminurl = "http://104.154.90.30/";
+//var adminurl = "http://localhost:1337/";
 var imgpath = adminurl + "uploadfile/resize?file=";
 
 angular.module('starter.services', [])
@@ -149,7 +149,7 @@ angular.module('starter.services', [])
         },
         sendRedeem: function (message, callback, err) {
             $http({
-                url: 'http://bulksms.mysmsmantra.com:8080/WebSMS/SMSAPI.jsp?username=Paiso&password=157699462&sendername=PAISOO&mobileno=91'+message.mobile+'&message=Voucher No '+message.vouchernumber+' for Rs.'+message.amount+' spent on '+message.vendor+' at '+message.timestamp+'(Current Balance:'+message.currentbalance+'). Valid Till : '+message.validtill+'. Paiso.',
+                url: 'http://bulksms.mysmsmantra.com:8080/WebSMS/SMSAPI.jsp?username=Paiso&password=157699462&sendername=PAISOO&mobileno=91'+message.mobile+'&message=Voucher No '+message.vouchernumber+' for Rs.'+message.amount+' spent on '+message.vendor+' at '+message.timestamp+'(Current Balance: Rs.'+message.currentbalance+'). Valid Till : '+message.validtill+'. Paiso.',
                 method: 'GET'
             });
         },

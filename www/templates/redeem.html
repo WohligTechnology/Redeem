@@ -7,25 +7,25 @@
     <ion-content>
         <div class="redeem">
             <div class="banner-holder">
-                <img class="full-image" src="img/banners/amazon.png" alt="">
+                <img class="full-image" src="{{vendor.bannerurl}}" alt="">
             </div>
             <label class="item item-input enter-amount-input padding" ng-class="{'brdr-danger':crossedLimit,'no-border-bottom':!crossedLimit}">
-                                <span class="input-label icon"><img class="currency" src="img/currency.png"></span>
+                <span class="input-label icon"><img class="currency" src="img/currency.png"></span>
 
                 <input type="number" placeholder="{{placeholdertext}}" ng-model="redeem.amount" ng-change="isInLimit(redeem.amount)" ng-disabled="fixedinput">
             </label>
             <div class="row no-padding">
-                <div class="col no-padding" ng-repeat="item in vendor.amountselect">
+                <div class="col no-padding" ng-repeat="item in vendor.amountselect" style="background-color: white !important;">
                     <button class="button no-margin button-clear button-assertive button-block" ng-click="selectMoney(item)" style="
     font-size: 16px !important;">₹ {{item}}</button>
                 </div>
             </div>
-            
-            <div class="item-note padding " ng-hide="fixedinput">
+
+            <div class="item-note padding " ng-hide="fixedinput" style="background-color: white !important;">
                 <span ng-class="{'red-color':crossedLimit}">Redeem limit : {{vendor.amountlimit}}</span>
             </div>
-               <div class="item-note padding" style="float:left;">
-                <span ng-class="{'red-color':crossedLimit}">Wallet balance : ₹ {{user.balance | number:2}}</span>
+            <div class="item-note padding" style="float:left;" style="background-color: white !important;">
+                <span>Wallet balance : ₹ {{user.balance | number:2}}</span>
             </div>
             <div class="padding">
                 <button class="button button-block button-assertive no-margin" ng-click="addRedeemTransaction()">REDEEM</button>
@@ -40,12 +40,16 @@
                 <i class="icon ln-iphone assertive"></i> iOS app link
             </a>
             <div class="row">
-                <div class="col"><a class="item item-icon-left padding-vertical no-border" href="#">
-                <i class="icon ion-social-facebook-outline assertive"></i> @fb.me/{{vendor.name | limitTo:3 | lowercase }}
-            </a></div>
-                <div class="col"><a class="item item-icon-left padding-vertical no-border" href="#">
-                <i class="icon ion-social-twitter-outline assertive"></i> @t.co/{{vendor.name | limitTo:3 | lowercase }}
-            </a></div>
+                <div class="col">
+                    <a class="item item-icon-left padding-vertical no-border" href="#">
+                        <i class="icon ion-social-facebook-outline assertive"></i> @fb.me/{{vendor.name | limitTo:3 | lowercase }}
+                    </a>
+                </div>
+                <div class="col">
+                    <a class="item item-icon-left padding-vertical no-border" href="#">
+                        <i class="icon ion-social-twitter-outline assertive"></i> @t.co/{{vendor.name | limitTo:3 | lowercase }}
+                    </a>
+                </div>
             </div>
             <ion-item class="tnc" ng-click="tNc()">
                 Terms & conditions
