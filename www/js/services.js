@@ -1,7 +1,7 @@
-var adminurl = "http://192.168.0.114:1337/";
+//var adminurl = "http://192.168.0.114:1337/";
 //var adminurl = "http://wohlig.in:81/";
-//var adminurl = "http://130.211.164.146:81/";
-//var adminurl = "http://localhost:1337/";
+//var adminurl = "http://104.154.90.30/";
+var adminurl = "http://localhost:1337/";
 var imgpath = adminurl + "uploadfile/resize?file=";
 
 angular.module('starter.services', [])
@@ -141,14 +141,17 @@ angular.module('starter.services', [])
                 }
             }).success(callback).error(err);
         },
-        findVendor: function (vendor, callback, err) {
+        sendOTP: function (message, callback, err) {
             $http({
-                url: adminurl + 'vendors/findone',
-                method: 'POST',
-                data: {
-                    "_id": vendor.id
-                }
-            }).success(callback).error(err);
+                url: 'http://bulksms.mysmsmantra.com:8080/WebSMS/SMSAPI.jsp?username=Paiso&password=157699462&sendername=PAISOO&mobileno=91'+message.mobile+'&message=Dear User, welcome to PAiSO. Your OTP is '+message.otp+'.',
+                method: 'GET'
+            });
+        },
+        sendRedeem: function (message, callback, err) {
+            $http({
+                url: 'http://bulksms.mysmsmantra.com:8080/WebSMS/SMSAPI.jsp?username=Paiso&password=157699462&sendername=PAISOO&mobileno=91'+message.mobile+'&message=Voucher No '+message.vouchernumber+' for Rs.'+message.amount+' spent on '+message.vendor+' at '+message.timestamp+'(Current Balance:'+message.currentbalance+'). Valid Till : '+message.validtill+'. Paiso.',
+                method: 'GET'
+            });
         },
         setNotify: function (data) {
             $.jStorage.set("notify", data);

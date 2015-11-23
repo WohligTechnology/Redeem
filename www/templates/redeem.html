@@ -10,7 +10,8 @@
                 <img class="full-image" src="img/banners/amazon.png" alt="">
             </div>
             <label class="item item-input enter-amount-input padding" ng-class="{'brdr-danger':crossedLimit,'no-border-bottom':!crossedLimit}">
-                <span class="input-label">₹</span>
+                                <span class="input-label icon"><img class="currency" src="img/currency.png"></span>
+
                 <input type="number" placeholder="{{placeholdertext}}" ng-model="redeem.amount" ng-change="isInLimit(redeem.amount)" ng-disabled="fixedinput">
             </label>
             <div class="row no-padding">
@@ -19,8 +20,12 @@
     font-size: 16px !important;">₹ {{item}}</button>
                 </div>
             </div>
+            
             <div class="item-note padding " ng-hide="fixedinput">
                 <span ng-class="{'red-color':crossedLimit}">Redeem limit : {{vendor.amountlimit}}</span>
+            </div>
+               <div class="item-note padding" style="float:left;">
+                <span ng-class="{'red-color':crossedLimit}">Wallet balance : ₹ {{user.balance | number:2}}</span>
             </div>
             <div class="padding">
                 <button class="button button-block button-assertive no-margin" ng-click="addRedeemTransaction()">REDEEM</button>

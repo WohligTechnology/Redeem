@@ -1,6 +1,6 @@
 angular.module('starter.controllers', ['ui.bootstrap'])
 
-.controller('AppCtrl', function ($scope, $ionicModal, $timeout, MyServices, $ionicPopup, $location) {
+.controller('AppCtrl', function ($scope, $ionicModal, $timeout, MyServices, $ionicPopup, $location, $filter) {
 
     $scope.user = {};
     $scope.user = MyServices.getUser();
@@ -126,7 +126,21 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         $scope.flag = undefined;
         MyServices.addTransaction(transaction, function (data2) {
             if (data2) {
-                console.log(data2);
+                console.log(data2.data);
+                if (data2.data.type === "redeem") {
+                    $scope.message = {
+                        mobile: $scope.user.mobile,
+                        currentbalance: data2.data.currentbalance,
+                        amount: data2.data.amount,
+                        vouchernumber: data2.data.vouchernumber,
+                        vendor: data2.data.vendor,
+                        timestamp: $filter('date')(data2.data.timestamp, 'medium'),
+                        validtill: $filter('date')(data2.data.validtill, 'mediumDate')
+                    };
+                    MyServices.sendRedeem($scope.message);
+                } else if (data2.data.type === "balance") {
+
+                }
                 if (data2.value === false)
                     $scope.flag = false;
                 else
@@ -310,38 +324,48 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         confirmPopup.then(function (res) {
 
             if (res) {
-                var alertPopup = $ionicPopup.alert({
-                    title: 'Debug',
-                    template: '<h5 style="text-align:center">OTP : ' + $scope.otp + '</h5>'
-                });
-                alertPopup.then(function (res) {
-                    var myPopup = $ionicPopup.show({
-                        template: '<input type="number" ng-model="data.inputotp" style="margin: 0px auto;width:100px;text-align:center;font-size:20px">',
-                        title: 'Enter the OTP',
-                        subTitle: 'please input the 6-digit OTP',
-                        scope: $scope,
-                        buttons: [
-                            {
-                                text: 'Cancel'
+                $scope.message = {
+                    otp: $scope.otp,
+                    mobile: $scope.signup.mobile
+                };
+                MyServices.sendOTP($scope.message);
+
+                var myPopup = $ionicPopup.show({
+                    template: '<input type="number" ng-model="data.inputotp" style="margin: 0px auto;width:100px;text-align:center;font-size:20px">',
+                    title: 'Enter the OTP',
+                    subTitle: 'please input the 6-digit OTP',
+                    scope: $scope,
+                    buttons: [
+                        {
+                            text: 'Cancel'
                         },
-                            {
-                                text: '<b>Verify</b>',
-                                type: 'button-positive',
-                                onTap: function (e) {
-                                    console.log($scope.data.inputotp);
-                                    if (!$scope.data.inputotp) {
-                                        //don't allow the user to close unless he enters otp password
-                                        e.preventDefault();
+                        {
+                            text: '<b>Verify</b>',
+                            type: 'button-positive',
+                            onTap: function (e) {
+                                console.log($scope.data.inputotp);
+                                if (!$scope.data.inputotp) {
+                                    //don't allow the user to close unless he enters otp password
+                                    e.preventDefault();
+                                } else {
+                                    if ($scope.data.inputotp === MyServices.getOTP()) {
+                                        console.log("in signup");
+                                        $scope.doSignup();
+                                        return $scope.data.inputotp;
                                     } else {
-                                        if ($scope.data.inputotp === MyServices.getOTP()) {
-                                            console.log("in signup");
-                                            $scope.doSignup();
-                                            return $scope.data.inputotp;
-                                        }
+                                        $scope.showAlert = function () {
+                                            var alertPopup = $ionicPopup.alert({
+                                                title: 'Invalid OTP',
+                                                template: 'Try signing up again'
+                                            });
+                                            alertPopup.then(function (res) {
+
+                                            });
+                                        };
                                     }
                                 }
+                            }
                         }]
-                    });
                 });
 
             } else {
@@ -354,7 +378,6 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         delete $scope.signup.confirmpassword;
         MyServices.signupUser($scope.signup, function (data) {
             if (data) {
-                console.log(data);
                 $scope.checkReferral();
                 $scope.referralData = {
                     _id: data.id,
@@ -367,21 +390,21 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                     if ($scope.updateUser($scope.ctrlUser)) {
 
                     } else {
-                        //handle referral not successful here
+
                     }
                 }
-                //                MyServices.findUser(data, function (data) {
-                //                    if (data2) {
-                //                        console.log(data2);
-                //                        MyServices.setUser(data2);
-                //                        $scope.user = MyServices.getUser();
-                //                        $location.path('app/home');
-                //                    }
-                //                }, function (err) {
-                //
-                //                });
-                $scope.tab.left = true;
-                $scope.tab.right = false;
+                console.log(data);
+                MyServices.findUser(data, function (data2) {
+                    if (data2) {
+                        console.log(data2);
+                        MyServices.setUser(data2);
+                        $scope.user = MyServices.getUser();
+                        $location.path('app/home');
+                    }
+                }, function (err) {
+
+                });
+
             }
         }, function (err) {
             if (err)
@@ -393,6 +416,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
 .controller('HomeCtrl', function ($scope, $stateParams, MyServices, $location, $ionicLoading, $timeout) {
         $scope.banners = [];
         $scope.user = {};
+        $scope.navTitle = '<img class="title-image" src="img/title.png">';
         $scope.user = MyServices.getUser();
         $scope.refreshUser = function () {
             MyServices.findUser($scope.user, function (data) {
@@ -841,60 +865,69 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                 return true;
         };
         $scope.addMoney = function () {
-            //change alert texts 
-            $scope.transaction = {};
-            $scope.refreshUser();
-            if ($scope.wallet.amount === 0 || $scope.wallet.amount === undefined || $scope.wallet.amount === null) {
-                $scope.alertUser("Invalid Amount", "can not add Rs. 0 to wallet.", 'app/wallet');
-            } else if ($scope.wallet.amount < 0) {
-                $scope.alertUser("Invalid Amount", "Amount can not be negative.", 'app/wallet');
-            } else if ($scope.user.walletLimit <= 0) {
-                $scope.alertUser("Monthly limit reached", "To add more money upgrade your KYC. The user is given a monthly limit of Rs.10000", 'app/wallet');
-            } else if ($scope.wallet.amount > $scope.user.walletLimit) {
-                $scope.upgradeAlert();
-            } else {
-                $scope.ctrlUser = {
-                    _id: $scope.user._id,
-                    balance: $scope.user.balance + ($scope.wallet.amount / 100) * 110,
-                    walletLimit: $scope.user.walletLimit - $scope.wallet.amount
-                }; //updates walletLimit,see isRemainging for more on walletLimit
-                console.log($scope.ctrlUser);
-                if ($scope.updateUser($scope.ctrlUser)) {
-                    $scope.transaction = {
-                        from: $scope.user._id,
-                        to: $scope.user._id,
-                        type: "balance",
-                        currentbalance: $scope.ctrlUser.balance,
-                        amount: $scope.wallet.amount
-                    };
-                    if ($scope.addTransaction($scope.transaction)) {
-                        $scope.user.balance = $scope.ctrlUser.balance;
-                        $scope.user.walletLimit = $scope.ctrlUser.walletLimit;
-                        $scope.alertUser("Success", "Money added to your wallet.", 'app/wallet');
-                        if ($scope.user.referrer) {
-                            $scope.updateData = {
-                                mobile: $scope.user.referrer,
-                                _id: $scope.user._id,
-                                amount: $scope.transaction.amount
-                            };
-                            console.log($scope.updateData);
-                            if ($scope.updateReferrer($scope.updateData)) {
-                                
-                                $scope.refreshUser();
-                            } else {
-
-                            }
-                        }
-                        MyServices.setUser($scope.user);
-                        $scope.wallet.amount = undefined;
-
+            var confirmPopup = $ionicPopup.confirm({
+                title: 'Wallet',
+                template: 'Are you sure you want to add Rs.' + $scope.wallet.amount + ' ?'
+            });
+            confirmPopup.then(function (res) {
+                if (res) {
+                    $scope.transaction = {};
+                    $scope.refreshUser();
+                    if ($scope.wallet.amount === 0 || $scope.wallet.amount === undefined || $scope.wallet.amount === null) {
+                        $scope.alertUser("Invalid Amount", "can not add Rs. 0 to wallet.", 'app/wallet');
+                    } else if ($scope.wallet.amount < 0) {
+                        $scope.alertUser("Invalid Amount", "Amount can not be negative.", 'app/wallet');
+                    } else if ($scope.user.walletLimit <= 0) {
+                        $scope.alertUser("Monthly limit reached", "To add more money upgrade your KYC. The user is given a monthly limit of Rs.10000", 'app/wallet');
+                    } else if ($scope.wallet.amount > $scope.user.walletLimit) {
+                        $scope.upgradeAlert();
                     } else {
-                        $scope.alertUser("Transaction status", "Failed", 'app/wallet');
+                        $scope.ctrlUser = {
+                            _id: $scope.user._id,
+                            balance: $scope.user.balance + ($scope.wallet.amount / 100) * 110,
+                            walletLimit: $scope.user.walletLimit - $scope.wallet.amount
+                        }; //updates walletLimit,see isRemainging for more on walletLimit
+                        console.log($scope.ctrlUser);
+                        if ($scope.updateUser($scope.ctrlUser)) {
+                            $scope.transaction = {
+                                from: $scope.user._id,
+                                to: $scope.user._id,
+                                type: "balance",
+                                currentbalance: $scope.ctrlUser.balance,
+                                amount: $scope.wallet.amount
+                            };
+                            if ($scope.addTransaction($scope.transaction)) {
+                                $scope.user.balance = $scope.ctrlUser.balance;
+                                $scope.user.walletLimit = $scope.ctrlUser.walletLimit;
+                                $scope.alertUser("Success", "Money added to your wallet.", 'app/wallet');
+                                if ($scope.user.referrer) {
+                                    $scope.updateData = {
+                                        mobile: $scope.user.referrer,
+                                        _id: $scope.user._id,
+                                        amount: $scope.transaction.amount
+                                    };
+                                    console.log($scope.updateData);
+                                    if ($scope.updateReferrer($scope.updateData)) {
+
+                                        $scope.refreshUser();
+                                    } else {
+
+                                    }
+                                }
+                                MyServices.setUser($scope.user);
+                                $scope.wallet.amount = undefined;
+
+                            } else {
+                                $scope.alertUser("Transaction status", "Failed", 'app/wallet');
+                            }
+                        } else {
+                            $scope.alertUser("Failed", "Failed", 'app/wallet');
+                        }
                     }
                 } else {
-                    $scope.alertUser("Failed", "Failed", 'app/wallet');
+                    //cancel button
                 }
-            }
+            });
         };
         $scope.pendings = [{
             name: 'BookMyShow',
@@ -1086,44 +1119,54 @@ angular.module('starter.controllers', ['ui.bootstrap'])
             $scope.redeem.amount = buttonvalue;
         };
         $scope.addRedeemTransaction = function () {
-            if ($scope.redeem.amount === null || $scope.redeem.amount === 0 || $scope.redeem.amount === undefined || $scope.redeem.amount < 0)
-                $scope.zeroAmount();
-            else if ($scope.vendor.amountlimit != undefined && $scope.isInLimit($scope.redeem.amount, $scope.vendor.amountlimit))
-                $scope.exceedingLimit();
+            var confirmPopup = $ionicPopup.confirm({
+                title: 'Redeem',
+                template: 'Are you sure?'
+            });
+            confirmPopup.then(function (res) {
+                if (res) {
+                    if ($scope.redeem.amount === null || $scope.redeem.amount === 0 || $scope.redeem.amount === undefined || $scope.redeem.amount < 0)
+                        $scope.zeroAmount();
+                    else if ($scope.vendor.amountlimit != undefined && $scope.isInLimit($scope.redeem.amount, $scope.vendor.amountlimit))
+                        $scope.exceedingLimit();
 
-            else {
-                $scope.ctrlUser = {
-                    _id: $scope.user._id,
-                    balance: $scope.user.balance - $scope.redeem.amount
-                }; //updates walletLimit,see isRemainging for more on walletLimit
-                console.log($scope.ctrlUser);
-                if ($scope.updateUser($scope.ctrlUser) == true) {
-                    $scope.transaction = {
-                        from: $scope.user._id,
-                        to: $scope.vendor._id,
-                        type: "redeem",
-                        currentbalance: $scope.ctrlUser.balance,
-                        amount: $scope.redeem.amount,
-                        name: $scope.user.name,
-                        email: $scope.user.email,
-                        vendor: $scope.vendor.name,
-                        referral: $scope.user.referral
-                    };
-                    if ($scope.addTransaction($scope.transaction)) {
-                        $scope.user.balance = $scope.ctrlUser.balance;
-                        $scope.proceedAlert();
-                    } else {
-                        $scope.alertUser("Redeem Progress", "Redeeming amount FAILED");
+                    else {
+                        $scope.ctrlUser = {
+                            _id: $scope.user._id,
+                            balance: $scope.user.balance - $scope.redeem.amount
+                        }; //updates walletLimit,see isRemainging for more on walletLimit
+                        console.log($scope.ctrlUser);
+                        if ($scope.updateUser($scope.ctrlUser) == true) {
+                            $scope.transaction = {
+                                from: $scope.user._id,
+                                to: $scope.vendor._id,
+                                type: "redeem",
+                                currentbalance: $scope.ctrlUser.balance,
+                                amount: $scope.redeem.amount,
+                                name: $scope.user.name,
+                                email: $scope.user.email,
+                                vendor: $scope.vendor.name
+                            };
+                            if ($scope.addTransaction($scope.transaction)) {
+                                $scope.user.balance = $scope.ctrlUser.balance;
+                                $scope.proceedAlert();
+                            } else {
+                                $scope.alertUser("Redeem Progress", "Redeeming amount FAILED");
+                            }
+                            MyServices.setUser($scope.user);
+                        } else {
+                            if ($scope.ctrlUser.balance < 0)
+                                $scope.alertUser("Redeem Failed", "Not enough balance in your wallet");
+                            else
+                                $scope.alertUser("Redeem Failed", "Server error. Try again.");
+
+                        }
                     }
-                    MyServices.setUser($scope.user);
                 } else {
-                    if ($scope.ctrlUser.balance < 0)
-                        $scope.alertUser("Redeem Failed", "Not enough balance in your wallet");
-                    else
-                        $scope.alertUser("Redeem Failed", "Server error. Try again.");
-
+                    //cancel button
                 }
-            }
+            });
+
         };
         $scope.proceedAlert = function () {
             var alertPopup = $ionicPopup.alert({

@@ -154,8 +154,7 @@ $dark:                            #444 !default;
 .login-signup .cover {
   background-color: #f1f3f4 !important; }
   .login-signup .cover img {
-    height: 100px;
-    background-color: #f1f3f4 !important; }
+    width: 50%; }
 
 .login-signup .input-label {
   width: 0%;
@@ -587,6 +586,11 @@ $dark:                            #444 !default;
 
 .slider-pager .slider-pager-page {
   color: #0060aa !important; }
+
+.currency {
+  height: 18px;
+  width: auto;
+  vertical-align: text-top; }
 
 /*!
   Ionicons, v2.0.1

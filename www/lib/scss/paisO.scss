@@ -216,8 +216,7 @@
         .cover {
             background-color: $dark-secondary;
             img {
-                height: 100px;
-                background-color: $dark-secondary;
+                width: 50%;
             }
         }
         .input-label {
@@ -746,4 +745,10 @@
     
     .slider-pager .slider-pager-page {
         color: $assertive !important;
+    }
+    
+    .currency {
+        height: 18px;    
+        width: auto;
+        vertical-align: text-top;
     }
