@@ -558,7 +558,7 @@ $dark:                            #444 !default;
 .redeem input[type="search"],
 .redeem input[type="tel"],
 .redeem input[type="color"] {
-  padding-left: 5px; }
+  padding-left: 0px; }
 
 .red-color {
   color: #D43E3E; }

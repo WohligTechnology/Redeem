@@ -865,23 +865,24 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                 return true;
         };
         $scope.addMoney = function () {
-            var confirmPopup = $ionicPopup.confirm({
-                title: 'Wallet',
-                template: 'Are you sure you want to add Rs.' + $scope.wallet.amount + ' ?'
-            });
-            confirmPopup.then(function (res) {
-                if (res) {
-                    $scope.transaction = {};
-                    $scope.refreshUser();
-                    if ($scope.wallet.amount === 0 || $scope.wallet.amount === undefined || $scope.wallet.amount === null) {
-                        $scope.alertUser("Invalid Amount", "can not add Rs. 0 to wallet.", 'app/wallet');
-                    } else if ($scope.wallet.amount < 0) {
-                        $scope.alertUser("Invalid Amount", "Amount can not be negative.", 'app/wallet');
-                    } else if ($scope.user.walletLimit <= 0) {
-                        $scope.alertUser("Monthly limit reached", "To add more money upgrade your KYC. The user is given a monthly limit of Rs.10000", 'app/wallet');
-                    } else if ($scope.wallet.amount > $scope.user.walletLimit) {
-                        $scope.upgradeAlert();
-                    } else {
+
+            $scope.transaction = {};
+            $scope.refreshUser();
+            if ($scope.wallet.amount === 0 || $scope.wallet.amount === undefined || $scope.wallet.amount === null) {
+                $scope.alertUser("Invalid Amount", "can not add Rs. 0 to wallet.", 'app/wallet');
+            } else if ($scope.wallet.amount < 0) {
+                $scope.alertUser("Invalid Amount", "Amount can not be negative.", 'app/wallet');
+            } else if ($scope.user.walletLimit <= 0) {
+                $scope.alertUser("Monthly limit reached", "To add more money upgrade your KYC. The user is given a monthly limit of Rs.10000", 'app/wallet');
+            } else if ($scope.wallet.amount > $scope.user.walletLimit) {
+                $scope.upgradeAlert();
+            } else {
+                var confirmPopup = $ionicPopup.confirm({
+                    title: 'Wallet',
+                    template: 'Are you sure you want to add Rs.' + $scope.wallet.amount + ' ?'
+                });
+                confirmPopup.then(function (res) {
+                    if (res) {
                         $scope.ctrlUser = {
                             _id: $scope.user._id,
                             balance: $scope.user.balance + ($scope.wallet.amount / 100) * 110,
@@ -896,9 +897,11 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                                 currentbalance: $scope.ctrlUser.balance,
                                 amount: $scope.wallet.amount
                             };
+                            MyServices.setUser($scope.user);
                             if ($scope.addTransaction($scope.transaction)) {
                                 $scope.user.balance = $scope.ctrlUser.balance;
                                 $scope.user.walletLimit = $scope.ctrlUser.walletLimit;
+                                $scope.refreshUser();
                                 $scope.alertUser("Success", "Money added to your wallet.", 'app/wallet');
                                 if ($scope.user.referrer) {
                                     $scope.updateData = {
@@ -914,7 +917,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
 
                                     }
                                 }
-                                MyServices.setUser($scope.user);
+
                                 $scope.wallet.amount = undefined;
 
                             } else {
@@ -923,11 +926,12 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                         } else {
                             $scope.alertUser("Failed", "Failed", 'app/wallet');
                         }
+                    } else {
+                        //cancel button
                     }
-                } else {
-                    //cancel button
-                }
-            });
+                });
+            }
+
         };
         $scope.pendings = [{
             name: 'BookMyShow',
@@ -1065,10 +1069,10 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                     $scope.placeholdertext = "Enter Amount";
                     if ($scope.vendor.input === "fixed" || $scope.vendor.input === "multiple") {
                         $scope.fixedinput = true;
-                        $scope.placeholdertext = "Select amount";
+                        $scope.placeholdertext = "Select amount to redeem";
                     } else {
                         $scope.fixedinput = false;
-                        $scope.placeholdertext = "Enter amount";
+                        $scope.placeholdertext = "Enter amount to redeem here ..";
                     }
                 } else {
                     $scope.empty = true;
@@ -1119,18 +1123,18 @@ angular.module('starter.controllers', ['ui.bootstrap'])
             $scope.redeem.amount = buttonvalue;
         };
         $scope.addRedeemTransaction = function () {
-            var confirmPopup = $ionicPopup.confirm({
-                title: 'Redeem',
-                template: 'Are you sure?'
-            });
-            confirmPopup.then(function (res) {
-                if (res) {
-                    if ($scope.redeem.amount === null || $scope.redeem.amount === 0 || $scope.redeem.amount === undefined || $scope.redeem.amount < 0)
-                        $scope.zeroAmount();
-                    else if ($scope.vendor.amountlimit != undefined && $scope.isInLimit($scope.redeem.amount, $scope.vendor.amountlimit))
-                        $scope.exceedingLimit();
 
-                    else {
+            if ($scope.redeem.amount === null || $scope.redeem.amount === 0 || $scope.redeem.amount === undefined || $scope.redeem.amount < 0)
+                $scope.zeroAmount();
+            else if ($scope.vendor.amountlimit != undefined && $scope.isInLimit($scope.redeem.amount, $scope.vendor.amountlimit))
+                $scope.exceedingLimit();
+            else {
+                var confirmPopup = $ionicPopup.confirm({
+                    title: 'Redeem',
+                    template: '<h5 style="text-align: center;margin-bottom:0">Are you sure?</h5>'
+                });
+                confirmPopup.then(function (res) {
+                    if (res) {
                         $scope.ctrlUser = {
                             _id: $scope.user._id,
                             balance: $scope.user.balance - $scope.redeem.amount
@@ -1159,13 +1163,13 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                                 $scope.alertUser("Redeem Failed", "Not enough balance in your wallet");
                             else
                                 $scope.alertUser("Redeem Failed", "Server error. Try again.");
-
                         }
+                    } else {
+                        //cancel button
                     }
-                } else {
-                    //cancel button
-                }
-            });
+                });
+            }
+
 
         };
         $scope.proceedAlert = function () {
