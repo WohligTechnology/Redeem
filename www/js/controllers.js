@@ -771,7 +771,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
 
                 } else {
                     MyServices.findUserByMobile($scope.send, function (data) {
-                        if (data) {
+                        if (data._id) {
                             console.log(data);
                             $scope.updateU1 = {
                                 _id: data._id,
@@ -800,6 +800,10 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                                     }
                                 }
                             }
+                        }
+                        else{
+                                                                        $scope.alertUser("Send Money : failed", "The user is not on PAiSO.");
+
                         }
                     }, function (err) {
 
