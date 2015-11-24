@@ -280,7 +280,10 @@ angular.module('starter.controllers', ['ui.bootstrap'])
     };
     $scope.checkReferral = function () {
         console.log($scope.signup);
-        MyServices.findUserByMobile($scope.signup, function (data) {
+        $scope.usermobile = {
+            mobile: $scope.signup.referrer
+        };
+        MyServices.findUserByMobile($scope.usermobile, function (data) {
                 if (data) {
                     console.log(data);
                     $scope.ctrlUser = data;
@@ -401,8 +404,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                         $scope.user = MyServices.getUser();
                         $location.path('app/home');
                     }
-                }, function (err) {
-                });
+                }, function (err) {});
 
             }
         }, function (err) {
@@ -727,7 +729,85 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         };
 
     })
-    .controller('SendMoneyCtrl', function ($scope, $stateParams) {})
+    .controller('SendMoneyCtrl', function ($scope, $stateParams, MyServices, $ionicPopup) {
+        $scope.send = {};
+        $scope.user = {};
+        $scope.user = MyServices.getUser();
+        $scope.refreshUser = function () {
+            MyServices.findUser($scope.user, function (data) {
+                if (data) {
+                    console.log(data);
+                    MyServices.setUser(data);
+                    $scope.user = MyServices.getUser();
+                }
+            }, function (err) {
+
+            });
+        };
+        $scope.ctrlUser = {};
+        $scope.refreshUser();
+        $scope.alertUser = function (alertTitle, alertDesc, link) {
+            var alertPopup = $ionicPopup.alert({
+                title: alertTitle,
+                template: '<h5 style="text-align: center;margin-bottom:0">' + alertDesc + '</h5>'
+            });
+            alertPopup.then(function (res) {
+                if (link)
+                    $location.path('app/wallet');
+            });
+        };
+        $scope.sendIt = function () {
+            $scope.ctrlUser = $scope.user;
+            $scope.dirty = {
+                mobile: false,
+                amount: false,
+                comment: false
+            };
+            if ($scope.send.mobile === null || $scope.send.mobile === undefined || $scope.send.mobile === "" || $scope.send.mobile === 0) {
+                $scope.dirty.mobile = true;
+            } else {
+                if ($scope.send.amount === null || $scope.send.amount === undefined || $scope.send.amount === "" || $scope.send.amount === 0) {
+                    $scope.dirty.amount = true;
+
+                } else {
+                    MyServices.findUserByMobile($scope.send, function (data) {
+                        if (data) {
+                            console.log(data);
+                            $scope.updateU1 = {
+                                _id: data._id,
+                                balance: data.balance + $scope.send.amount,
+                            };
+                            if ($scope.user._id === data._id) {
+                                $scope.alertUser("Send Money : Failed", "You cannot send money to yourself");
+                            } else {
+                                if ($scope.updateUser($scope.updateU1)) {
+                                    $scope.updateU2 = {
+                                        _id: $scope.user._id,
+                                        balance: $scope.ctrlUser.balance - $scope.send.amount
+                                    };
+                                    if ($scope.updateUser($scope.updateU2)) {
+                                        $scope.refreshUser();
+                                        $scope.transaction = {
+                                            from: $scope.user._id,
+                                            to: data._id,
+                                            type: "sendmoney",
+                                            amount: $scope.send.amount,
+                                            comment: $scope.send.comment
+                                        };
+                                        if ($scope.addTransaction($scope.transaction)) {
+                                            $scope.alertUser("Send Money : Success", "transfer complete.");
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }, function (err) {
+
+                    });
+                }
+            }
+        }
+    })
     .controller('WalletCtrl', function ($scope, $stateParams, $ionicScrollDelegate, MyServices, $ionicPopup, $location, $ionicModal) {
         //Here $scope.user is a global varianble.
 

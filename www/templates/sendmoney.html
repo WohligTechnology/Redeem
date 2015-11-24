@@ -33,19 +33,19 @@
             <div class="list no-margin">
                 <label class="item item-input">
                     <!--                   <span class="input-label">+91</span>-->
-                    <input type="tel" placeholder="Phone number">
+                    <input type="tel" placeholder="Phone number" ng-model="send.mobile" ng-class="{'brdr-red':dirty.mobile}">
                     <a href="" class="button contacts-button button-icon icon no-padding ln-contacts"></a>
                 </label>
-           <label class="item item-input enter-amount-input">
-            <span class="input-label">₹</span>
-            <input type="number" placeholder="Enter amount">
-        </label>
+                <label class="item item-input enter-amount-input">
+                    <span class="input-label">₹</span>
+                    <input type="number" placeholder="Enter amount" ng-model="send.amount" ng-class="{'brdr-red':dirty.amount}">
+                </label>
                 <label class="item item-input">
-                    <textarea placeholder="Comments"></textarea>
+                    <textarea placeholder="Comments" ng-model="send.comment"></textarea>
                 </label>
             </div>
             <div class="padding">
-                <button class="button button-assertive button-block">Send</button>
+                <button class="button button-assertive button-block" ng-click="sendIt()">Send</button>
             </div>
         </form>
     </ion-content>
