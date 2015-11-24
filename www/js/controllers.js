@@ -311,7 +311,31 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                 $scope.confirmed = false;
             }
         }
-    }
+    };
+    $scope.validate = {};
+    $scope.validateThis = function () {
+        $scope.validate = {
+            name: false,
+            mobile: false,
+            email: false,
+            password: false
+        };
+        if ($scope.signup.name === "" || $scope.signup.name === null || $scope.signup.name === undefined)
+            $scope.validate.name = true;
+
+        if ($scope.signup.mobile === "" || $scope.signup.mobile === null || $scope.signup.mobile === undefined)
+            $scope.validate.mobile = true;
+
+        if ($scope.signup.email === "" || $scope.signup.email === null || $scope.signup.email === undefined)
+            $scope.validate.email = true;
+
+        if ($scope.signup.password === "" || $scope.signup.password === null || $scope.signup.password === undefined)
+            $scope.validate.password = true;
+        if ($scope.validate.name === true || $scope.validate.mobile === true || $scope.validate.name === true || $scope.validate.password == true)
+            return false;
+        else
+            return true;
+    };
     $scope.data = {};
     $scope.checkOTP = function () {
         $scope.generateOTP();
@@ -800,10 +824,8 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                                     }
                                 }
                             }
-                        }
-                        else{
-                                                                        $scope.alertUser("Send Money : failed", "The user is not on PAiSO.");
-
+                        } else {
+                            $scope.alertUser("Send Money : failed", "The user is not on PAiSO.");
                         }
                     }, function (err) {
 
@@ -823,7 +845,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                 if (data) {
                     console.log(data);
                     MyServices.setUser(data);
-                    $scope.user = MyServices.getUser();
+                    $scope.user = MySevices.getUser();
                 }
             }, function (err) {
 
