@@ -1,10 +1,27 @@
 angular.module('starter.controllers', ['ui.bootstrap'])
 
-.controller('AppCtrl', function ($scope, $ionicModal, $timeout, MyServices, $ionicPopup, $location, $filter) {
+.controller('AppCtrl', function ($scope, $ionicModal, $timeout, MyServices, $ionicPopup, $location, $filter, $cordovaDevice) {
 
     $scope.user = {};
     $scope.user = MyServices.getUser();
     $scope.loginData = {};
+    $scope.device = {};
+    document.addEventListener("deviceready", function () {
+
+        $scope.device.device = $cordovaDevice.getDevice();
+
+        $scope.device.cordova = $cordovaDevice.getCordova();
+
+        $scope.device.model = $cordovaDevice.getModel();
+
+        $scope.device.platform = $cordovaDevice.getPlatform();
+
+        $scope.device.uuid = $cordovaDevice.getUUID();
+
+        $scope.device.version = $cordovaDevice.getVersion();
+
+    }, false);
+    console.log($scope.device);
     $ionicModal.fromTemplateUrl('templates/login.html', {
         scope: $scope
     }).then(function (modal) {
@@ -73,7 +90,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         state: false
     }, {
         title: 'Notification',
-        url: '#/app/aboutus',
+        url: '#/app/notification',
         state: false
     }, {
         title: 'Logout',
@@ -323,7 +340,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         if ($scope.signup.name === "" || $scope.signup.name === null || $scope.signup.name === undefined)
             $scope.validate.name = true;
 
-        if ($scope.signup.mobile === "" || $scope.signup.mobile === null || $scope.signup.mobile === undefined)
+        if ($scope.signup.mobile === "" || $scope.signup.mobile === null || $scope.signup.mobile === undefined || $scope.signup.mobile < 999999999)
             $scope.validate.mobile = true;
 
         if ($scope.signup.email === "" || $scope.signup.email === null || $scope.signup.email === undefined)
@@ -339,66 +356,76 @@ angular.module('starter.controllers', ['ui.bootstrap'])
     $scope.data = {};
     $scope.checkOTP = function () {
         $scope.generateOTP();
-        if ($scope.checkReferral()) {
-            // referral verified
-        } else {
-            // referral code validation
-        }
-        var confirmPopup = $ionicPopup.confirm({
-            title: 'PAiSO',
-            template: '<h5 style="text-align:center">We&apos;ll send an OTP on the following number :</h5><h4 class="text-center">+91 ' + $scope.signup.mobile + '</h4>'
-        });
-        confirmPopup.then(function (res) {
+        if ($scope.validateThis()) {
+            if ($scope.checkReferral()) {
+                // referral verified
+            } else {
+                // referral code validation
+            }
+            var confirmPopup = $ionicPopup.confirm({
+                title: 'PAiSO',
+                template: '<h5 style="text-align:center">We&apos;ll send an OTP on the following number :</h5><h4 class="text-center">+91 ' + $scope.signup.mobile + '</h4>'
+            });
+            confirmPopup.then(function (res) {
 
-            if (res) {
-                $scope.message = {
-                    otp: $scope.otp,
-                    mobile: $scope.signup.mobile
-                };
-                MyServices.sendOTP($scope.message);
+                if (res) {
+                    $scope.message = {
+                        otp: $scope.otp,
+                        mobile: $scope.signup.mobile
+                    };
+                    MyServices.sendOTP($scope.message);
 
-                var myPopup = $ionicPopup.show({
-                    template: '<input type="number" ng-model="data.inputotp" style="margin: 0px auto;width:100px;text-align:center;font-size:20px">',
-                    title: 'Enter the OTP',
-                    subTitle: 'please input the 6-digit OTP',
-                    scope: $scope,
-                    buttons: [
-                        {
-                            text: 'Cancel'
+                    var myPopup = $ionicPopup.show({
+                        template: '<input type="number" ng-model="data.inputotp" style="margin: 0px auto;width:100px;text-align:center;font-size:20px">',
+                        title: 'Enter the OTP',
+                        subTitle: 'please input the 6-digit OTP',
+                        scope: $scope,
+                        buttons: [
+                            {
+                                text: 'Cancel'
                         },
-                        {
-                            text: '<b>Verify</b>',
-                            type: 'button-positive',
-                            onTap: function (e) {
-                                console.log($scope.data.inputotp);
-                                if (!$scope.data.inputotp) {
-                                    //don't allow the user to close unless he enters otp password
-                                    e.preventDefault();
-                                } else {
-                                    if ($scope.data.inputotp === MyServices.getOTP()) {
-                                        console.log("in signup");
-                                        $scope.doSignup();
-                                        return $scope.data.inputotp;
+                            {
+                                text: '<b>Verify</b>',
+                                type: 'button-positive',
+                                onTap: function (e) {
+                                    console.log($scope.data.inputotp);
+                                    if (!$scope.data.inputotp) {
+                                        //don't allow the user to close unless he enters otp password
+                                        e.preventDefault();
                                     } else {
-                                        $scope.showAlert = function () {
-                                            var alertPopup = $ionicPopup.alert({
-                                                title: 'Invalid OTP',
-                                                template: 'Try signing up again'
-                                            });
-                                            alertPopup.then(function (res) {
+                                        if ($scope.data.inputotp === MyServices.getOTP()) {
+                                            console.log("in signup");
+                                            $scope.doSignup();
+                                            return $scope.data.inputotp;
+                                        } else {
+                                            $scope.showAlert = function () {
+                                                var alertPopup = $ionicPopup.alert({
+                                                    title: 'Invalid OTP',
+                                                    template: 'Try signing up again'
+                                                });
+                                                alertPopup.then(function (res) {
 
-                                            });
-                                        };
+                                                });
+                                            };
+                                        }
                                     }
                                 }
-                            }
                         }]
-                });
+                    });
 
-            } else {
+                } else {
 
-            }
-        });
+                }
+            });
+        } else {
+            var alertPopup = $ionicPopup.alert({
+                title: 'Signup : Failed',
+                template: '<h5 style="text-align:center">Invalid data</h5>'
+            });
+            alertPopup.then(function (res) {
+
+            });
+        }
     };
     $scope.referralData = {};
     $scope.doSignup = function () {
@@ -822,14 +849,14 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                                             $scope.alertUser("Send Money : Success", "transfer complete.");
                                         }
                                     } else {
-                                        //revert code for current app holder
+                                        //revert code for current logged in user
                                     }
                                 } else {
                                     //revert code for reciever 
                                 }
                             }
                         } else {
-                            $scope.alertUser("Send Money : failed", "The user is not on PAiSO.");
+                            $scope.alertUser("Send Money : Failed", "The user is not on PAiSO.");
                         }
                     }, function (err) {
 
@@ -839,9 +866,6 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         }
     })
     .controller('WalletCtrl', function ($scope, $stateParams, $ionicScrollDelegate, MyServices, $ionicPopup, $location, $ionicModal) {
-        //Here $scope.user is a global varianble.
-
-
         $scope.user = {};
         $scope.user = MyServices.getUser();
         $scope.refreshUser = function () {
@@ -1379,4 +1403,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                 console.log(err);
             }
         });
+    })
+    .controller('NotificationCtrl', function ($scope, $stateParams) {
+
     });

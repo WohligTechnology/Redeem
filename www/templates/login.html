@@ -31,22 +31,22 @@
                 <form ng-show="tab.right">
                     <div class="list">
                         <label class="item item-input label-tag" ng-class="{'brdr-yellow':required}">
-                            <input type="text" ng-focus="isFocused(0)" class="login-input" ng-model="signup.name" placeholder="Name">
+                            <input type="text" ng-focus="isFocused(0)" class="login-input" ng-model="signup.name" placeholder="Name" ng-class="{'brdr-red':validate.name}">
                             <span ng-show="focus[0]">Name</span>
                         </label>
 
                         <label class="item item-input label-tag">
-                            <input type="tel" ng-focus="isFocused(1)" class="login-input" ng-model="signup.mobile" placeholder="Phone number" required>
+                            <input type="tel" ng-focus="isFocused(1)" class="login-input" ng-model="signup.mobile" placeholder="Phone number" required ng-class="{'brdr-red':validate.mobile}">
                             <span ng-show="focus[1]">Phone number</span>
 
                         </label>
                         <label class="item item-input label-tag">
-                            <input type="email" ng-focus="isFocused(2)" class="login-input" ng-model="signup.email" placeholder="Email">
+                            <input type="email" ng-focus="isFocused(2)" class="login-input" ng-model="signup.email" placeholder="Email" ng-class="{'brdr-red':validate.email}">
                             <span ng-show="focus[2]">Email</span>
 
                         </label>
                         <label class="item item-input label-tag">
-                            <input type="password" ng-focus="isFocused(3)" class="login-input" ng-model="signup.password" placeholder="Password" required>
+                            <input type="password" ng-focus="isFocused(3)" class="login-input" ng-model="signup.password" placeholder="Password" required ng-class="{'brdr-red':validate.password}">
                             <span ng-show="focus[3]">Password</span>
 
                         </label>
