@@ -821,7 +821,11 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                                         if ($scope.addTransaction($scope.transaction)) {
                                             $scope.alertUser("Send Money : Success", "transfer complete.");
                                         }
+                                    } else {
+                                        //revert code for current app holder
                                     }
+                                } else {
+                                    //revert code for reciever 
                                 }
                             }
                         } else {
@@ -845,7 +849,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                 if (data) {
                     console.log(data);
                     MyServices.setUser(data);
-                    $scope.user = MySevices.getUser();
+                    $scope.user = MyServices.getUser();
                 }
             }, function (err) {
 
@@ -1032,7 +1036,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                             $scope.alertUser("Failed", "Failed", 'app/wallet');
                         }
                     } else {
-                        //cancel button
+                        $scope.wallet.amount = undefined;
                     }
                 });
             }
@@ -1270,7 +1274,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                                 $scope.alertUser("Redeem Failed", "Server error. Try again.");
                         }
                     } else {
-                        //cancel button
+                        $scope.redeem.amount = undefined;
                     }
                 });
             }
