@@ -1,7 +1,7 @@
 //var adminurl = "http://192.168.0.114:1337/";
 //var adminurl = "http://wohlig.in:81/";
-//var adminurl = "http://104.154.90.30/";
-var adminurl = "http://localhost:1337/";
+var adminurl = "http://104.154.90.30/";
+//var adminurl = "http://localhost:1337/";
 var imgpath = adminurl + "uploadfile/resize?file=";
 
 angular.module('starter.services', [])
@@ -168,6 +168,12 @@ angular.module('starter.services', [])
         },
         getUser: function () {
             return $.jStorage.get("user");
+        },
+        setDevice: function (data) {
+            $.jStorage.set("device", data);
+        },
+        getDevice: function () {
+            return $.jStorage.get("device");
         },
         setReferrer: function (data) {
             $.jStorage.set("referrer", data);

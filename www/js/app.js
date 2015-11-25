@@ -1,10 +1,10 @@
 // Ionic Starter App
-
+var phone= {};
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','ngCordova'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ngCordova'])
 
 .run(function ($ionicPlatform) {
     $ionicPlatform.ready(function () {
@@ -15,6 +15,21 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
             cordova.plugins.Keyboard.disableScroll(true);
 
         }
+        
+//        function onDeviceReady() {
+//            phone.device = $cordovaDevice.getDevice();
+//
+//            phone.cordova = $cordovaDevice.getCordova();
+//
+//            phone.model = $cordovaDevice.getModel();
+//
+//            phone.platform = $cordovaDevice.getPlatform();
+//
+//            phone.uuid = $cordovaDevice.getUUID();
+//
+//            phone.version = $cordovaDevice.getVersion();
+//            MyServices.setDevice(phone);
+//        };
         if (window.StatusBar) {
             // org.apache.cordova.statusbar required
             StatusBar.styleDefault();
@@ -22,7 +37,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
     });
 })
 
-.config(function ($stateProvider, $urlRouterProvider,$ionicConfigProvider) {
+.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
     $ionicConfigProvider.views.maxCache(0);
     $stateProvider
 
@@ -44,7 +59,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
             views: {
                 'menuContent': {
                     templateUrl: 'templates/home.html',
-                    controller:'HomeCtrl'
+                    controller: 'HomeCtrl'
                 }
             }
         })
@@ -176,5 +191,5 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
         }
     });
     // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise('/login');
+    $urlRouterProvider.otherwise('/app/home');
 });

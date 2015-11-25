@@ -21,56 +21,57 @@
                     <div class="list">
                         <label class="item item-input">
                             <span class="input-label">+91</span>
-                            <input type="tel" placeholder="Phone Number" class="login-input" ng-model="login.mobile">
+                            <input type="tel" placeholder="Phone Number" class="login-input" ng-model="login.mobile" ng-class="{'brdr-red':validateIt.mobile}">
                         </label>
                         <label class="item item-input">
-                            <input type="password" placeholder="Password" class="login-input" ng-model="login.password">
+                            <input type="password" placeholder="Password" class="login-input" ng-model="login.password" ng-class="{'brdr-red':validateIt.password}">
                         </label>
+                        <div class="padding">
+                            <button class="button button-assertive button-block no-margin" ng-click="doLogin()">Log In</button>
+                        </div>
                     </div>
                 </form>
                 <form ng-show="tab.right">
                     <div class="list">
                         <label class="item item-input label-tag" ng-class="{'brdr-yellow':required}">
-                            <input type="text" ng-focus="isFocused(0)" class="login-input" ng-model="signup.name" placeholder="Name" ng-class="{'brdr-red':validate.name}">
-                            <span ng-show="focus[0]">Name</span>
+                            <input type="text" class="login-input" ng-model="signup.name" placeholder="Name" ng-class="{'brdr-red':validate.name}">
+
                         </label>
 
                         <label class="item item-input label-tag">
-                            <input type="tel" ng-focus="isFocused(1)" class="login-input" ng-model="signup.mobile" placeholder="Phone number" required ng-class="{'brdr-red':validate.mobile}">
-                            <span ng-show="focus[1]">Phone number</span>
+                            <input type="tel" class="login-input" ng-model="signup.mobile" placeholder="Phone number" required ng-class="{'brdr-red':validate.mobile}">
+
 
                         </label>
                         <label class="item item-input label-tag">
-                            <input type="email" ng-focus="isFocused(2)" class="login-input" ng-model="signup.email" placeholder="Email" ng-class="{'brdr-red':validate.email}">
-                            <span ng-show="focus[2]">Email</span>
+                            <input type="email" class="login-input" ng-model="signup.email" placeholder="Email" ng-class="{'brdr-red':validate.email}">
+
 
                         </label>
                         <label class="item item-input label-tag">
-                            <input type="password" ng-focus="isFocused(3)" class="login-input" ng-model="signup.password" placeholder="Password" required ng-class="{'brdr-red':validate.password}">
-                            <span ng-show="focus[3]">Password</span>
+                            <input type="password" class="login-input" ng-model="signup.password" placeholder="Password" required ng-class="{'brdr-red':validate.password}">
 
-                        </label>
-                        <label class="item item-input label-tag" >
-                            <input type="password" ng-focus="isFocused(4)" class="login-input" ng-class="{'brdr-green': confirmed,'no-border':!confirmed}" ng-model="signup.confirmpassword" ng-change="checkPassword()" placeholder="Confirm password">
-                            <span ng-show="focus[4]" ng-bind-html="confirmP"></span>
 
                         </label>
                         <label class="item item-input label-tag">
-                            <input type="tel" ng-focus="isFocused(5)" class="login-input" ng-model="signup.referrer" placeholder="Referral code (If any)">
-                            <span ng-show="focus[5]">Referral code</span>
+                            <input type="password" class="login-input" ng-class="{'brdr-green': confirmed,'no-border':!confirmed}" ng-model="signup.confirmpassword" ng-change="checkPassword()" placeholder="Confirm password">
+                            <span ng-bind-html="confirmP"></span>
 
                         </label>
+                        <label class="item item-input label-tag">
+                            <input type="tel" class="login-input" ng-model="signup.referrer" placeholder="Referral code (If any)">
 
+
+                        </label>
+                        <div class="padding">
+                            
+                            <a class="button button-assertive button-block no-margin" ng-click = "checkOTP()">Sign up</a>
+                        </div>
                     </div>
                 </form>
             </div>
 
         </div>
     </ion-content>
-    <ion-footer-bar align-title="left" ng-hide="hideButtonOnInput.left" class="bar-assertive" ng-show="tab.left">
-        <button class="button button-clear button-block no-margin" ng-click="doLogin()">Log In</button>
-    </ion-footer-bar>
-    <ion-footer-bar align-title="left" ng-hide="hideButtonOnInput.right" class="bar-assertive" ng-show="tab.right">
-        <button class="button button-clear button-block no-margin" ng-click="checkOTP()">Sign Up</button>
-    </ion-footer-bar>
+
 </ion-view>
