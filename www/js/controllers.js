@@ -34,22 +34,10 @@ angular.module('starter.controllers', ['ui.bootstrap'])
     };
 
     $scope.referralBadge = undefined;
-    $scope.newReferral = function () {
-        MyServices.findUser(MyServices.getUser(), function (data) {
-            if (data) {
-                if (data.referral.length > $scope.user.referral.length) {
-                    MyServices.setUser(data);
-                    $scope.referralBadge = data.referral.length - $scope.user.referral.length;
-                }
-            }
-        }, function (err) {
-
-        });
-    };
+    
     $scope.testCall = function () {
         console.log("in here");
     };
-    $scope.newReferral();
     $scope.refreshUser();
     $scope.menu = [{
         title: 'Home',
@@ -166,7 +154,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         });
         alertPopup.then(function (res) {
             if (link)
-                $location.path('app/wallet');
+                $location.path(link);
         });
     };
 })
@@ -177,7 +165,9 @@ angular.module('starter.controllers', ['ui.bootstrap'])
 .controller('LoginCtrl', function ($scope, $stateParams, $location, MyServices, $ionicScrollDelegate, $ionicModal, $ionicPopup) {
     $scope.phone1 = {};
     $scope.phone = MyServices.getDevice();
-
+    $scope.currentDate = new Date();
+    $scope.minDate = new Date(1970,1,1);
+    console.log($scope.currentDate);
     $scope.confirmP = "Confirm Password";
     $scope.hideButtonOnInput = {
         left: false,
@@ -343,13 +333,20 @@ angular.module('starter.controllers', ['ui.bootstrap'])
             }
         }
     };
+    $scope.type = "text";
+    $scope.toggleDate = function () {
+        if ($scope.type === "text")
+            $scope.type = "date";
+    };
     $scope.validate = {};
     $scope.validateThis = function () {
         $scope.validate = {
             name: false,
             mobile: false,
             email: false,
-            password: false
+            password: false,
+            date: false,
+            gender: false
         };
         if ($scope.signup.name === "" || $scope.signup.name === null || $scope.signup.name === undefined)
             $scope.validate.name = true;
@@ -362,7 +359,11 @@ angular.module('starter.controllers', ['ui.bootstrap'])
 
         if ($scope.signup.password === "" || $scope.signup.password === null || $scope.signup.password === undefined)
             $scope.validate.password = true;
-        if ($scope.validate.name === true || $scope.validate.mobile === true || $scope.validate.email === true || $scope.validate.password == true)
+        if ($scope.signup.gender === "" || $scope.signup.gender === null || $scope.signup.gender === undefined)
+            $scope.validate.gender = true;
+        if ($scope.signup.date === "" || $scope.signup.date === null || $scope.signup.date === undefined)
+            $scope.validate.date = true;
+        if ($scope.validate.name === true || $scope.validate.mobile === true || $scope.validate.email === true || $scope.validate.password == true || $scope.validate.gender == true || $scope.validate.date == true)
             return false;
         else
             return true;
@@ -1076,7 +1077,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
                                 $scope.user.balance = $scope.ctrlUser.balance;
                                 $scope.user.walletLimit = $scope.ctrlUser.walletLimit;
                                 $scope.refreshUser();
-                                $scope.alertUser("Success", "Money added to your wallet.", 'app/wallet');
+                                $scope.alertUser("Success", "Money added to your wallet.", 'app/home');
                                 if ($scope.user.referrer) {
                                     $scope.updateData = {
                                         mobile: $scope.user.referrer,

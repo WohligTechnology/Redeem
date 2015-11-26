@@ -44,6 +44,18 @@
 
                         </label>
                         <label class="item item-input label-tag">
+                            <input type="{{type}}" name="string" ng-click="toggleDate()" class="login-input" ng-model="signup.date" placeholder="Birthdate" required ng-class="{'brdr-red':validate.date}" max="{{ currentDate | date :'yyyy-MM-dd'}}" min="{{ minDate | date :'yyyy-MM-dd'}}">
+                        </label>
+                        <label class="item item-input item-select" ng-class="{'brdr-red':validate.gender}">
+                            <div class="input-label" style="color:#BEBEBE">
+                                Gender
+                            </div>
+                            <select ng-model="signup.gender" style="background-color:#F1F3F4">
+                                <option selected>Male</option>
+                                <option>Female</option>
+                            </select>
+                        </label>
+                        <label class="item item-input label-tag">
                             <input type="email" class="login-input" ng-model="signup.email" placeholder="Email" ng-class="{'brdr-red':validate.email}">
 
 
@@ -55,7 +67,7 @@
                         </label>
                         <label class="item item-input label-tag">
                             <input type="password" class="login-input" ng-class="{'brdr-green': confirmed,'no-border':!confirmed}" ng-model="signup.confirmpassword" ng-change="checkPassword()" placeholder="Confirm password">
-                            <span ng-bind-html="confirmP"></span>
+                            <!--                            <span ng-bind-html="confirmP"></span>-->
 
                         </label>
                         <label class="item item-input label-tag">
@@ -64,8 +76,8 @@
 
                         </label>
                         <div class="padding">
-                            
-                            <a class="button button-assertive button-block no-margin" ng-click = "checkOTP()">Sign up</a>
+
+                            <a class="button button-assertive button-block no-margin" ng-click="checkOTP()">Sign up</a>
                         </div>
                     </div>
                 </form>
