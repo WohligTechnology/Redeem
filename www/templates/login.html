@@ -43,8 +43,8 @@
 
 
                         </label>
-                        <label class="item item-input label-tag">
-                            <input type="{{type}}" name="string" ng-click="toggleDate()" class="login-input" ng-model="signup.date" placeholder="Birthdate" required ng-class="{'brdr-red':validate.date}" max="{{ currentDate | date :'yyyy-MM-dd'}}" min="{{ minDate | date :'yyyy-MM-dd'}}">
+                        <label class="item item-input label-tag" ng-click="openDate();">
+                            <input type="text" name="string" class="login-input" ng-model="signup.date" placeholder="Birthdate" required ng-class="{'brdr-red':validate.date}" disabled>
                         </label>
                         <label class="item item-input item-select" ng-class="{'brdr-red':validate.gender}">
                             <div class="input-label" style="color:#BEBEBE">
@@ -76,7 +76,6 @@
 
                         </label>
                         <div class="padding">
-<button class="button button-positive" ng-click="openDate();">Open Date</button>
                             <a class="button button-assertive button-block no-margin" ng-click="checkOTP()">Sign up</a>
                         </div>
                     </div>

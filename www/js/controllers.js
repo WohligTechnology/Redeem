@@ -162,7 +162,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
 .controller('PlaylistsCtrl', function($scope) {})
   .controller('SearchCtrl', function($scope) {})
 
-.controller('LoginCtrl', function($scope, $stateParams, $location, MyServices, $ionicScrollDelegate, $ionicModal, $ionicPopup, $cordovaDatePicker) {
+.controller('LoginCtrl', function($scope, $stateParams, $location, MyServices, $ionicScrollDelegate, $ionicModal, $ionicPopup, $filter) {
   $scope.phone1 = {};
   $scope.phone = MyServices.getDevice();
   $scope.currentDate = new Date();
@@ -196,16 +196,13 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
   };
 
   function onSuccess(date) {
-    alert('Selected date: ' + date);
-		$scope.selectedDate = date;
-  }
-
-  function onError(error) { // Android only
-    alert('Error: ' + error);
+		$scope.signup.date = $filter('date')(date, 'dd/MM/yyyy');
+		$scope.$apply();
+		console.log($scope.signup.date);
   }
 
 	$scope.openDate = function () {
-		datePicker.show(options, onSuccess, onError);
+		datePicker.show(options, onSuccess);
 	}
 
   $scope.highlight = false;
