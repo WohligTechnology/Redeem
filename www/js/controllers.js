@@ -189,7 +189,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
   var options = {
     date: new Date(),
     mode: 'date', // or 'time',
-		maxDate: new Date(),
+		maxDate: new Date()-1,
     allowOldDates: true,
     allowFutureDates: false,
     androidTheme: 3
