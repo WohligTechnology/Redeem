@@ -289,7 +289,7 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         } else {
             var alertPopup = $ionicPopup.alert({
                 title: 'Login : Failed',
-                template: '<h5 style="text-align:center">Invalid data</h5>'
+                template: '<h5 style="text-align:center">Mobile number or password is incorrect.</h5>'
             });
             alertPopup.then(function (res) {
 
@@ -310,20 +310,24 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         $scope.usermobile = {
             mobile: $scope.mobile
         };
-        MyServices.findUserByMobile($scope.usermobile, function (data) {
-                if (data) {
-                    console.log(data);
-                    $scope.ctrlUser = data;
-                    return true;
-                } else {
-                    return false;
-                }
-            },
-            function (err) {
-                if (err) {
-                    return false;
-                }
-            });
+        if ($scope.signup.referrer === undefined || $scope.signup.referrer === null || $scope.signup.referrer === "") {
+
+        } else {
+            MyServices.findUserByMobile($scope.usermobile, function (data) {
+                    if (data) {
+                        console.log(data);
+                        $scope.ctrlUser = data;
+                        return true;
+                    } else {
+                        return false;
+                    }
+                },
+                function (err) {
+                    if (err) {
+                        return false;
+                    }
+                });
+        }
     };
     $scope.confirmed = undefined;
     $scope.checkPassword = function () {
@@ -444,10 +448,10 @@ angular.module('starter.controllers', ['ui.bootstrap'])
         //        $scope.signup.deviceID = $scope.phone.device;
         MyServices.signupUser($scope.signup, function (data) {
             if (data) {
-
+                console.log(data);
                 $scope.checkReferral();
                 $scope.referralData = {
-                    _id: data.id,
+                    _id: data._id,
                     amountearned: 0
                 };
                 if ($scope.signup.referrer != "" || $scope.signup.referrer != null || $scope.signup.referrer != undefined) {
