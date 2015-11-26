@@ -597,6 +597,9 @@ $dark:                            #444 !default;
   color: #ef7f1a !important;
   font-size: 14px; }
 
+input[disabled] {
+  background-color: #F1F3F4 !important; }
+
 /*!
   Ionicons, v2.0.1
   Created by Ben Sperry for the Ionic Framework, http://ionicons.com/

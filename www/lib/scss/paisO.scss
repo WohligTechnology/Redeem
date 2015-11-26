@@ -322,7 +322,7 @@
     }
     
     .banner-holder {
-           height: 150px;
+        height: 150px;
     }
     
     .banner-image {
@@ -757,4 +757,8 @@
         float: right;
         color: #ef7f1a !important;
         font-size: 14px;
+    }
+    
+    input[disabled] {
+           background-color: #F1F3F4 !important;
     }
