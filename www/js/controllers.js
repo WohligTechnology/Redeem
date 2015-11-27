@@ -202,6 +202,25 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         datePicker.show(options, onSuccess);
     }
 
+    $scope.sendSMS = function (message) {
+        console.log(message);
+        $scope.flag = undefined;
+        MyServices.updatemessage(message, function (data2) {
+            if (data2) {
+                console.log(data2);
+                if (data2.value === false)
+                    $scope.flag = false;
+                else
+                    $scope.flag = true;
+            }
+        }, function (err) {});
+        if ($scope.flag === false)
+            return false;
+        else
+            return true;
+        return $scope.flag;
+    };
+
     $scope.highlight = false;
     $scope.clickTab = function (side) {
         $ionicScrollDelegate.scrollTop();
@@ -239,6 +258,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             return true;
         return $scope.flag;
     };
+
     $scope.validateIt = {};
     $scope.validateLogin = function () {
         console.log("here");
@@ -394,61 +414,62 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             } else {
                 // referral code validation
             }
-            //            var confirmPopup = $ionicPopup.confirm({
-            //                title: 'Signup : OTP',
-            //                template: '<h5 style="text-align:center">We&apos;ll send an OTP on the following number :</h5><h4 class="text-center">+91 ' + $scope.signup.mobile + '</h4>'
-            //            });
-            //            confirmPopup.then(function (res) {
-            //                $scope.generateOTP();
-            //                if (res) {
-            //                    $scope.message = {
-            //                        otp: $scope.otp,
-            //                        mobile: $scope.signup.mobile
-            //                    };
-            //                    MyServices.sendOTP($scope.message);
-            //
-            //                    var myPopup = $ionicPopup.show({
-            //                        template: '<input type="number" ng-model="data.inputotp" style="margin: 0px auto;width:100px;text-align:center;font-size:20px">',
-            //                        title: 'Enter the OTP',
-            //                        subTitle: 'please input the 6-digit OTP',
-            //                        scope: $scope,
-            //                        buttons: [
-            //                            {
-            //                                text: 'Cancel'
-            //                        },
-            //                            {
-            //                                text: '<b>Verify</b>',
-            //                                type: 'button-positive',
-            //                                onTap: function (e) {
-            //                                    console.log($scope.data.inputotp);
-            //                                    if (!$scope.data.inputotp) {
-            //                                        //don't allow the user to close unless he enters otp password
-            //                                        e.preventDefault();
-            //                                    } else {
-            //                                        if ($scope.data.inputotp === MyServices.getOTP()) {
-            //                                            console.log("in signup");
-            $scope.doSignup();
-            //                                            return $scope.data.inputotp;
-            //                                        } else {
-            //                                            $scope.showAlert = function () {
-            //                                                var alertPopup = $ionicPopup.alert({
-            //                                                    title: 'Signup',
-            //                                                    template: 'Invalid OTP. Try signing up again'
-            //                                                });
-            //                                                alertPopup.then(function (res) {
-            //
-            //                                                });
-            //                                            };
-            //                                        }
-            //                                    }
-            //                                }
-            //                        }]
-            //                    });
-            //
-            //                } else {
-            //
-            //                }
-            //            });
+            var confirmPopup = $ionicPopup.confirm({
+                title: 'Signup : OTP',
+                template: '<h5 style="text-align:center">We&apos;ll send an OTP on the following number :</h5><h4 class="text-center">+91 ' + $scope.signup.mobile + '</h4>'
+            });
+            confirmPopup.then(function (res) {
+                $scope.generateOTP();
+                $scope.message = {
+                    type: "otp",
+                    otp: $scope.otp,
+                    mobile: $scope.signup.mobile
+                };
+                if (res) {
+                    MyServices.sendSMS($scope.message);
+
+                    var myPopup = $ionicPopup.show({
+                        template: '<input type="number" ng-model="data.inputotp" style="margin: 0px auto;width:100px;text-align:center;font-size:20px">',
+                        title: 'Enter the OTP',
+                        subTitle: 'please input the 6-digit OTP',
+                        scope: $scope,
+                        buttons: [
+                            {
+                                text: 'Cancel'
+                                    },
+                            {
+                                text: '<b>Verify</b>',
+                                type: 'button-positive',
+                                onTap: function (e) {
+                                    console.log($scope.data.inputotp);
+                                    if (!$scope.data.inputotp) {
+                                        //don't allow the user to close unless he enters otp password
+                                        e.preventDefault();
+                                    } else {
+                                        if ($scope.data.inputotp === MyServices.getOTP()) {
+                                            console.log("in signup");
+                                            $scope.doSignup();
+                                            return $scope.data.inputotp;
+                                        } else {
+                                            $scope.showAlert = function () {
+                                                var alertPopup = $ionicPopup.alert({
+                                                    title: 'Signup',
+                                                    template: 'Invalid OTP. Try signing up again'
+                                                });
+                                                alertPopup.then(function (res) {
+
+                                                });
+                                            };
+                                        }
+                                    }
+                                }
+                                    }]
+                    });
+
+                } else {
+
+                }
+            });
         } else {
             var alertPopup = $ionicPopup.alert({
                 title: 'Signup',
