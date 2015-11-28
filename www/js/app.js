@@ -1,12 +1,13 @@
 // Ionic Starter App
-var phone= {};
+var phone = {};
+var push = {};
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ngCordova'])
 
-.run(function ($ionicPlatform) {
+.run(function ($ionicPlatform, MyServices) {
     $ionicPlatform.ready(function () {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
@@ -15,24 +16,58 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
             cordova.plugins.Keyboard.disableScroll(true);
 
         }
-        
-//        function onDeviceReady() {
-//            phone.device = $cordovaDevice.getDevice();
-//
-//            phone.cordova = $cordovaDevice.getCordova();
-//
-//            phone.model = $cordovaDevice.getModel();
-//
-//            phone.platform = $cordovaDevice.getPlatform();
-//
-//            phone.uuid = $cordovaDevice.getUUID();
-//
-//            phone.version = $cordovaDevice.getVersion();
-//            MyServices.setDevice(phone);
-//        };
         if (window.StatusBar) {
             // org.apache.cordova.statusbar required
             StatusBar.styleDefault();
+        }
+        try {
+            console.log("here");
+            push = PushNotification.init({
+                "android": {
+                    "senderID": "965431280304",
+                    "icon": "www/img/icon.png"
+                },
+                "ios": {
+                    "alert": "true",
+                    "badge": "true",
+                    "sound": "true"
+                },
+                "windows": {}
+            });
+
+            push.on('registration', function (data) {
+                
+                console.log(data);
+
+                function setNoti(data) {
+                    if (data) {
+                        $.jStorage.set("notificationDeviceId", data);
+                    }
+                }
+                if (!$.jStorage.get("notificationDeviceId")) {
+                    $.jStorage.set("token", data.registrationId);
+                    var isIOS = ionic.Platform.isIOS();
+                    var isAndroid = ionic.Platform.isAndroid();
+                    if (isIOS) {
+                        $.jStorage.set("os", "iOS");
+                    } else if (isAndroid) {
+                        $.jStorage.set("os", "Android");
+                    }
+                    $.jStorage.set("regID", data.registrationId);
+                }
+
+            });
+
+            push.on('notification', function (data) {
+                console.log(data);
+            });
+
+            push.on('error', function (e) {
+                conosle.log("ERROR");
+                console.log(e);
+            });
+        } catch (e) {
+            console.log(e)
         }
     });
 })
@@ -177,6 +212,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 'menuContent': {
                     templateUrl: 'templates/playlists.html',
                     controller: 'PlaylistsCtrl'
+                }
+            }
+        })
+        .state('app.profile', {
+            url: '/profile',
+            views: {
+                'menuContent': {
+                    templateUrl: 'templates/profile.html',
+                    controller: 'ProfileCtrl'
                 }
             }
         })

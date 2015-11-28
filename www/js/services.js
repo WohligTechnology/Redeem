@@ -30,9 +30,7 @@ angular.module('starter.services', [])
             $http({
                 url: adminurl + 'user/findone',
                 method: 'POST',
-                data: {
-                    "_id": signupData._id
-                }
+                data: signupData
             }).success(callback).error(err);
         },
         updateUser: function (userData, callback, err) {
@@ -141,6 +139,13 @@ angular.module('starter.services', [])
         },
         sendSMS: function (message, callback, err) {
             $http({
+                url: adminurl + 'notification/notify',
+                method: 'POST',
+                data: message
+            });
+        },
+        notify: function (message, callback, err) {
+            $http({
                 url: adminurl + 'transaction/sendSMS',
                 method: 'POST',
                 data: message
@@ -157,6 +162,12 @@ angular.module('starter.services', [])
                 url: 'http://bulksms.mysmsmantra.com:8080/WebSMS/SMSAPI.jsp?username=Paiso&password=157699462&sendername=PAISOO&mobileno=91' + message.mobile + '&message=Voucher No ' + message.vouchernumber + ' for Rs.' + message.amount + ' spent on ' + message.vendor + ' at ' + message.timestamp + '(Current Balance: Rs.' + message.currentbalance + '). Valid Till : ' + message.validtill + '. Paiso.',
                 method: 'GET'
             });
+        },
+        setNotify: function (data) {
+            $.jStorage.set("notify", data);
+        },
+        getNotify: function () {
+            return $.jStorage.get("notify");
         },
         setNotify: function (data) {
             $.jStorage.set("notify", data);

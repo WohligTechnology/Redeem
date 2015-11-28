@@ -484,6 +484,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
     $scope.doSignup = function () {
         delete $scope.signup.confirmpassword;
         //        $scope.signup.deviceID = $scope.phone.device;
+        $scope.signup.deviceid = $.jStorage.get("regID");
         MyServices.signupUser($scope.signup, function (data) {
             if (data) {
                 console.log(data);
@@ -920,7 +921,21 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                                                     comment: $scope.send.comment
                                                 };
                                                 if ($scope.addTransaction($scope.transaction)) {
-                                                    $scope.alertUser("Send Money ", "transfer complete.");
+                                                    $scope.recieverNotify={
+                                                        type:"sendmoney",
+                                                        deviceid:data.deviceid,
+                                                        comment:$scope.send.comment,
+                                                        amount:$scope.send.amount,
+                                                        name: $scope.user.name
+                                                    };
+                                                    MyServices.notify($scope.recieverNotify,function(data){
+                                                        if(data.value === true){
+                                                            $scope.alertUser("Send Money ", "transfer complete.");
+                                                        }
+                                                    },function(err){
+                                                        
+                                                    })
+                                                    
                                                 }
                                             } else {
                                                 //revert code for current logged in user
@@ -1118,7 +1133,8 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                                     $scope.updateData = {
                                         mobile: $scope.user.referrer,
                                         _id: $scope.user._id,
-                                        amount: $scope.transaction.amount
+                                        amount: $scope.transaction.amount,
+                                        lastreferral:$scope.user.name
                                     };
                                     console.log($scope.updateData);
                                     if ($scope.updateReferrer($scope.updateData)) {
@@ -1179,6 +1195,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         $scope.history = function () {
             $scope.modal1.show();
             $scope.getHistory();
+            $scope.getSentMoney();
         };
         $scope.requestpending = [];
         $scope.transactionPendingFilter = {
@@ -1212,6 +1229,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         };
         $scope.getRedeem();
         $scope.balanceHistory = [];
+        $scope.sentmoney = [];
         $scope.transactionFilter = {
             type: "balance",
             from: $scope.user._id
@@ -1223,6 +1241,36 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                     $scope.balanceHistory = data;
                     console.log($scope.balanceHistory);
                     console.log($scope.transactionFilter);
+                }
+            }, function (err) {
+
+            });
+        };
+        $scope.transFilter = {
+            type: "sendmoney",
+            from: $scope.user._id
+        };
+        $scope.getSentMoney = function () {
+            console.log("herer");
+            MyServices.findByTypeUser($scope.transFilter, function (data) {
+                if (data) {
+                    $scope.sentmoney = data;
+                    _.each($scope.sentmoney, function (key) {
+                        $scope.reciever = {
+                            _id: key.to
+                        };
+
+                        //may give error 
+
+
+                        MyServices.findUser($scope.reciever, function (data2) {
+                            if (data2) {
+                                key.username = data2.name;
+                            }
+                        }, function () {
+
+                        })
+                    });
                 }
             }, function (err) {
 
@@ -1483,5 +1531,8 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         });
     })
     .controller('NotificationCtrl', function ($scope, $stateParams) {
+
+    })
+    .controller('ProfileCtrl', function ($scope, $stateParams) {
 
     });
