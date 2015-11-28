@@ -623,6 +623,62 @@ input[disabled] {
 .pr-form .input-label {
   color: #B4B4B4 !important; }
 
+.f-m {
+  font-size: 10px;
+  font-weight: 400px; }
+
+.me-tab .list {
+  margin-top: 8px; }
+  .me-tab .list .item {
+    border-top: 0px;
+    font-size: 13px;
+    font-weight: 300;
+    padding: 8px 16px 9px 16px;
+    color: #848484; }
+    .me-tab .list .item i {
+      color: #ADADAD;
+      font-size: 17px;
+      padding-right: 6px; }
+    .me-tab .list .item .item-note {
+      font-size: 12px; }
+
+.img-hold {
+  width: 50px;
+  height: 50px;
+  -webkit-border-radius: 100%;
+  -moz-border-radius: 100%;
+  -ms-border-radius: 100%;
+  border-radius: 100%;
+  overflow: hidden;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  -ms-background-size: cover;
+  position: absolute;
+  left: 10px;
+  top: 18px; }
+
+.noti .item {
+  padding: 15px 0px 15px 72px;
+  border-top: none; }
+  .noti .item h2 {
+    font-size: 14px;
+    font-weight: 300;
+    margin-bottom: 7px; }
+  .noti .item p {
+    color: #848484;
+    font-size: 12px;
+    margin-bottom: 2px;
+    font-weight: 300;
+    margin: 0px;
+    line-height: 180%; }
+    .noti .item p i {
+      padding-right: 6px;
+      color: #adadad; }
+
 /*!
   Ionicons, v2.0.1
   Created by Ben Sperry for the Ionic Framework, http://ionicons.com/
