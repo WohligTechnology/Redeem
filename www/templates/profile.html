@@ -3,28 +3,28 @@
         <div class="over-layer">
             <div class="layer-over">
                 <div class="img-hold" ng-style="{'background-image':'url(img/user.png)'}"></div>
-                <p>Json Format</p>
+                <p>{{user.name}}</p>
             </div>
         </div>
         <div class="pr-form">
             <div class="list">
                 <label class="item item-input">
-                    <input type="text" placeholder="Name">
+                    <input type="text" ng-model="user.name" placeholder="Name" ng-disabled="edit">
                 </label>
                 <label class="item item-input">
-                    <input type="email" placeholder="Email">
+                    <input type="email" ng-model="user.email" placeholder="Email" ng-disabled="edit">
                 </label>
                 <label class="item item-input">
-                    <input type="text" placeholder="Mobile Number">
+                    <input type="text" ng-model="user.mobile" placeholder="Mobile Number" ng-disabled="edit">
                 </label>
-                <label class="item item-input">
-                    <input type="text" onfocus="(this.type='date')" placeholder="Birth Date">
+                <label class="item item-input" ng-click="openDate();">
+                    <input type="text" ng-model="user.date" onfocus="(this.type='date')" placeholder="Birth Date" ng-disabled="edit">
                 </label>
                 <label class="item item-input item-select">
                     <div class="input-label">
                         Gender
                     </div>
-                    <select>
+                    <select ng-model="user.gender" ng-disabled="edit">
                         <option>Male</option>
                         <option selected>Female</option>
                         <option>Other</option>
@@ -32,10 +32,10 @@
                 </label>
             </div>
             <div class=" padding text-center">
-                <button class="button button-block pr-button button-assertive">
+                <button class="button button-block pr-button button-assertive" ng-click="toggleEdit()">
                     Edit
                 </button>
-                <button class="button button-block pr-button button-assertive">
+                <button class="button button-block pr-button button-assertive" ng-click="saveUser()">
                     Save
                 </button>
             </div>

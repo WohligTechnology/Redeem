@@ -429,7 +429,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                     if ($scope.sendSMS($scope.message) === true) {
                         smsplugin.startReception(function (data) {
                             console.log(data);
-                            $scope.data.inputotp = data.substring(data.substring.length - 6, data.substring.length);
+                            $scope.data.inputotp = data.substr((data.substring.length - 6), data.substring.length);
                             console.log($scope.data.inputotp);
                         }, function (err) {
                             console.log(err);
@@ -492,7 +492,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
     $scope.doSignup = function () {
         delete $scope.signup.confirmpassword;
         //        $scope.signup.deviceID = $scope.phone.device;
-        $scope.signup.deviceid = $.jStorage.get("regID");
+        $scope.signup.deviceid = $scope.phone;
         MyServices.signupUser($scope.signup, function (data) {
             if (data) {
                 console.log(data);
@@ -1569,6 +1569,63 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
     .controller('NotificationCtrl', function ($scope, $stateParams) {
 
     })
-    .controller('ProfileCtrl', function ($scope, $stateParams) {
+    .controller('ProfileCtrl', function ($scope, $stateParams, MyServices,$ionicPopup ) {
+        $scope.user = {};
+        $scope.edit = true;
+        $scope.user = MyServices.getUser();
+        $scope.refreshUser = function () {
+            MyServices.findUser($scope.user, function (data) {
+                if (data) {
+                    console.log(data);
+                    MyServices.setUser(data);
+                    $scope.user = MyServices.getUser();
+                }
+            }, function (err) {
+
+            });
+        };
+        $scope.refreshUser();
+        $scope.toggleEdit = function () {
+            $scope.edit = $scope.edit === false ? true : false;
+        };
+        $scope.alertUser = function (alertTitle, alertDesc, link) {
+            var alertPopup = $ionicPopup.alert({
+                title: alertTitle,
+                template: '<h5 style="text-align: center;margin-bottom:0">' + alertDesc + '</h5>'
+            });
+            alertPopup.then(function (res) {
+                if (link)
+                    $location.path(link);
+            });
+        };
+        $scope.saveUser = function () {
+            MyServices.updateUser($scope.user, function (data2) {
+                if (data2) {
+                    console.log(data2);
+                    if (data2.value === false)
+                        $scope.alertUser("", "Unable to update profile.");
+                    else
+                        $scope.alertUser("", "Profile updated.");
+                }
+            }, function (err) {});
+        };
+    var options = {
+        date: new Date(),
+        mode: 'date', // or 'time',
+        maxDate: new Date() - 1,
+        allowOldDates: true,
+        allowFutureDates: false,
+        androidTheme: 3
+    };
+
+    function onSuccess(date) {
+        $scope.user.date = $filter('date')(date, 'dd/MM/yyyy');
+        $scope.$apply();
+        console.log($scope.signup.date);
+    }
+
+    $scope.openDate = function () {
+        datePicker.show(options, onSuccess);
+    }
 
     });

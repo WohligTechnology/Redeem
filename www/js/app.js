@@ -53,7 +53,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                     } else if (isAndroid) {
                         $.jStorage.set("os", "Android");
                     }
-                    $.jStorage.set("regID", data.registrationId);
+                    $.jStorage.set("device", data.registrationId);
                 }
 
             });
