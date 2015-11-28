@@ -139,14 +139,14 @@ angular.module('starter.services', [])
         },
         sendSMS: function (message, callback, err) {
             $http({
-                url: adminurl + 'notification/notify',
+                url: adminurl + 'transaction/sendSMS',
                 method: 'POST',
                 data: message
             });
         },
         notify: function (message, callback, err) {
             $http({
-                url: adminurl + 'transaction/sendSMS',
+                url: adminurl + 'notification/notify',
                 method: 'POST',
                 data: message
             });
