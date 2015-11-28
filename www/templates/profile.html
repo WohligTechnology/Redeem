@@ -1,3 +1,44 @@
 <ion-view view-title="Profile">
-    <ion-content></ion-content>
+    <ion-content>
+        <div class="over-layer">
+            <div class="layer-over">
+                <div class="img-hold" ng-style="{'background-image':'url(img/user.png)'}"></div>
+                <p>Json Format</p>
+            </div>
+        </div>
+        <div class="pr-form">
+            <div class="list">
+                <label class="item item-input">
+                    <input type="text" placeholder="Name">
+                </label>
+                <label class="item item-input">
+                    <input type="email" placeholder="Email">
+                </label>
+                <label class="item item-input">
+                    <input type="text" placeholder="Mobile Number">
+                </label>
+                <label class="item item-input">
+                    <input type="text" onfocus="(this.type='date')" placeholder="Birth Date">
+                </label>
+                <label class="item item-input item-select">
+                    <div class="input-label">
+                        Gender
+                    </div>
+                    <select>
+                        <option>Male</option>
+                        <option selected>Female</option>
+                        <option>Other</option>
+                    </select>
+                </label>
+            </div>
+            <div class=" padding text-center">
+                <button class="button button-block pr-button button-assertive">
+                    Edit
+                </button>
+                <button class="button button-block pr-button button-assertive">
+                    Save
+                </button>
+            </div>
+        </div>
+    </ion-content>
 </ion-view>
