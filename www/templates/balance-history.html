@@ -5,17 +5,44 @@
             <button class="button button-clear" ng-click="closeHistory()"><i class="icon ion-ios-close-empty"></i></button>
         </div>
     </ion-header-bar>
-    <ion-content>
-        <!--
-        <div class="top-up-header">
-            <h4>Top up History</h4>
+        <div class="bar bar-subheader no-padding">
+        <div class="row ">
+            <div class="col no-padding text-center" ng-class="{'active-tab':tab.left}">
+                <button class="button button-clear no-padding " ng-click="clickTab('left')">
+                    <h5>Add Balance</h5></button>
+            </div>
+            <div class="col no-padding text-center" ng-class="{'active-tab':tab.center}">
+                <button class="button button-clear no-padding " ng-click="clickTab('center')">
+                    <h5>Send And Received</h5></button>
+            </div>
+            <div class="col no-padding text-center" ng-class="{'active-tab':tab.right}">
+                <button class="button button-clear no-padding " ng-click="clickTab('right')">
+                    <h5>Redeemed</h5></button>
+            </div>
         </div>
--->
+    </div>
+    <ion-content>
+        
+        <div class="me-tab" ng-show="tab.left">
+             <div class="list">
+         
+            <ion-item ng-repeat="item in balanceHistory | orderBy: '-timestamp'" ng-if="item.amount != null">
+                <h2>₹ {{item.amount}} <span class="item-note">{{item.timestamp | date:'mediumDate'}}</span></h2>
+            </ion-item>
+        </div>
+        </div>
+         <div class="available list" ng-show="tab.center">
+        </div>
+         <div class="available list" ng-show="tab.right">
+        </div>
+<!--
+
         <div class="list">
            <ion-item class="item-divider">Add Balance</ion-item>
             <ion-item ng-repeat="item in balanceHistory | orderBy: '-timestamp'" ng-if="item.amount != null">
                 <h2>₹ {{item.amount}} <span class="item-note">{{item.timestamp | date:'mediumDate'}}</span></h2>
             </ion-item>
         </div>
+-->
     </ion-content>
 </ion-modal-view>
