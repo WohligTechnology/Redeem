@@ -43,12 +43,12 @@
         <div class="noti" ng-show="tab.center">
             <div class="list">
 
-                <a class="item item-avatar" href="#">
+                <a class="item item-avatar" href="#" ng-repeat="item in sentmoney | orderBy: '-timestamp'">
                     <div class="img-hold" ng-style="{'background-image':'url(img/user.png)'}"></div>
-                    <h2>Json Format</h2>
-                    <p><i class="ln-calendar3"></i> Jan, 11<sup>th</sup> 2015</p>
-                    <p><i class="ln-cash"></i> 3000</p>
-                    <p><i class="ln-circle-up"></i> send</p>
+                    <h2>{{item.username}}</h2>
+                    <p><i class="ln-calendar3"></i>  {{item.timestamp | date:'mediumDate'}}</p>
+                    <p><i class="ln-cash"></i> {{item.amount}}</p>
+                    <p><i class="ln-circle-up"></i> {{item.sent}}</p>
                 </a>
 
             </div>
@@ -56,7 +56,7 @@
         <div class="noti" ng-show="tab.right">
                     <div class="list">
 
-                <a class="item item-avatar" href="#">
+                <a class="item item-avatar" href="#" >
                     <div class="img-hold" ng-style="{'background-image':'url(img/user.png)'}"></div>
                     <h2>Json Format</h2>
                     <p><i class="ln-calendar3"></i> Jan, 11<sup>th</sup> 2015</p>

@@ -118,22 +118,6 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         MyServices.addTransaction(transaction, function (data2) {
             if (data2) {
                 console.log(data2.data);
-                if (data2.data.type === "redeem") {
-                    $scope.message = {
-                        mobile: $scope.user.mobile,
-                        currentbalance: data2.data.currentbalance,
-                        amount: data2.data.amount,
-                        vouchernumber: data2.data.vouchernumber,
-                        vendor: data2.data.vendor,
-                        timestamp: $filter('date')(data2.data.timestamp, 'medium'),
-                        validtill: $filter('date')(data2.data.validtill, 'mediumDate'),
-                        deviceid: $scope.user.deviceid,
-                        type:"redeem"
-                    };
-                    MyServices.sendSMS($scope.message);
-                } else if (data2.data.type === "balance") {
-
-                }
                 if (data2.value === false)
                     $scope.flag = false;
                 else
@@ -1270,34 +1254,53 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
 
             });
         };
-        $scope.transFilter = {
-            type: "sendmoney",
-            from: $scope.user._id
-        };
+
         $scope.getSentMoney = function () {
             console.log("herer");
-            MyServices.findByTypeUser($scope.transFilter, function (data) {
+            $scope.transFilterS = {
+                type: "sendmoney",
+                from: $scope.user._id,
+                to: $scope.user._id
+            };
+            MyServices.findByTypeUser($scope.transFilterS, function (data) {
                 if (data) {
                     $scope.sentmoney = data;
                     _.each($scope.sentmoney, function (key) {
-                        $scope.reciever = {
-                            _id: key.to
-                        };
+                        if ($scope.user._id === key.from) {
+                            $scope.reciever = {
+                                _id: key.to
+                            };
+                            MyServices.findUser($scope.reciever, function (data2) {
+                                if (data2) {
+                                    key.username = data2.name;
+                                    key.sent = "sent";
+                                }
+                            }, function () {
 
+                            });
+                        } else if ($scope.user._id === key.to) {
+                            $scope.sender = {
+                                _id: key.from
+                            };
+                            MyServices.findUser($scope.sender, function (data2) {
+                                if (data2) {
+                                    key.username = data2.name;
+                                    key.sent = "recieved";
+                                }
+                            }, function () {
 
-                        MyServices.findUser($scope.reciever, function (data2) {
-                            if (data2) {
-                                key.username = data2.name;
-                            }
-                        }, function () {
-
-                        })
+                            });
+                        }
                     });
                 }
-            }, function (err) {
-
             });
+            $scope.transFilterR = {
+                type: "sendmoney",
+                to: $scope.user._id
+            };
+
         };
+
     })
     .controller('SpendHistoryCtrl', function ($scope, $stateParams) {
 
@@ -1433,7 +1436,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                                     name: $scope.user.name,
                                     email: $scope.user.email,
                                     vendor: $scope.vendor.name,
-                                    mobile:$scope.user.mobile
+                                    mobile: $scope.user.mobile
                                 };
                                 if ($scope.addTransaction($scope.transaction)) {
                                     $scope.user.balance = $scope.ctrlUser.balance;
