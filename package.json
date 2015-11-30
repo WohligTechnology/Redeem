@@ -21,11 +21,11 @@
     "cordova-plugin-splashscreen",
     "com.ionic.keyboard",
     "cordova-plugin-datepicker",
-    "phonegap-plugin-push",
     {
       "locator": "https://github.com/asanka-x/Phonegap-SMS.git",
       "id": "info.asankan.phonegap.smsplugin"
-    }
+    },
+    "phonegap-plugin-push"
   ],
   "cordovaPlatforms": [
     "android"

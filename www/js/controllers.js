@@ -6,8 +6,6 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
     $scope.user = MyServices.getUser();
     $scope.loginData = {};
 
-
-
     $ionicModal.fromTemplateUrl('templates/login.html', {
         scope: $scope
     }).then(function (modal) {
@@ -128,9 +126,11 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                         vouchernumber: data2.data.vouchernumber,
                         vendor: data2.data.vendor,
                         timestamp: $filter('date')(data2.data.timestamp, 'medium'),
-                        validtill: $filter('date')(data2.data.validtill, 'mediumDate')
+                        validtill: $filter('date')(data2.data.validtill, 'mediumDate'),
+                        deviceid: $scope.user.deviceid,
+                        type:"redeem"
                     };
-                    MyServices.sendRedeem($scope.message);
+                    MyServices.sendSMS($scope.message);
                 } else if (data2.data.type === "balance") {
 
                 }
@@ -277,15 +277,6 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             return true;
     };
     $scope.doLogin = function () {
-        //        $scope.validation = {
-        //            mobile: "",
-        //            password: ""
-        //        };
-        //        if ($scope.login.mobile === "" || $scope.login.mobile === null || $scope.login.mobile === undefined) {
-        //            $scope.validation.mobile = "ng-dirty";
-        //        } else if ($scope.login.password === "" || $scope.login.password === null || $scope.login.password === undefined) {
-        //            $scope.validation.password = "ng-dirty";
-        //            console.log("in herer");
         console.log($scope.validateLogin());
         if ($scope.validateLogin()) {
             MyServices.loginUser($scope.login, function (data) {
@@ -406,8 +397,6 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
     };
     $scope.data = {};
     $scope.checkOTP = function () {
-
-
         if ($scope.validateThis()) {
             if ($scope.checkReferral()) {
                 // referral verified
@@ -429,13 +418,14 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                     if ($scope.sendSMS($scope.message) === true) {
                         smsplugin.startReception(function (data) {
                             console.log(data);
-                            $scope.data.inputotp = data.substr((data.substring.length - 6), data.substring.length);
+                            $scope.data.inputotp = data.substr(data.length - 6);
+                            $scope.$apply();
                             console.log($scope.data.inputotp);
                         }, function (err) {
                             console.log(err);
                         });
                         var myPopup = $ionicPopup.show({
-                            template: '<input type="number" ng-model="data.inputotp" style="margin: 0px auto;width:100px;text-align:center;font-size:20px">',
+                            template: '<input type="text" ng-model="data.inputotp" style="margin: 0px auto;width:100px;text-align:center;font-size:20px">',
                             title: 'Enter the OTP',
                             subTitle: 'please input the 6-digit OTP',
                             scope: $scope,
@@ -449,10 +439,11 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                                     onTap: function (e) {
                                         console.log($scope.data.inputotp);
                                         if (!$scope.data.inputotp) {
+                                            console.log("no otp");
                                             //don't allow the user to close unless he enters otp password
                                             e.preventDefault();
                                         } else {
-                                            if ($scope.data.inputotp === MyServices.getOTP()) {
+                                            if (parseInt($scope.data.inputotp) == MyServices.getOTP()) {
                                                 console.log("in signup");
                                                 $scope.doSignup();
                                                 return $scope.data.inputotp;
@@ -491,10 +482,10 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
     $scope.referralData = {};
     $scope.doSignup = function () {
         delete $scope.signup.confirmpassword;
-        //        $scope.signup.deviceID = $scope.phone.device;
-        $scope.signup.deviceid = $scope.phone;
+        if (MyServices.getDevice())
+            $scope.signup.deviceid = MyServices.getDevice();
         MyServices.signupUser($scope.signup, function (data) {
-            if (data) {
+            if (data.value == true) {
                 console.log(data);
                 $scope.checkReferral();
                 $scope.referralData = {
@@ -505,29 +496,30 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                     if ($scope.ctrlUser.referral) {
                         $scope.ctrlUser.referral.unshift($scope.referralData);
                     }
-                    console.log($scope.ctrlUser.referral)
-                    if ($scope.updateUser($scope.ctrlUser)) {
+                    console.log($scope.ctrlUser.referral);
 
+                    if ($scope.updateUser($scope.ctrlUser)) {
+                        $scope.referralData = {
+                            deviceid: $scope.ctrlUser.deviceid,
+                            type: "referral",
+                            new: true,
+                            name: data.user.name
+                        }
+                        MyServices.notify($scope.referralData, function (data) {
+                            if (data.value === true) {
+
+                            }
+                        }, function (err) {
+
+                        });
                     } else {
 
                     }
                 }
-                console.log(data);
-                MyServices.findUser(data, function (data2) {
-                    if (data2._id) {
-                        console.log(data2);
-                        MyServices.setUser(data2);
-                        $scope.user = MyServices.getUser();
-                        $location.path('app/home');
-                    } else {
-
-                    }
-                }, function (err) {});
-                //                $scope.login = {
-                //                    mobile: data.mobile,
-                //                    password: $scope.signup.password
-                //                };
-                //                $scope.doLogin();
+                MyServices.setUser(data.user);
+                $scope.user = MyServices.getUser();
+                if ($scope.user)
+                    $location.path('app/home');
             } else {
 
             }
@@ -541,9 +533,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
 .controller('HomeCtrl', function ($scope, $stateParams, MyServices, $location, $ionicLoading, $timeout) {
         $scope.banners = [];
         $scope.user = {};
-        if (MyServices.getUser()) {
-            $location.url("/app/home");
-        } else {
+        if (!MyServices.getUser()) {
             $location.url("/login");
         }
         $scope.navTitle = '<img class="title-image" src="img/title.png">';
@@ -1014,14 +1004,10 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                 $scope.tab.right = false;
                 $scope.tab.left = false;
                 $scope.tab.center = true;
-                $scope.loadPassbook();
-                //                $scope.openUp(0);
             } else {
                 $scope.tab.right = true;
                 $scope.tab.left = false;
                 $scope.tab.center = false;
-                $scope.loadUsed();
-                $scope.openUp(0);
             }
         };
         $scope.isRemaining = function () {
@@ -1165,7 +1151,10 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                                 $scope.refreshUser();
                                 $scope.alertUser("Success", "Money added to your wallet.", 'app/home');
                                 if ($scope.user.referrer) {
+                                    console.log($scope.user);
                                     $scope.updateData = {
+                                        deviceid: $scope.user.deviceid,
+                                        type: "referral",
                                         mobile: $scope.user.referrer,
                                         _id: $scope.user._id,
                                         amount: $scope.transaction.amount,
@@ -1294,8 +1283,6 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                         $scope.reciever = {
                             _id: key.to
                         };
-
-                        //may give error 
 
 
                         MyServices.findUser($scope.reciever, function (data2) {
@@ -1445,11 +1432,13 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                                     amount: $scope.redeem.amount,
                                     name: $scope.user.name,
                                     email: $scope.user.email,
-                                    vendor: $scope.vendor.name
+                                    vendor: $scope.vendor.name,
+                                    mobile:$scope.user.mobile
                                 };
                                 if ($scope.addTransaction($scope.transaction)) {
                                     $scope.user.balance = $scope.ctrlUser.balance;
                                     $scope.proceedAlert();
+
                                 } else {
                                     $scope.alertUser("Redeem", "Unable to redeem amount");
                                 }
@@ -1569,7 +1558,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
     .controller('NotificationCtrl', function ($scope, $stateParams) {
 
     })
-    .controller('ProfileCtrl', function ($scope, $stateParams, MyServices,$ionicPopup ) {
+    .controller('ProfileCtrl', function ($scope, $stateParams, MyServices, $ionicPopup) {
         $scope.user = {};
         $scope.edit = true;
         $scope.user = MyServices.getUser();
@@ -1609,23 +1598,23 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                 }
             }, function (err) {});
         };
-    var options = {
-        date: new Date(),
-        mode: 'date', // or 'time',
-        maxDate: new Date() - 1,
-        allowOldDates: true,
-        allowFutureDates: false,
-        androidTheme: 3
-    };
+        var options = {
+            date: new Date(),
+            mode: 'date', // or 'time',
+            maxDate: new Date() - 1,
+            allowOldDates: true,
+            allowFutureDates: false,
+            androidTheme: 3
+        };
 
-    function onSuccess(date) {
-        $scope.user.date = $filter('date')(date, 'dd/MM/yyyy');
-        $scope.$apply();
-        console.log($scope.signup.date);
-    }
+        function onSuccess(date) {
+            $scope.user.date = $filter('date')(date, 'dd/MM/yyyy');
+            $scope.$apply();
+            console.log($scope.signup.date);
+        }
 
-    $scope.openDate = function () {
-        datePicker.show(options, onSuccess);
-    }
+        $scope.openDate = function () {
+            datePicker.show(options, onSuccess);
+        }
 
     });

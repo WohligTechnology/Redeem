@@ -36,25 +36,26 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
             });
 
             push.on('registration', function (data) {
-                
-                console.log(data);
 
-                function setNoti(data) {
-                    if (data) {
-                        $.jStorage.set("notificationDeviceId", data);
-                    }
-                }
-                if (!$.jStorage.get("notificationDeviceId")) {
-                    $.jStorage.set("token", data.registrationId);
-                    var isIOS = ionic.Platform.isIOS();
-                    var isAndroid = ionic.Platform.isAndroid();
-                    if (isIOS) {
-                        $.jStorage.set("os", "iOS");
-                    } else if (isAndroid) {
-                        $.jStorage.set("os", "Android");
-                    }
-                    $.jStorage.set("device", data.registrationId);
-                }
+                console.log(data);
+                $.jStorage.set("device", data.registrationId);
+                //                function setNoti(data) {
+                //                    if (data) {
+                //                        $.jStorage.set("notificationDeviceId", data);
+                //                        $.jStorage.set("device",data);
+                //                    }
+                //                }
+                //                if (!$.jStorage.get("notificationDeviceId")) {
+                //                    $.jStorage.set("token", data.registrationId);
+                //                    var isIOS = ionic.Platform.isIOS();
+                //                    var isAndroid = ionic.Platform.isAndroid();
+                //                    if (isIOS) {
+                //                        $.jStorage.set("os", "iOS");
+                //                    } else if (isAndroid) {
+                //                        $.jStorage.set("os", "Android");
+                //                    }
+                //                    MyServices.setDevice(data);
+                //                }
 
             });
 

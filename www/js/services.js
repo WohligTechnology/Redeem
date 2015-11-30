@@ -1,6 +1,6 @@
-var adminurl = "http://192.168.0.100:1337/";  
+//var adminurl = "http://192.168.0.107:1337/";  
 //var adminurl = "http://wohlig.in:81/";
-//var adminurl = "http://104.154.90.30/"; 
+var adminurl = "http://104.154.90.30/"; 
 //var adminurl = "http://localhost:1337/";
 var imgpath = adminurl + "uploadfile/resize?file=";
 
@@ -54,11 +54,7 @@ angular.module('starter.services', [])
             $http({
                 url: adminurl + 'user/updateReferrer',
                 method: 'POST',
-                data: {
-                    "mobile": userData.mobile,
-                    "_id": userData._id,
-                    "amount": userData.amount
-                }
+                data: userData
             }).success(callback).error(err);
         },
         addTransaction: function (transactionData, callback, err) {
