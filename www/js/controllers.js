@@ -117,7 +117,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         $scope.flag = undefined;
         MyServices.addTransaction(transaction, function (data2) {
             if (data2) {
-                console.log(data2.data);
+                console.log(data2);
                 if (data2.value === false)
                     $scope.flag = false;
                 else
@@ -1126,7 +1126,9 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                                 to: $scope.user._id,
                                 type: "balance",
                                 currentbalance: $scope.ctrlUser.balance,
-                                amount: $scope.wallet.amount
+                                amount: $scope.wallet.amount,
+                                mobile:$scope.user.mobile,
+                                name:$scope.user.name
                             };
                             MyServices.setUser($scope.user);
                             if ($scope.addTransaction($scope.transaction)) {
@@ -1190,72 +1192,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             validity: '20/01/16',
             expiry_proximity: 'yellow'
     }];
-        $ionicModal.fromTemplateUrl('templates/balance-history.html', {
-            scope: $scope
-        }).then(function (modal) {
-            $scope.modal1 = modal;
-        });
-
-        $scope.closeHistory = function () {
-            $scope.modal1.hide();
-        };
-
-        $scope.history = function () {
-            $scope.modal1.show();
-            $scope.getHistory();
-            $scope.getSentMoney();
-        };
-        $scope.requestpending = [];
-        $scope.transactionPendingFilter = {
-            type: "redeem",
-            from: $scope.user._id
-        };
-        $scope.getRedeem = function () {
-            MyServices.findByTypeUser($scope.transactionPendingFilter, function (data) {
-                    if (data) {
-                        $scope.requestpending = data;
-                        $scope.item = {};
-                        console.log($scope.requestpending);
-                        _.each($scope.requestpending, function (key) {
-                            $scope.item.id = key.to;
-                            MyServices.findVendor($scope.item, function (data) {
-                                    if (data) {
-                                        key.vendorname = data.name;
-                                    }
-                                },
-                                function (err) {
-                                    if (err) {
-                                        console.log(err);
-                                    }
-                                });
-                        });
-                    }
-                },
-                function (err) {
-
-                });
-        };
-        $scope.getRedeem();
-        $scope.balanceHistory = [];
-        $scope.sentmoney = [];
-        $scope.transactionFilter = {
-            type: "balance",
-            from: $scope.user._id
-        };
-        $scope.getHistory = function () {
-            console.log("herer");
-            MyServices.findByTypeUser($scope.transactionFilter, function (data) {
-                if (data) {
-                    $scope.balanceHistory = data;
-                    console.log($scope.balanceHistory);
-                    console.log($scope.transactionFilter);
-                }
-            }, function (err) {
-
-            });
-        };
-
-        $scope.getSentMoney = function () {
+     $scope.getSentMoney = function () {
             console.log("herer");
             $scope.transFilter = {
                 type: "sendmoney",
@@ -1300,6 +1237,74 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             };
 
         };
+        $ionicModal.fromTemplateUrl('templates/balance-history.html', {
+            scope: $scope
+        }).then(function (modal) {
+            $scope.modal1 = modal;
+        });
+
+        $scope.closeHistory = function () {
+            $scope.modal1.hide();
+        };
+
+        $scope.history = function () {
+            $scope.modal1.show();
+            $scope.getHistory();
+            $scope.getSentMoney();
+            $scope.getRedeem();
+        };
+        $scope.redeemed = [];
+        $scope.transactionPendingFilter = {
+            type: "redeem",
+            from: $scope.user._id
+        };
+        $scope.getRedeem = function () {
+            MyServices.findByTypeUser($scope.transactionPendingFilter, function (data) {
+                    if (data) {
+                        $scope.redeemed = data;
+                        $scope.item = {};
+                        console.log($scope.redeemed);
+                        _.each($scope.redeemed, function (key) {
+                            $scope.item.id = key.to;
+                            MyServices.findVendor($scope.item, function (data) {
+                                    if (data) {
+                                        key.vendorname = data.name;
+                                        key.vendoricon=data.logourl;
+                                    }
+                                },
+                                function (err) {
+                                    if (err) {
+                                        console.log(err);
+                                    }
+                                });
+                        });
+                    }
+                },
+                function (err) {
+
+                });
+        };
+        $scope.getRedeem();
+        $scope.balanceHistory = [];
+        $scope.sentmoney = [];
+        $scope.transactionFilter = {
+            type: "balance",
+            from: $scope.user._id
+        };
+        $scope.getHistory = function () {
+            console.log("herer");
+            MyServices.findByTypeUser($scope.transactionFilter, function (data) {
+                if (data) {
+                    $scope.balanceHistory = data;
+                    console.log($scope.balanceHistory);
+                    console.log($scope.transactionFilter);
+                }
+            }, function (err) {
+
+            });
+        };
+
+       
 
     })
     .controller('SpendHistoryCtrl', function ($scope, $stateParams) {
