@@ -1,6 +1,6 @@
-//var adminurl = "http://192.168.0.107:1337/";  
+var adminurl = "http://192.168.0.106:1337/";  
 //var adminurl = "http://wohlig.in:81/";
-var adminurl = "http://104.154.90.30/"; 
+//var adminurl = "http://104.154.90.30/";
 //var adminurl = "http://localhost:1337/";
 var imgpath = adminurl + "uploadfile/resize?file=";
 
@@ -98,10 +98,7 @@ angular.module('starter.services', [])
             $http({
                 url: adminurl + 'transaction/findByTypeUser',
                 method: 'POST',
-                data: {
-                    "type": transactionFilter.type,
-                    "from": transactionFilter.from
-                }
+                data: transactionFilter
             }).success(callback).error(err);
         },
         findPassbookEntry: function (transactionFilter, callback, err) {

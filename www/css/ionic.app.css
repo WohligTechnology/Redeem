@@ -679,6 +679,13 @@ input[disabled] {
       padding-right: 6px;
       color: #adadad; }
 
+.custom-divider {
+  background-color: white !important;
+  border-bottom: 3px solid #ef7f1a !important; }
+
+.has-customheader {
+  top: 142px !important; }
+
 /*!
   Ionicons, v2.0.1
   Created by Ben Sperry for the Ionic Framework, http://ionicons.com/
