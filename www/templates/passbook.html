@@ -29,9 +29,11 @@
                     <h5 ng-show="availableFlags[{{$index}}]">Valid Till : {{item.validtill |  date:'mediumDate'}}</h5>
                     <p>₹ {{item.amount}}</p>
                     <div class="separator" ng-show="availableFlags[{{$index}}]"></div>
+                    <div class="text-center" > <img src="http://www.barcodes4.me/barcode/c128c/{{item.vouchernumber}}.png" alt="" style="width:70%" ng-show="availableFlags[{{$index}}]">
+                    </div>
                 </ion-item>
 
-<!--
+                <!--
                 <div class="padding-horizontal" ng-show="availableFlags[{{$index}}]">
                     <button class=" button button-block button-assertive" ng-click="moveToUsed(item)">Move to used</button>
                 </div>
@@ -50,6 +52,7 @@
 
                     <p>₹ {{item.amount}}</p>
                     <div class="separator" ng-show="availableFlags[{{$index}}]"></div>
+
                 </ion-item>
             </div>
         </div>
