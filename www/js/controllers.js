@@ -1257,12 +1257,12 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
 
         $scope.getSentMoney = function () {
             console.log("herer");
-            $scope.transFilterS = {
+            $scope.transFilter = {
                 type: "sendmoney",
                 from: $scope.user._id,
                 to: $scope.user._id
             };
-            MyServices.findByTypeUser($scope.transFilterS, function (data) {
+            MyServices.findByTypeUser($scope.transFilter, function (data) {
                 if (data) {
                     $scope.sentmoney = data;
                     _.each($scope.sentmoney, function (key) {
@@ -1275,8 +1275,8 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                                     key.username = data2.name;
                                     key.sent = "sent";
                                 }
-                            }, function () {
-
+                            }, function (err) {
+                                
                             });
                         } else if ($scope.user._id === key.to) {
                             $scope.sender = {
@@ -1287,7 +1287,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                                     key.username = data2.name;
                                     key.sent = "recieved";
                                 }
-                            }, function () {
+                            }, function (err) {
 
                             });
                         }
