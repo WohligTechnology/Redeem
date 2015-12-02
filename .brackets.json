@@ -94,6 +94,15 @@
         "C:/xampp/htdocs/redeem/www/lib/angular/angular.js",
         "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/debug/www/lib/platform/platform.js",
         "C:/xampp/htdocs/redeem/www/lib/js/jstorage.js",
-        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/debug/www/lib/ionic/js/ionic.bundle.min.js"
+        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/debug/www/lib/ionic/js/ionic.bundle.min.js",
+        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/armv7/debug/www/lib/platform/platform.js",
+        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/armv7/debug/www/plugins/com.ionic.keyboard/www/keyboard.js",
+        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/armv7/debug/www/plugins/cordova-plugin-console/www/console-via-logger.js",
+        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/armv7/debug/www/plugins/cordova-plugin-console/www/logger.js",
+        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/armv7/debug/www/plugins/cordova-plugin-datepicker/www/android/DatePicker.js",
+        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/armv7/debug/www/plugins/cordova-plugin-device/www/device.js",
+        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/armv7/debug/www/plugins/cordova-plugin-splashscreen/www/splashscreen.js",
+        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/armv7/debug/www/plugins/cordova-plugin-whitelist/whitelist.js",
+        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/armv7/debug/www/plugins/cordova-plugin-x-socialsharing/www/SocialSharing.js"
     ]
 }
