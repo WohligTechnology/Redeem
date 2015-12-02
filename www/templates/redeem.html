@@ -51,7 +51,11 @@
                     </a>
                 </div>
             </div>
-            <ion-item class="tnc" ng-click="tNc()">
+            <ion-item class="tnc" ng-click="detail()">
+                Brand details
+                <i class="icon" ng-class="{'ln-clipboard-check':readTNC,'ln-chevron-right':!readTNC}"></i>
+            </ion-item>
+               <ion-item class="tnc" ng-click="tNc()">
                 Terms & conditions
                 <i class="icon" ng-class="{'ln-clipboard-check':readTNC,'ln-chevron-right':!readTNC}"></i>
             </ion-item>

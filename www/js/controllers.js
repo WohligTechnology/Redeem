@@ -1405,6 +1405,25 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             $scope.modal.show();
         };
         //    MODAL END
+    
+        //   TERMS AND CONDITIONS MODAL FUNCTIONS
+        $ionicModal.fromTemplateUrl('templates/detail.html', {
+            scope: $scope
+        }).then(function (modal) {
+            $scope.modal3 = modal;
+        });
+
+        // Triggered in the tNc modal to close it
+        $scope.closeDetail = function () {
+            $scope.readdetail = true;
+            $scope.modal3.hide();
+        };
+
+        // Open the detail modal
+        $scope.detail = function () {
+            $scope.modal3.show();
+        };
+        //    MODAL END
 
         //        $scope.quickMoney = [500, 1000, 1500];
         $scope.selectMoney = function (buttonvalue) {
