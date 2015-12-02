@@ -6,5 +6,19 @@
         </div>
     </ion-header-bar>
     <ion-content>
+        <div class="det-slid">
+            <ion-slide-box on-slide-changed="slideHasChanged($index)">
+                <ion-slide>
+                    <img src="img/slides/slide1.jpg" class="full-image">
+                </ion-slide>
+                <ion-slide>
+                    <img src="img/slides/slide3.jpg" class="full-image">
+                </ion-slide>
+                <ion-slide>
+                    <img src="img/slides/slide4.jpg" class="full-image">
+                </ion-slide>
+            </ion-slide-box>
+        </div>
+
     </ion-content>
 </ion-modal-view>

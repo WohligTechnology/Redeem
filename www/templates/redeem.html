@@ -6,8 +6,18 @@
     </ion-nav-title>
     <ion-content>
         <div class="redeem">
-            <div class="banner-holder">
-                <img class="full-image" src="{{vendor.bannerurl}}" alt="">
+            <div class="det-slid">
+                <ion-slide-box on-slide-changed="slideHasChanged($index)">
+                    <ion-slide>
+                        <img src="img/slides/slide1.jpg" class="full-image">
+                    </ion-slide>
+                    <ion-slide>
+                        <img src="img/slides/slide3.jpg" class="full-image">
+                    </ion-slide>
+                    <ion-slide>
+                        <img src="img/slides/slide4.jpg" class="full-image">
+                    </ion-slide>
+                </ion-slide-box>
             </div>
             <label class="item item-input enter-amount-input padding" ng-class="{'brdr-danger':crossedLimit,'no-border-bottom':!crossedLimit}">
                 <span class="input-label icon"><img class="currency" src="img/currency.png"></span>
@@ -30,6 +40,7 @@
             <div class="padding">
                 <button class="button button-block button-assertive no-margin" ng-click="addRedeemTransaction()">REDEEM</button>
             </div>
+            <!--
             <a class="item item-icon-left" href="#">
                 <i class="icon ion-ios-world-outline assertive"></i> www.{{vendor.name | lowercase}}.com
             </a>
@@ -51,11 +62,87 @@
                     </a>
                 </div>
             </div>
-            <ion-item class="tnc" ng-click="detail()">
-                Brand details
-                <i class="icon" ng-class="{'ln-clipboard-check':readTNC,'ln-chevron-right':!readTNC}"></i>
-            </ion-item>
-               <ion-item class="tnc" ng-click="tNc()">
+-->
+
+            <div class="link">
+                <div class="row">
+                    <div class="col">
+                        <div class="points-item total-bg">
+                            <div class="icon-hold">
+                                <i class="icon ion-ios-calculator"></i>
+                            </div>
+                            <div class="other-hold">
+                                <h3> www.{{vendor.name | lowercase}}.com</h3>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="points-item positives-bg">
+                            <div class="icon-hold">
+                                <i class="icon ion-social-facebook"></i>
+                            </div>
+                            <div class="other-hold">
+                                <h3>@fb.me/{{vendor.name | limitTo:3 | lowercase }}</h3>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="points-item calm-bg">
+                            <div class="icon-hold">
+                                <i class="icon ion-social-twitter"></i>
+                            </div>
+                            <div class="other-hold">
+                                <h3> @t.co/{{vendor.name | limitTo:3 | lowercase }}</h3>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="points-item positives-bgs">
+                            <div class="icon-hold">
+                                <i class="icon ion-social-android"></i>
+                            </div>
+                            <div class="other-hold">
+                                <h3>@fb.me/{{vendor.name | limitTo:3 | lowercase }}</h3>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="points-item positives-ap">
+                            <div class="icon-hold">
+                                <i class="icon ion-social-apple"></i>
+                            </div>
+                            <div class="other-hold">
+                                <h3> @t.co/{{vendor.name | limitTo:3 | lowercase }}</h3>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="det-name">
+
+                <div class="card">
+                    <div class="item item-text-wrap">
+                        <h4>Flipkart</h4>
+                        <h5>Address:</h5>
+                        <p>Laxmi nivas, near sadhana school</p>
+                        <p>A-30, sion(w)</p>
+                        <p>Mumbai-400001</p>
+                        <p>Maharashtra</p>
+                        <a href="#"><h6><i class="ln-map-marker"></i>Map</h6></a>
+                    </div>
+                </div>
+
+            </div>
+            <ion-item class="tnc" ng-click="tNc()">
                 Terms & conditions
                 <i class="icon" ng-class="{'ln-clipboard-check':readTNC,'ln-chevron-right':!readTNC}"></i>
             </ion-item>

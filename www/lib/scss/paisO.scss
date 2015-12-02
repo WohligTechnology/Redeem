@@ -686,7 +686,7 @@
     
     .redeem {
         .col+.col {
-            border-left: 1px solid $positive;
+            //            border-left: 1px solid $positive;
         }
         .item-input input {
             margin-right: 10px;
@@ -872,4 +872,89 @@
     
     .has-customheader {
         top: 142px !important;
+    }
+    
+    .det-name {
+        .card {
+            h4 {
+                font-size: 20px;
+                margin-bottom: 7px;
+                font-weight: 400;
+            }
+            h5 {
+                font-size: 16px;
+                font-weight: 400;
+                color: #7B7B7B;
+                text-transform: uppercase;
+                margin-bottom: 7px;
+            }
+            p {
+                font-size: 14px;
+                text-transform: capitalize;
+            }
+            a {
+                text-decoration: none;
+                h6 {
+                    margin-top: 10px;
+                    font-size: 17px;
+                    color: #545454;
+                    font-weight: 400;
+                    i {
+                        padding-right: 3px;
+                        font-size: 20px;
+                    }
+                }
+            }
+        }
+    }
+    
+    .points-item {
+        height: 60px;
+        border-radius: 2px;
+        color: white;
+        position: relative;
+    }
+    
+    .total-bg {
+        background-color: #777;
+    }
+    
+    .icon-hold {
+        position: absolute;
+        width: 50px;
+        text-align: center;
+        top: 0;
+        left: 0;
+        line-height: 63px;
+        bottom: 0;
+        font-size: 22px;
+        background-color: rgba(0, 0, 0, 0.25);
+    }
+    
+    .other-hold {
+        padding-left: 50px;
+        text-align: center;
+        padding-top: 22px;
+        h3 {
+            margin: 0;
+            color: white;
+            font-size: 14px;
+            font-weight: normal;
+        }
+        h1 {
+            color: white;
+            margin: 0px;
+            font-size: 30px;
+        }
+    }
+    
+    .positives-bg {
+        background-color: #405E94;
+    }
+    
+    .positives-bgs {
+        background-color: #b3cb39;
+    } 
+.positives-ap {
+        background-color: #b4bfc5;
     }
