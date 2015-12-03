@@ -14,9 +14,6 @@
                 <label class="item item-input">
                     <input type="email" ng-model="user.email" placeholder="Email" ng-disabled="edit">
                 </label>
-                <label class="item item-input">
-                    <input type="text" ng-model="user.mobile" placeholder="Mobile Number" ng-disabled="edit">
-                </label>
                 <label class="item item-input" ng-click="openDate();">
                     <input type="text" ng-model="user.date" onfocus="(this.type='date')" placeholder="Birth Date" ng-disabled="edit">
                 </label>
@@ -27,7 +24,6 @@
                     <select ng-model="user.gender" ng-disabled="edit">
                         <option>Male</option>
                         <option selected>Female</option>
-                        <option>Other</option>
                     </select>
                 </label>
             </div>

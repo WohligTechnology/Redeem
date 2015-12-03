@@ -122,6 +122,8 @@
         "C:/xampp/htdocs/redeem/platforms/android/assets/www/lib/angular-sanitize/index.js",
         "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/armv7/debug/www/js/services.js",
         "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/armv7/debug/www/js/controllers.js",
-        "C:/xampp/htdocs/redeem/platforms/android/assets/www/cordova_plugins.js"
+        "C:/xampp/htdocs/redeem/platforms/android/assets/www/cordova_plugins.js",
+        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/debug/www/lib/angular-animate/angular-animate.min.js",
+        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/debug/www/lib/angular-animate/index.js"
     ]
 }

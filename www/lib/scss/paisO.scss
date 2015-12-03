@@ -958,3 +958,21 @@
 .positives-ap {
         background-color: #b4bfc5;
     }
+.coupon{
+    ::-webkit-input-placeholder {
+        color: grey;
+    }
+    .item-input-inset {
+        padding: 10px;
+        .item-input-wrapper {
+            input {
+                width: 100%;
+            }
+        }
+        .btn-cart {
+            min-height: 20px;
+            line-height: 29px;
+            font-size: 13px;
+        }
+    }
+}

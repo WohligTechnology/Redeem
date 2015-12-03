@@ -521,14 +521,11 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                                             if ($scope.user)
                                                 $location.path('app/home');
                                         } else {
-                                            $scope.user = MyServices.getUser();
-                                            if ($scope.user)
-                                                $location.path('app/home');
+
                                         }
                                     }, function (err) {
 
                                     });
-
                                 } else {
 
                                 }
@@ -545,7 +542,9 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                         }, function (err) {
 
                         });
-
+                        $scope.user = MyServices.getUser();
+                        if ($scope.user)
+                            $location.path('app/home');
                     }
                 } else {
 

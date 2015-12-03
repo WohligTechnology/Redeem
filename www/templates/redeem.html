@@ -9,13 +9,13 @@
             <div class="det-slid">
                 <ion-slide-box on-slide-changed="slideHasChanged($index)">
                     <ion-slide>
-                        <img src="img/slides/slide1.jpg" class="full-image">
+                        <img src="{{vendor.bannerurl}}" class="full-image">
                     </ion-slide>
                     <ion-slide>
-                        <img src="img/slides/slide3.jpg" class="full-image">
+                        <img src="{{vendor.bannerurl}}" class="full-image">
                     </ion-slide>
                     <ion-slide>
-                        <img src="img/slides/slide4.jpg" class="full-image">
+                        <img src="{{vendor.bannerurl}}" class="full-image">
                     </ion-slide>
                 </ion-slide-box>
             </div>
@@ -69,7 +69,7 @@
                     <div class="col">
                         <div class="points-item total-bg">
                             <div class="icon-hold">
-                                <i class="icon ion-ios-calculator"></i>
+                                <i class="icon ion-ios-world-outline"></i>
                             </div>
                             <div class="other-hold">
                                 <h3> www.{{vendor.name | lowercase}}.com</h3>
@@ -103,7 +103,11 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col">
+                    <div class="col col-50">
+                     <div class="img-m">
+                        <img src="img/app.png" class="full-image">
+                    </div>
+<!--
                         <div class="points-item positives-bgs">
                             <div class="icon-hold">
                                 <i class="icon ion-social-android"></i>
@@ -113,8 +117,13 @@
 
                             </div>
                         </div>
+-->
                     </div>
-                    <div class="col">
+                    <div class="col col-50">
+                    <div class="img-m">
+                        <img src="img/play.png" class="full-image">
+                    </div>
+<!--
                         <div class="points-item positives-ap">
                             <div class="icon-hold">
                                 <i class="icon ion-social-apple"></i>
@@ -125,20 +134,31 @@
                             </div>
                         </div>
                     </div>
+-->
                 </div>
             </div>
             <div class="det-name">
 
                 <div class="card">
-                    <div class="item item-text-wrap">
-                        <h4>Flipkart</h4>
+                   <div class="row">
+                       <div class="col col-66">
+                           <div class="item item-text-wrap">
+                        <h4>{{vendor.name}}</h4>
                         <h5>Address:</h5>
-                        <p>Laxmi nivas, near sadhana school</p>
-                        <p>A-30, sion(w)</p>
-                        <p>Mumbai-400001</p>
+                        <p>A-1, 806, Empire Mahal</p>
+                        <p>Dr B. A Road, Dadar T.T. Circle</p>
+                        <p>Mumbai - 400014</p>
                         <p>Maharashtra</p>
-                        <a href="#"><h6><i class="ln-map-marker"></i>Map</h6></a>
+                        <p>Phone: 022 4921 8333</p>
+<!--                        <a href="#"><h6><i class="ln-map-marker"></i>Map</h6></a>-->
                     </div>
+                       </div>
+                       <div class="col col-33">
+                           <img src="img/map.jpg" class="full-image" style="    width: 62px;
+    float: right;">
+                       </div>
+                   </div>
+                    
                 </div>
 
             </div>
