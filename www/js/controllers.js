@@ -298,38 +298,8 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         }
 
     };
-    $scope.otp = 0;
     $scope.ctrlUser = {};
-    $scope.generateOTP = function () {
-        $scope.otp = Math.floor(100000 + Math.random() * 900000);
-        MyServices.setOTP($scope.otp);
-        console.log($scope.otp);
-    };
-    $scope.checkReferral = function () {
-        console.log($scope.signup);
-        $scope.mobile = $scope.signup.referrer;
-        $scope.usermobile = {
-            mobile: $scope.mobile
-        };
-        if ($scope.signup.referrer === undefined || $scope.signup.referrer === null || $scope.signup.referrer === "") {
 
-        } else {
-            MyServices.findUserByMobile($scope.usermobile, function (data) {
-                    if (data) {
-                        console.log(data);
-                        $scope.ctrlUser = data;
-                        return true;
-                    } else {
-                        return false;
-                    }
-                },
-                function (err) {
-                    if (err) {
-                        return false;
-                    }
-                });
-        }
-    };
     $scope.confirmed = undefined;
     $scope.checkPassword = function () {
         console.log("in confirmation");
@@ -381,22 +351,221 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         else
             return true;
     };
+    $scope.referredUser = {};
+    $scope.checkReferral = function () {
+        $scope.user = {
+            mobile: $scope.signup.referrer
+        };
+        $scope.flag = undefined;
+        MyServices.findUserByMobile($scope.user, function (data) {
+            if (data._id) {
+                console.log(data);
+                $scope.referredUser = data;
+                $scope.flag = true;
+            } else {
+                $scope.flag = false;
+            }
+        }, function (err) {
+            $scope.flag = false;
+        });
+        if ($scope.flag === false)
+            return false;
+        else
+            return true;
+    };
     $scope.data = {};
+    $scope.validateMobile = function () {
+        $scope.usermobile = {
+            mobile: $scope.signup.mobile,
+            name: $scope.signup.name
+        };
+        MyServices.validateMobile($scope.usermobile, function (data) {
+            console.log(data);
+            if (data.value) {
+                var alertPopup = $ionicPopup.alert({
+                    template: '<h4 style="text-align:center;">The mobile number is already registered.</h4>'
+                });
+                alertPopup.then(function (res) {
+
+                });
+            } else {
+                $scope.input = {};
+                // An elaborate, custom popup
+                smsplugin.startReception(function (message) {
+                    console.log(message);
+                    $scope.input.otp = message.substr(message.length - 6);
+                    $scope.$apply();
+                }, function (err) {
+                    console.log(err);
+                });
+                var myPopup = $ionicPopup.show({
+                    template: '<input type="text" ng-model="input.otp" style="margin: 0px auto;width:100px;text-align:center;font-size:20px">',
+                    title: 'OTP Verification',
+                    subTitle: 'Enter the 6-digit OTP :',
+                    scope: $scope,
+                    buttons: [
+                        {
+                            text: 'Cancel'
+                        },
+                        {
+                            text: 'Retry',
+                            onTap: function (e) {
+                                myPopup.close();
+                                $scope.validateMobile();
+                            }
+                        },
+                        {
+                            text: '<b>Verify</b>',
+                            type: 'button-positive',
+                            onTap: function (e) {
+                                if (!$scope.input.otp) {
+                                    //don't allow the user to close unless he enters wifi password
+                                    e.preventDefault();
+                                } else {
+                                    if (parseInt($scope.input.otp) === data.otp) {
+                                        $scope.doSignup();
+                                    } else {
+                                        var alertPopup = $ionicPopup.alert({
+                                            template: '<h4 style="text-align:center;">Invalid OTP.</h4>'
+                                        });
+                                        alertPopup.then(function (res) {
+
+                                        });
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                });
+                myPopup.then(function (res) {
+                    console.log('Tapped!', res);
+                });
+            }
+        }, function (err) {
+
+        });
+    };
+
+
     $scope.checkOTP = function () {
         if ($scope.validateThis()) {
-            
+            if ($scope.signup.referrer === "" || $scope.signup.referrer === null || $scope.signup.referrer === undefined) {
+                $scope.validateMobile();
+            } else {
+                $scope.item = {
+                    mobile: $scope.signup.referrer
+                };
+                MyServices.findUserByMobile($scope.item, function (data) {
+                    if (data._id) {
+                        console.log("here1");
+                        $scope.validateMobile();
+                    } else {
+
+                        var alertPopup = $ionicPopup.alert({
+                            template: '<h4 style="text-align:center;">Referral ID does not exist. Invalid.</h4>'
+                        });
+                        alertPopup.then(function (res) {
+
+                        });
+
+                    }
+                }, function (err) {
+
+                });
+            }
         } else {
             var alertPopup = $ionicPopup.alert({
                 template: '<h4 style="text-align:center;">Invalid Data</h4>'
             });
             alertPopup.then(function (res) {
-                
+
             });
         }
     };
     $scope.referralData = {};
     $scope.doSignup = function () {
         delete $scope.signup.confirmpassword;
+        if (MyServices.getDevice()) {
+            $scope.signup.deviceid = MyServices.getDevice();
+            MyServices.signupUser($scope.signup, function (data) {
+                if (data.value) {
+                    MyServices.setUser(data.user);
+                    if ($scope.signup.referrer === "" || $scope.signup.referrer === null || $scope.signup.referrer === undefined) {
+                        $scope.user = MyServices.getUser();
+                        if ($scope.user)
+                            $location.path('app/home');
+                    } else {
+                        $scope.referrerData = {
+                            _id: data._id,
+                            amountearned: 0
+                        };
+                        $scope.item = {
+                            mobile: $scope.signup.referrer
+                        };
+                        MyServices.findUserByMobile($scope.item, function (data2) {
+                            if (data2._id) {
+                                if (data2.referral)
+                                    data2.referral.unshift($scope.referrerData);
+                                console.log($scope.referredUser);
+                                if ($scope.updateUser(data2)) {
+                                    console.log("in notify referral");
+                                    $scope.notifydata = {
+                                        deviceid: data2.deviceid,
+                                        type: "referral",
+                                        new: true,
+                                        name: data.user.name
+                                    }
+                                    MyServices.notify($scope.notifydata, function (data3) {
+                                        if (data3.value === true) {
+                                            $scope.user = MyServices.getUser();
+                                            if ($scope.user)
+                                                $location.path('app/home');
+                                        } else {
+                                            $scope.user = MyServices.getUser();
+                                            if ($scope.user)
+                                                $location.path('app/home');
+                                        }
+                                    }, function (err) {
+
+                                    });
+
+                                } else {
+
+                                }
+                            } else {
+
+                                var alertPopup = $ionicPopup.alert({
+                                    template: '<h4 style="text-align:center;">Referral ID does not exist. Invalid.</h4>'
+                                });
+                                alertPopup.then(function (res) {
+
+                                });
+
+                            }
+                        }, function (err) {
+
+                        });
+
+                    }
+                } else {
+
+                }
+            }, function (err) {
+                var alertPopup = $ionicPopup.alert({
+                    template: '<h4 style="text-align:center;">Server error,  try again later</h4>'
+                });
+                alertPopup.then(function (res) {
+
+                });
+            });
+        } else {
+            var alertPopup = $ionicPopup.alert({
+                template: '<h4 style="text-align:center;">Unable to get device ID </h4>'
+            });
+            alertPopup.then(function (res) {
+
+            });
+        }
     };
 })
 
