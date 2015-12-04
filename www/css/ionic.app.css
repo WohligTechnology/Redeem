@@ -537,6 +537,9 @@ $dark:                            #444 !default;
   margin-bottom: -3px !important;
   margin-top: -2px !important; }
 
+.redeem .input-options .col + .col {
+  border-left: 1px solid #ef7f1a; }
+
 .redeem .item-input input {
   margin-right: 10px; }
 

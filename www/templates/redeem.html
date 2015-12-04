@@ -24,7 +24,7 @@
 
                 <input type="number" placeholder="{{placeholdertext}}" ng-model="redeem.amount" ng-change="isInLimit(redeem.amount)" ng-disabled="fixedinput">
             </label>
-            <div class="row no-padding">
+            <div class="row no-padding input-options">
                 <div class="col no-padding" ng-repeat="item in vendor.amountselect" style="background-color: white !important;">
                     <button class="button no-margin button-clear button-assertive button-block" ng-click="selectMoney(item)" style="
     font-size: 16px !important;">₹ {{item}}</button>

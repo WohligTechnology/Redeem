@@ -966,14 +966,21 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                                                         amount: $scope.send.amount,
                                                         name: $scope.user.name
                                                     };
-                                                    MyServices.notify($scope.recieverNotify, function (data) {
-                                                        if (data.value === true) {
+                                                    MyServices.notify($scope.recieverNotify, function (data2) {
+                                                        if (data2.value === true) {
                                                             $scope.alertUser("Send Money ", "transfer complete.");
                                                         }
                                                     }, function (err) {
 
                                                     })
 
+                                                } else {
+                                                    var alertPopup = $ionicPopup.alert({
+                                                        template: '<h4 style="text-align: center;margin-bottom:0">Transfer successful.</h4>'
+                                                    });
+                                                    alertPopup.then(function (res) {
+                                                        $location.path('app/home');
+                                                    });
                                                 }
                                             } else {
                                                 //revert code for current logged in user

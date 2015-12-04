@@ -685,8 +685,10 @@
     }
     
     .redeem {
-        .col+.col {
-            //            border-left: 1px solid $positive;
+        .input-options {
+            .col+.col {
+                border-left: 1px solid $positive;
+            }
         }
         .item-input input {
             margin-right: 10px;
@@ -954,25 +956,27 @@
     
     .positives-bgs {
         background-color: #b3cb39;
-    } 
-.positives-ap {
+    }
+    
+    .positives-ap {
         background-color: #b4bfc5;
     }
-.coupon{
-    ::-webkit-input-placeholder {
-        color: grey;
-    }
-    .item-input-inset {
-        padding: 10px;
-        .item-input-wrapper {
-            input {
-                width: 100%;
+    
+    .coupon {
+        ::-webkit-input-placeholder {
+            color: grey;
+        }
+        .item-input-inset {
+            padding: 10px;
+            .item-input-wrapper {
+                input {
+                    width: 100%;
+                }
+            }
+            .btn-cart {
+                min-height: 20px;
+                line-height: 29px;
+                font-size: 13px;
             }
         }
-        .btn-cart {
-            min-height: 20px;
-            line-height: 29px;
-            font-size: 13px;
-        }
     }
-}
