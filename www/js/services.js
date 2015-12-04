@@ -194,6 +194,12 @@ angular.module('starter.services', [])
         getDevice: function () {
             return $.jStorage.get("device");
         },
+        setOS: function (data) {
+            $.jStorage.set("os", data);
+        },
+        getOS: function () {
+            return $.jStorage.get("os");
+        },
         setReferrer: function (data) {
             $.jStorage.set("referrer", data);
         },

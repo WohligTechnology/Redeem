@@ -486,7 +486,8 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
     $scope.doSignup = function () {
         delete $scope.signup.confirmpassword;
         if (MyServices.getDevice()) {
-            $scope.signup.deviceid = MyServices.getDevice();
+            $scope.signup.notificationtoken.deviceid = MyServices.getDevice();
+            $scope.signup.notificationtoken.os = MyServices.getOS();
             MyServices.signupUser($scope.signup, function (data) {
                 if (data.value) {
                     MyServices.setUser(data.user);
