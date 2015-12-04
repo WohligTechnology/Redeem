@@ -39,11 +39,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 
                 console.log(data);
                 $.jStorage.set("device", data.registrationId);
+               var isIOS = ionic.Platform.isIOS();
                 var isAndroid = ionic.Platform.isAndroid();
                 if (isIOS) {
-                    $.jStorage.set("os", "iOS");
+                    $.jStorage.set("os", "ios");
                 } else if (isAndroid) {
-                    $.jStorage.set("os", "Android");
+                    $.jStorage.set("os", "android");
                 }
 
 

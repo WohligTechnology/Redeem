@@ -161,6 +161,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
 
     $scope.login = {};
     $scope.signup = {};
+    $scope.signup.notificationtoken = {};
     $scope.activate = true;
     $scope.tab = {
         left: true,
@@ -511,11 +512,13 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                                 if ($scope.updateUser(data2)) {
                                     console.log("in notify referral");
                                     $scope.notifydata = {
-                                        deviceid: data2.deviceid,
+                                        deviceid: data2.notificationtoken.deviceid,
+                                        os: data2.notificationtoken.os,
+                                        user:data2._id,
                                         type: "referral",
                                         new: true,
                                         name: data.user.name
-                                    }
+                                    };
                                     MyServices.notify($scope.notifydata, function (data3) {
                                         if (data3.value === true) {
                                             $scope.user = MyServices.getUser();
@@ -962,7 +965,9 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                                                 if ($scope.addTransaction($scope.transaction)) {
                                                     $scope.recieverNotify = {
                                                         type: "sendmoney",
-                                                        deviceid: data.deviceid,
+                                                        deviceid: data.notificationtoken.deviceid,
+                                                        os: data.notificationtoken.os,
+                                                        user:data._id,
                                                         comment: $scope.send.comment,
                                                         amount: $scope.send.amount,
                                                         name: $scope.user.name
@@ -1201,7 +1206,9 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                                 if ($scope.user.referrer) {
                                     console.log($scope.user);
                                     $scope.updateData = {
-                                        deviceid: $scope.user.deviceid,
+                                        deviceid: $scope.user.notificationtoken.deviceid,
+                                        os: $scope.user.notificationtoken.os,
+                                        user:$scope.user._id,
                                         type: "referral",
                                         mobile: $scope.user.referrer,
                                         _id: $scope.user._id,
