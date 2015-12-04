@@ -1,3 +1,12 @@
 <ion-view view-title="Notification">
-    <ion-content></ion-content>
+    <ion-content>
+        <!--            <div class="list" ng-repeat="noti in notification">-->
+        <a href="" style=" text-decoration: none; ">
+            <div class="card padding" ng-repeat="item in user.notification">
+            <h2>{{item.title}}</h2>
+            <p>{{item.body}}</p>
+            <span><i class="icon ln-clock3"></i>  {{item.timestamp | date:'medium'}}</span>
+        </div>
+        </a>
+    </ion-content>
 </ion-view>

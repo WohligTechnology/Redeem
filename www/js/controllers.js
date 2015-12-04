@@ -514,7 +514,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                                     $scope.notifydata = {
                                         deviceid: data2.notificationtoken.deviceid,
                                         os: data2.notificationtoken.os,
-                                        user:data2._id,
+                                        user: data2._id,
                                         type: "referral",
                                         new: true,
                                         name: data.user.name
@@ -967,7 +967,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                                                         type: "sendmoney",
                                                         deviceid: data.notificationtoken.deviceid,
                                                         os: data.notificationtoken.os,
-                                                        user:data._id,
+                                                        user: data._id,
                                                         comment: $scope.send.comment,
                                                         amount: $scope.send.amount,
                                                         name: $scope.user.name
@@ -1208,7 +1208,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                                     $scope.updateData = {
                                         deviceid: $scope.user.notificationtoken.deviceid,
                                         os: $scope.user.notificationtoken.os,
-                                        user:$scope.user._id,
+                                        user: $scope.user._id,
                                         type: "referral",
                                         mobile: $scope.user.referrer,
                                         _id: $scope.user._id,
@@ -1651,8 +1651,21 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             }
         });
     })
-    .controller('NotificationCtrl', function ($scope, $stateParams) {
+    .controller('NotificationCtrl', function ($scope, $stateParams,MyServices) {
+        $scope.user = {};
+        $scope.user = MyServices.getUser();
+        $scope.refreshUser = function () {
+            MyServices.findUser($scope.user, function (data) {
+                if (data) {
+                    console.log(data);
+                    MyServices.setUser(data);
+                    $scope.user = MyServices.getUser();
+                }
+            }, function (err) {
 
+            });
+        };
+        $scope.refreshUser();
     })
     .controller('ProfileCtrl', function ($scope, $stateParams, MyServices, $ionicPopup) {
         $scope.user = {};
