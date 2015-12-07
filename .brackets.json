@@ -126,6 +126,16 @@
         "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/debug/www/lib/angular-animate/angular-animate.min.js",
         "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/debug/www/lib/angular-animate/index.js",
         "C:/xampp/htdocs/redeem/platforms/android/assets/www/plugins/cordova-plugin-whitelist/whitelist.js",
-        "C:/xampp/htdocs/redeem/platforms/android/assets/www/lib/angular-ui-router/src/viewScroll.js"
+        "C:/xampp/htdocs/redeem/platforms/android/assets/www/lib/angular-ui-router/src/viewScroll.js",
+        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/debug/www/lib/angular-sanitize/index.js",
+        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/debug/www/lib/angular-ui-router/release/angular-ui-router.js",
+        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/debug/www/lib/angular-ui-router/release/angular-ui-router.min.js",
+        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/debug/www/lib/angular-ui-router/src/common.js",
+        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/debug/www/lib/angular-ui-router/src/resolve.js",
+        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/debug/www/lib/angular-ui-router/src/state.js",
+        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/debug/www/lib/angular-ui-router/src/stateDirectives.js",
+        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/debug/www/lib/angular-ui-router/src/stateFilters.js",
+        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/debug/www/lib/angular-ui-router/src/templateFactory.js",
+        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/debug/www/lib/angular-ui-router/src/urlMatcherFactory.js"
     ]
 }

@@ -974,7 +974,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                                                     };
                                                     MyServices.notify($scope.recieverNotify, function (data2) {
                                                         if (data2.value === true) {
-                                                            $scope.alertUser("Send Money ", "transfer complete.");
+                                                            $scope.alertUser("Send Money", "Transfer complete.");
                                                         }
                                                     }, function (err) {
 
@@ -1511,6 +1511,10 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                     _id: $scope.user._id,
                     balance: $scope.user.balance - $scope.redeem.amount
                 }; //updates walletLimit,see isRemainging for more on walletLimit
+                if ($scope.vendor.hasoffer) {
+                    var cashback = ($scope.vendor.offerpercent * $scope.redeem.amount) / 100;
+                    $scope.ctrlUser.balance = $scope.ctrlUser.balance + cashback;
+                }
                 console.log($scope.ctrlUser);
                 if ($scope.ctrlUser.balance >= 0) {
                     var confirmPopup = $ionicPopup.confirm({
@@ -1529,8 +1533,14 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                                     name: $scope.user.name,
                                     email: $scope.user.email,
                                     vendor: $scope.vendor.name,
-                                    mobile: $scope.user.mobile
+                                    mobile: $scope.user.mobile,
+                                    deviceid: $scope.user.notificationtoken.deviceid,
+                                    os: $scope.user.notificationtoken.os
                                 };
+                                if ($scope.vendor.hasoffer) {
+                                    $scope.transaction.hasoffer = true;
+                                    $scope.transaction.cashback = cashback;
+                                }
                                 if ($scope.addTransaction($scope.transaction)) {
                                     $scope.user.balance = $scope.ctrlUser.balance;
                                     $scope.proceedAlert();
@@ -1651,7 +1661,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             }
         });
     })
-    .controller('NotificationCtrl', function ($scope, $stateParams,MyServices) {
+    .controller('NotificationCtrl', function ($scope, $stateParams, MyServices) {
         $scope.user = {};
         $scope.user = MyServices.getUser();
         $scope.refreshUser = function () {
