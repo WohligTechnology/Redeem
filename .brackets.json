@@ -136,6 +136,8 @@
         "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/debug/www/lib/angular-ui-router/src/stateDirectives.js",
         "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/debug/www/lib/angular-ui-router/src/stateFilters.js",
         "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/debug/www/lib/angular-ui-router/src/templateFactory.js",
-        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/debug/www/lib/angular-ui-router/src/urlMatcherFactory.js"
+        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/debug/www/lib/angular-ui-router/src/urlMatcherFactory.js",
+        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/debug/www/lib/angular-ui-router/src/urlRouter.js",
+        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/debug/www/lib/angular-ui-router/src/view.js"
     ]
 }

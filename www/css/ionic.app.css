@@ -768,6 +768,17 @@ input[disabled] {
     line-height: 29px;
     font-size: 13px; }
 
+.offer-txt {
+  font-size: 15px;
+  margin: 10px;
+  text-align: center; }
+
+.notification .card {
+  margin: 15px 10px; }
+
+.notification a {
+  text-decoration: none; }
+
 /*!
   Ionicons, v2.0.1
   Created by Ben Sperry for the Ionic Framework, http://ionicons.com/

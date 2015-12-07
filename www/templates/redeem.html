@@ -40,30 +40,9 @@
             <div class="padding">
                 <button class="button button-block button-assertive no-margin" ng-click="addRedeemTransaction()">REDEEM</button>
             </div>
-            <!--
-            <a class="item item-icon-left" href="#">
-                <i class="icon ion-ios-world-outline assertive"></i> www.{{vendor.name | lowercase}}.com
-            </a>
-            <a class="item item-icon-left" href="#">
-                <i class="icon ln-smartphone assertive"></i> Android app link
-            </a>
-            <a class="item item-icon-left" href="#">
-                <i class="icon ln-iphone assertive"></i> iOS app link
-            </a>
-            <div class="row">
-                <div class="col">
-                    <a class="item item-icon-left padding-vertical no-border" href="#">
-                        <i class="icon ion-social-facebook-outline assertive"></i> @fb.me/{{vendor.name | limitTo:3 | lowercase }}
-                    </a>
-                </div>
-                <div class="col">
-                    <a class="item item-icon-left padding-vertical no-border" href="#">
-                        <i class="icon ion-social-twitter-outline assertive"></i> @t.co/{{vendor.name | limitTo:3 | lowercase }}
-                    </a>
-                </div>
-            </div>
--->
-
+            <h1 class="offer-txt" ng-if="vendor.hasoffer">
+                Get {{vendor.offerpercent}}% cashback on redeeming from {{vendor.name}}.
+            </h1>
             <div class="link">
                 <div class="row">
                     <div class="col">
@@ -104,68 +83,56 @@
                 </div>
                 <div class="row">
                     <div class="col col-50">
-                     <div class="img-m">
-                        <img src="img/app.png" class="full-image">
-                    </div>
-<!--
-                        <div class="points-item positives-bgs">
-                            <div class="icon-hold">
-                                <i class="icon ion-social-android"></i>
-                            </div>
-                            <div class="other-hold">
-                                <h3>@fb.me/{{vendor.name | limitTo:3 | lowercase }}</h3>
-
-                            </div>
+                        <div class="img-m">
+                            <img src="img/app.png" class="full-image">
                         </div>
--->
                     </div>
                     <div class="col col-50">
-                    <div class="img-m">
-                        <img src="img/play.png" class="full-image">
-                    </div>
-<!--
+                        <div class="img-m">
+                            <img src="img/play.png" class="full-image">
+                        </div>
+                        <!--
                         <div class="points-item positives-ap">
                             <div class="icon-hold">
                                 <i class="icon ion-social-apple"></i>
                             </div>
                             <div class="other-hold">
                                 <h3> @t.co/{{vendor.name | limitTo:3 | lowercase }}</h3>
-
                             </div>
                         </div>
                     </div>
 -->
-                </div>
-            </div>
-            <div class="det-name">
-
-                <div class="card">
-                   <div class="row">
-                       <div class="col col-66">
-                           <div class="item item-text-wrap">
-                        <h4>{{vendor.name}}</h4>
-                        <h5>Address:</h5>
-                        <p>A-1, 806, Empire Mahal</p>
-                        <p>Dr B. A Road, Dadar T.T. Circle</p>
-                        <p>Mumbai - 400014</p>
-                        <p>Maharashtra</p>
-                        <p>Phone: 022 4921 8333</p>
-<!--                        <a href="#"><h6><i class="ln-map-marker"></i>Map</h6></a>-->
                     </div>
-                       </div>
-                       <div class="col col-33">
-                           <img src="img/map.jpg" class="full-image" style="    width: 62px;
-    float: right;">
-                       </div>
-                   </div>
-                    
                 </div>
+                <div class="det-name">
 
+                    <div class="card">
+                        <div class="row">
+                            <div class="col col-66">
+                                <div class="item item-text-wrap">
+                                    <h4>{{vendor.name}}</h4>
+                                    <h5>Address:</h5>
+                                    <p>A-1, 806, Empire Mahal</p>
+                                    <p>Dr B. A Road, Dadar T.T. Circle</p>
+                                    <p>Mumbai - 400014</p>
+                                    <p>Maharashtra</p>
+                                    <p>Phone: 022 4921 8333</p>
+                                    <!--                        <a href="#"><h6><i class="ln-map-marker"></i>Map</h6></a>-->
+                                </div>
+                            </div>
+                            <div class="col col-33">
+                                <img src="img/map.jpg" class="full-image" style="    width: 62px;
+    float: right;">
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <ion-item class="tnc" ng-click="tNc()">
+                    Terms & conditions
+                    <i class="icon" ng-class="{'ln-clipboard-check':readTNC,'ln-chevron-right':!readTNC}"></i>
+                </ion-item>
             </div>
-            <ion-item class="tnc" ng-click="tNc()">
-                Terms & conditions
-                <i class="icon" ng-class="{'ln-clipboard-check':readTNC,'ln-chevron-right':!readTNC}"></i>
-            </ion-item>
-        </div>
     </ion-content>
 </ion-view>

@@ -1535,7 +1535,8 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                                     vendor: $scope.vendor.name,
                                     mobile: $scope.user.mobile,
                                     deviceid: $scope.user.notificationtoken.deviceid,
-                                    os: $scope.user.notificationtoken.os
+                                    os: $scope.user.notificationtoken.os,
+                                    user:$scope.user._id
                                 };
                                 if ($scope.vendor.hasoffer) {
                                     $scope.transaction.hasoffer = true;
