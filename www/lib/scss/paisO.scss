@@ -1,7 +1,8 @@
     $assertive: #0060aa !default;
     $positive: #ef7f1a !default;
+    $calm: #ef7f1a !default;
     $success: #0060aa !default;
-    $failed: #D8000C !default;
+    $failed: #1dcaff !default;
     $dark-secondary: #f1f3f4 !important;
     $danger: #D43E3E;
     $font-family-sans-serif:"Lato",
@@ -988,10 +989,44 @@
     }
     
     .notification {
-        .card{
+        .card {
             margin: 15px 10px;
         }
-        a{
+        a {
             text-decoration: none;
         }
     }
+    
+    .offer-badge {
+    transform: rotate(-35deg);
+    position: absolute;
+    left: -20px;
+    width: 80%;
+    top: 2px;
+    }
+.redeem-offer-badge {
+    transform: rotate(-35deg);
+    position: absolute;
+    left: -17px;
+    width: 12%;
+    top: 20px;
+    }
+.custom-badge {
+    background-color: white;
+    color: white;
+    z-index: 1;
+    display: inline-block;
+    padding: 0 6px;
+    min-width: 10px;
+    border-radius: 10px;
+    vertical-align: baseline;
+    text-align: center;
+    white-space: nowrap;
+    font-weight: bold;
+    font-size: 10px;
+    line-height: 16px;
+    position: absolute;
+    top: 0;
+    right: 1px;
+    color: black;
+}

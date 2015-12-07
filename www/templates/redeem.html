@@ -8,6 +8,8 @@
         <div class="redeem">
             <div class="det-slid">
                 <ion-slide-box on-slide-changed="slideHasChanged($index)">
+                                           <span ng-if="vendor.hasoffer" class="badge redeem-offer-badge badge-calm">{{vendor.offerpercent}}% more</span>
+
                     <ion-slide>
                         <img src="{{vendor.bannerurl}}" class="full-image">
                     </ion-slide>

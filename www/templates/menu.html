@@ -5,12 +5,18 @@
                 <button class="button button-icon button-clear ion-navicon" menu-toggle="left">
                 </button>
             </ion-nav-buttons>
-<!--
+            <!--
             <ion-nav-buttons side="right">
                 <button class="button button-icon button-clear ion-ios-search">
                 </button>
             </ion-nav-buttons>
 -->
+            <ion-nav-buttons side="right" ng-hide="nosearch">
+                <button class="button cart-button button-icon button-clear" ng-click="cartCheck()"><i class="cart-icon icon ion-android-notifications-none">
+                    <span class="custom-badge" >2</span>
+                    </i>
+                </button>
+            </ion-nav-buttons>
         </ion-nav-bar>
         <ion-nav-view name="menuContent"></ion-nav-view>
     </ion-side-menu-content>
@@ -18,7 +24,7 @@
     <ion-side-menu side="left" width="240" class="sidemenu">
         <ion-content>
             <ion-list>
-<!--
+                <!--
                 <ion-item class="no-border" style="background-color:#f1f3f4">
                     <img src="img/title.png" class="full-image" alt="">
                 </ion-item>

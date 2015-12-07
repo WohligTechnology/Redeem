@@ -11,7 +11,10 @@
         <a ng-repeat="item in vendors" ng-if="item.status" href="#/app/redeem/{{item._id}}" class="video-set" style="text-decoration:none">
             <figure>
                 <img ng-src="{{item.bannerurl}}" class="full-image">
+                                        
+
                 <div class="img-layer">
+<!--                   <span ng-if="item.hasoffer" class="badge offer-badge badge-calm">{{item.offerpercent}}% more</span>-->
                     <div class="bottom-txt">
                         <h4>{{item.name}}</h4>
                     </div>

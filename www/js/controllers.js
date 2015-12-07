@@ -146,8 +146,11 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
 .controller('PlaylistsCtrl', function ($scope) {})
     .controller('SearchCtrl', function ($scope) {})
 
-.controller('LoginCtrl', function ($scope, $stateParams, $location, MyServices, $ionicScrollDelegate, $ionicModal, $ionicPopup, $filter) {
+.controller('LoginCtrl', function ($scope, $stateParams, $ionicPlatform, $location, MyServices, $ionicScrollDelegate, $ionicModal, $ionicPopup, $filter) {
     $scope.phone1 = {};
+    $ionicPlatform.registerBackButtonAction(function (event) {
+        event.preventDefault();
+    }, 100);
     $scope.phone = MyServices.getDevice();
     $scope.confirmP = "Confirm Password";
     $scope.hideButtonOnInput = {
@@ -572,7 +575,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
     };
 })
 
-.controller('HomeCtrl', function ($scope, $stateParams, MyServices, $location, $ionicLoading, $timeout) {
+.controller('HomeCtrl', function ($scope, $stateParams, MyServices, $location,$ionicSlideBoxDelegate, $ionicLoading, $timeout) {
         $scope.banners = [];
         $scope.user = {};
         if (!MyServices.getUser()) {
@@ -621,6 +624,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             if (data) {
                 $scope.banners = data;
                 console.log($scope.banners);
+                $ionicSlideBoxDelegate.update();
             }
         }, function (err) {
             if (err) {
@@ -972,21 +976,26 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                                                         amount: $scope.send.amount,
                                                         name: $scope.user.name
                                                     };
+                                                    var alertPopup = $ionicPopup.alert({
+                                                        template: '<h4 style="text-align: center;margin-bottom:0">Transaction successful.</h4>'
+                                                    });
+                                                    alertPopup.then(function (res) {
+                                                        $location.path('app/home');
+                                                    });
                                                     MyServices.notify($scope.recieverNotify, function (data2) {
-                                                        if (data2.value === true) {
-                                                            $scope.alertUser("Send Money", "Transfer complete.");
-                                                        }
+                                                        console.log(data2);
+                                                        if (data2.value === true) {}
                                                     }, function (err) {
 
                                                     })
 
                                                 } else {
-                                                    var alertPopup = $ionicPopup.alert({
-                                                        template: '<h4 style="text-align: center;margin-bottom:0">Transfer successful.</h4>'
-                                                    });
-                                                    alertPopup.then(function (res) {
-                                                        $location.path('app/home');
-                                                    });
+                                                    //                                                    var alertPopup = $ionicPopup.alert({
+                                                    //                                                        template: '<h4 style="text-align: center;margin-bottom:0">Transaction failed to add.</h4>'
+                                                    //                                                    });
+                                                    //                                                    alertPopup.then(function (res) {
+                                                    //                                                        $location.path('app/home');
+                                                    //                                                    });
                                                 }
                                             } else {
                                                 //revert code for current logged in user
@@ -1536,7 +1545,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                                     mobile: $scope.user.mobile,
                                     deviceid: $scope.user.notificationtoken.deviceid,
                                     os: $scope.user.notificationtoken.os,
-                                    user:$scope.user._id
+                                    user: $scope.user._id
                                 };
                                 if ($scope.vendor.hasoffer) {
                                     $scope.transaction.hasoffer = true;

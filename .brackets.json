@@ -138,6 +138,9 @@
         "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/debug/www/lib/angular-ui-router/src/templateFactory.js",
         "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/debug/www/lib/angular-ui-router/src/urlMatcherFactory.js",
         "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/debug/www/lib/angular-ui-router/src/urlRouter.js",
-        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/debug/www/lib/angular-ui-router/src/view.js"
+        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/debug/www/lib/angular-ui-router/src/view.js",
+        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/debug/www/lib/angular-ui-router/src/viewDirective.js",
+        "C:/xampp/htdocs/redeem/www/js/services.js",
+        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/debug/www/lib/ionic/js/ionic-angular.min.js"
     ]
 }

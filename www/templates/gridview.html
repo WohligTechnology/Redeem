@@ -13,8 +13,10 @@
                 <a href="#/app/redeem/{{item._id}}" style="text-decoration:none;color: black;" class="col-33 padding" ng-repeat="item in row" ng-if="item.status" >
                     <div class="img-holder">
                         <img class="category-image" ng-src="{{item.logourl}}" alt="">
+                        <span ng-if="item.hasoffer" class="badge offer-badge badge-calm">{{item.offerpercent}}% more</span>
                     </div>
                     <span>{{item.name}}</span>
+                    
                 </a>
             </div>
         </div>
