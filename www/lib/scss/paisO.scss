@@ -778,10 +778,10 @@
         height: 180px;
         background-size: cover;
         .layer-over {
-            position: absolute;
-            bottom: 0px;
-            left: 20px;
-            text-align: center;
+               position: absolute;
+    bottom: 10px;
+    left: 20px;
+    text-align: center;
             p {
                 color: #fff;
             }
@@ -792,6 +792,7 @@
             border-radius: 100%;
             background-size: contain;
             margin: 8px auto;
+            position: initial;
         }
     }
     
