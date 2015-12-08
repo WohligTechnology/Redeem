@@ -37,6 +37,15 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         console.log("in here");
     };
     $scope.refreshUser();
+    $scope.count = 0;;
+    $scope.refreshNoti = function (item) {
+        $scope.count = 0;
+        _.each(item.notification, function (key) {
+            if (key.read === false)
+                $scope.count++;
+        });
+    };
+    $scope.refreshNoti($scope.user);
     $scope.menu = [{
         title: 'Home',
         url: '#/app/home',
@@ -84,6 +93,10 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             $scope.menu[i].state = false;
         }
         $scope.menu[index].state = true;
+    };
+
+    $scope.openNotification = function () {
+        $location.path('/app/notification');
     };
 
     //    GLOBAL update user function
@@ -141,6 +154,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                 $location.path(link);
         });
     };
+
 })
 
 .controller('PlaylistsCtrl', function ($scope) {})
@@ -575,12 +589,9 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
     };
 })
 
-.controller('HomeCtrl', function ($scope, $stateParams, MyServices, $location,$ionicSlideBoxDelegate, $ionicLoading, $timeout) {
+.controller('HomeCtrl', function ($scope, $stateParams, MyServices, $location, $ionicSlideBoxDelegate, $ionicLoading, $timeout) {
         $scope.banners = [];
         $scope.user = {};
-        if (!MyServices.getUser()) {
-            $location.url("/login");
-        }
         $scope.navTitle = '<img class="title-image" src="img/title.png">';
         $scope.user = MyServices.getUser();
         $scope.refreshUser = function () {
@@ -595,6 +606,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             });
         };
         $scope.refreshUser();
+        $scope.refreshNoti($scope.user);
         $scope.category = [];
         $scope.refreshUser();
         $scope.show = function () {
@@ -660,6 +672,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             });
         };
         $scope.refreshUser();
+        $scope.refreshNoti($scope.user);
         $scope.friendlist = [];
         $scope.referralmoney = 0;
         $scope.getThisUser = function (id, amountearned) {
@@ -764,6 +777,8 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             });
         };
         $scope.refreshUser();
+        $scope.refreshNoti($scope.user);
+
         $scope.availableFlags = {};
         $scope.available = [];
         $scope.used = [];
@@ -910,6 +925,8 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         };
         $scope.ctrlUser = {};
         $scope.refreshUser();
+        $scope.refreshNoti($scope.user);
+
         $scope.alertUser = function (alertTitle, alertDesc, link) {
             var alertPopup = $ionicPopup.alert({
                 title: alertTitle,
@@ -1033,6 +1050,8 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             });
         };
         $scope.refreshUser();
+        $scope.refreshNoti($scope.user);
+
         $scope.indicator = true;
         $scope.ctrlUser = {};
         $scope.refreshUser();
@@ -1406,6 +1425,8 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             });
         };
         $scope.refreshUser();
+        $scope.refreshNoti($scope.user);
+
         $scope.fixedinput = false;
         $scope.vendor = {};
         $scope.transaction = {};
@@ -1685,6 +1706,11 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
 
             });
         };
+        $scope.markRead = function (item) {
+            item.read = true;
+            if ($scope.updateUser($scope.user))
+                $location.url(item.link);
+        };
         $scope.refreshUser();
     })
     .controller('ProfileCtrl', function ($scope, $stateParams, MyServices, $ionicPopup) {
@@ -1703,6 +1729,8 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             });
         };
         $scope.refreshUser();
+        $scope.refreshNoti($scope.user);
+
         $scope.toggleEdit = function () {
             $scope.edit = $scope.edit === false ? true : false;
         };

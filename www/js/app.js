@@ -7,7 +7,7 @@ var push = {};
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ngCordova'])
 
-.run(function ($ionicPlatform, MyServices) {
+.run(function ($ionicPlatform) {
     $ionicPlatform.ready(function () {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
@@ -39,7 +39,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 
                 console.log(data);
                 $.jStorage.set("device", data.registrationId);
-               var isIOS = ionic.Platform.isIOS();
+                var isIOS = ionic.Platform.isIOS();
                 var isAndroid = ionic.Platform.isAndroid();
                 if (isIOS) {
                     $.jStorage.set("os", "ios");
@@ -227,5 +227,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         }
     });
     // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise('/app/home');
+    if ($.jStorage.get("user")) {
+        $urlRouterProvider.otherwise('/app/home');
+    } else {
+        $urlRouterProvider.otherwise('/login');
+    }
 });

@@ -12,8 +12,8 @@
             </ion-nav-buttons>
 -->
             <ion-nav-buttons side="right" ng-hide="nosearch">
-                <button class="button cart-button button-icon button-clear" ng-click="cartCheck()"><i class="cart-icon icon ion-android-notifications-none">
-                    <span class="custom-badge" >2</span>
+                <button class="button cart-button button-icon button-clear" ng-click="openNotification()"><i class="cart-icon icon ion-android-notifications-none">
+                    <span class="custom-badge" ng-if="count != 0">{{count}}</span>
                     </i>
                 </button>
             </ion-nav-buttons>

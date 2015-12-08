@@ -79,6 +79,9 @@
     .brdr-red {
         border-bottom: 2px solid red !important;
     }
+    .brdr-unread {
+        border-left: 4px solid $positive;
+    }
     
     .menuitem {
         .item-content {
@@ -1012,7 +1015,7 @@
     top: 20px;
     }
 .custom-badge {
-    background-color: white;
+    background-color: $assertive;
     color: white;
     z-index: 1;
     display: inline-block;
@@ -1028,5 +1031,4 @@
     position: absolute;
     top: 0;
     right: 1px;
-    color: black;
 }

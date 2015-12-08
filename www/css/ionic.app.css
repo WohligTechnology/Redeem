@@ -48,6 +48,9 @@ $dark:                            #444 !default;
 .brdr-red {
   border-bottom: 2px solid red !important; }
 
+.brdr-unread {
+  border-left: 4px solid #ef7f1a; }
+
 .menuitem .item-content {
   background-color: #f1f3f4 !important !important; }
 
@@ -794,7 +797,7 @@ input[disabled] {
   top: 20px; }
 
 .custom-badge {
-  background-color: white;
+  background-color: #0060aa;
   color: white;
   z-index: 1;
   display: inline-block;
@@ -809,8 +812,7 @@ input[disabled] {
   line-height: 16px;
   position: absolute;
   top: 0;
-  right: 1px;
-  color: black; }
+  right: 1px; }
 
 /*!
   Ionicons, v2.0.1
