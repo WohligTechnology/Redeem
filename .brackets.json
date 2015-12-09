@@ -168,6 +168,8 @@
         "C:/xampp/htdocs/redeem/platforms/android/assets/www/lib/lodash.min.js",
         "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/x86/debug/www/lib/angular-sanitize/angular-sanitize.min.js",
         "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/x86/debug/www/lib/angular-sanitize/index.js",
-        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/x86/debug/www/lib/angular-ui-router/release/angular-ui-router.js"
+        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/x86/debug/www/lib/angular-ui-router/release/angular-ui-router.js",
+        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/x86/debug/www/lib/angular-ui-router/release/angular-ui-router.min.js",
+        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/x86/debug/www/lib/angular-ui-router/src/common.js"
     ]
 }

@@ -1270,26 +1270,31 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
 
         };
         $scope.applyCoupon = function () {
+            console.log("inside applyCoupon");
             if ($scope.coupon.code === undefined || $scope.coupon.code === null || $scope.coupon.code === "") {
                 $scope.alertUser("", "Invalid coupon", 'app/wallet');
             } else {
+                console.log("inside applyCoupon1");
                 MyServices.findCoupon($scope.coupon, function (data) {
+                    console.log("inside applyCoupon2");
+
                     console.log(data);
                     if (data._id) {
 
                         $scope.user.balance = $scope.user.balance + data.amount;
+                        console.log($scope.user.balance);
                         if ($scope.updateUser($scope.user)) {
                             var couponData = {
                                 _id: data._id,
                                 used: true,
                                 user: $scope.user._id
                             };
-                            MyServices.updateCoupon(couponData,function(data){
-                                if(data.value){
+                            MyServices.updateCoupon(couponData, function (data) {
+                                if (data.value) {
                                     $scope.alertUser("", "Coupon Validated", 'app/wallet');
                                 }
-                            },function(err){
-                                
+                            }, function (err) {
+
                             })
 
                         } else {
@@ -1778,14 +1783,25 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                 }
             }, function (err) {});
         };
-        var options = {
+        if ($.jStorage.get("os") === "android") {
+            var options = {
+                date: new Date(),
+                mode: 'date', // or 'time',
+                maxDate: new Date() - 1,
+                allowOldDates: true,
+                allowFutureDates: false,
+                androidTheme: 3
+            };
+        }else if($.jStorage.get("os") === "ios"){
+            var options = {
             date: new Date(),
-            mode: 'date', // or 'time',
+            mode: 'datetime', // or 'time',
             maxDate: new Date() - 1,
             allowOldDates: true,
             allowFutureDates: false,
             androidTheme: 3
         };
+        }
 
         function onSuccess(date) {
             $scope.user.date = $filter('date')(date, 'dd/MM/yyyy');

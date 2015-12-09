@@ -1,4 +1,4 @@
-var adminurl = "http://192.168.0.116:1337/";
+var adminurl = "http://192.168.0.111:1337/";
 //var adminurl = "http://wohlig.in:81/";
 //var adminurl = "http://104.154.90.30/";
 //var adminurl = "http://localhost:1337/";
@@ -85,6 +85,7 @@ angular.module('starter.services', [])
             }).success(callback).error(err);
         },
         findCoupon: function (couponData, callback, err) {
+            console.log("inside findCoupon");
             $http({
                 url: adminurl + 'coupon/findcode',
                 method: 'POST',
