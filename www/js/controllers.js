@@ -423,10 +423,10 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                     scope: $scope,
                     buttons: [
                         {
-                            text: 'Cancel'
+                            text: '<h5>Cancel</h5>'
                         },
                         {
-                            text: 'Retry',
+                            text: '<h5>Retry</h5>',
                             onTap: function (e) {
                                 myPopup.close();
                                 $scope.validateMobile();
@@ -1037,6 +1037,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
     })
     .controller('WalletCtrl', function ($scope, $stateParams, $ionicScrollDelegate, MyServices, $ionicPopup, $location, $ionicModal) {
         $scope.user = {};
+        $scope.coupon = {};
         $scope.user = MyServices.getUser();
         $scope.refreshUser = function () {
             MyServices.findUser($scope.user, function (data) {
@@ -1148,6 +1149,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             });
 
         };
+
         $scope.transaction = {};
         console.log($scope.user);
         $scope.walletBalance = 0;
@@ -1267,28 +1269,49 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             }
 
         };
-        $scope.pendings = [{
-            name: 'BookMyShow',
-            price: 500,
-            date: '22/10/2015',
-            voucher_number: 51,
-            validity: '20/01/16',
-            expiry_proximity: 'red'
-    }, {
-            name: 'Amazon',
-            price: 5000,
-            date: '23/10/2015',
-            voucher_number: 500,
-            validity: '20/01/16',
-            expiry_proximity: 'red'
-    }, {
-            name: 'Flipkart',
-            price: 400,
-            date: '30/10/2015',
-            voucher_number: 500,
-            validity: '20/01/16',
-            expiry_proximity: 'yellow'
-    }];
+        $scope.applyCoupon = function () {
+            if ($scope.coupon.code === undefined || $scope.coupon.code === null || $scope.coupon.code === "") {
+                $scope.alertUser("", "Invalid coupon", 'app/wallet');
+            } else {
+                MyServices.findCoupon($scope.coupon, function (data) {
+                    console.log(data);
+                    if (data._id) {
+
+                        $scope.user.balance = $scope.user.balance + data.amount;
+                        if ($scope.updateUser($scope.user)) {
+                            var couponData = {
+                                _id: data._id,
+                                used: true,
+                                user: $scope.user._id
+                            };
+                            MyServices.updateCoupon(couponData,function(data){
+                                if(data.value){
+                                    $scope.alertUser("", "Coupon Validated", 'app/wallet');
+                                }
+                            },function(err){
+                                
+                            })
+
+                        } else {
+                            $scope.alertUser("", "Unable to add coupon", 'app/wallet');
+
+                        }
+                    } else {
+                        if (data.isUsed) {
+                            $scope.alertUser("", "Coupon has already been used");
+                        } else if (data.isExpired) {
+                            $scope.alertUser("", "Coupon has expired");
+                        } else {
+                            $scope.alertUser("", "Invalid coupon", 'app/wallet');
+                        }
+                        $scope.coupon.code = "";
+                    }
+                }, function (err) {
+
+                });
+            }
+
+        };
         $scope.getSentMoney = function () {
             console.log("herer");
             $scope.transFilter = {

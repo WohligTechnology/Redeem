@@ -36,9 +36,9 @@
             <div class="coupon">
                 <div class="item-input-inset">
                 <label class="item-input-wrapper">
-                    <input type="text" placeholder="COUPON CODE" ng-model="coupon">
+                    <input type="text" placeholder="COUPON CODE" ng-model="coupon.code">
                 </label>
-                <button class="button button-assertive btn-cart" >
+                <button class="button button-assertive btn-cart" ng-click="applyCoupon()">
                     APPLY
                 </button>
             </div>
