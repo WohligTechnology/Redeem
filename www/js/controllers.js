@@ -1,10 +1,61 @@
+var favorite = {};
 angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
 
 .controller('AppCtrl', function ($scope, $ionicModal, $timeout, MyServices, $ionicPopup, $location, $filter) {
 
+
     $scope.user = {};
     $scope.user = MyServices.getUser();
     $scope.loginData = {};
+    $scope.canfavorite = false;
+    $scope.favoritePage = function () {
+        $scope.canfavorite = true;
+    };
+    $scope.activefav = false;
+    $scope.nofavoritePage = function () {
+        $scope.canfavorite = false;
+    };
+    $scope.nofavoritePage();
+
+    favorite.brand = {};
+    favorite.getBrand = function (data) {
+        favorite.brand._id = data;
+    };
+    favorite.pushFavorite = function () {
+        console.log("here");
+        if ($scope.activefav === false) {
+            $scope.updateData = {
+                _id: $scope.user._id,
+                favorite: $scope.user.favorite
+            };
+            $scope.updateData.favorite.unshift(favorite.brand);
+            MyServices.updateUser($scope.updateData, function (data) {
+                if (data.value) {
+                    $scope.activefav = true;
+                }
+            }, function (err) {
+
+            });
+        }else if($scope.activefav === true){
+            $scope.updateData = {
+                _id: $scope.user._id,
+                favorite: $scope.user.favorite
+            };
+            _.pluck(_.dropWhile($scope.updateData.favorite, { '_id': favorite.getBrand()}), 'user');
+            MyServices.updateUser($scope.updateData, function (data) {
+                if (data.value) {
+                    $scope.activefav = false;
+                }
+            }, function (err) {
+
+            });
+        }
+
+
+    };
+    favorite.setActive= function(val){
+      $scope.activefav = val;  
+    };
 
     $ionicModal.fromTemplateUrl('templates/login.html', {
         scope: $scope
@@ -97,6 +148,9 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
 
     $scope.openNotification = function () {
         $location.path('/app/notification');
+    };
+    $scope.favoriteIt = function (data) {
+        console.log(data);
     };
 
     //    GLOBAL update user function
@@ -590,6 +644,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
 })
 
 .controller('HomeCtrl', function ($scope, $stateParams, MyServices, $location, $ionicSlideBoxDelegate, $ionicLoading, $timeout) {
+        $scope.nofavoritePage();
         $scope.banners = [];
         $scope.user = {};
         $scope.navTitle = '<img class="title-image" src="img/title.png">';
@@ -659,6 +714,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
     })
     .controller('PlaylistCtrl', function ($scope, $stateParams) {})
     .controller('ReferralCtrl', function ($scope, $stateParams, $ionicBackdrop, $timeout, MyServices) {
+        $scope.nofavoritePage();
         $scope.user = MyServices.getUser();
         $scope.refreshUser = function () {
             MyServices.findUser($scope.user, function (data) {
@@ -742,7 +798,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         };
     })
     .controller('AboutUsCtrl', function ($scope, $stateParams, $ionicScrollDelegate) {
-
+        $scope.nofavoritePage();
         $scope.oneAtATime = true;
         $scope.activate = true;
         $scope.tab = {
@@ -763,6 +819,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         };
     })
     .controller('PassbookCtrl', function ($scope, $stateParams, $ionicScrollDelegate, MyServices) {
+        $scope.nofavoritePage();
         $scope.user = {};
         $scope.user = MyServices.getUser();
         $scope.refreshUser = function () {
@@ -909,6 +966,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
 
     })
     .controller('SendMoneyCtrl', function ($scope, $stateParams, MyServices, $ionicPopup) {
+        $scope.nofavoritePage();
         $scope.send = {};
         $scope.user = {};
         $scope.user = MyServices.getUser();
@@ -1036,6 +1094,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         }
     })
     .controller('WalletCtrl', function ($scope, $stateParams, $ionicScrollDelegate, MyServices, $ionicPopup, $location, $ionicModal) {
+        $scope.nofavoritePage();
         $scope.user = {};
         $scope.coupon = {};
         $scope.user = MyServices.getUser();
@@ -1238,7 +1297,6 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                                     $scope.updateData = {
                                         deviceid: $scope.user.notificationtoken.deviceid,
                                         os: $scope.user.notificationtoken.os,
-                                        user: $scope.user._id,
                                         type: "referral",
                                         mobile: $scope.user.referrer,
                                         _id: $scope.user._id,
@@ -1436,7 +1494,9 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
 
     })
     .controller('RedeemCtrl', function ($scope, $stateParams, $ionicModal, $timeout, $ionicPopup, $location, MyServices, $ionicLoading) {
-
+        $scope.favoritePage();
+        
+        favorite.setActive(false);
         $scope.readTNC = false;
         $scope.params = $stateParams;
         $scope.user = {};
@@ -1480,6 +1540,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             if (data) {
                 $scope.hide();
                 $scope.vendor = data;
+                 favorite.getBrand($scope.vendor._id);
                 if ($scope.vendor.length != 0) {
                     $scope.empty = false;
                     $scope.placeholdertext = "Enter Amount";
@@ -1493,12 +1554,17 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                 } else {
                     $scope.empty = true;
                 }
+                if(_.result(_.findWhere($scope.user.favorite, { '_id': $scope.vendor._id }), '_id'))
+                    favorite.setActive(true);
+                else
+                    favorite.setActive(false);
             }
         }, function (err) {
             if (err) {
                 console.log(err);
             }
         });
+       
         $scope.isInLimit = function (value) {
             if ($scope.vendor.amountlimit === undefined) {
                 $scope.crossedLimit = false;
@@ -1682,7 +1748,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
     })
     .controller('GridViewCtrl', function ($scope, $stateParams, MyServices, $ionicNavBarDelegate, $ionicLoading, $timeout) {
         $scope.params = $stateParams;
-
+        $scope.nofavoritePage();
         $scope.show = function () {
             $ionicLoading.show({
                 template: '<ion-spinner icon="crescent" class="spinner-assertive"></ion-spinner>'
@@ -1721,6 +1787,8 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         });
     })
     .controller('NotificationCtrl', function ($scope, $stateParams, MyServices) {
+        $scope.nofavoritePage();
+
         $scope.user = {};
         $scope.user = MyServices.getUser();
         $scope.refreshUser = function () {
@@ -1742,6 +1810,8 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         $scope.refreshUser();
     })
     .controller('ProfileCtrl', function ($scope, $stateParams, MyServices, $ionicPopup) {
+        $scope.nofavoritePage();
+
         $scope.user = {};
         $scope.edit = true;
         $scope.user = MyServices.getUser();
@@ -1792,15 +1862,15 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                 allowFutureDates: false,
                 androidTheme: 3
             };
-        }else if($.jStorage.get("os") === "ios"){
+        } else if ($.jStorage.get("os") === "ios") {
             var options = {
-            date: new Date(),
-            mode: 'datetime', // or 'time',
-            maxDate: new Date() - 1,
-            allowOldDates: true,
-            allowFutureDates: false,
-            androidTheme: 3
-        };
+                date: new Date(),
+                mode: 'datetime', // or 'time',
+                maxDate: new Date() - 1,
+                allowOldDates: true,
+                allowFutureDates: false,
+                androidTheme: 3
+            };
         }
 
         function onSuccess(date) {

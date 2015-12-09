@@ -11,8 +11,13 @@
                 </button>
             </ion-nav-buttons>
 -->
-            <ion-nav-buttons side="right" ng-hide="nosearch">
-                <button class="button cart-button button-icon button-clear" ng-click="openNotification()"><i class="cart-icon icon ion-android-notifications-none">
+            <ion-nav-buttons side="right" class="padding-horizontal">
+                    <div class="padding-horizontal" ng-if="canfavorite">
+                        <button class="button cart-button button-icon button-clear " onclick="favorite.pushFavorite()"><i class="cart-icon icon" ng-class="{'ion-android-star-outline':!activefav,'ion-android-star':activefav}">
+                    </i>
+                </button>
+                    </div>
+                    <button class="button cart-button button-icon button-clear " ng-click="openNotification()"><i class="cart-icon icon ion-android-notifications-none">
                     <span class="custom-badge" ng-if="count != 0">{{count}}</span>
                     </i>
                 </button>
