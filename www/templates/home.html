@@ -21,6 +21,13 @@
                     <h2 style="line-height: 234%;">{{item.name}}</h2>
                 </ion-item>
             </div>
+               <div class="list list-inset">
+                <div class="item item-divider no-border custom-divider">Favorites</div>
+                <ion-item class="item item-avatar" ng-repeat="item in favorites | orderBy: item.order" href="#/app/redeem/{{item._id}}">
+                    <img ng-src="{{item.imgurl}}" alt="">
+                    <h2 style="line-height: 234%;">{{item.name}}</h2>
+                </ion-item>
+            </div>
         </div>
     </ion-content>
 </ion-view>

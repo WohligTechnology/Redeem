@@ -8,6 +8,17 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
     $scope.user = MyServices.getUser();
     $scope.loginData = {};
     $scope.canfavorite = false;
+
+    $scope.refreshUser = function () {
+        if (MyServices.getUser()) {
+            $scope.user = MyServices.getUser();
+            console.log($scope.user);
+        } else {
+
+        }
+    };
+
+    $scope.refreshUser();
     $scope.favoritePage = function () {
         $scope.canfavorite = true;
     };
@@ -22,6 +33,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         favorite.brand._id = data;
     };
     favorite.pushFavorite = function () {
+        $scope.refreshUser();
         console.log("here");
         if ($scope.activefav === false) {
             $scope.updateData = {
@@ -36,25 +48,28 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             }, function (err) {
 
             });
-        }else if($scope.activefav === true){
+        } else if ($scope.activefav === true) {
             $scope.updateData = {
                 _id: $scope.user._id,
                 favorite: $scope.user.favorite
             };
-            _.pluck(_.dropWhile($scope.updateData.favorite, { '_id': favorite.getBrand()}), 'user');
+            $scope.updateData.favorite = _.dropWhile($scope.updateData.favorite, {'_id': favorite.brand._id
+            });
             MyServices.updateUser($scope.updateData, function (data) {
+               console.log(data);
                 if (data.value) {
                     $scope.activefav = false;
                 }
             }, function (err) {
 
             });
+
         }
 
 
     };
-    favorite.setActive= function(val){
-      $scope.activefav = val;  
+    favorite.setActive = function (val) {
+        $scope.activefav = val;
     };
 
     $ionicModal.fromTemplateUrl('templates/login.html', {
@@ -73,21 +88,13 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
     } else {
         $location.url("/login");
     }
-    $scope.refreshUser = function () {
-        if (MyServices.getUser()) {
-            $scope.user = MyServices.getUser();
-            console.log($scope.user);
-        } else {
 
-        }
-    };
 
     $scope.referralBadge = undefined;
 
     $scope.testCall = function () {
         console.log("in here");
     };
-    $scope.refreshUser();
     $scope.count = 0;;
     $scope.refreshNoti = function (item) {
         $scope.count = 0;
@@ -647,6 +654,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         $scope.nofavoritePage();
         $scope.banners = [];
         $scope.user = {};
+        $scope.favdata = {};
         $scope.navTitle = '<img class="title-image" src="img/title.png">';
         $scope.user = MyServices.getUser();
         $scope.refreshUser = function () {
@@ -661,6 +669,8 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             });
         };
         $scope.refreshUser();
+
+        $scope.favorites = $scope.user.favorite;
         $scope.refreshNoti($scope.user);
         $scope.category = [];
         $scope.refreshUser();
@@ -710,7 +720,24 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                 $location.path('app/listview/' + object._id);
             }
         };
+        $scope.expandFavorites = function () {
+            $scope.refreshUser();
+            _.each($scope.favorites, function (key) {
+                if (key) {
+                    $scope.favdata.id = key._id;
+                    MyServices.findVendor($scope.favdata, function (data) {
+                        if (data) {
+                            key.name = data.name;
+                            key.imgurl = data.logourl;
+                        }
+                    }, function (err) {
 
+                    });
+                }
+
+            })
+        };
+        $scope.expandFavorites();
     })
     .controller('PlaylistCtrl', function ($scope, $stateParams) {})
     .controller('ReferralCtrl', function ($scope, $stateParams, $ionicBackdrop, $timeout, MyServices) {
@@ -1495,7 +1522,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
     })
     .controller('RedeemCtrl', function ($scope, $stateParams, $ionicModal, $timeout, $ionicPopup, $location, MyServices, $ionicLoading) {
         $scope.favoritePage();
-        
+
         favorite.setActive(false);
         $scope.readTNC = false;
         $scope.params = $stateParams;
@@ -1540,7 +1567,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             if (data) {
                 $scope.hide();
                 $scope.vendor = data;
-                 favorite.getBrand($scope.vendor._id);
+                favorite.getBrand($scope.vendor._id);
                 if ($scope.vendor.length != 0) {
                     $scope.empty = false;
                     $scope.placeholdertext = "Enter Amount";
@@ -1554,7 +1581,9 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                 } else {
                     $scope.empty = true;
                 }
-                if(_.result(_.findWhere($scope.user.favorite, { '_id': $scope.vendor._id }), '_id'))
+                if (_.result(_.findWhere($scope.user.favorite, {
+                        '_id': $scope.vendor._id
+                    }), '_id'))
                     favorite.setActive(true);
                 else
                     favorite.setActive(false);
@@ -1564,7 +1593,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                 console.log(err);
             }
         });
-       
+
         $scope.isInLimit = function (value) {
             if ($scope.vendor.amountlimit === undefined) {
                 $scope.crossedLimit = false;

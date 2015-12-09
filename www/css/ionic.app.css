@@ -815,6 +815,9 @@ input[disabled] {
   top: 0;
   right: 1px; }
 
+.clr-fav {
+  color: #ef7f1a !important; }
+
 /*!
   Ionicons, v2.0.1
   Created by Ben Sperry for the Ionic Framework, http://ionicons.com/
