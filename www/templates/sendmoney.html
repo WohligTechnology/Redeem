@@ -1,13 +1,15 @@
 <ion-view view-title="Send Money">
     <ion-content>
         <h1 class="category-header-txt">Send money to your friends from your wallet!</h1>
-        <form ng-submit="sendMoney()">
+        <form>
             <div class="list no-margin">
                 <label class="item item-input">
                     <!--                   <span class="input-label">+91</span>-->
                     <input type="tel" placeholder="Phone number" ng-model="send.mobile" ng-class="{'brdr-red':dirty.mobile}">
-                    <a href="#" class="button contacts-button button-icon icon no-padding ln-contacts"></a>
+                    
                 </label>
+                                    <button class="button contacts-button button-icon icon no-padding ln-contacts" ng-click="selectContact()"></button>
+
                 <label class="item item-input enter-amount-input">
                     <span class="input-label">₹</span>
                     <input type="number" placeholder="Enter amount" ng-model="send.amount" ng-class="{'brdr-red':dirty.amount}">

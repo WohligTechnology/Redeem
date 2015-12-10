@@ -294,7 +294,11 @@ $dark:                            #444 !default;
 
 .contacts-button {
   margin-left: 10px !important;
-  margin-right: 10px !important; }
+  position: absolute !important;
+  margin-right: 10px !important;
+  top: 0;
+  z-index: 99999;
+  right: 5px; }
 
 .button {
   font-size: 13px !important;

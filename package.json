@@ -25,7 +25,8 @@
       "locator": "https://github.com/asanka-x/Phonegap-SMS.git",
       "id": "info.asankan.phonegap.smsplugin"
     },
-    "phonegap-plugin-push"
+    "phonegap-plugin-push",
+    "org.apache.cordova.contacts"
   ],
   "cordovaPlatforms": [
     "android"

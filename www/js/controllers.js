@@ -44,6 +44,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             MyServices.updateUser($scope.updateData, function (data) {
                 if (data.value) {
                     $scope.activefav = true;
+                    $scope.refreshUser();
                 }
             }, function (err) {
 
@@ -53,12 +54,14 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                 _id: $scope.user._id,
                 favorite: $scope.user.favorite
             };
-            $scope.updateData.favorite = _.dropWhile($scope.updateData.favorite, {'_id': favorite.brand._id
+            $scope.updateData.favorite = _.dropWhile($scope.updateData.favorite, {
+                '_id': favorite.brand._id
             });
             MyServices.updateUser($scope.updateData, function (data) {
-               console.log(data);
+                console.log(data);
                 if (data.value) {
                     $scope.activefav = false;
+                    $scope.refreshUser();
                 }
             }, function (err) {
 
@@ -1008,6 +1011,17 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
 
             });
         };
+        $scope.selectContact = function () {
+            console.log("here in selectContact");
+            navigator.contacts.pickContact(function (contact) {
+                console.log(contact);
+                var selected = JSON.stringify(contact);
+                console.log(selected);
+                $scope.send.mobile = contact.phoneNumbers[0].value;
+            }, function (err) {
+                console.log('Error: ' + err);
+            });
+        };
         $scope.ctrlUser = {};
         $scope.refreshUser();
         $scope.refreshNoti($scope.user);
@@ -1036,24 +1050,25 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                     $scope.dirty.amount = true;
 
                 } else {
-                    var confirmPopup = $ionicPopup.confirm({
-                        title: 'Send money',
-                        template: '<h5 style="text-align: center;margin-bottom:0">Are you sure?</h5>'
-                    });
-                    confirmPopup.then(function (res) {
-                        if (res) {
-                            MyServices.findUserByMobile($scope.send, function (data) {
-                                if (data._id) {
-                                    console.log(data);
-                                    $scope.updateU1 = {
-                                        _id: data._id,
-                                        balance: data.balance + $scope.send.amount,
-                                    };
-                                    if ($scope.user._id === data._id) {
-                                        $scope.alertUser("Send Money", "You cannot send money to yourself");
-                                    } else if (($scope.user.balance - $scope.send.amount) <= 0) {
-                                        $scope.alertUser("Send Money", "Not enough balance");
-                                    } else {
+                    MyServices.findUserByMobile($scope.send, function (data) {
+                        if (data._id) {
+                            console.log(data);
+                            $scope.updateU1 = {
+                                _id: data._id,
+                                balance: data.balance + $scope.send.amount,
+                            };
+                            if ($scope.user._id === data._id) {
+                                $scope.alertUser("Send Money", "You cannot send money to yourself");
+                            } else if (($scope.user.balance - $scope.send.amount) <= 0) {
+                                $scope.alertUser("Send Money", "Not enough balance");
+                            } else {
+
+                                var confirmPopup = $ionicPopup.confirm({
+                                    title: 'Send money',
+                                    template: '<h5 style="text-align: center;margin-bottom:0">Are you sure?</h5>'
+                                });
+                                confirmPopup.then(function (res) {
+                                    if (res) {
                                         if ($scope.updateUser($scope.updateU1)) {
                                             $scope.updateU2 = {
                                                 _id: $scope.user._id,
@@ -1092,12 +1107,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                                                     })
 
                                                 } else {
-                                                    //                                                    var alertPopup = $ionicPopup.alert({
-                                                    //                                                        template: '<h4 style="text-align: center;margin-bottom:0">Transaction failed to add.</h4>'
-                                                    //                                                    });
-                                                    //                                                    alertPopup.then(function (res) {
-                                                    //                                                        $location.path('app/home');
-                                                    //                                                    });
+
                                                 }
                                             } else {
                                                 //revert code for current logged in user
@@ -1105,17 +1115,20 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                                         } else {
                                             //revert code for reciever
                                         }
+                                    } else {
+                                        $scope.send.mobile = undefined;
+                                        $scope.send.comment = undefined;
+                                        $scope.send.amount = undefined;
                                     }
-                                } else {
-                                    $scope.alertUser("Send Money", "The user is not on PAiSO.");
-                                }
-                            }, function (err) {
-
-                            });
+                                });
+                            }
                         } else {
-
+                            $scope.alertUser("Send Money", "The user is not on PAiSO.");
                         }
+                    }, function (err) {
+
                     });
+
                 }
             }
         }
@@ -1698,7 +1711,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                                 if ($scope.addTransaction($scope.transaction)) {
                                     $scope.user.balance = $scope.ctrlUser.balance;
                                     $scope.proceedAlert();
-
+                                    $scope.refreshUser();
                                 } else {
                                     $scope.alertUser("Redeem", "Unable to redeem amount");
                                 }
@@ -1815,7 +1828,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             }
         });
     })
-    .controller('NotificationCtrl', function ($scope, $stateParams, MyServices) {
+    .controller('NotificationCtrl', function ($scope, $stateParams, MyServices, $location) {
         $scope.nofavoritePage();
 
         $scope.user = {};
