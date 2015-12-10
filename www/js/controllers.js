@@ -1097,14 +1097,16 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                                                         template: '<h4 style="text-align: center;margin-bottom:0">Transaction successful.</h4>'
                                                     });
                                                     alertPopup.then(function (res) {
-                                                        $location.path('app/home');
-                                                    });
-                                                    MyServices.notify($scope.recieverNotify, function (data2) {
+                                                        MyServices.notify($scope.recieverNotify, function (data2) {
                                                         console.log(data2);
-                                                        if (data2.value === true) {}
+                                                        if (data2.value === true) {
+                                                            $location.path('app/home');
+                                                        }
                                                     }, function (err) {
 
                                                     })
+                                                    });
+                                                    
 
                                                 } else {
 
