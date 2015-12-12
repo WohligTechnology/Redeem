@@ -1,32 +1,42 @@
 var favorite = {};
 angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
 
-.controller('AppCtrl', function ($scope, $ionicModal, $timeout, MyServices, $ionicPopup, $location, $filter, $state) {
+.controller('AppCtrl', function ($ionicPlatform, $scope, $ionicModal, $timeout, MyServices, $ionicPopup, $location, $filter, $state) {
 
 
     $scope.user = {};
     $scope.user = MyServices.getUser();
     $scope.loginData = {};
     $scope.canfavorite = false;
-    document.addEventListener("offline", onOffline, false);
+    if ($.jStorage.get("os") === "android") {
+        document.addEventListener("offline", onOffline, false);
 
-    function onOffline() {
-        var alertPopup = $ionicPopup.alert({
-            title: '',
-            template: '<h4 style="text-align:center;">Please check your internet connection.</h4>'
-        });
-        alertPopup.then(function (res) {
-            document.addEventListener("online", onOnline, false);
+        function onOffline() {
+            var alertPopup = $ionicPopup.alert({
+                title: '',
+                template: '<h4 style="text-align:center;">Please check your internet connection.</h4>'
+            });
+            alertPopup.then(function (res) {
+                document.addEventListener("online", onOnline, false);
 
-            function onOnline() {
-                console.log("isonline");
-                $state.go($state.current, {}, {
-                    reload: true
-                });
-            }
-        });
+                function onOnline() {
+                    console.log("isonline");
+                    $state.go($state.current, {}, {
+                        reload: true
+                    });
+                }
+            });
 
-    };
+        };
+    }
+    $scope.isIOS = false;
+    var IOS = ionic.Platform.isIOS();
+    var Android = ionic.Platform.isAndroid();
+    if (isIOS) {
+        $scope.isIOS = true;
+    } else if (isAndroid) {
+        $scope.isIOS=false;
+    }
     $scope.refreshUser = function () {
         if (MyServices.getUser()) {
             $scope.user = MyServices.getUser();
@@ -251,6 +261,14 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
     .controller('SearchCtrl', function ($scope) {})
 
 .controller('LoginCtrl', function ($scope, $stateParams, $ionicPlatform, $location, MyServices, $ionicScrollDelegate, $ionicModal, $ionicPopup, $filter, $timeout) {
+    $scope.isIOS = false;
+    var IOS = ionic.Platform.isIOS();
+    var Android = ionic.Platform.isAndroid();
+    if (isIOS) {
+        $scope.isIOS = true;
+    } else if (isAndroid) {
+        $scope.isIOS=false;
+    }
     $scope.phone1 = {};
     $ionicPlatform.registerBackButtonAction(function (event) {
         event.preventDefault();
@@ -632,11 +650,11 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                 conosle.log("ERROR");
                 console.log(e);
             });
-            if ($scope.isRegistered){
+            if ($scope.isRegistered) {
                 $scope.doSignup();
-            }else{
-                $timeout( function(){ 
-                $scope.checkDeviceID();
+            } else {
+                $timeout(function () {
+                    $scope.checkDeviceID();
                 }, 3000);
             }
         } else {
@@ -648,80 +666,80 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
     $scope.doSignup = function () {
         delete $scope.signup.confirmpassword;
         console.log("here it is " + $.jStorage.get("device"));
-            $scope.signup.notificationtoken.deviceid = $.jStorage.get("device");
-            $scope.signup.notificationtoken.os = $.jStorage.get("os");
-            MyServices.signupUser($scope.signup, function (data) {
-                if (data.value) {
-                    MyServices.setUser(data.user);
-                    if ($scope.signup.referrer === "" || $scope.signup.referrer === null || $scope.signup.referrer === undefined) {
-                        $scope.user = MyServices.getUser();
-                        if ($scope.user)
-                            $location.path('app/home');
-                    } else {
-                        $scope.referrerData = {
-                            _id: data._id,
-                            amountearned: 0
-                        };
-                        $scope.item = {
-                            mobile: $scope.signup.referrer
-                        };
-                        MyServices.findUserByMobile($scope.item, function (data2) {
-                            if (data2._id) {
-                                if (data2.referral)
-                                    data2.referral.unshift($scope.referrerData);
-                                console.log($scope.referredUser);
-                                if ($scope.updateUser(data2)) {
-                                    console.log("in notify referral");
-                                    $scope.notifydata = {
-                                        deviceid: data2.notificationtoken.deviceid,
-                                        os: data2.notificationtoken.os,
-                                        user: data2._id,
-                                        type: "referral",
-                                        new: true,
-                                        name: data.user.name
-                                    };
-                                    MyServices.notify($scope.notifydata, function (data3) {
-                                        if (data3.value === true) {
-                                            $scope.user = MyServices.getUser();
-                                            if ($scope.user)
-                                                $location.path('app/home');
-                                        } else {
+        $scope.signup.notificationtoken.deviceid = $.jStorage.get("device");
+        $scope.signup.notificationtoken.os = $.jStorage.get("os");
+        MyServices.signupUser($scope.signup, function (data) {
+            if (data.value) {
+                MyServices.setUser(data.user);
+                if ($scope.signup.referrer === "" || $scope.signup.referrer === null || $scope.signup.referrer === undefined) {
+                    $scope.user = MyServices.getUser();
+                    if ($scope.user)
+                        $location.path('app/home');
+                } else {
+                    $scope.referrerData = {
+                        _id: data._id,
+                        amountearned: 0
+                    };
+                    $scope.item = {
+                        mobile: $scope.signup.referrer
+                    };
+                    MyServices.findUserByMobile($scope.item, function (data2) {
+                        if (data2._id) {
+                            if (data2.referral)
+                                data2.referral.unshift($scope.referrerData);
+                            console.log($scope.referredUser);
+                            if ($scope.updateUser(data2)) {
+                                console.log("in notify referral");
+                                $scope.notifydata = {
+                                    deviceid: data2.notificationtoken.deviceid,
+                                    os: data2.notificationtoken.os,
+                                    user: data2._id,
+                                    type: "referral",
+                                    new: true,
+                                    name: data.user.name
+                                };
+                                MyServices.notify($scope.notifydata, function (data3) {
+                                    if (data3.value === true) {
+                                        $scope.user = MyServices.getUser();
+                                        if ($scope.user)
+                                            $location.path('app/home');
+                                    } else {
 
-                                        }
-                                    }, function (err) {
+                                    }
+                                }, function (err) {
 
-                                    });
-                                } else {
-
-                                }
+                                });
                             } else {
 
-                                var alertPopup = $ionicPopup.alert({
-                                    template: '<h4 style="text-align:center;">Referral ID does not exist. Invalid.</h4>'
-                                });
-                                alertPopup.then(function (res) {
-
-                                });
-
                             }
-                        }, function (err) {
+                        } else {
 
-                        });
-                        $scope.user = MyServices.getUser();
-                        if ($scope.user)
-                            $location.path('app/home');
-                    }
-                } else {
+                            var alertPopup = $ionicPopup.alert({
+                                template: '<h4 style="text-align:center;">Referral ID does not exist. Invalid.</h4>'
+                            });
+                            alertPopup.then(function (res) {
 
+                            });
+
+                        }
+                    }, function (err) {
+
+                    });
+                    $scope.user = MyServices.getUser();
+                    if ($scope.user)
+                        $location.path('app/home');
                 }
-            }, function (err) {
-                var alertPopup = $ionicPopup.alert({
-                    template: '<h4 style="text-align:center;">Server error,  try again later</h4>'
-                });
-                alertPopup.then(function (res) {
+            } else {
 
-                });
+            }
+        }, function (err) {
+            var alertPopup = $ionicPopup.alert({
+                template: '<h4 style="text-align:center;">Server error,  try again later</h4>'
             });
+            alertPopup.then(function (res) {
+
+            });
+        });
     };
 })
 
