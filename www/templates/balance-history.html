@@ -52,7 +52,7 @@
         <div class="noti" ng-show="tab.center">
             <div class="list">
 
-                <a class="item item-avatar" href="#" ng-repeat="item in sentmoney | orderBy: '-timestamp'">
+                <a class="item item-avatar" href="#" ng-repeat="item in sentmoney | orderBy: '-timestamp'" ng-if="item.amount != null">
                     <div class="img-hold" ng-style="{'background-image':'url(img/user.png)'}"></div>
                     <h2>{{item.username}}</h2>
                     <p><i class="ln-calendar3"></i>  {{item.timestamp | date:'mediumDate'}}</p>
@@ -65,7 +65,7 @@
         <div class="noti" ng-show="tab.right">
                     <div class="list">
 
-                <a class="item item-avatar" href="#" ng-repeat="item in redeemed | orderBy: '-timestamp'">
+                <a class="item item-avatar" href="#" ng-repeat="item in redeemed | orderBy: '-timestamp'" ng-if="item.amount != null">
                     <div class="img-hold" ng-style="{'background-image':'url(img/user.png)'}"></div>
                     <h2>{{item.vendorname}}</h2>
                     <p><i class="ln-calendar3"></i> {{item.timestamp | date:'mediumDate'}}</p>

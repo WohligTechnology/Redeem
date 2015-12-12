@@ -1,14 +1,32 @@
 var favorite = {};
 angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
 
-.controller('AppCtrl', function ($scope, $ionicModal, $timeout, MyServices, $ionicPopup, $location, $filter) {
+.controller('AppCtrl', function ($scope, $ionicModal, $timeout, MyServices, $ionicPopup, $location, $filter, $state) {
 
 
     $scope.user = {};
     $scope.user = MyServices.getUser();
     $scope.loginData = {};
     $scope.canfavorite = false;
+    document.addEventListener("offline", onOffline, false);
 
+    function onOffline() {
+        var alertPopup = $ionicPopup.alert({
+            title: '',
+            template: '<h4 style="text-align:center;">Please check your internet connection.</h4>'
+        });
+        alertPopup.then(function (res) {
+            document.addEventListener("online", onOnline, false);
+
+            function onOnline() {
+                console.log("isonline");
+                $state.go($state.current, {}, {
+                    reload: true
+                });
+            }
+        });
+
+    };
     $scope.refreshUser = function () {
         if (MyServices.getUser()) {
             $scope.user = MyServices.getUser();
@@ -110,36 +128,44 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
     $scope.menu = [{
         title: 'Home',
         url: '#/app/home',
-        state: true
+        state: true,
+        icon: "ln-home3"
   }, {
         title: 'Wallet',
         url: '#/app/wallet',
-        state: false
+        state: false,
+        icon: "ln-cash"
   }, {
         title: 'Send Money',
         url: '#/app/sendmoney',
-        state: false
+        state: false,
+        icon: "ln-arrow-right2"
   }, {
         title: 'Passbook',
         url: '#/app/passbook',
-        state: false
+        state: false,
+        icon: "ln-book-closed"
   }, {
         title: 'Referral',
         url: '#/app/referral',
         state: false,
-        badgecount: $scope.referralBadge
+        badgecount: $scope.referralBadge,
+        icon: "ln-users"
   }, {
         title: 'About Us',
         url: '#/app/aboutus',
-        state: false
+        state: false,
+        icon: "ion-ios-information-outline"
   }, {
         title: 'Notification',
         url: '#/app/notification',
-        state: false
+        state: false,
+        icon: "ion-android-notifications-none"
   }, {
         title: 'Logout',
         url: '#',
-        state: false
+        state: false,
+        icon: "ln-exit"
   }];
 
     $scope.activateMenu = function (index) {
@@ -224,7 +250,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
 .controller('PlaylistsCtrl', function ($scope) {})
     .controller('SearchCtrl', function ($scope) {})
 
-.controller('LoginCtrl', function ($scope, $stateParams, $ionicPlatform, $location, MyServices, $ionicScrollDelegate, $ionicModal, $ionicPopup, $filter) {
+.controller('LoginCtrl', function ($scope, $stateParams, $ionicPlatform, $location, MyServices, $ionicScrollDelegate, $ionicModal, $ionicPopup, $filter, $timeout) {
     $scope.phone1 = {};
     $ionicPlatform.registerBackButtonAction(function (event) {
         event.preventDefault();
@@ -416,7 +442,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         };
         if ($scope.signup.name === "" || $scope.signup.name === null || $scope.signup.name === undefined)
             $scope.validate.name = true;
-        if ($scope.signup.mobile === "" || $scope.signup.mobile === null || $scope.signup.mobile === undefined || $scope.signup.mobile < 999999999)
+        if ($scope.signup.mobile === "" || $scope.signup.mobile === null || $scope.signup.mobile === undefined || $scope.signup.mobile < 1000000000 || $scope.signup.mobile > 9999999999)
             $scope.validate.mobile = true;
         if ($scope.signup.email === "" || $scope.signup.email === null || $scope.signup.email === undefined || $scope.signup.email.indexOf('@') === -1)
             $scope.validate.email = true;
@@ -505,7 +531,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                                     e.preventDefault();
                                 } else {
                                     if (parseInt($scope.input.otp) === data.otp) {
-                                        $scope.doSignup();
+                                        $scope.checkDeviceID();
                                     } else {
                                         var alertPopup = $ionicPopup.alert({
                                             template: '<h4 style="text-align:center;">Invalid OTP.</h4>'
@@ -564,12 +590,66 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             });
         }
     };
+    $scope.isRegistered = false;
+    $scope.checkDeviceID = function () {
+        $scope.isRegistered = false;
+        if ($.jStorage.get("device") == null) {
+            console.log("here");
+            push = PushNotification.init({
+                "android": {
+                    "senderID": "965431280304",
+                    "icon": "www/img/icon.png"
+                },
+                "ios": {
+                    "alert": "true",
+                    "badge": "true",
+                    "sound": "true"
+                },
+                "windows": {}
+            });
+
+            push.on('registration', function (data) {
+
+                console.log(data);
+                $.jStorage.set("device", data.registrationId);
+                $scope.isRegistered = true;
+                var isIOS = ionic.Platform.isIOS();
+                var isAndroid = ionic.Platform.isAndroid();
+                if (isIOS) {
+                    $.jStorage.set("os", "ios");
+                } else if (isAndroid) {
+                    $.jStorage.set("os", "android");
+                }
+
+
+            });
+
+            push.on('notification', function (data) {
+                console.log(data);
+            });
+
+            push.on('error', function (e) {
+                conosle.log("ERROR");
+                console.log(e);
+            });
+            if ($scope.isRegistered){
+                $scope.doSignup();
+            }else{
+                $timeout( function(){ 
+                $scope.checkDeviceID();
+                }, 3000);
+            }
+        } else {
+            $scope.doSignup();
+        }
+    };
     $scope.referralData = {};
+    var attempt = 0;
     $scope.doSignup = function () {
         delete $scope.signup.confirmpassword;
-        if (MyServices.getDevice()) {
-            $scope.signup.notificationtoken.deviceid = MyServices.getDevice();
-            $scope.signup.notificationtoken.os = MyServices.getOS();
+        console.log("here it is " + $.jStorage.get("device"));
+            $scope.signup.notificationtoken.deviceid = $.jStorage.get("device");
+            $scope.signup.notificationtoken.os = $.jStorage.get("os");
             MyServices.signupUser($scope.signup, function (data) {
                 if (data.value) {
                     MyServices.setUser(data.user);
@@ -642,14 +722,6 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
 
                 });
             });
-        } else {
-            var alertPopup = $ionicPopup.alert({
-                template: '<h4 style="text-align:center;">Unable to get device ID </h4>'
-            });
-            alertPopup.then(function (res) {
-
-            });
-        }
     };
 })
 
@@ -1098,15 +1170,15 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                                                     });
                                                     alertPopup.then(function (res) {
                                                         MyServices.notify($scope.recieverNotify, function (data2) {
-                                                        console.log(data2);
-                                                        if (data2.value === true) {
-                                                            $location.path('app/home');
-                                                        }
-                                                    }, function (err) {
+                                                            console.log(data2);
+                                                            if (data2.value === true) {
+                                                                $location.path('app/home');
+                                                            }
+                                                        }, function (err) {
 
-                                                    })
+                                                        })
                                                     });
-                                                    
+
 
                                                 } else {
 

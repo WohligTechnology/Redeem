@@ -36,11 +36,12 @@
 -->
                 <ion-item class="item item-avatar menuitem no-border" menu-close href="#/app/profile">
                     <img src="img/user.png" alt="">
-                    <p>{{user.name}}</p>
+                    <p style="font-weight: 600;
+                    color: #838080 ;">{{user.name}}</p>
                     <span>+91{{user.mobile}}</span>
                 </ion-item>
                 <ion-item class=" menuitem no-border" menu-close ng-repeat="menuitem in menu track by $index" ng-click="activateMenu($index)" href="{{menuitem.url}}" ng-class="{'active-menuitem': menuitem.state}">
-                      <i class="icon ln-home3 side-menu-i"></i>
+                      <i class="icon {{menuitem.icon}} side-menu-i"></i>
                     <span>{{menuitem.title}}</span>
                     <span class="badge badge-assertive" ng-if="menuitem.badgecount != null || menuitem.badgecount != undefined">{{menuitem.badgecount}}</span>
                 </ion-item>

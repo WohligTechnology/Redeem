@@ -141,10 +141,10 @@
                         <input type="text" class="login-input" ng-model="signup.name" placeholder="Name" ng-class="{'brdr-red':validate.name}">
                     </label>
 
-                    <label class="item item-input item-stacked-label" ng-class="{'brdr-yellow':required}">
+                    <label class="item item-input item-stacked-label" >
                         <span class="input-label ">Phone number</span>
 
-                        <input type="text" class="login-input" ng-model="signup.mobile" placeholder="Phone number" required ng-class="{'brdr-red':validate.mobile}">
+                        <input type="tel" class="login-input" ng-model="signup.mobile" placeholder="Phone number" required ng-class="{'brdr-red':validate.mobile}">
                     </label>
 
                     <!--
@@ -213,7 +213,7 @@
 
                     </label>
                     <label class="item item-input item-stacked-label">
-                         <span class="input-label ">Confirm password</span>
+                         <span class="input-label ">Referral code</span>
                         <input type="tel" class="login-input" ng-model="signup.referrer" placeholder="Referral code (If any)">
 
 

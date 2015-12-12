@@ -26,7 +26,8 @@
       "id": "info.asankan.phonegap.smsplugin"
     },
     "phonegap-plugin-push",
-    "org.apache.cordova.contacts"
+    "org.apache.cordova.contacts",
+    "cordova-plugin-network-information"
   ],
   "cordovaPlatforms": [
     "android"
