@@ -32,9 +32,9 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
     $scope.isIOS = false;
     var IOS = ionic.Platform.isIOS();
     var Android = ionic.Platform.isAndroid();
-    if (isIOS) {
+    if (IOS) {
         $scope.isIOS = true;
-    } else if (isAndroid) {
+    } else if (Android) {
         $scope.isIOS=false;
     }
     $scope.refreshUser = function () {
@@ -264,9 +264,9 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
     $scope.isIOS = false;
     var IOS = ionic.Platform.isIOS();
     var Android = ionic.Platform.isAndroid();
-    if (isIOS) {
+    if (IOS) {
         $scope.isIOS = true;
-    } else if (isAndroid) {
+    } else if (Android) {
         $scope.isIOS=false;
     }
     $scope.phone1 = {};
