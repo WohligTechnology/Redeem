@@ -12,6 +12,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         document.addEventListener("offline", onOffline, false);
 
         function onOffline() {
+            console.log("listening");
             var alertPopup = $ionicPopup.alert({
                 title: '',
                 template: '<h4 style="text-align:center;">Please check your internet connection.</h4>'
