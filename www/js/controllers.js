@@ -24,7 +24,8 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                     $state.go($state.current, {}, {
                         reload: true
                     });
-                }
+                };
+                alertPopup.close();
             });
 
         };
@@ -35,7 +36,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
     if (IOS) {
         $scope.isIOS = true;
     } else if (Android) {
-        $scope.isIOS=false;
+        $scope.isIOS = false;
     }
     $scope.refreshUser = function () {
         if (MyServices.getUser()) {
@@ -267,7 +268,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
     if (IOS) {
         $scope.isIOS = true;
     } else if (Android) {
-        $scope.isIOS=false;
+        $scope.isIOS = false;
     }
     $scope.phone1 = {};
     $ionicPlatform.registerBackButtonAction(function (event) {
@@ -531,7 +532,10 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                     scope: $scope,
                     buttons: [
                         {
-                            text: '<h5>Cancel</h5>'
+                            text: '<h5>Cancel</h5>',
+                            onTap: function (e) {
+                                myPopup.close();
+                            }
                         },
                         {
                             text: '<h5>Retry</h5>',
