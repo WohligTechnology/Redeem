@@ -171,6 +171,14 @@
         "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/x86/debug/www/lib/angular-ui-router/release/angular-ui-router.js",
         "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/x86/debug/www/lib/angular-ui-router/release/angular-ui-router.min.js",
         "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/x86/debug/www/lib/angular-ui-router/src/common.js",
-        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/armv7/debug/www/plugins/org.apache.cordova.contacts/www/ContactError.js"
+        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/armv7/debug/www/plugins/org.apache.cordova.contacts/www/ContactError.js",
+        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/armv7/debug/www/lib/ng-cordova.min.js",
+        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/armv7/debug/www/plugins/com.synconset.imagepicker/www/imagepicker.js",
+        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/armv7/debug/www/plugins/cordova-plugin-network-information/www/Connection.js",
+        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/armv7/debug/www/plugins/cordova-plugin-network-information/www/network.js",
+        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/armv7/debug/www/plugins/org.apache.cordova.contacts/www/Contact.js",
+        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/armv7/debug/www/plugins/org.apache.cordova.contacts/www/ContactAddress.js",
+        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/armv7/debug/www/plugins/org.apache.cordova.contacts/www/ContactField.js",
+        "C:/xampp/htdocs/redeem/platforms/android/build/intermediates/assets/armv7/debug/www/plugins/org.apache.cordova.contacts/www/ContactFieldType.js"
     ]
 }

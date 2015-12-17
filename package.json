@@ -27,7 +27,12 @@
     },
     "phonegap-plugin-push",
     "org.apache.cordova.contacts",
-    "cordova-plugin-network-information"
+    "cordova-plugin-network-information",
+    {
+      "locator": "https://github.com/wymsee/cordova-imagePicker.git",
+      "id": "com.synconset.imagepicker"
+    },
+    "cordova-plugin-file-transfer"
   ],
   "cordovaPlatforms": [
     "android"

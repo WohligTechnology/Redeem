@@ -1,4 +1,6 @@
 var favorite = {};
+var adminurl = "http://192.168.0.119:1337/";
+
 angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
 
 .controller('AppCtrl', function ($ionicPlatform, $scope, $ionicModal, $timeout, MyServices, $ionicPopup, $location, $filter, $state) {
@@ -1230,7 +1232,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             }
         }
     })
-    .controller('WalletCtrl', function ($scope, $stateParams, $ionicScrollDelegate, MyServices, $ionicPopup, $location, $ionicModal) {
+    .controller('WalletCtrl', function ($scope, $stateParams, $ionicScrollDelegate, MyServices, $ionicPopup, $location, $ionicModal,$cordovaFileTransfer) {
         $scope.nofavoritePage();
         $scope.user = {};
         $scope.coupon = {};
@@ -1333,17 +1335,95 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         $scope.upgrade = function () {
             $scope.modal2.show();
         };
-        $scope.upgradeIt = function () {
-            console.log("here");
-            var alertPopup = $ionicPopup.alert({
-                title: 'Upgrade KYC',
-                template: '<h5 style="text-align: center;margin-bottom:0">Thank you. Your request for upgrade is in progress.</h5>'
-            });
-            alertPopup.then(function (res) {
-                $location.path('app/home');
-                $scope.closeUpgrade();
-            });
+        $scope.panImage = [];
+        $scope.uploadedImage = 1;
+        $scope.addPanImage = function () {
+            window.imagePicker.getPictures(
+                function (results) {
+                    _.each(results, function (key) {
+                        $scope.panImage.push(key)
+                    });
+                },
+                function (error) {
+                    console.log('Error: ' + error);
+                }
+            );
+        };
+        $scope.otherImage = [];
+        $scope.addOtherImage = function () {
+            window.imagePicker.getPictures(
+                function (results) {
+                    _.each(results, function (key) {
+                        $scope.otherImage.push(key)
+                    });
+                },
+                function (error) {
+                    console.log('Error: ' + error);
+                }
+            );
+        };
+$scope.options={
+    
+};
+        $scope.uploadPhoto = function (serverpath, image, callback) {
 
+            //        console.log("function called");
+            $cordovaFileTransfer.upload(serverpath, image, $scope.options)
+                .then(function (result) {
+                    console.log(result);
+                    $scope.uploadedImage++;
+                    callback(result);
+                    $ionicLoading.hide();
+                    //$scope.addretailer.store_image = $scope.filename2;
+                }, function (err) {
+                    // Error
+                    console.log(err);
+                }, function (progress) {
+                    // constant progress updates
+                    $ionicLoading.show({
+                        //        template: 'We are fetching the best rates for you.',
+
+                        content: 'Uploading Image' + $scope.uploadedImage,
+                        animation: 'fade-in',
+                        showBackdrop: true,
+                        maxWidth: 200,
+                        showDelay: '0'
+                    });
+                    console.log("progress");
+                });
+
+        };
+        $scope.uploadedPan = [];
+        $scope.uploadedOther = [];
+        $scope.done = false;
+        $scope.upgradeIt = function () {
+            _.each($scope.panImage, function (key) {
+                $scope.uploadPhoto(adminurl + "uploadfile/uploadfile", key, function (resp) {
+                    if (resp) {
+                        $scope.uploadedPan.push(resp.files[0].fd);
+                    }
+                })
+            });
+            _.each($scope.otherImage, function (key) {
+                $scope.uploadPhoto(adminurl + "uploadfile/uploadfile", key, function (resp) {
+                    if (resp) {
+                        $scope.uploadedOther.push(resp.files[0].fd);
+                        $scope.done = true;
+                    }
+                })
+            });
+            $scope.refreshUser();
+            $scope.user.pan = $scope.uploadedPan;
+            $scope.user.other = $scope.uploadedOther;
+            $scope.user.upgraded = true;
+            $scope.user.amountLimit=100000;
+            if (done) {
+                if ($scope.updateUser($scope.user)){
+                                    $scope.alertUser("", "Upload complete.", 'app/home');
+                }else{
+                    
+                }
+            }
         };
 
         $scope.transaction = {};
