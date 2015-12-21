@@ -1,5 +1,5 @@
 var favorite = {};
-var adminurl = "http://192.168.0.119:1337/";
+var adminurl = "http://192.168.0.113:1337/";
 
 angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
 
@@ -1232,7 +1232,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             }
         }
     })
-    .controller('WalletCtrl', function ($scope, $stateParams, $ionicScrollDelegate, MyServices, $ionicPopup, $location, $ionicModal,$cordovaFileTransfer) {
+    .controller('WalletCtrl', function ($scope, $stateParams, $ionicScrollDelegate, MyServices, $ionicPopup, $location, $ionicModal, $cordovaFileTransfer, $ionicLoading) {
         $scope.nofavoritePage();
         $scope.user = {};
         $scope.coupon = {};
@@ -1335,14 +1335,19 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         $scope.upgrade = function () {
             $scope.modal2.show();
         };
+        $scope.other = "";
         $scope.panImage = [];
         $scope.uploadedImage = 1;
         $scope.addPanImage = function () {
+            $scope.panImage = [];
+
             window.imagePicker.getPictures(
                 function (results) {
                     _.each(results, function (key) {
                         $scope.panImage.push(key)
                     });
+                    console.log($scope.panImage);
+                    $scope.$apply();
                 },
                 function (error) {
                     console.log('Error: ' + error);
@@ -1351,29 +1356,35 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         };
         $scope.otherImage = [];
         $scope.addOtherImage = function () {
+            $scope.otherImage = [];
+
             window.imagePicker.getPictures(
                 function (results) {
                     _.each(results, function (key) {
                         $scope.otherImage.push(key)
                     });
+                    console.log($scope.otherImage);
+                    $scope.$apply();
+
                 },
                 function (error) {
                     console.log('Error: ' + error);
                 }
             );
         };
-$scope.options={
-    
-};
+        $scope.options = {
+
+        };
         $scope.uploadPhoto = function (serverpath, image, callback) {
 
             //        console.log("function called");
             $cordovaFileTransfer.upload(serverpath, image, $scope.options)
                 .then(function (result) {
-                    console.log(result);
+                    console.log("result" + result);
                     $scope.uploadedImage++;
-                    callback(result);
+
                     $ionicLoading.hide();
+                    callback(result);
                     //$scope.addretailer.store_image = $scope.filename2;
                 }, function (err) {
                     // Error
@@ -1382,7 +1393,6 @@ $scope.options={
                     // constant progress updates
                     $ionicLoading.show({
                         //        template: 'We are fetching the best rates for you.',
-
                         content: 'Uploading Image' + $scope.uploadedImage,
                         animation: 'fade-in',
                         showBackdrop: true,
@@ -1396,34 +1406,91 @@ $scope.options={
         $scope.uploadedPan = [];
         $scope.uploadedOther = [];
         $scope.done = false;
-        $scope.upgradeIt = function () {
-            _.each($scope.panImage, function (key) {
-                $scope.uploadPhoto(adminurl + "uploadfile/uploadfile", key, function (resp) {
-                    if (resp) {
-                        $scope.uploadedPan.push(resp.files[0].fd);
+        $scope.upgradeIt = function (other) {
+            $scope.other = other;
+            if ($scope.other == "" || $scope.other == null) {
+                var alertPopup = $ionicPopup.alert({
+                    title: '',
+                    template: '<h5 style="text-align: center;">Select the other document and upload</h5>'
+                });
+                alertPopup.then(function (res) {
+                    if (res) {}
+                });
+            } else if ($scope.panImage.length == 0 || $scope.otherImage.length == 0) {
+                var alertPopup = $ionicPopup.alert({
+                    title: '',
+                    template: '<h5 style="text-align: center;">Please upload both the documents</h5>'
+                });
+                alertPopup.then(function (res) {
+                    if (res) {}
+                });
+            } else {
+                var confirmPopup = $ionicPopup.confirm({
+                    title: '',
+                    template: '<h5 style="text-align: center;">Are you sure?</h5>'
+                });
+
+                confirmPopup.then(function (res) {
+                    if (res) {
+
+                        _.each($scope.panImage, function (key) {
+                            $scope.uploadPhoto(adminurl + "uploadfile/uploadfile", key, function (resp) {
+                                if (resp) {
+                                    console.log(resp.response);
+                                    var parsed = JSON.parse(resp.response);
+                                    $scope.uploadedPan.push(parsed.fileId);
+                                    console.log($scope.uploadedPan);
+
+                                }
+                            })
+                        });
+
+                        var i = 1;
+                        if ($scope.uploadedPan) {
+                            _.each($scope.otherImage, function (key) {
+                                $scope.uploadPhoto(adminurl + "uploadfile/uploadfile", key, function (resp) {
+                                    if (resp) {
+                                        //                                                                    console.log(resp);
+                                        //                                                                    console.log(resp.response);
+                                        var parsed = JSON.parse(resp.response);
+                                        console.log(parsed);
+                                        $scope.uploadedOther.push(parsed.fileId);
+                                        console.log($scope.uploadedOther);
+                                        if (i == $scope.otherImage.length) {
+                                            $scope.refreshUser();
+                                            $scope.user.panDoc = $scope.uploadedPan;
+                                            $scope.user.otherDoc = $scope.uploadedOther;
+                                            $scope.user.upgraded = true;
+                                            $scope.user.amountLimit = 100000;
+                                            $scope.user.other = $scope.other;
+                                            if ($scope.updateUser($scope.user)) {
+                                                var alertPopup = $ionicPopup.alert({
+                                                    title: '',
+                                                    template: '<h5 style="text-align: center;">KYC upgraded</h5>'
+                                                });
+                                                alertPopup.then(function (res) {
+                                                    if (res) {
+                                                        $scope.closeUpgrade();
+                                                        $location.path('app/wallet');
+                                                    }
+                                                });
+                                            } else {
+
+                                            }
+                                        }
+                                        i++;
+                                    }
+                                })
+                            });
+                        }
+
+                    } else {
+
                     }
-                })
-            });
-            _.each($scope.otherImage, function (key) {
-                $scope.uploadPhoto(adminurl + "uploadfile/uploadfile", key, function (resp) {
-                    if (resp) {
-                        $scope.uploadedOther.push(resp.files[0].fd);
-                        $scope.done = true;
-                    }
-                })
-            });
-            $scope.refreshUser();
-            $scope.user.pan = $scope.uploadedPan;
-            $scope.user.other = $scope.uploadedOther;
-            $scope.user.upgraded = true;
-            $scope.user.amountLimit=100000;
-            if (done) {
-                if ($scope.updateUser($scope.user)){
-                                    $scope.alertUser("", "Upload complete.", 'app/home');
-                }else{
-                    
-                }
+                });
             }
+
+
         };
 
         $scope.transaction = {};

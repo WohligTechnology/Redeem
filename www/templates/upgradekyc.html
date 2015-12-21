@@ -16,44 +16,30 @@
                 <h2>Pan card</h2>
             </div>
         </div>
-        <h1 class="category-header-txt">Upload either of the following</h1>
+        <div class="row uploaded-image no-padding" ng-if="panImage.length > 0">
+            <div class="col" ng-repeat="item in panImage">
+                <img src="{{item}}" class="full-image"  alt="">
+            </div>
+        </div>
+        <h1 class="category-header-txt">Select and upload either of the following</h1>
         <ion-list class="upgrade-container">
-            <label class="item item-radio">
-                <input type="radio" name="group">
-                <div class="item-content">
-                    Passport
-                </div>
-                <i class="radio-icon ion-checkmark"></i>
-            </label>
-            <label class="item item-radio">
-                <input type="radio" name="group">
-                <div class="item-content">
-                    Driving license
-                </div>
-                <i class="radio-icon ion-checkmark"></i>
-            </label>
-            <label class="item item-radio">
-                <input type="radio" name="group">
-                <div class="item-content">
-                    Aadhar card
-                </div>
-                <i class="radio-icon ion-checkmark"></i>
-            </label>
-            <label class="item item-radio">
-                <input type="radio" name="group">
-                <div class="item-content">
-                    Voter ID
-                </div>
-                <i class="radio-icon ion-checkmark"></i>
-            </label>
+           <ion-radio ng-model="other" ng-value="'Passport'">Passport</ion-radio>
+           <ion-radio ng-model="other" ng-value="'Driving license'">Driving license</ion-radio>
+           <ion-radio ng-model="other" ng-value="'Aadhar card'">Aadhar card</ion-radio>
+           <ion-radio ng-model="other" ng-value="'Voter ID'">Voter ID</ion-radio>
             <div class="button-upload-container">
                 <button class="button button button-icon icon ln-upload button-upload" ng-click="addOtherImage()">
                 </button>
             </div>
         </ion-list>
+        <div class="row uploaded-image no-padding" ng-if="otherImage.length > 0">
+            <div class="col" ng-repeat="item in otherImage">
+                <img src="{{item}}" class="full-image"  alt="">
+            </div>
+        </div>
         <div class="spacer-small"></div>
         <div class="padding">
-            <button class="button button-assertive button-block"  ng-click="upgradeIt()">submit</button>
+            <button class="button button-assertive button-block" ng-click="upgradeIt(other)">submit</button>
         </div>
     </ion-content>
 </ion-modal-view>
