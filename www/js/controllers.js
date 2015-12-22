@@ -1,6 +1,6 @@
 var favorite = {};
-var adminurl = "http://192.168.0.113:1337/";
-
+//var adminurl = "http://192.168.0.113:1337/";
+var adminurl = "http://104.154.90.30/";
 angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
 
 .controller('AppCtrl', function ($ionicPlatform, $scope, $ionicModal, $timeout, MyServices, $ionicPopup, $location, $filter, $state) {
@@ -1248,6 +1248,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
 
             });
         };
+        $scope.upgradeText="Upgrade your limit to 1,00,000";
         $scope.refreshUser();
         $scope.refreshNoti($scope.user);
 
@@ -1335,7 +1336,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         $scope.upgrade = function () {
             $scope.modal2.show();
         };
-        $scope.other = "";
+        $scope.other = "Passport";
         $scope.panImage = [];
         $scope.uploadedImage = 1;
         $scope.addPanImage = function () {
@@ -1346,7 +1347,6 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                     _.each(results, function (key) {
                         $scope.panImage.push(key)
                     });
-                    console.log($scope.panImage);
                     $scope.$apply();
                 },
                 function (error) {
@@ -1363,7 +1363,6 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                     _.each(results, function (key) {
                         $scope.otherImage.push(key)
                     });
-                    console.log($scope.otherImage);
                     $scope.$apply();
 
                 },
@@ -1376,23 +1375,14 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
 
         };
         $scope.uploadPhoto = function (serverpath, image, callback) {
-
-            //        console.log("function called");
             $cordovaFileTransfer.upload(serverpath, image, $scope.options)
                 .then(function (result) {
-                    console.log("result" + result);
                     $scope.uploadedImage++;
-
                     $ionicLoading.hide();
-                    callback(result);
-                    //$scope.addretailer.store_image = $scope.filename2;
                 }, function (err) {
-                    // Error
                     console.log(err);
                 }, function (progress) {
-                    // constant progress updates
                     $ionicLoading.show({
-                        //        template: 'We are fetching the best rates for you.',
                         content: 'Uploading Image' + $scope.uploadedImage,
                         animation: 'fade-in',
                         showBackdrop: true,
@@ -1436,7 +1426,6 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                         _.each($scope.panImage, function (key) {
                             $scope.uploadPhoto(adminurl + "uploadfile/uploadfile", key, function (resp) {
                                 if (resp) {
-                                    console.log(resp.response);
                                     var parsed = JSON.parse(resp.response);
                                     $scope.uploadedPan.push(parsed.fileId);
                                     console.log($scope.uploadedPan);
@@ -1450,28 +1439,23 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                             _.each($scope.otherImage, function (key) {
                                 $scope.uploadPhoto(adminurl + "uploadfile/uploadfile", key, function (resp) {
                                     if (resp) {
-                                        //                                                                    console.log(resp);
-                                        //                                                                    console.log(resp.response);
                                         var parsed = JSON.parse(resp.response);
-                                        console.log(parsed);
                                         $scope.uploadedOther.push(parsed.fileId);
-                                        console.log($scope.uploadedOther);
                                         if (i == $scope.otherImage.length) {
                                             $scope.refreshUser();
                                             $scope.user.panDoc = $scope.uploadedPan;
                                             $scope.user.otherDoc = $scope.uploadedOther;
                                             $scope.user.upgraded = true;
-                                            $scope.user.amountLimit = 100000;
                                             $scope.user.other = $scope.other;
                                             if ($scope.updateUser($scope.user)) {
                                                 var alertPopup = $ionicPopup.alert({
                                                     title: '',
-                                                    template: '<h5 style="text-align: center;">KYC upgraded</h5>'
+                                                    template: '<h5 style="text-align: center;">Upgrade request sent for approval</h5>'
                                                 });
                                                 alertPopup.then(function (res) {
                                                     if (res) {
+                                                        $scope.upgradeText="Upgrade request sent for approval";
                                                         $scope.closeUpgrade();
-                                                        $location.path('app/wallet');
                                                     }
                                                 });
                                             } else {
@@ -1494,7 +1478,6 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         };
 
         $scope.transaction = {};
-        console.log($scope.user);
         $scope.walletBalance = 0;
         if ($scope.user.balance === null || $scope.user.balance === undefined)
             $scope.walletBalance = 0;

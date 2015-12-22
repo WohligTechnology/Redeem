@@ -884,6 +884,11 @@ $dark:                            #444 !default;
 .uploaded-image .col + .col {
   padding-left: 0px; }
 
+.referral-subheader-txt {
+  @extends .category-subheader-txt;
+  font-size: 14px;
+  text-align: center; }
+
 /*!
   Ionicons, v2.0.1
   Created by Ben Sperry for the Ionic Framework, http://ionicons.com/

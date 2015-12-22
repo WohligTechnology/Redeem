@@ -1135,3 +1135,8 @@
         padding-left: 0px;
     }
 }
+.referral-subheader-txt{
+    @extends .category-subheader-txt;
+    font-size: 14px;
+    text-align: center;
+}

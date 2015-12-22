@@ -4,12 +4,12 @@
         <form>
             <div class="list no-margin">
                 <label class="item item-input">
-                                               <button class="button contacts-button button-icon icon no-padding ln-contacts" ng-click="selectContact()"></button>
+                                              
 
                     <input type="tel" placeholder="Phone number" ng-model="send.mobile" ng-class="{'brdr-red':dirty.mobile}">
                     
                 </label>
-       
+        <button class="button contacts-button button-icon icon no-padding ln-contacts" ng-click="selectContact()"></button>
                 <label class="item item-input enter-amount-input">
 <!--                    <span class="input-label">₹</span>-->
                     <input type="number" placeholder="Enter amount" ng-model="send.amount" ng-class="{'brdr-red':dirty.amount}" style="padding:0;">
