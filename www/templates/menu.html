@@ -35,7 +35,7 @@
                 </ion-item>
 -->
                 <ion-item class="item item-avatar menuitem no-border" menu-close href="#/app/profile">
-                    <img src="img/user.png" alt="">
+                    <img src="{{user.profile | serverimage}}" alt="">
                     <p style="font-weight: 600;
                     color: #838080 ;">{{user.name}}</p>
                     <span>+91{{user.mobile}}</span>

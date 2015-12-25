@@ -2088,7 +2088,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         };
         $scope.refreshUser();
     })
-    .controller('ProfileCtrl', function ($scope, $stateParams, MyServices, $ionicPopup) {
+    .controller('ProfileCtrl', function ($scope, $stateParams, MyServices, $ionicPopup, $cordovaFileTransfer) {
         $scope.nofavoritePage();
 
         $scope.user = {};
@@ -2128,22 +2128,52 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             quality: 80
         };
         $scope.selectedImage;
+        $scope.profilePicChanged = false;
         $scope.addProfileImage = function () {
 
             window.imagePicker.getPictures(
                 function (results) {
-                    $scope.selectedImage = results[0];
-                    console.log($scope.selectedImage);
-                    $scope.user.profile = $scope.selectedImage;
-                    $scope.$apply();
+                    if (results) {
+                        $scope.selectedImage = results[0];
+                        console.log($scope.selectedImage);
+                        $scope.user.profile = $scope.selectedImage;
+                        $scope.$apply();
+                        $scope.profilePicChanged = true;
+                    }
                 },
                 function (error) {
                     console.log('Error: ' + error);
                 }, $scope.options
             );
         };
+
+        function changeUser(user) {
+            if ($scope.profilePicChanged == true) {
+                $cordovaFileTransfer.upload(adminurl + "uploadfile/uploadfile", $scope.user.profile, {})
+                    .then(function (result) {
+                        console.log(result);
+                        var parsed = JSON.parse(result.response);
+                        user.profile = parsed.fileId;
+                        console.log(user);
+                        $ionicLoading.hide();
+                        user.mobile;
+                        return user;
+                    }, function (err) {
+                        console.log(err);
+                    }, function (progress) {
+                        $ionicLoading.show({
+                            template: '<ion-spinner icon="crescent" class="spinner-assertive"></ion-spinner>'
+                        });
+                    });
+            } else {
+                delete user.profile;
+                delete user.mobile;
+                return user;
+            }
+
+        }
         $scope.saveUser = function () {
-            MyServices.updateUser($scope.user, function (data2) {
+            MyServices.updateUser(changeUser($scope.user), function (data2) {
                 if (data2) {
                     console.log(data2);
                     if (data2.value === false)
