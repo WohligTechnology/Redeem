@@ -50,8 +50,12 @@
                     <h1 class="limit-txt">
                   Your monthly money limit remaining is {{user.walletLimit}}
                </h1>
-                    <button class="button no-margin button-clear button-assertive button-block" ng-click="upgrade()" style="font-size: 15px !important;">{{upgradeText}}</button>
+                    <button class="button upgrade-btn no-margin button-clear button-assertive button-block" ng-click="upgrade()" style="font-size: 15px !important;" ng-if="!user.upgraderequested">{{upgradeText}}</button>
+                    
                 </div>
+                <div class="upgrade" ng-if="user.upgraderequested">
+                        {{upgradeText}}
+                    </div>
                 <div class="spacer-small"></div>
 
             </div>

@@ -808,8 +808,9 @@
         background-size: cover;
         .layer-over {
             position: absolute;
-            bottom: 10px;
-            left: 20px;
+                top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
             text-align: center;
             p {
                 color: #fff;
@@ -1139,4 +1140,15 @@
     @extends .category-subheader-txt;
     font-size: 14px;
     text-align: center;
+}
+
+    .button.button.upgrade-btn.no-margin.button-clear.button-assertive.button-block.ng-binding{
+        line-height: 28px ;
+    }
+.upgrade{
+        text-transform: uppercase;
+    text-align: center;
+    line-height: 28px;
+    font-size: 15px;
+    color:$assertive;
 }

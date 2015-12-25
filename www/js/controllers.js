@@ -1,6 +1,6 @@
 var favorite = {};
-//var adminurl = "http://192.168.0.113:1337/";
-var adminurl = "http://104.154.90.30/";
+var adminurl = "http://192.168.0.109:1337/";
+//var adminurl = "http://104.154.90.30/";
 angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
 
 .controller('AppCtrl', function ($ionicPlatform, $scope, $ionicModal, $timeout, MyServices, $ionicPopup, $location, $filter, $state) {
@@ -20,18 +20,19 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                 template: '<h4 style="text-align:center;">Please check your internet connection.</h4>'
             });
             alertPopup.then(function (res) {
-                document.addEventListener("online", onOnline, false);
-
-                function onOnline() {
-                    console.log("isonline");
-                    $state.go($state.current, {}, {
-                        reload: true
-                    });
-                };
                 alertPopup.close();
             });
 
         };
+        document.addEventListener("online", onOnline, false);
+
+        function onOnline() {
+            console.log("isonline");
+            $state.go($state.current, {}, {
+                reload: true
+            });
+        };
+
     }
     $scope.isIOS = false;
     var IOS = ionic.Platform.isIOS();
@@ -1248,7 +1249,6 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
 
             });
         };
-        $scope.upgradeText="Upgrade your limit to 1,00,000";
         $scope.refreshUser();
         $scope.refreshNoti($scope.user);
 
@@ -1258,6 +1258,11 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         $scope.wallet = {
             amount: undefined
         };
+        if ($scope.user.upgraderequested) {
+            $scope.upgradeText = "Request for upgrading monthly limit to Rs. 1,00,000 sent for approval";
+        } else {
+            $scope.upgradeText = "Upgrade your limit to 1,00,000";
+        }
         $scope.monthlyRemaining = undefined;
         $scope.inTheSameMonth = function (d) {
             $scope.now = new Date();
@@ -1339,6 +1344,12 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         $scope.other = "Passport";
         $scope.panImage = [];
         $scope.uploadedImage = 1;
+        $scope.options = {
+            maximumImagesCount: 4,
+            width: 800,
+            height: 800,
+            quality: 80
+        };
         $scope.addPanImage = function () {
             $scope.panImage = [];
 
@@ -1351,7 +1362,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                 },
                 function (error) {
                     console.log('Error: ' + error);
-                }
+                }, $scope.options
             );
         };
         $scope.otherImage = [];
@@ -1368,28 +1379,19 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                 },
                 function (error) {
                     console.log('Error: ' + error);
-                }
+                }, $scope.options
             );
         };
-        $scope.options = {
 
-        };
         $scope.uploadPhoto = function (serverpath, image, callback) {
-            $cordovaFileTransfer.upload(serverpath, image, $scope.options)
+            $cordovaFileTransfer.upload(serverpath, image, {})
                 .then(function (result) {
                     $scope.uploadedImage++;
-                    $ionicLoading.hide();
+                    callback(result);
                 }, function (err) {
                     console.log(err);
                 }, function (progress) {
-                    $ionicLoading.show({
-                        content: 'Uploading Image' + $scope.uploadedImage,
-                        animation: 'fade-in',
-                        showBackdrop: true,
-                        maxWidth: 200,
-                        showDelay: '0'
-                    });
-                    console.log("progress");
+
                 });
 
         };
@@ -1422,7 +1424,14 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
 
                 confirmPopup.then(function (res) {
                     if (res) {
-
+                        $ionicLoading.show({
+                            animation: 'fade-in',
+                            showBackdrop: true,
+                            maxWidth: 200,
+                            showDelay: '0'
+                        });
+                        console.log($scope.panImage);
+                        console.log($scope.otherImage);
                         _.each($scope.panImage, function (key) {
                             $scope.uploadPhoto(adminurl + "uploadfile/uploadfile", key, function (resp) {
                                 if (resp) {
@@ -1435,38 +1444,39 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                         });
 
                         var i = 1;
-                        if ($scope.uploadedPan) {
-                            _.each($scope.otherImage, function (key) {
-                                $scope.uploadPhoto(adminurl + "uploadfile/uploadfile", key, function (resp) {
-                                    if (resp) {
-                                        var parsed = JSON.parse(resp.response);
-                                        $scope.uploadedOther.push(parsed.fileId);
-                                        if (i == $scope.otherImage.length) {
-                                            $scope.refreshUser();
-                                            $scope.user.panDoc = $scope.uploadedPan;
-                                            $scope.user.otherDoc = $scope.uploadedOther;
-                                            $scope.user.upgraded = true;
-                                            $scope.user.other = $scope.other;
-                                            if ($scope.updateUser($scope.user)) {
-                                                var alertPopup = $ionicPopup.alert({
-                                                    title: '',
-                                                    template: '<h5 style="text-align: center;">Upgrade request sent for approval</h5>'
-                                                });
-                                                alertPopup.then(function (res) {
-                                                    if (res) {
-                                                        $scope.upgradeText="Upgrade request sent for approval";
-                                                        $scope.closeUpgrade();
-                                                    }
-                                                });
-                                            } else {
+                        _.each($scope.otherImage, function (key) {
+                            $scope.uploadPhoto(adminurl + "uploadfile/uploadfile", key, function (resp) {
+                                if (resp) {
+                                    var parsed = JSON.parse(resp.response);
+                                    $scope.uploadedOther.push(parsed.fileId);
+                                    console.log($scope.uploadedOther);
+                                    if (i == $scope.otherImage.length) {
+                                        $scope.refreshUser();
+                                        $scope.user.panDoc = $scope.uploadedPan;
+                                        $scope.user.otherDoc = $scope.uploadedOther;
+                                        $scope.user.upgraderequested = true;
+                                        $scope.user.other = $scope.other;
 
-                                            }
+                                        $ionicLoading.hide();
+                                        if ($scope.updateUser($scope.user)) {
+                                            var alertPopup = $ionicPopup.alert({
+                                                title: '',
+                                                template: '<h5 style="text-align: center;">Upgrade request sent for approval</h5>'
+                                            });
+                                            alertPopup.then(function (res) {
+                                                if (res) {
+                                                    $scope.upgradeText = "Request for upgrading monthly limit to Rs. 1,00,000 sent for approval";
+                                                    $scope.closeUpgrade();
+                                                }
+                                            });
+                                        } else {
+
                                         }
-                                        i++;
                                     }
-                                })
-                            });
-                        }
+                                    i++;
+                                }
+                            })
+                        });
 
                     } else {
 
@@ -2110,6 +2120,27 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                 if (link)
                     $location.path(link);
             });
+        };
+        $scope.options = {
+            maximumImagesCount: 1,
+            width: 600,
+            height: 600,
+            quality: 80
+        };
+        $scope.selectedImage;
+        $scope.addProfileImage = function () {
+
+            window.imagePicker.getPictures(
+                function (results) {
+                    $scope.selectedImage = results[0];
+                    console.log($scope.selectedImage);
+                    $scope.user.profile = $scope.selectedImage;
+                    $scope.$apply();
+                },
+                function (error) {
+                    console.log('Error: ' + error);
+                }, $scope.options
+            );
         };
         $scope.saveUser = function () {
             MyServices.updateUser($scope.user, function (data2) {

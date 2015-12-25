@@ -625,8 +625,9 @@ $dark:                            #444 !default;
   background-size: cover; }
   .over-layer .layer-over {
     position: absolute;
-    bottom: 10px;
-    left: 20px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     text-align: center; }
     .over-layer .layer-over p {
       color: #fff; }
@@ -888,6 +889,16 @@ $dark:                            #444 !default;
   @extends .category-subheader-txt;
   font-size: 14px;
   text-align: center; }
+
+.button.button.upgrade-btn.no-margin.button-clear.button-assertive.button-block.ng-binding {
+  line-height: 28px; }
+
+.upgrade {
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 28px;
+  font-size: 15px;
+  color: #0060aa; }
 
 /*!
   Ionicons, v2.0.1

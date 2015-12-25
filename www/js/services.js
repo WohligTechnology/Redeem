@@ -1,8 +1,8 @@
-//var adminurl = "http://192.168.0.113:1337/";
+var adminurl = "http://192.168.0.109:1337/";
 //var adminurl = "http://wohlig.in:81/";
-var adminurl = "http://104.154.90.30/";
+//var adminurl = "http://104.154.90.30/";
 //var adminurl = "http://localhost:1337/";
-var imgpath = adminurl + "uploadfile/resize?file=";
+var imgpath = adminurl + "uploadfile/getupload?file=";
 
 angular.module('starter.services', [])
 
