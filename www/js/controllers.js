@@ -1,5 +1,5 @@
 var favorite = {};
-var adminurl = "http://192.168.0.109:1337/";
+var adminurl = "http://192.168.0.105:1337/";
 //var adminurl = "http://104.154.90.30/";
 angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
 
@@ -2088,7 +2088,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         };
         $scope.refreshUser();
     })
-    .controller('ProfileCtrl', function ($scope, $stateParams, MyServices, $ionicPopup, $cordovaFileTransfer) {
+    .controller('ProfileCtrl', function ($scope, $stateParams, MyServices, $ionicPopup, $cordovaFileTransfer, $ionicLoading) {
         $scope.nofavoritePage();
 
         $scope.user = {};
@@ -2137,8 +2137,9 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                         $scope.selectedImage = results[0];
                         console.log($scope.selectedImage);
                         $scope.user.profile = $scope.selectedImage;
-                        $scope.$apply();
+
                         $scope.profilePicChanged = true;
+                        $scope.$apply();
                     }
                 },
                 function (error) {
@@ -2146,42 +2147,68 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                 }, $scope.options
             );
         };
+        $scope.updated = false;
+        $scope.uploadProfilePhoto = function (image, callback) {
+            $cordovaFileTransfer.upload(adminurl + "uploadfile/uploadfile", image, {})
+                .then(function (result) {
 
-        function changeUser(user) {
-            if ($scope.profilePicChanged == true) {
-                $cordovaFileTransfer.upload(adminurl + "uploadfile/uploadfile", $scope.user.profile, {})
-                    .then(function (result) {
-                        console.log(result);
-                        var parsed = JSON.parse(result.response);
-                        user.profile = parsed.fileId;
-                        console.log(user);
-                        $ionicLoading.hide();
-                        user.mobile;
-                        return user;
-                    }, function (err) {
-                        console.log(err);
-                    }, function (progress) {
-                        $ionicLoading.show({
-                            template: '<ion-spinner icon="crescent" class="spinner-assertive"></ion-spinner>'
-                        });
+                    $ionicLoading.hide();
+                    callback(result);
+                }, function (err) {
+                    console.log(err);
+                }, function (progress) {
+                    $ionicLoading.show({
+                        template: '<ion-spinner icon="crescent" class="spinner-assertive"></ion-spinner>'
                     });
-            } else {
-                delete user.profile;
-                delete user.mobile;
-                return user;
-            }
+                });
+        };
+        $scope.changeUser = function (user) {
+
 
         }
         $scope.saveUser = function () {
-            MyServices.updateUser(changeUser($scope.user), function (data2) {
-                if (data2) {
+            $scope.updated = false;
+            if ($scope.profilePicChanged === true) {
+                $scope.uploadProfilePhoto($scope.user.profile, function (resp) {
+                    if (resp) {
+                        console.log(resp);
+                        var parsed = JSON.parse(resp.response);
+                        $scope.user.profile = parsed.fileId;
+                        console.log($scope.user);
+                        delete $scope.user.mobile;
+                        MyServices.updateUser($scope.user, function (data2) {
+                            console.log("response aage");
+                            console.log(data2);
+                            if (data2) {
+                                console.log(data2);
+                                if (data2.value === false)
+                                    $scope.alertUser("", "Unable to update profile.");
+                                else {
+                                    $scope.alertUser("", "Profile updated.");
+                                    $scope.refreshUser();
+                                }
+                            }
+                        }, function (err) {});
+                    }
+                })
+            } else {
+                console.log("no profile pic change");
+                delete $scope.user.profile;
+                delete $scope.user.mobile;
+                MyServices.updateUser($scope.user, function (data2) {
+                    console.log("response aage");
                     console.log(data2);
-                    if (data2.value === false)
-                        $scope.alertUser("", "Unable to update profile.");
-                    else
-                        $scope.alertUser("", "Profile updated.");
-                }
-            }, function (err) {});
+                    if (data2) {
+                        console.log(data2);
+                        if (data2.value === false)
+                            $scope.alertUser("", "Unable to update profile.");
+                        else {
+                            $scope.alertUser("", "Profile updated.");
+                            $scope.refreshUser();
+                        }
+                    }
+                }, function (err) {});
+            }
         };
         if ($.jStorage.get("os") === "android") {
             var options = {
