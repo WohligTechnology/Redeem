@@ -1,6 +1,6 @@
 var favorite = {};
-var adminurl = "http://192.168.0.105:1337/";
-//var adminurl = "http://104.154.90.30/";
+//var adminurl = "http://192.168.0.115:1337/";
+var adminurl = "http://104.154.90.30/";
 angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
 
 .controller('AppCtrl', function ($ionicPlatform, $scope, $ionicModal, $timeout, MyServices, $ionicPopup, $location, $filter, $state) {
@@ -24,16 +24,8 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             });
 
         };
-        document.addEventListener("online", onOnline, false);
-
-        function onOnline() {
-            console.log("isonline");
-            $state.go($state.current, {}, {
-                reload: true
-            });
-        };
-
     }
+
     $scope.isIOS = false;
     var IOS = ionic.Platform.isIOS();
     var Android = ionic.Platform.isAndroid();
@@ -52,6 +44,12 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
     };
 
     $scope.refreshUser();
+    $scope.refreshUserApply = function () {
+        console.log("refreshUserApply");
+        $scope.refreshUser();
+        console.log($scope.user);
+        $scope.$apply();
+    };
     $scope.favoritePage = function () {
         $scope.canfavorite = true;
     };
@@ -184,12 +182,21 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
   }];
 
     $scope.activateMenu = function (index) {
+        $scope.refreshUser()
         console.log($scope.menu[index].title);
         if ($scope.menu[index].title === "Logout") {
-            $scope.user = null;
-            $.jStorage.flush();
-            console.log(MyServices.getUser());
-            $location.path('login');
+            MyServices.logoutUser($scope.user, function (data) {
+                if (data.value) {
+                    $scope.user = null;
+                    $.jStorage.flush();
+                    console.log(MyServices.getUser());
+                    $location.path('login');
+                }
+            }, function (err) {
+
+            });
+
+
         }
         for (var i = 0; i < $scope.menu.length; i++) {
             $scope.menu[i].state = false;
@@ -406,10 +413,24 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                         });
                     } else {
                         console.log("herer");
+                        data.notificationtoken.deviceid = $.jStorage.get("device");
+                        data.notificationtoken.os = $.jStorage.get("os");
                         MyServices.setUser(data);
-                        $location.url('app/home');
-                        $scope.user = MyServices.getUser();
-                        console.log($scope.user);
+                        var user = {
+                            _id: data._id,
+                            notificationtoken: data.notificationtoken
+                        };
+                        MyServices.updateUser(user, function (data2) {
+                            if (data2) {
+                                console.log(data2);
+                                if (data2.value === false) {
+
+                                } else {
+                                    $location.url('app/home');
+                                    $scope.user = MyServices.getUser();
+                                }
+                            }
+                        }, function (err) {});
                     }
                     console.log(data);
                 }
@@ -530,7 +551,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                     console.log(err);
                 });
                 var myPopup = $ionicPopup.show({
-                    template: '<input type="text" ng-model="input.otp" style="margin: 0px auto;width:100px;text-align:center;font-size:20px">',
+                    template: '<input type="number" ng-model="input.otp" style="margin: 0px auto;width:100px;text-align:center;font-size:20px">',
                     title: 'OTP Verification',
                     subTitle: 'Enter the 6-digit OTP :',
                     scope: $scope,
@@ -556,7 +577,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                                     //don't allow the user to close unless he enters wifi password
                                     e.preventDefault();
                                 } else {
-                                    if (parseInt($scope.input.otp) === data.otp) {
+                                    if ($scope.input.otp === data.otp) {
                                         $scope.checkDeviceID();
                                     } else {
                                         var alertPopup = $ionicPopup.alert({
@@ -655,7 +676,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             });
 
             push.on('error', function (e) {
-                conosle.log("ERROR");
+                console.log("ERROR");
                 console.log(e);
             });
             if ($scope.isRegistered) {
@@ -667,6 +688,58 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             }
         } else {
             $scope.doSignup();
+        }
+    };
+    $scope.checkDeviceIDLogin = function () {
+        $scope.isRegistered = false;
+        if ($.jStorage.get("device") == null) {
+            console.log("here");
+            push = PushNotification.init({
+                "android": {
+                    "senderID": "965431280304",
+                    "icon": "www/img/icon.png"
+                },
+                "ios": {
+                    "alert": "true",
+                    "badge": "true",
+                    "sound": "true"
+                },
+                "windows": {}
+            });
+
+            push.on('registration', function (data) {
+
+                console.log(data);
+                $.jStorage.set("device", data.registrationId);
+                $scope.isRegistered = true;
+                var isIOS = ionic.Platform.isIOS();
+                var isAndroid = ionic.Platform.isAndroid();
+                if (isIOS) {
+                    $.jStorage.set("os", "ios");
+                } else if (isAndroid) {
+                    $.jStorage.set("os", "android");
+                }
+
+
+            });
+
+            push.on('notification', function (data) {
+                console.log(data);
+            });
+
+            push.on('error', function (e) {
+                console.log("ERROR");
+                console.log(e);
+            });
+            if ($scope.isRegistered) {
+                $scope.doLogin();
+            } else {
+                $timeout(function () {
+                    $scope.checkDeviceIDLogin();
+                }, 3000);
+            }
+        } else {
+            $scope.doLogin();
         }
     };
     $scope.referralData = {};
@@ -1669,7 +1742,9 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                             };
                             MyServices.findUser($scope.reciever, function (data2) {
                                 if (data2) {
+
                                     key.username = data2.name;
+                                    key.profile = data2.profile;
                                     key.sent = "sent";
                                 }
                             }, function (err) {
@@ -1682,6 +1757,8 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                             MyServices.findUser($scope.sender, function (data2) {
                                 if (data2) {
                                     key.username = data2.name;
+                                    key.profile = data2.profile;
+
                                     key.sent = "recieved";
                                 }
                             }, function (err) {
@@ -2162,10 +2239,6 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                     });
                 });
         };
-        $scope.changeUser = function (user) {
-
-
-        }
         $scope.saveUser = function () {
             $scope.updated = false;
             if ($scope.profilePicChanged === true) {
@@ -2210,34 +2283,5 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                 }, function (err) {});
             }
         };
-        if ($.jStorage.get("os") === "android") {
-            var options = {
-                date: new Date(),
-                mode: 'date', // or 'time',
-                maxDate: new Date() - 1,
-                allowOldDates: true,
-                allowFutureDates: false,
-                androidTheme: 3
-            };
-        } else if ($.jStorage.get("os") === "ios") {
-            var options = {
-                date: new Date(),
-                mode: 'datetime', // or 'time',
-                maxDate: new Date() - 1,
-                allowOldDates: true,
-                allowFutureDates: false,
-                androidTheme: 3
-            };
-        }
-
-        function onSuccess(date) {
-            $scope.user.date = $filter('date')(date, 'dd/MM/yyyy');
-            $scope.$apply();
-            console.log($scope.signup.date);
-        }
-
-        $scope.openDate = function () {
-            datePicker.show(options, onSuccess);
-        }
 
     });

@@ -53,7 +53,8 @@
             <div class="list">
 
                 <a class="item item-avatar" href="#" ng-repeat="item in sentmoney | orderBy: '-timestamp'" ng-if="item.amount != null">
-                                   <img class="img-hold" ng-src="{{item.profile | serverimage}}">
+                                                  <img class="img-hold" ng-src="{{item.profile | serverimage}}">
+
                     <h2>{{item.username}}</h2>
                     <p><i class="ln-calendar3"></i>  {{item.timestamp | date:'mediumDate'}}</p>
                     <p><i class="ln-cash"></i> {{item.amount}}</p>
