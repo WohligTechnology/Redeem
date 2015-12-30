@@ -1,6 +1,6 @@
-//var adminurl = "http://192.168.0.115:1337/";
+var adminurl = "http://192.168.0.115:1337/";  
 //var adminurl = "http://wohlig.in:81/";
-var adminurl = "http://104.154.90.30/";
+//var adminurl = "http://104.154.90.30/";  
 //var adminurl = "http://localhost:1337/";
 var imgpath = adminurl + "uploadfile/getupload?file=";
 
@@ -52,6 +52,13 @@ angular.module('starter.services', [])
             console.log(userData);
             $http({
                 url: adminurl + 'user/findUserByMobile',
+                method: 'POST',
+                data: userData
+            }).success(callback).error(err);
+        },
+        changePass: function (userData, callback, err) {
+            $http({
+                url: adminurl + 'user/changepassword',
                 method: 'POST',
                 data: userData
             }).success(callback).error(err);

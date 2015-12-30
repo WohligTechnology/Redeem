@@ -1,6 +1,6 @@
 var favorite = {};
-//var adminurl = "http://192.168.0.115:1337/";
-var adminurl = "http://104.154.90.30/";
+var adminurl = "http://192.168.0.115:1337/";
+//var adminurl = "http://104.154.90.30/";
 angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
 
 .controller('AppCtrl', function ($ionicPlatform, $scope, $ionicModal, $timeout, MyServices, $ionicPopup, $location, $filter, $state) {
@@ -2165,9 +2165,9 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         };
         $scope.refreshUser();
     })
-    .controller('ProfileCtrl', function ($scope, $stateParams, MyServices, $ionicPopup, $cordovaFileTransfer, $ionicLoading) {
+    .controller('ProfileCtrl', function ($scope, $stateParams, MyServices, $ionicPopup, $cordovaFileTransfer, $ionicLoading, $ionicModal, $ionicPopup) {
         $scope.nofavoritePage();
-
+        $scope.change = {};
         $scope.user = {};
         $scope.edit = true;
         $scope.user = MyServices.getUser();
@@ -2282,6 +2282,87 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                     }
                 }, function (err) {});
             }
+        };
+        $scope.confirmed = false;
+        $scope.validate = {};
+        $scope.validatePass = function () {
+            console.log("here");
+            $scope.validate = {
+                pass: false,
+                editpass: false,
+                confirmeditpass: false
+            };
+            if ($scope.change.pass === "" || $scope.change.pass === null || $scope.change.pass === undefined)
+                $scope.validate.pass = true;
+            if ($scope.change.editpass === "" || $scope.change.editpass === null || $scope.change.editpass === undefined)
+                $scope.validate.editpass = true;
+            if ($scope.change.confirmeditpass === "" || $scope.change.confirmeditpass === null || $scope.change.confirmeditpass === undefined)
+                $scope.validate.confirmeditpass = true;
+            if ($scope.validate.pass === true || $scope.validate.editpass === true || $scope.validate.confirmeditpass === true)
+                return false;
+            else
+                return true;
+        };
+        $scope.checkPassword = function () {
+            if ($scope.change.editpass != "" || $scope.change.editpass != null || $scope.change.editpass != undefined) {
+                if ($scope.change.confirmeditpass === $scope.change.editpass) {
+                    $scope.confirmed = true;
+                    $scope.confirmP = "Password matching";
+                    return true;
+                } else {
+                    $scope.confirmed = false;
+                    return false;
+                }
+            }
+        };
+        $scope.changePass = function () {
+            if ($scope.validatePass()) {
+                var param = {
+                    _id: $scope.user._id,
+                    password: $scope.change.pass,
+                    editpassword: $scope.change.editpass
+                };
+                MyServices.changePass(param, function (data) {
+                    if (data.value) {
+                        var alertPopup = $ionicPopup.alert({
+                            template: '<h4 style="text-align: center;margin-bottom:0">Password changed</h4>'
+                        });
+                        alertPopup.then(function (res) {
+                            $scope.closeChangePassword();
+                        });
+
+                    } else {
+                        if (data.comment == "No data found") {
+                            var alertPopup = $ionicPopup.alert({
+                                template: '<h4 style="text-align: center;margin-bottom:0">Current password incorrect</h4>'
+                            });
+                            alertPopup.then(function (res) {
+
+                            });
+                        } else if (data.comment == "Same password") {
+                            var alertPopup = $ionicPopup.alert({
+                                template: '<h4 style="text-align: center;margin-bottom:0">New password is equal to the old one</h4>'
+                            });
+                            alertPopup.then(function (res) {
+
+                            });
+                        }
+                    }
+                }, function (err) {
+
+                });
+            }
+        };
+        $ionicModal.fromTemplateUrl('templates/changepassword.html', {
+            scope: $scope
+        }).then(function (modal) {
+            $scope.modal2 = modal;
+        });
+        $scope.closeChangePassword = function () {
+            $scope.modal2.hide();
+        };
+        $scope.changePassword = function () {
+            $scope.modal2.show();
         };
 
     });

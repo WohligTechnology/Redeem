@@ -899,6 +899,11 @@ $dark:                            #444 !default;
   font-size: 15px;
   color: #0060aa; }
 
+.chng-text {
+  float: right;
+  text-decoration: none;
+  color: #0060aa; }
+
 /*!
   Ionicons, v2.0.1
   Created by Ben Sperry for the Ionic Framework, http://ionicons.com/
