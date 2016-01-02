@@ -1218,7 +1218,6 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             });
         };
         $scope.selectContact = function () {
-            console.log("here in selectContact");
             navigator.contacts.pickContact(function (contact) {
                 var selectedContact = contact.phoneNumbers[0].value;
                 console.log(selectedContact);
@@ -2192,7 +2191,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             }
         });
     })
-    .controller('NotificationCtrl', function ($scope, $stateParams, MyServices, $location) {
+    .controller('NotificationCtrl', function ($scope, $stateParams, MyServices, $location, $ionicPopup) {
         $scope.nofavoritePage();
 
         $scope.user = {};
@@ -2209,11 +2208,23 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             });
         };
         $scope.markRead = function (item) {
+            var timest = moment(item.timestamp);
             item.read = true;
-            if ($scope.updateUser($scope.user))
-                $location.url(item.link);
+            if ($scope.updateUser($scope.user)) {
+                var alertPopup = $ionicPopup.alert({
+                    title: item.title,
+                    template: '<h5 style="text-align:center;">' + item.body + '</h5><span style="clear:left;float:right;">' + timest.from(new Date()) + '</span>'
+                });
+
+                alertPopup.then(function (res) {
+                    $scope.refreshUser();
+                    alertPopup.close();
+                });
+            }
+
+
         };
-        $scope.refreshUser();
+
     })
     .controller('ProfileCtrl', function ($scope, $stateParams, MyServices, $ionicPopup, $cordovaFileTransfer, $ionicLoading, $ionicModal, $ionicPopup) {
         $scope.nofavoritePage();

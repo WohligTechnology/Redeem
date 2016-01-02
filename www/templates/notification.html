@@ -3,7 +3,7 @@
         <!--            <div class="list" ng-repeat="noti in notification">-->
         <div class="notification">
            
-            <div ui-sref="{{item.link}}" class="card padding" ng-repeat="item in user.notification | orderBy: '-timestamp'" ng-class="{'brdr-unread' : !item.read}" ng-click="markRead(item)">
+            <div class="card padding" ng-repeat="item in user.notification | orderBy: '-timestamp'" ng-class="{'brdr-unread' : !item.read}" ng-click="markRead(item)">
                     <h4>{{item.title}}</h4>
                     <h5>{{item.body}}</h5>
                     <span><i class="icon ln-clock3"></i>  {{item.timestamp | date:'medium'}}</span>
