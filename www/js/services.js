@@ -1,4 +1,4 @@
-var adminurl = "http://192.168.0.115:1337/";  
+var adminurl = "http://192.168.0.117:1337/";  
 //var adminurl = "http://wohlig.in:81/";
 //var adminurl = "http://104.154.90.30/";  
 //var adminurl = "http://localhost:1337/";
@@ -59,6 +59,13 @@ angular.module('starter.services', [])
         changePass: function (userData, callback, err) {
             $http({
                 url: adminurl + 'user/changepassword',
+                method: 'POST',
+                data: userData
+            }).success(callback).error(err);
+        },
+        forgotPass: function (userData, callback, err) {
+            $http({
+                url: adminurl + 'user/forgotpassword',
                 method: 'POST',
                 data: userData
             }).success(callback).error(err);

@@ -118,7 +118,9 @@
                             <span class="input-label">Password</span>
                             <input type="password" placeholder="Password" class="login-input" ng-model="login.password" ng-class="{'brdr-red':validateIt.password}">
                         </label>
-
+                        <a href="" class="chng-text padding" ng-click="forgotPassword()">
+                    Forgot password?
+                </a>
                         <div class="padding m50">
                             <button class="button button-assertive button-block no-margin" ng-click="checkDeviceIDLogin()">Log In</button>
                         </div>

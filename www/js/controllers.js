@@ -1,5 +1,5 @@
 var favorite = {};
-var adminurl = "http://192.168.0.115:1337/";
+var adminurl = "http://192.168.0.117:1337/";
 //var adminurl = "http://104.154.90.30/";
 angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
 
@@ -17,7 +17,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             console.log("listening");
             var alertPopup = $ionicPopup.alert({
                 title: '',
-                template: '<h4 style="text-align:center;">Please check your internet connection.</h4>'
+                template: '<h4 style="text-align:center;">Please check your internet connection</h4>'
             });
             alertPopup.then(function (res) {
                 alertPopup.close();
@@ -73,7 +73,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             };
             $scope.updateData.favorite.unshift(favorite.brand);
             MyServices.updateUser($scope.updateData, function (data) {
-                if (data.value) {
+                if (data.value == true) {
                     $scope.activefav = true;
                     $scope.refreshUser();
                 }
@@ -90,7 +90,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             });
             MyServices.updateUser($scope.updateData, function (data) {
                 console.log(data);
-                if (data.value) {
+                if (data.value == true) {
                     $scope.activefav = false;
                     $scope.refreshUser();
                 }
@@ -186,7 +186,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         console.log($scope.menu[index].title);
         if ($scope.menu[index].title === "Logout") {
             MyServices.logoutUser($scope.user, function (data) {
-                if (data.value) {
+                if (data.value == true) {
                     $scope.user = null;
                     $.jStorage.flush();
                     console.log(MyServices.getUser());
@@ -822,6 +822,41 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             });
         });
     };
+    $scope.forgot = {};
+    $ionicModal.fromTemplateUrl('templates/forgotpassword.html', {
+        scope: $scope
+    }).then(function (modal) {
+        $scope.modal3 = modal;
+    });
+    $scope.closeForgotPassword = function () {
+        $scope.modal3.hide();
+    };
+    $scope.forgotPassword = function () {
+        $scope.modal3.show();
+    };
+    $scope.forgotPass = function () {
+        $scope.validate.mobile = false;
+        if ($scope.forgot.mobile == null || $scope.forgot.mobile == undefined || $scope.forgot.mobile == "") {
+            $scope.validate.mobile = true;
+        } else {
+            var param = {
+                mobile: $scope.forgot.mobile
+            };
+            MyServices.forgotPass(param, function (data) {
+                console.log(data);
+                if (data.value == true) {
+                    var alertPopup = $ionicPopup.alert({
+                        template: '<h4 style="text-align: center;margin-bottom:0">Login with password provided in email</h4>'
+                    });
+                    alertPopup.then(function (res) {
+                        $scope.closeForgotPassword();
+                    });
+                }
+            }, function (err) {
+                console.log(err);
+            });
+        }
+    };
 })
 
 .controller('HomeCtrl', function ($scope, $stateParams, MyServices, $location, $ionicSlideBoxDelegate, $ionicLoading, $timeout) {
@@ -1185,10 +1220,25 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         $scope.selectContact = function () {
             console.log("here in selectContact");
             navigator.contacts.pickContact(function (contact) {
-                console.log(contact);
-                var selected = JSON.stringify(contact);
-                console.log(selected);
-                $scope.send.mobile = contact.phoneNumbers[0].value;
+                var selectedContact = contact.phoneNumbers[0].value;
+                console.log(selectedContact);
+                selectedContact = selectedContact.toString().split(' ').join('');
+                selectedContact = selectedContact.split('-').join('');
+                selectedContact = selectedContact.split('(').join('');
+                selectedContact = selectedContact.split(')').join('');
+                console.log("after trimming :" + selectedContact);
+
+                if (selectedContact.substring(0, 3) == "+91") {
+                    $scope.send.mobile = parseInt(selectedContact.substring(3));
+                    console.log("+91 number : " + $scope.send.mobile);
+                } else if (selectedContact.substring(0, 2) == "91" && selectedContact.length > 10) {
+                    $scope.send.mobile = parseInt(selectedContact.substring(2));
+                    console.log("91 number : " + $scope.send.mobile);
+                } else {
+                    $scope.send.mobile = parseInt(selectedContact);
+                    console.log("as is : " + $scope.send.mobile);
+                }
+                $scope.$apply();
             }, function (err) {
                 console.log('Error: ' + err);
             });
@@ -1698,7 +1748,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                                 user: $scope.user._id
                             };
                             MyServices.updateCoupon(couponData, function (data) {
-                                if (data.value) {
+                                if (data.value == true) {
                                     $scope.alertUser("", "Coupon Validated", 'app/wallet');
                                 }
                             }, function (err) {
@@ -2323,7 +2373,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                     editpassword: $scope.change.editpass
                 };
                 MyServices.changePass(param, function (data) {
-                    if (data.value) {
+                    if (data.value == true) {
                         var alertPopup = $ionicPopup.alert({
                             template: '<h4 style="text-align: center;margin-bottom:0">Password changed</h4>'
                         });
