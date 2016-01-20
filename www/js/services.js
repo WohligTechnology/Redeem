@@ -1,6 +1,6 @@
-var adminurl = "http://192.168.0.117:1337/";  
+//var adminurl = "http://192.168.0.117:1337/";  
 //var adminurl = "http://wohlig.in:81/";
-//var adminurl = "http://104.154.90.30/";  
+var adminurl = "http://104.154.90.30/";  
 //var adminurl = "http://localhost:1337/";
 var imgpath = adminurl + "uploadfile/getupload?file=";
 
@@ -179,14 +179,14 @@ angular.module('starter.services', [])
                 url: adminurl + 'transaction/sendSMS',
                 method: 'POST',
                 data: message
-            });
+            }).success(callback).error(err);
         },
         notify: function (message, callback, err) {
             $http({
                 url: adminurl + 'notification/notify',
                 method: 'POST',
                 data: message
-            });
+            }).success(callback).error(err);
         },
         sendOTP: function (message, callback, err) {
             $http({

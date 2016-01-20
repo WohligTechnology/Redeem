@@ -1,6 +1,6 @@
 var favorite = {};
-var adminurl = "http://192.168.0.117:1337/";
-//var adminurl = "http://104.154.90.30/";
+//var adminurl = "http://192.168.0.117:1337/";
+var adminurl = "http://104.154.90.30/";
 angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
 
 .controller('AppCtrl', function ($ionicPlatform, $scope, $ionicModal, $timeout, MyServices, $ionicPopup, $location, $filter, $state) {
@@ -645,7 +645,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             push = PushNotification.init({
                 "android": {
                     "senderID": "965431280304",
-                    "icon": "www/img/icon.png"
+                    "icon": "icon"
                 },
                 "ios": {
                     "alert": "true",
@@ -697,7 +697,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             push = PushNotification.init({
                 "android": {
                     "senderID": "965431280304",
-                    "icon": "www/img/icon.png"
+                    "icon": "icon"
                 },
                 "ios": {
                     "alert": "true",
@@ -1201,7 +1201,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         };
 
     })
-    .controller('SendMoneyCtrl', function ($scope, $stateParams, MyServices, $ionicPopup) {
+    .controller('SendMoneyCtrl', function ($scope, $stateParams, MyServices, $ionicPopup,$location) {
         $scope.nofavoritePage();
         $scope.send = {};
         $scope.user = {};
@@ -1228,13 +1228,13 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                 console.log("after trimming :" + selectedContact);
 
                 if (selectedContact.substring(0, 3) == "+91") {
-                    $scope.send.mobile = parseInt(selectedContact.substring(3));
+                    $scope.send.mobile = selectedContact.substring(3);
                     console.log("+91 number : " + $scope.send.mobile);
                 } else if (selectedContact.substring(0, 2) == "91" && selectedContact.length > 10) {
-                    $scope.send.mobile = parseInt(selectedContact.substring(2));
+                    $scope.send.mobile = selectedContact.substring(2);
                     console.log("91 number : " + $scope.send.mobile);
                 } else {
-                    $scope.send.mobile = parseInt(selectedContact);
+                    $scope.send.mobile = selectedContact;
                     console.log("as is : " + $scope.send.mobile);
                 }
                 $scope.$apply();
@@ -1318,13 +1318,11 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                                                     });
                                                     alertPopup.then(function (res) {
                                                         MyServices.notify($scope.recieverNotify, function (data2) {
-                                                            console.log(data2);
-                                                            if (data2.value === true) {
-                                                                $location.path('app/home');
-                                                            }
+                                                              $location.path('app/home');
                                                         }, function (err) {
 
-                                                        })
+                                                        });
+
                                                     });
 
 

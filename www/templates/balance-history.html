@@ -6,15 +6,15 @@
         </div>
     </ion-header-bar>
     <div class="bar bar-subheader no-padding">
-       <a href="#/app/wallet" style="text-decoration:none;" ng-click="closeHistory()">
-                <div class="wallet-holder" style="margin-top: -5px;">
-                    <div class="wallet-balance">
-                        <h3>Wallet Balance</h3>
-                        <h2>₹ {{user.balance | number:2}}/-</h2>
-                    </div>
-                    <img src="img/walletlock.png" alt="">
+        <a href="#/app/wallet" style="text-decoration:none;" ng-click="closeHistory()">
+            <div class="wallet-holder" style="margin-top: -5px;">
+                <div class="wallet-balance">
+                    <h3>Wallet Balance</h3>
+                    <h2>₹ {{user.balance | number:2}}/-</h2>
                 </div>
-            </a>
+                <img src="img/walletlock.png" alt="">
+            </div>
+        </a>
         <div class="row ">
             <div class="col no-padding text-center" ng-class="{'active-tab':tab.left}">
                 <button class="button button-clear no-padding " ng-click="clickTab('left')">
@@ -53,10 +53,10 @@
             <div class="list">
 
                 <a class="item item-avatar" href="#" ng-repeat="item in sentmoney | orderBy: '-timestamp'" ng-if="item.amount != null">
-                                                  <img class="img-hold" ng-src="{{item.profile | serverimage}}">
+                    <img class="img-hold" ng-src="{{item.profile | serverimage}}">
 
                     <h2>{{item.username}}</h2>
-                    <p><i class="ln-calendar3"></i>  {{item.timestamp | date:'mediumDate'}}</p>
+                    <p><i class="ln-calendar3"></i> {{item.timestamp | date:'mediumDate'}}</p>
                     <p><i class="ln-cash"></i> {{item.amount}}</p>
                     <p><i class="ln-circle-up"></i> {{item.sent}}</p>
                 </a>
@@ -64,14 +64,14 @@
             </div>
         </div>
         <div class="noti" ng-show="tab.right">
-                    <div class="list">
+            <div class="list">
 
                 <a class="item item-avatar" href="#" ng-repeat="item in redeemed | orderBy: '-timestamp'" ng-if="item.amount != null">
                     <div class="img-hold" ng-style="{'background-image':'url(img/user.png)'}"></div>
                     <h2>{{item.vendorname}}</h2>
                     <p><i class="ln-calendar3"></i> {{item.timestamp | date:'mediumDate'}}</p>
                     <p><i class="ln-cash"></i> {{item.amount}}</p>
-                   
+
                 </a>
 
             </div>
