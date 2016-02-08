@@ -1,98 +1,235 @@
 <ion-view>
-  <ion-content>
-    <div class="text-center m50">
-      <img src="img/icon.png" alt="" class="full-image">
-    </div>
-    <div class="m50">
-
-      <div class="row padding-horizontal">
-        <div class="col text-center" ng-class="{'active-tab':tab.left}">
-          <button class="button button-clear no-padding min33" ng-click="clickTab('left')">
-            <h5>Log in</h5>
-          </button>
-        </div>
-        <div class="col text-center" ng-class="{'active-tab':tab.right}">
-          <button class="button button-clear no-padding min33" ng-click="clickTab('right')">
-            <h5>Sign up</h5>
-          </button>
-        </div>
-      </div>
-      <div class="forms">
-        <form ng-show="tab.left">
-          <div class="list bordn padding-horizontal">
-            <label class="item item-input item-stacked-label">
-              <span class="input-label db">Mobile Number</span>
-              <p type="text" class="wth">+91</p>
-              <input type="tel" placeholder="Phone Number" class="login-input displ" ng-model="login.mobile" ng-class="{'brdr-red':validateIt.mobile}">
-            </label>
-            <label class="item item-input item-stacked-label">
-              <span class="input-label">Password</span>
-              <input type="password" placeholder="Password" class="login-input" ng-model="login.password" ng-class="{'brdr-red':validateIt.password}">
-            </label>
-            <a href="" class="chng-text padding" ng-click="forgotPassword()">
-              Forgot password?
-            </a>
-            <div class="padding m50">
-              <button class="button button-assertive button-block no-margin" ng-click="checkDeviceIDLogin()">Log In</button>
+    <ion-content>
+        <!--
+        <div class="login-signup">
+            <div class="spacer-small"></div>
+            <div class="text-center cover">
+                <img src="img/icon.png" alt="">
             </div>
-          </div>
-        </form>
-      </div>
-      <form ng-show="tab.right" name="signupForm">
-        <div class="list bordn">
-          <label class="item item-input item-stacked-label">
-            <span class="input-label ">Name</span>
+            <div class="spacer-small"></div>
+            <div class="row no-padding">
+                <div class="col no-padding text-center" ng-class="{'active-tab':tab.left}">
+                    <button class="button button-clear no-padding " ng-click="clickTab('left')">
+                        <h5>Log in</h5></button>
+                </div>
+                <div class="col no-padding text-center" ng-class="{'active-tab':tab.right}">
+                    <button class="button button-clear no-padding " ng-click="clickTab('right')">
+                        <h5>Sign up</h5></button>
+                </div>
+            </div>
+            <div class="forms">
+                <form ng-show="tab.left">
+                    <div class="list">
+                        <label class="item item-input">
+                            <span class="input-label">+91</span>
+                            <input type="tel" placeholder="Phone Number" class="login-input" ng-model="login.mobile" ng-class="{'brdr-red':validateIt.mobile}">
+                        </label>
+                        <label class="item item-input">
+                            <input type="password" placeholder="Password" class="login-input" ng-model="login.password" ng-class="{'brdr-red':validateIt.password}">
+                        </label>
+                        <div class="padding">
+                            <button class="button button-assertive button-block no-margin" ng-click="doLogin()">Log In</button>
+                        </div>
+                    </div>
+                </form>
+                <form ng-show="tab.right">
+                    <div class="list">
+                        <label class="item item-input label-tag" ng-class="{'brdr-yellow':required}">
+                            <input type="text" class="login-input" ng-model="signup.name" placeholder="Name" ng-class="{'brdr-red':validate.name}">
 
-            <input name="name" required type="text" class="login-input" ng-model="signup.name" placeholder="Name" ng-class="{'brdr-red':(signupForm.name.$invalid && signupForm.name.$touched)}">
-          </label>
-          <label class="item item-input item-stacked-label">
-            <span class="input-label ">Phone number</span>
+                        </label>
 
-            <input name="mobile" ng-minlength="9" required type="tel" class="login-input" ng-model="signup.mobile" placeholder="Phone number" ng-class="{'brdr-red':((signupForm.mobile.$invalid && signupForm.name.$touched) || signupForm.mobile.$error.minlength)}">
-          </label>
-          <label class="item item-input item-stacked-label " ng-click="openDate();" ng-if="!isIOS">
-            <span class="input-label ">Date of birth</span>
+                        <label class="item item-input label-tag">
+                            <input type="tel" class="login-input" ng-model="signup.mobile" placeholder="Phone number" required ng-class="{'brdr-red':validate.mobile}">
 
-            <input name="date" required type="text" class="login-input" name="string" ng-model="signup.date" placeholder="Date of birth" ng-class="{'brdr-red':(signupForm.date.$invalid && signupForm.date.$touched)}" disabled>
-          </label>
-          <label class="item item-input item-stacked-label " ng-if="isIOS">
-            <span class="input-label ">Date of birth</span>
 
-            <input name="date2" required type="date" class="login-input" name="string" ng-model="signup.date" placeholder="Date of birth" ng-class="{'brdr-red':(signupForm.date2.$error.required)}">
-          </label>
-          <label class="item item-input item-select" ng-class="{'brdr-red':(signupForm.gender.$invalid && signupForm.gender.$touched)}">
-            <span class="input-label ">Gender</span>
-            <select name="gender" required ng-model="signup.gender">
-              <option selected>Male</option>
-              <option>Female</option>
-            </select>
-          </label>
+                        </label>
+                        <label class="item item-input label-tag" ng-click="openDate();">
+                            <input type="text" name="string" class="login-input" ng-model="signup.date" placeholder="Date of birth" required ng-class="{'brdr-red':validate.date}" disabled>
+                        </label>
+                        <label class="item item-input item-select" ng-class="{'brdr-red':validate.gender}">
+                            <div class="input-label" style="color: #B1B1B1;font-size: 14px;">
+                                Gender
+                            </div>
+                            <select ng-model="signup.gender" style="background-color:#F1F3F4">
+                                <option selected>Male</option>
+                                <option>Female</option>
+                            </select>
+                        </label>
+                        <label class="item item-input label-tag">
+                            <input type="email" class="login-input" ng-model="signup.email" placeholder="Email" ng-class="{'brdr-red':validate.email}">
 
-          <label class="item item-input item-stacked-label">
-            <span class="input-label ">Email</span>
 
-            <input name="email" required type="email" class="login-input" ng-model="signup.email" placeholder="Email" ng-class="{'brdr-red':(signupForm.email.$invalid && signupForm.email.$touched)}">
-          </label>
-          <label class="item item-input item-stacked-label">
-            <span class="input-label ">Password</span>
+                        </label>
+                        <label class="item item-input label-tag">
+                            <input type="password" class="login-input" ng-model="signup.password" placeholder="Password" required ng-class="{'brdr-red':validate.password}">
 
-            <input name="password" required type="password" class="login-input" ng-model="signup.password" placeholder="Password" ng-class="{'brdr-red':(signupForm.password.$invalid && signupForm.password.$touched)}">
-          </label>
-          <label class="item item-input item-stacked-label">
-            <span class="input-label ">Confirm password</span>
-            <input name="cpassword" required type="password" class="login-input" ng-class="{'brdr-green': confirmed,'no-border':!confirmed,'brdr-red':(signupForm.cpassword.$invalid && signupForm.cpassword.$touched)}" ng-model="signup.confirmpassword" ng-change="checkPassword()" placeholder="Confirm password">
 
-          </label>
-          <label class="item item-input item-stacked-label">
-            <span class="input-label ">Referral code</span>
-            <input type="tel" class="login-input" ng-model="signup.referrer" placeholder="Referral code (If any)">
+                        </label>
+                        <label class="item item-input label-tag">
+                            <input type="password" class="login-input" ng-class="{'brdr-green': confirmed,'no-border':!confirmed,'brdr-red':validate.confirmpassword}" ng-model="signup.confirmpassword" ng-change="checkPassword()" placeholder="Confirm password">
+                      
 
-          </label>
-          <div class="padding m50">
-            <a class="button button-assertive button-block no-margin" ng-click="checkOTP()">Sign up</a>
-          </div>
+                        </label>
+                        <label class="item item-input label-tag">
+                            <input type="tel" class="login-input" ng-model="signup.referrer" placeholder="Referral code (If any)">
+
+
+                        </label>
+                        <div class="padding">
+                            <a class="button button-assertive button-block no-margin" ng-click="checkOTP()">Sign up</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
         </div>
-      </form>
-    </div>
-  </ion-content>
+-->
+
+
+
+
+
+        <div class="text-center m50">
+            <img src="img/icon.png" alt="" class="full-image">
+        </div>
+        <div class="m50">
+
+
+            <div class="row padding-horizontal">
+                <div class="col text-center" ng-class="{'active-tab':tab.left}">
+                    <button class="button button-clear no-padding min33" ng-click="clickTab('left')">
+                        <h5>Log in</h5></button>
+                </div>
+                <div class="col text-center" ng-class="{'active-tab':tab.right}">
+                    <button class="button button-clear no-padding min33" ng-click="clickTab('right')">
+                        <h5>Sign up</h5></button>
+                </div>
+            </div>
+            <div class="forms">
+                <form ng-show="tab.left">
+                    <div class="list bordn padding-horizontal">
+                        <label class="item item-input item-stacked-label">
+                            <span class="input-label db">Mobile Number</span>
+                            <p type="text" class="wth">+91</p>
+                            <input type="tel" placeholder="Phone Number" class="login-input displ" ng-model="login.mobile" ng-class="{'brdr-red':validateIt.mobile}">
+                        </label>
+                        <label class="item item-input item-stacked-label">
+                            <span class="input-label">Password</span>
+                            <input type="password" placeholder="Password" class="login-input" ng-model="login.password" ng-class="{'brdr-red':validateIt.password}">
+                        </label>
+                        <a href="" class="chng-text padding" ng-click="forgotPassword()">
+                    Forgot password?
+                </a>
+                        <div class="padding m50">
+                            <button class="button button-assertive button-block no-margin" ng-click="checkDeviceIDLogin()">Log In</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <form ng-show="tab.right">
+                <div class="list bordn">
+
+                    <!--
+                    <label class="item item-input label-tag" ng-class="{'brdr-yellow':required}">
+                        <input type="text" class="login-input" ng-model="signup.name" placeholder="Name" ng-class="{'brdr-red':validate.name}">
+
+                    </label>
+-->
+
+                    <label class="item item-input item-stacked-label" ng-class="{'brdr-yellow':required}">
+                        <span class="input-label ">Name</span>
+
+                        <input type="text" class="login-input" ng-model="signup.name" placeholder="Name" ng-class="{'brdr-red':validate.name}">
+                    </label>
+
+                    <label class="item item-input item-stacked-label" >
+                        <span class="input-label ">Phone number</span>
+
+                        <input type="tel" class="login-input" ng-model="signup.mobile" placeholder="Phone number" required ng-class="{'brdr-red':validate.mobile}">
+                    </label>
+
+                    <!--
+                    <label class="item item-input label-tag">
+                        <input type="tel" class="login-input" ng-model="signup.mobile" placeholder="Phone number">
+
+
+                    </label>
+-->
+
+                    <label class="item item-input item-stacked-label " ng-click="openDate();" ng-if="!isIOS">
+                        <span class="input-label ">Date of birth</span>
+
+                        <input type="text" class="login-input" name="string" ng-model="signup.date" placeholder="Date of birth" required ng-class="{'brdr-red':validate.date}" disabled>
+                    </label>
+                    <label class="item item-input item-stacked-label "  ng-if="isIOS">
+                        <span class="input-label ">Date of birth</span>
+
+                        <input type="date" class="login-input" name="string" ng-model="signup.date" placeholder="Date of birth" required ng-class="{'brdr-red':validate.date}">
+                    </label>
+
+                    <!--
+                    <label class="item item-input label-tag" ng-click="openDate();">
+                        <input type="text" class="login-input" >
+                    </label>
+-->
+                    <label class="item item-input item-select" ng-class="{'brdr-red':validate.gender}">
+                        <!--
+                        <div class="input-label" style="color: #B1B1B1;font-size: 14px;">
+                            
+                        </div>
+-->
+                        <span class="input-label ">Gender</span>
+                        <select ng-model="signup.gender">
+                            <option selected>Male</option>
+                            <option>Female</option>
+                        </select>
+                    </label>
+
+                    <label class="item item-input item-stacked-label">
+                        <span class="input-label ">Email</span>
+
+                        <input type="email" class="login-input" ng-model="signup.email" placeholder="Email" ng-class="{'brdr-red':validate.email}">
+                    </label>
+
+                    <!--
+             <label class="item item-input label-tag">
+    <input type="email" class="login-input">
+
+
+</label>
+-->
+                          <label class="item item-input item-stacked-label">
+                        <span class="input-label ">Password</span>
+
+                        <input type="password" class="login-input" ng-model="signup.password" placeholder="Password" required ng-class="{'brdr-red':validate.password}">
+                    </label>
+
+                    
+<!--
+                   <label class="item item-input label-tag">
+    <input type="password" class="login-input">
+
+
+</label>
+-->
+                    <label class="item item-input item-stacked-label">
+                         <span class="input-label ">Confirm password</span>
+                        <input type="password" class="login-input" ng-class="{'brdr-green': confirmed,'no-border':!confirmed,'brdr-red':validate.confirmpassword}" ng-model="signup.confirmpassword" ng-change="checkPassword()" placeholder="Confirm password">
+
+
+                    </label>
+                    <label class="item item-input item-stacked-label">
+                         <span class="input-label ">Referral code</span>
+                        <input type="tel" class="login-input" ng-model="signup.referrer" placeholder="Referral code (If any)">
+
+
+                    </label>
+                    <div class="padding m50">
+                        <a class="button button-assertive button-block no-margin" ng-click="checkOTP()">Sign up</a>
+                    </div>
+                </div>
+            </form>
+    </ion-content>
+
 </ion-view>
