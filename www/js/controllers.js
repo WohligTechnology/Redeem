@@ -1,6 +1,6 @@
 var favorite = {};
 //var adminurl = "http://192.168.0.117:1337/";
-var adminurl = "http://104.154.90.30/";
+var adminurl = "http://104.197.111.152/";
 angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
 
 .controller('AppCtrl', function ($ionicPlatform, $scope, $ionicModal, $timeout, MyServices, $ionicPopup, $location, $filter, $state) {
