@@ -281,6 +281,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
     } else if (Android) {
         $scope.isIOS = false;
     }
+
     $scope.phone1 = {};
     $scope.alertUser = function (alertTitle, alertDesc, link) {
         var alertPopup = $ionicPopup.alert({
@@ -561,13 +562,13 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             } else {
                 $scope.input = {};
                 // An elaborate, custom popup
-                smsplugin.startReception(function (message) {
-                    console.log(message);
-                    $scope.input.otp = message.substr(message.length - 6);
-                    $scope.$apply();
-                }, function (err) {
-                    console.log(err);
-                });
+                // smsplugin.startReception(function (message) {
+                //     console.log(message);
+                //     $scope.input.otp = message.substr(message.length - 6);
+                //     $scope.$apply();
+                // }, function (err) {
+                //     console.log(err);
+                // });
                 var myPopup = $ionicPopup.show({
                     template: '<input type="number" ng-model="input.otp" style="margin: 0px auto;width:100px;text-align:center;font-size:20px">',
                     title: 'OTP Verification',
@@ -762,7 +763,15 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
     };
     $scope.referralData = {};
     var attempt = 0;
+    // smsplugin.startReception(function (message) {
+    //     console.log(message);
+    //     $scope.input.otp = message.substr(message.length - 6);
+    //     $scope.$apply();
+    // }, function (err) {
+    //     console.log(err);
+    // });
     $scope.doSignup = function (input) {
+
       console.log(input);
         delete input.confirmpassword;
           var request={
@@ -771,13 +780,93 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             referrer:input.referrer,
             name:input.name
           };
-        MyServices.register(request,function(data)
-        console.log(data);
+        MyServices.register(request,function(data){
         $scope.alertUser(data.value, data.comment);
           if(data.value){
+            $.jStorage.set("consumer_id",data.comment.consumer_id);
+            $scope.input = {};
+            // An elaborate, custom popup
+            smsplugin.startReception(function (message) {
+                console.log(message);
+                $scope.input.otp = message.substr(message.length - 25,message.length - 20);
+                $scope.$apply();
+            }, function (err) {
+                console.log(err);
+            });
+            var myPopup = $ionicPopup.show({
+                template: '<input type="text" ng-model="input.otp" style="margin: 0px auto;width:100px;text-align:center;font-size:20px">',
+                title: 'OTP Verification',
+                subTitle: 'Enter the 6-digit OTP :',
+                scope: $scope,
+                buttons: [
+                    {
+                        text: '<h5>Cancel</h5>',
+                        onTap: function (e) {
+                            myPopup.close();
+                        }
+                    },
+                    {
+                        text: '<h5>Retry</h5>',
+                        onTap: function (e) {
+                            myPopup.close();
+                            $scope.validateMobile();
+                        }
+                    },
+                    {
+                        text: '<b>Verify</b>',
+                        type: 'button-positive',
+                        onTap: function (e) {
+                            if (!$scope.input.otp) {
+                                //don't allow the user to close unless he enters wifi password
+                                e.preventDefault();
+                            } else {
+                              MyServices.validateOTP({
+                                consumer:$.jStorage.get("consumer_id"),
+                                otp:$scope.input.otp
+                              },function(data){
+                                if(data.value){
+                                  input.customer_id=$.jStorage.get("consumer_id");
+                                  input.notificationtoken.deviceid = $.jStorage.get("device");
+                                  input.notificationtoken.os = $.jStorage.get("os");
+                                  MyServices.signupUser(input,function(signup){
+                                    if(signup.value){
+                                    MyServices.loginUser({
+                                      mobile:input.mobile,
+                                      password:input.password
+                                    },function(data){
+                                        if(data.value== false){
+                                          $scope.alertUser("login","unable to login");
+                                        }else{
+                                          $location.url('app/home');
+                                          $.jStorage.set("user",signup.user);
+                                        }
+                                    })
+                                    }else{
+                                      $scope.alertUser("signup","unable to signup");
+                                    }
+                                  },function(err){
 
+                                  })
+                                }else{
+                                  $scope.alertUser("incorrect OTP","please retry");
+                                }
+                              },function(err){
+
+                              })
+                            }
+                        }
+                    }
+                ]
+            });
+            myPopup.then(function (res) {
+                console.log('Tapped!', res);
+            });
           }else{
-
+            if(data.comment.error_code =="104"){
+              $scope.alertUser("create user","referrer number is not on PAiSO");
+            }else if(data.comment.error_code =="101"){
+              $scope.alertUser("create user","Mobile number alredy exists" );
+            }
           }
         },function(err){
           console.log(err);

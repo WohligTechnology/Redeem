@@ -1,0 +1,7 @@
+Object {value: false, comment: Object}
+comment: Object
+error_code: "104"
+message: "Customer does not exist"
+status: "error"
+__proto__: Object
+value: false
