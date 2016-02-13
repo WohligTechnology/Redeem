@@ -40,6 +40,13 @@ angular.module('starter.services', [])
                 data: signupData
             }).success(callback).error(err);
         },
+        readMoney: function (signupData, callback, err) {
+            $http({
+                url: adminurl + 'user/readMoney',
+                method: 'POST',
+                data: signupData
+            }).success(callback).error(err);
+        },
         findUser: function (signupData, callback, err) {
             $http({
                 url: adminurl + 'user/findone',

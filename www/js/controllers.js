@@ -1,11 +1,29 @@
 var favorite = {};
 //var adminurl = "http://192.168.0.117:1337/";
 var adminurl = "http://104.197.111.152/";
-angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
+var balance = 0;
 
+angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
 .controller('AppCtrl', function ($ionicPlatform, $scope, $ionicModal, $timeout, MyServices, $ionicPopup, $location, $filter, $state) {
 
+  $scope.readBalance = function(){
+    MyServices.readMoney({
+      "consumer":$.jStorage.get("consumer_id")
+    },function(data){
+      console.log("balance : "+data.comment.balance);
+      if(data.value){
+        console.log("Balance :"+data.comment.balance);
+      }else{
+        //unable to fetch from server
+        //customer does not exist
+      }
+    },function(err){
 
+    });
+  };
+    if($.jStorage.get("user")){
+      $scope.readBalance();
+    }
     $scope.user = {};
     $scope.user = MyServices.getUser();
     $scope.loginData = {};
@@ -788,7 +806,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             // An elaborate, custom popup
             smsplugin.startReception(function (message) {
                 console.log(message);
-                $scope.input.otp = message.substr(message.length - 25,message.length - 20);
+                $scope.input.otp = message.substr(message.length - 25,message.length - 18);
                 $scope.$apply();
             }, function (err) {
                 console.log(err);
@@ -918,6 +936,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         $scope.user = {};
         $scope.favdata = {};
         $scope.navTitle = '<img class="title-image" src="img/title.png">';
+          $scope.readBalance();
         $scope.user = MyServices.getUser();
         $scope.refreshUser = function () {
             MyServices.findUser($scope.user, function (data) {
@@ -1004,6 +1023,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
     .controller('PlaylistCtrl', function ($scope, $stateParams) {})
     .controller('ReferralCtrl', function ($scope, $stateParams, $ionicBackdrop, $timeout, MyServices) {
         $scope.nofavoritePage();
+
         $scope.user = MyServices.getUser();
         $scope.refreshUser = function () {
             MyServices.findUser($scope.user, function (data) {
@@ -1256,6 +1276,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
     })
     .controller('SendMoneyCtrl', function ($scope, $stateParams, MyServices, $ionicPopup,$location) {
         $scope.nofavoritePage();
+          $scope.readBalance();
         $scope.send = {};
         $scope.user = {};
         $scope.user = MyServices.getUser();
