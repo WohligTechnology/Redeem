@@ -1,6 +1,6 @@
-//var adminurl = "http://192.168.0.117:1337/";  
+var adminurl = "http://192.168.0.126:81/";
 //var adminurl = "http://wohlig.in:81/";
-var adminurl = "http://104.154.90.30/";  
+// var adminurl = "http://104.154.90.30/";
 //var adminurl = "http://localhost:1337/";
 var imgpath = adminurl + "uploadfile/getupload?file=";
 
@@ -22,6 +22,13 @@ angular.module('starter.services', [])
         signupUser: function (signupData, callback, err) {
             $http({
                 url: adminurl + 'user/save',
+                method: 'POST',
+                data: signupData
+            }).success(callback).error(err);
+        },
+        register: function (signupData, callback, err) {
+            $http({
+                url: adminurl + 'user/register',
                 method: 'POST',
                 data: signupData
             }).success(callback).error(err);

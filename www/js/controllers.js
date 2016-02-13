@@ -282,6 +282,16 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         $scope.isIOS = false;
     }
     $scope.phone1 = {};
+    $scope.alertUser = function (alertTitle, alertDesc, link) {
+        var alertPopup = $ionicPopup.alert({
+            title: alertTitle,
+            template: '<h5 style="text-align: center;margin-bottom:0">' + alertDesc + '</h5>'
+        });
+        alertPopup.then(function (res) {
+            if (link)
+                $location.path(link);
+        });
+    };
     $ionicPlatform.registerBackButtonAction(function (event) {
         event.preventDefault();
     }, 100);
@@ -504,6 +514,14 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             return true;
     };
     $scope.referredUser = {};
+    $scope.startSignup=function(input,formValidate){
+      if(formValidate.$valid){
+        $scope.checkDeviceID(input);
+      }else{
+        $scope.alertUser()
+      }
+    };
+
     $scope.checkReferral = function () {
         $scope.user = {
             mobile: $scope.signup.referrer
@@ -638,7 +656,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         }
     };
     $scope.isRegistered = false;
-    $scope.checkDeviceID = function () {
+    $scope.checkDeviceID = function (input) {
         $scope.isRegistered = false;
         if ($.jStorage.get("device") == null) {
             console.log("here");
@@ -680,14 +698,14 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                 console.log(e);
             });
             if ($scope.isRegistered) {
-                $scope.doSignup();
+                $scope.doSignup(input);
             } else {
                 $timeout(function () {
                     $scope.checkDeviceID();
                 }, 3000);
             }
         } else {
-            $scope.doSignup();
+            $scope.doSignup(input);
         }
     };
     $scope.checkDeviceIDLogin = function () {
@@ -744,82 +762,28 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
     };
     $scope.referralData = {};
     var attempt = 0;
-    $scope.doSignup = function () {
-        delete $scope.signup.confirmpassword;
-        console.log("here it is " + $.jStorage.get("device"));
-        $scope.signup.notificationtoken.deviceid = $.jStorage.get("device");
-        $scope.signup.notificationtoken.os = $.jStorage.get("os");
-        MyServices.signupUser($scope.signup, function (data) {
-            if (data.value) {
-                MyServices.setUser(data.user);
-                if ($scope.signup.referrer === "" || $scope.signup.referrer === null || $scope.signup.referrer === undefined) {
-                    $scope.user = MyServices.getUser();
-                    if ($scope.user)
-                        $location.path('app/home');
-                } else {
-                    $scope.referrerData = {
-                        _id: data._id,
-                        amountearned: 0
-                    };
-                    $scope.item = {
-                        mobile: $scope.signup.referrer
-                    };
-                    MyServices.findUserByMobile($scope.item, function (data2) {
-                        if (data2._id) {
-                            if (data2.referral)
-                                data2.referral.unshift($scope.referrerData);
-                            console.log($scope.referredUser);
-                            if ($scope.updateUser(data2)) {
-                                console.log("in notify referral");
-                                $scope.notifydata = {
-                                    deviceid: data2.notificationtoken.deviceid,
-                                    os: data2.notificationtoken.os,
-                                    user: data2._id,
-                                    type: "referral",
-                                    new: true,
-                                    name: data.user.name
-                                };
-                                MyServices.notify($scope.notifydata, function (data3) {
-                                    if (data3.value === true) {
-                                        $scope.user = MyServices.getUser();
-                                        if ($scope.user)
-                                            $location.path('app/home');
-                                    } else {
+    $scope.doSignup = function (input) {
+      console.log(input);
+        delete input.confirmpassword;
+          var request={
+            mobile:input.mobile,
+            email:input.email,
+            referrer:input.referrer,
+            name:input.name
+          };
+        MyServices.register(request,function(data)
+        console.log(data);
+        $scope.alertUser(data.value, data.comment);
+          if(data.value){
 
-                                    }
-                                }, function (err) {
+          }else{
 
-                                });
-                            } else {
+          }
+        },function(err){
+          console.log(err);
+          if(err){
 
-                            }
-                        } else {
-
-                            var alertPopup = $ionicPopup.alert({
-                                template: '<h4 style="text-align:center;">Referral ID does not exist. Invalid.</h4>'
-                            });
-                            alertPopup.then(function (res) {
-
-                            });
-
-                        }
-                    }, function (err) {
-
-                    });
-                    $scope.user = MyServices.getUser();
-                    if ($scope.user)
-                        $location.path('app/home');
-                }
-            } else {
-
-            }
-        }, function (err) {
-            var alertPopup = $ionicPopup.alert({
-                template: '<h4 style="text-align:center;">Server error,  try again later</h4>'
-            });
-            alertPopup.then(function (res) {
-
-            });
+          }
         });
     };
     $scope.forgot = {};
