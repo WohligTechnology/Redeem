@@ -8,7 +8,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
 
   $scope.readBalance = function(){
     MyServices.readMoney({
-      "consumer":$.jStorage.get("consumer_id")
+      "consumer":$.jStorage.get("user").consumer_id
     },function(data){
       console.log("balance : "+data.comment.balance);
       if(data.value){
@@ -147,7 +147,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
     $scope.testCall = function () {
         console.log("in here");
     };
-    $scope.count = 0;;
+    $scope.count = 0;
     $scope.refreshNoti = function (item) {
         $scope.count = 0;
         _.each(item.notification, function (key) {
@@ -503,35 +503,6 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             $scope.type = "date";
     };
     $scope.validate = {};
-    $scope.validateThis = function () {
-        $scope.validate = {
-            name: false,
-            mobile: false,
-            email: false,
-            password: false,
-            date: false,
-            gender: false,
-            confirmpassword: false
-        };
-        if ($scope.signup.name === "" || $scope.signup.name === null || $scope.signup.name === undefined)
-            $scope.validate.name = true;
-        if ($scope.signup.mobile === "" || $scope.signup.mobile === null || $scope.signup.mobile === undefined || $scope.signup.mobile < 1000000000 || $scope.signup.mobile > 9999999999)
-            $scope.validate.mobile = true;
-        if ($scope.signup.email === "" || $scope.signup.email === null || $scope.signup.email === undefined || $scope.signup.email.indexOf('@') === -1)
-            $scope.validate.email = true;
-        if ($scope.signup.password === "" || $scope.signup.password === null || $scope.signup.password === undefined)
-            $scope.validate.password = true;
-        if ($scope.signup.confirmpassword === "" || $scope.signup.confirmpassword === null || $scope.signup.confirmpassword === undefined || $scope.checkPassword() === false)
-            $scope.validate.confirmpassword = true;
-        if ($scope.signup.gender === "" || $scope.signup.gender === null || $scope.signup.gender === undefined)
-            $scope.validate.gender = true;
-        if ($scope.signup.date === "" || $scope.signup.date === null || $scope.signup.date === undefined)
-            $scope.validate.date = true;
-        if ($scope.validate.name === true || $scope.validate.mobile === true || $scope.validate.email === true || $scope.validate.password == true || $scope.validate.gender == true || $scope.validate.date == true || $scope.validate.confirmpassword === true)
-            return false;
-        else
-            return true;
-    };
     $scope.referredUser = {};
     $scope.startSignup=function(input,formValidate){
       if(formValidate.$valid){
@@ -843,7 +814,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                                 otp:$scope.input.otp
                               },function(data){
                                 if(data.value){
-                                  input.customer_id=$.jStorage.get("consumer_id");
+                                  input.consumer_id=$.jStorage.get("consumer_id");
                                   input.notificationtoken.deviceid = $.jStorage.get("device");
                                   input.notificationtoken.os = $.jStorage.get("os");
                                   MyServices.signupUser(input,function(signup){
