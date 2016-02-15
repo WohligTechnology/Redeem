@@ -12,10 +12,9 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
     },function(data){
       console.log("balance : "+data.comment.balance);
       if(data.value){
-        console.log("Balance :"+data.comment.balance);
+        $.jStorage.set("balance",data.comment.balance);
       }else{
-        //unable to fetch from server
-        //customer does not exist
+        
       }
     },function(err){
 
