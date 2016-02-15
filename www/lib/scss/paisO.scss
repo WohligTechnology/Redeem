@@ -30,14 +30,14 @@
         -o-transition: $transition-property $transition-time;
         transition: $transition-property $transition-time;
     }
-    
+
     @mixin clip-path($clip) {
         -webkit-clip-path: $clip;
         -moz-clip-path: $clip;
         -ms-clip-path: $clip;
         clip-path: $clip;
     }
-    
+
     // end
     //sass start
     @font-face {
@@ -45,59 +45,59 @@
         src: url("../fonts/Lato-Bold.ttf");
         font-weight: 700;
     }
-    
+
     @font-face {
         font-family: 'Lato';
         src: url(../fonts/Lato-Regular.ttf);
         font-weight: 400;
     }
-    
+
     @font-face {
         font-family: 'Lato';
         src: url(../fonts/Lato-Light.ttf);
         font-weight: 300;
     }
-    
+
     @font-face {
         font-family: 'karla';
         src: url(../fonts/Karla-Regular.ttf);
         font-weight: normal;
     }
-    
+
     @font-face {
         font-family: 'karla';
         src: url(../fonts/Karla-Bold.ttf);
         font-weight: 600;
     }
-    
+
     .no-padding {
         padding: 0 !important;
     }
-    
+
     .no-margin {
         margin: 0 !important;
     }
-    
+
     .no-border {
         border: 0 !important;
     }
-    
+
     .no-border-bottom {
         border-bottom: 0 !important;
     }
-    
+
     .brdr-green {
         border-bottom: 2px solid green !important;
     }
-    
+
     .brdr-red {
         border-bottom: 2px solid red !important;
     }
-    
+
     .brdr-unread {
         border-left: 4px solid $positive;
     }
-    
+
     .menuitem {
         .item {
         }
@@ -106,7 +106,7 @@
             color: #fff;
         }
     }
-    
+
     .wallet-holder {
         margin-top: 2px;
         position: relative;
@@ -146,7 +146,7 @@
             right: 2px;
         }
     }
-    
+
     .wallet-content {
         .col-80+.col-20 {
             padding-left: 0px;
@@ -184,7 +184,7 @@
             border: 1px solid $assertive;
         }
     }
-    
+
     .home {
         .list {
             margin-top: 10px;
@@ -192,7 +192,7 @@
             margin-left: 10px;
         }
     }
-    
+
     .sidemenu {
         ion-content {
             //            background-color: $dark-secondary;
@@ -209,12 +209,12 @@
             }
         }
     }
-    
+
     .has-subheader-custom {
-        //    top: 114px !important; 
+        //    top: 114px !important;
         top: 150px !important;
     }
-    
+
     .active-menuitem {
         border-left: 3px solid #f58634 !important;
         span {
@@ -224,18 +224,18 @@
             color: #f58634 !important;
         }
     }
-    
+
     .spacer-small {
         height: 40px;
     }
-    
+
     .active-tab {
         border-style: solid;
         border-width: 0px;
         border-bottom-width: 2px;
         border-color: $positive;
     }
-    
+
     //re organize all the below CSS -_-
     .login-signup {
         .scroll-content {
@@ -278,23 +278,23 @@
             box-shadow: -5px 0px 12px #cfcfcf;
         }
     }
-    
+
     .login-content {
         background-color: $dark-secondary;
     }
-    
+
     .bg-assertive {
         background-color: $assertive !important;
         color: white !important;
     }
-    
+
     .img-holder {
         height: 70px;
         width: auto;
         margin-bottom: 10px;
         position: relative;
     }
-    
+
     .category-image {
         max-height: 100%;
         max-width: 100%;
@@ -305,7 +305,7 @@
         transform: translate(-50%, -50%);
         width: auto;
     }
-    
+
     .category-container {
         border: 1px #ddd solid;
         margin: 10px;
@@ -326,41 +326,41 @@
             font-size: 13px;
         }
     }
-    
+
     .category-header-txt {
         font-size: 19px;
         font-weight: 500;
         margin: 30px 20px !important;
         text-align: center;
     }
-    
+
     .category-subheader-txt {
         @extend .category-header-txt;
         margin: 5px 20px !important;
     }
-    
+
     .limit-txt {
         font-size: 15px;
         font-weight: 500;
         margin: 6px 20px 10px 20px !important;
         text-align: center;
     }
-    
+
     .tnc {
         i {
             float: right;
             font-size: 18px;
         }
     }
-    
+
     .banner-holder {
         height: 150px;
     }
-    
+
     .banner-image {
         @extend .category-image;
     }
-    
+
     .enter-amount-input {
         span.input-label {
             width: 0%;
@@ -387,7 +387,7 @@
             padding-left: 5px;
         }
     }
-    
+
     .border-left-failed {
         border-right: 8px $failed solid !important;
         border-top-right-radius: 7px;
@@ -396,14 +396,14 @@
             right: 5px !important;
         }
     }
-    
+
     .border-left-success {
         border-left: 8px $assertive solid !important;
         border-top-left-radius: 7px;
         border-bottom-left-radius: 7px;
         //    padding-left: 20px !important;
     }
-    
+
     .history-item {
         position: relative;
         padding-top: 10px !important;
@@ -417,7 +417,7 @@
             font-size: 17px;
         }
     }
-    
+
     .contacts-button {
         margin-left: 10px !important;
         position: absolute !important;
@@ -426,12 +426,12 @@
         z-index: 99999;
         right: 5px;
     }
-    
+
     .button {
         font-size: 13px !important;
         text-transform: uppercase;
     }
-    
+
     .button-icon .icon:before,
     .button-icon.icon:before {
         font-size: 25px !important;
@@ -449,7 +449,7 @@
         z-index: -1;
     }
     .row{
-        
+
     }
     .button {
         min-height: 43px;
@@ -460,7 +460,7 @@
         font-size: 12px !important;
     }
 }*/
-    
+
     .top-up-header {
         border-bottom: 2px $assertive solid;
         h4 {
@@ -470,12 +470,12 @@
             padding-right: 10px;
         }
     }
-    
+
     .thinning-margin {
         margin-left: 10px !important;
         margin-right: 10px !important;
     }
-    
+
     .listed {
         padding: 10px 16px 10px 16px !important;
         position: relative;
@@ -485,7 +485,7 @@
             right: 16px;
         }
     }
-    
+
     .opened {
         position: relative;
         border: 2px solid #ddd !important;
@@ -506,7 +506,7 @@
             font-size: 14px !important;
         }
     }
-    
+
     .aboutus {
         padding: 10px 20px;
         p {
@@ -521,7 +521,7 @@
             font-weight: 600;
         }
     }
-    
+
     .faq {
         .panel-group .panel + .panel {
             margin-top: 0px;
@@ -544,7 +544,7 @@
             border-top-color: white !important;
         }
     }
-    
+
     .referral {
         .referred-friend-item {
             position: relative;
@@ -558,7 +558,7 @@
             }
         }
     }
-    
+
     .friends-total-item {
         position: relative;
         border-top: 2px solid $assertive;
@@ -582,7 +582,7 @@
             font-weight: 600 !important;
         }
     }
-    
+
     .button-share-container {
         position: fixed;
         bottom: 25px;
@@ -601,7 +601,7 @@
             min-height: 56px !important;
         }
     }
-    
+
     .button-upload-container {
         position: absolute;
         bottom: -19px;
@@ -620,11 +620,11 @@
             min-height: 56px !important;
         }
     }
-    
+
     .rel {
         position: relative !important;
     }
-    
+
     .custom-scroll {
         .scroll-view {
             position: absolute;
@@ -645,11 +645,11 @@
             transform: translate(-50%, -50%);
         }
     }
-    
+
     .pending-item {
         padding: 10px 16px 10px 16px !important;
     }
-    
+
     .video-set {
         height: 100%;
         width: 100%;
@@ -703,21 +703,21 @@
             }
         }
     }
-    
+
     .brdr-danger {
         border-bottom: 2px solid $danger !important;
         border-top: 2px solid $danger !important;
         margin-bottom: -3px !important;
         margin-top: -2px !important;
     }
-    
+
     .brdr-yellow {
         border-bottom: 2px solid yellow !important;
         border-top: 2px solid yellows !important;
         margin-bottom: -3px !important;
         margin-top: -2px !important;
     }
-    
+
     .redeem {
         .input-options {
             .col+.col {
@@ -745,11 +745,11 @@
             padding-left: 0px;
         }
     }
-    
+
     .red-color {
         color: $danger;
     }
-    
+
     .label-tag {
         span {
             position: absolute;
@@ -763,40 +763,40 @@
             text-transform: uppercase;
         }
     }
-    
+
     .money-limit-upgrade {
         .button {
             min-height: 25px;
         }
     }
-    
+
     .login-input {
         margin-right: 15px !important;
     }
-    
+
     .title {
         img {
             width: 90px;
             padding: 12px 0 0px;
         }
     }
-    
+
     .slider-pager .slider-pager-page {
         color: $assertive !important;
     }
-    
+
     .currency {
         height: 18px;
         width: auto;
         vertical-align: text-top;
     }
-    
+
     .item-note {
         float: right;
         color: #ef7f1a !important;
         font-size: 14px;
     }
-    
+
     //    input[disabled] {
     //        background-color: #F1F3F4 !important;
     //    }
@@ -824,18 +824,18 @@
             position: initial;
         }
     }
-    
+
     .pr-form {
         .input-label {
             color: #B4B4B4 !important;
         }
     }
-    
+
     .f-m {
         font-size: 10px;
         font-weight: 400px;
     }
-    
+
     .me-tab {
         .list {
             margin-top: 8px;
@@ -856,7 +856,7 @@
             }
         }
     }
-    
+
     .img-hold {
         width: 50px;
         height: 50px;
@@ -876,7 +876,7 @@
         left: 10px;
         top: 18px;
     }
-    
+
     .noti {
         .item {
             padding: 15px 0px 15px 72px;
@@ -900,16 +900,16 @@
             }
         }
     }
-    
+
     .custom-divider {
         background-color: white !important;
         border-bottom: 3px solid $positive !important;
     }
-    
+
     .has-customheader {
         top: 142px !important;
     }
-    
+
     .det-name {
         .card {
             h4 {
@@ -943,18 +943,18 @@
             }
         }
     }
-    
+
     .points-item {
         height: 60px;
         border-radius: 2px;
         color: white;
         position: relative;
     }
-    
+
     .total-bg {
         background-color: #777;
     }
-    
+
     .icon-hold {
         position: absolute;
         width: 50px;
@@ -966,7 +966,7 @@
         font-size: 22px;
         background-color: rgba(0, 0, 0, 0.25);
     }
-    
+
     .other-hold {
         padding-left: 50px;
         text-align: center;
@@ -983,19 +983,19 @@
             font-size: 30px;
         }
     }
-    
+
     .positives-bg {
         background-color: #405E94;
     }
-    
+
     .positives-bgs {
         background-color: #b3cb39;
     }
-    
+
     .positives-ap {
         background-color: #b4bfc5;
     }
-    
+
     .coupon {
         padding-top: 25px;
         padding-top::-webkit-input-placeholder {
@@ -1015,13 +1015,13 @@
             }
         }
     }
-    
+
     .offer-txt {
         font-size: 15px;
         margin: 10px;
         text-align: center;
     }
-    
+
     .notification {
         .card {
             margin: 15px 10px;
@@ -1030,7 +1030,7 @@
             text-decoration: none;
         }
     }
-    
+
     .offer-badge {
         transform: rotate(-35deg);
         position: absolute;
@@ -1038,7 +1038,7 @@
         width: 80%;
         top: 2px;
     }
-    
+
     .redeem-offer-badge {
         transform: rotate(-35deg);
         position: absolute;
@@ -1046,7 +1046,7 @@
         width: 12%;
         top: 20px;
     }
-    
+
     .custom-badge {
         background-color: $assertive;
         color: white;
@@ -1065,38 +1065,38 @@
         top: 0;
         right: 1px;
     }
-    
+
     .clr-fav {
         color: $positive !important;
     }
-    
+
     .m50 {
         margin: 50px auto 0px;
         img {
             width: 190px;
         }
     }
-    
+
     .min33 {
         min-height: 33px !important;
     }
-    
+
     .wth {
         width: 10% !important;
         display: initial !important;
         background: transparent !important;
         padding-right: 8px;
     }
-    
+
     .displ {
         display: inline-block !important;
         width: 80%;
     }
-    
+
     .db {
         display: block !important;
     }
-    
+
     .bordn {
         margin-top: 20px;
         label {
@@ -1114,18 +1114,18 @@
             }
         }
     }
-    
+
     .fonp {
         padding-left: 0px !important;
         padding-bottom: 15px !important;
         padding-top: 24px !important;
     }
-    
+
     .martp {
         margin-top: 25px;
         margin-bottom: 25px;
     }
-    
+
     .btn-small {
         padding: 2px 26px 1px 27px !important;
         font-size: 12px !important;
@@ -1155,4 +1155,19 @@
     float: right;
     text-decoration: none;
     color:$assertive;
+}
+.paycard{
+  i.icon.ln-chevron-right{
+    position: absolute;
+top: 50%;
+right: 10px;
+font-size: 14px;
+  }
+  span{
+    top: 10px;
+position: absolute;
+right: 10px;
+font-size: 13px;
+
+  }
 }

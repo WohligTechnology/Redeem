@@ -8,7 +8,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
 
 .controller('AppCtrl', function($ionicPlatform, $scope, $ionicModal, $timeout, MyServices, $ionicPopup, $location, $filter, $state) {
 
-    globalFunction.readBalance = function() {
+    globalFunction.readMoney = function() {
         MyServices.readMoney({
             "consumer": $.jStorage.get("user").consumer_id
         }, function(data) {
@@ -22,8 +22,19 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
 
         });
     };
+    $ionicModal.fromTemplateUrl('templates/getcard-modal.html', {
+        scope: $scope
+    }).then(function (modal) {
+        $scope.modal5 = modal;
+    });
+    $scope.closeGetCard = function () {
+        $scope.modal5.hide();
+    };
+    $scope.getCard = function () {
+        $scope.modal5.show();
+    };
     if ($.jStorage.get("user")) {
-        globalFunction.readBalance();
+        globalFunction.readMoney();
     }
     $scope.user = {};
     $scope.user = MyServices.getUser();
@@ -898,7 +909,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         $scope.user = {};
         $scope.favdata = {};
         $scope.navTitle = '<img class="title-image" src="img/title.png">';
-        globalFunction.readBalance();
+        globalFunction.readMoney();
         $scope.user = MyServices.getUser();
         $scope.refreshUser = function() {
             MyServices.findUser($scope.user, function(data) {
@@ -1238,7 +1249,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
     })
     .controller('SendMoneyCtrl', function($scope, $stateParams, MyServices, $ionicPopup, $location) {
         $scope.nofavoritePage();
-        globalFunction.readBalance();
+        globalFunction.readMoney();
         $scope.send = {};
         $scope.user = {};
         $scope.user = MyServices.getUser();

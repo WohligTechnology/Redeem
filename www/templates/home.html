@@ -1,5 +1,5 @@
 <ion-view title="{{navTitle}}">
-    
+
     <ion-content class="has-header">
         <div class="home">
             <ion-slide-box on-slide-changed="slideHasChanged($index)">
@@ -28,6 +28,9 @@
                     <h2 style="line-height: 234%;">{{item.name}}</h2>
                 </ion-item>
             </div>
+            <ion-item ng-click="getCard()">
+  Card
+            </ion-item>
         </div>
     </ion-content>
 </ion-view>

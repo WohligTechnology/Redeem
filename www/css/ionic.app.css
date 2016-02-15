@@ -334,7 +334,7 @@ $dark:                            #444 !default;
         z-index: -1;
     }
     .row{
-        
+
     }
     .button {
         min-height: 43px;
@@ -903,6 +903,18 @@ $dark:                            #444 !default;
   float: right;
   text-decoration: none;
   color: #0060aa; }
+
+.paycard i.icon.ln-chevron-right {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  font-size: 14px; }
+
+.paycard span {
+  top: 10px;
+  position: absolute;
+  right: 10px;
+  font-size: 13px; }
 
 /*!
   Ionicons, v2.0.1
