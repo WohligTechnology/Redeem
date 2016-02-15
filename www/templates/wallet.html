@@ -1,10 +1,10 @@
 <ion-view view-title="Wallet">
     <ion-content>
         <div class="wallet-content">
-            <div class="wallet-holder">
+            <div class="wallet-holder" ng-controller="AppCtrl">
                 <div class="wallet-balance">
                     <h3>Wallet Balance</h3>
-                    <h2>₹ {{user.balance | number:2}}/-</h2>
+                    <h2>₹ {{myBalance.balance | number:2}}/-</h2>
                 </div>
                 <img src="img/walletlock.png" alt="">
             </div>

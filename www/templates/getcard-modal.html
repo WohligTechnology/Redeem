@@ -1,17 +1,17 @@
 <ion-modal-view>
     <ion-header-bar align-title="center" class="bar-stable">
-        <h1 class="title">Select card</h1>
+        <h1 class="title">Select Card</h1>
         <div class="buttons padding-horizontal ">
             <button class="button button-clear" ng-click="closeGetCard()"><i class="icon ion-ios-close-empty"></i></button>
         </div>
     </ion-header-bar>
     <ion-content class="has-header">
-        <ion-item class="item paycard" ng-repeat="card in myCards" ng-if="myCards.length>0">
+        <ion-item class="item paycard" ng-repeat="card in myCards" ng-if="myCards.length>0" ng-click="callAddBalance(card);">
             <!-- <h2>My HDFC</h2> -->
             <h2>{{card.card_id_by_consumer}}</h2>
             <!-- <p>Debit card | VISA</p> -->
             <p ng-if="card.card_type=='DB'">Debit Card</p>
-            <p ng-if="card.card_type!='DB'">Credit Card</p>
+            <p ng-if="card.card_type=='CC'">Credit Card</p>
             <span>Exp. : {{card.expiry_month}}/{{card.expiry_year}}</span>
             <i class="icon ln-chevron-right"></i>
         </ion-item>

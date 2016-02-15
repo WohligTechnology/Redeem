@@ -37,7 +37,7 @@
                 <span ng-class="{'red-color':crossedLimit}">Redeem limit : {{vendor.amountlimit}}</span>
             </div>
             <div class="item-note padding" style="float:left;" style="background-color: white !important;">
-                <span>Wallet balance : ₹ {{user.balance | number:2}}</span>
+                <span>Wallet balance : ₹ {{myBalance.balance | number:2}}</span>
             </div>
             <div class="padding">
                 <button class="button button-block button-assertive no-margin" ng-click="addRedeemTransaction()">REDEEM</button>

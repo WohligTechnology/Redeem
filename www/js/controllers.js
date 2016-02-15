@@ -15,8 +15,8 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             console.log("balance : " + data.comment.balance);
             if (data.value) {
                 $.jStorage.set("balance", data.comment.balance);
-            } else {
-
+                $scope.myBalance = {};
+                $scope.myBalance.balance = data.comment.balance;
             }
         }, function(err) {
 
@@ -64,10 +64,77 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                     }
                 })
             }, 3000);
+            ref.addEventListener('exit', function(event) {
+                $interval.cancel(watchInterval);
+            });
         }, function(err) {
             if (err)
                 console.log(err);
         });
+    }
+
+    $scope.callAddBalance = function(card) {
+        console.log(card);
+        $scope.cardDetails = card;
+        $scope.cardDetails.amount = $scope.amtToAdd;
+        $scope.closeGetCard();
+        var myPopup = $ionicPopup.show({
+            template: '<p>Card Name : {{cardDetails.card_id_by_consumer}}</p><p>Exp. : {{cardDetails.expiry_month}}/{{cardDetails.expiry_year}}</p><p>Amount : {{cardDetails.amount}}</p><input type="text" ng-model="cardDetails.cvv" style="margin: 0px auto;width:100px;text-align:center;font-size:20px">',
+            title: 'Enter CVV Code',
+            subTitle: 'Enter the 3-digit CVV :',
+            scope: $scope,
+            buttons: [{
+                text: '<h5>Cancel</h5>',
+                onTap: function(e) {
+                    myPopup.close();
+                }
+            }, {
+                text: '<h5>OK</h5>',
+                onTap: function(e) {
+                    myPopup.close();
+                    console.log($scope.cardDetails);
+                    var userDetails = MyServices.getUser();
+                    var obj = {};
+                    obj.consumer = userDetails.consumer_id;
+                    obj.amount = $scope.cardDetails.amount;
+                    obj.email = userDetails.email;
+                    obj.token = $scope.cardDetails.user_card_unique_token;
+                    obj.cvv = $scope.cardDetails.cvv;
+                    obj.user = userDetails._id;
+                    obj.name = userDetails.name;
+                    obj.url = "";
+                    if (userDetails.referrer)
+                        obj.referrer = userDetails.referrer;
+                    else
+                        obj.referrer = "";
+                    MyServices.walletAdd(obj, function(data) {
+                        console.log(data);
+                        if (data.value == true) {
+                            var alertPopup = $ionicPopup.alert({
+                                title: '',
+                                template: '<h4 style="text-align:center;">Balance added to your wallet</h4>'
+                            });
+                            alertPopup.then(function(res) {
+                                alertPopup.close();
+                                $state.go('app.home');
+                            });
+                        } else {
+                            var alertPopup = $ionicPopup.alert({
+                                title: '',
+                                template: '<h4 style="text-align:center;">Something went wrong. Please try again later</h4>'
+                            });
+                            alertPopup.then(function(res) {
+                                alertPopup.close();
+                            });
+                        }
+                    }, function(err) {
+                        if (err) {
+                            console.log(err);
+                        }
+                    });
+                }
+            }]
+        })
     }
 
     $ionicModal.fromTemplateUrl('templates/getcard-modal.html', {
@@ -952,6 +1019,9 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
 })
 
 .controller('HomeCtrl', function($scope, $stateParams, MyServices, $location, $ionicSlideBoxDelegate, $ionicLoading, $timeout) {
+
+        globalFunction.readMoney();
+
         $scope.nofavoritePage();
         $scope.banners = [];
         $scope.user = {};
@@ -2015,6 +2085,19 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         };
         $scope.refreshUser();
         $scope.refreshNoti($scope.user);
+
+        MyServices.readMoney({
+            "consumer": $.jStorage.get("user").consumer_id
+        }, function(data) {
+            console.log("balance : " + data.comment.balance);
+            if (data.value) {
+                $.jStorage.set("balance", data.comment.balance);
+                $scope.myBalance = {};
+                $scope.myBalance.balance = data.comment.balance;
+            }
+        }, function(err) {
+
+        });
 
         $scope.fixedinput = false;
         $scope.vendor = {};
