@@ -9,14 +9,18 @@
                 <img src="img/walletlock.png" alt="">
             </div>
             <div class="martp">
-
-                <label class="item item-input enter-amount-input no-border">
-                    <span class="input-label icon"><img class="currency" src="img/currency.png"></span>
-                    <input type="number" placeholder="Enter amount" ng-model="wallet.amount">
-                </label>
-                <div class="padding no-margin text-center">
-                    <button class="button button-assertive button-small btn-small" ng-click="addMoney()" style="">ADD MONEY</button>
-                </div>
+                <form class="" name="mywallet">
+                    <label class="item item-input enter-amount-input no-border">
+                        <span class="input-label icon"><img class="currency" src="img/currency.png"></span>
+                        <input type="number" placeholder="Enter amount" ng-model="wallet.amount" name="amount" min="100" required>
+                    </label>
+                    <p class="padding" ng-if="mywallet.amount.$error.min">Minimum amount should be 100.</p>
+                    <div class="padding no-margin text-center">
+                        <button class="button button-assertive button-small btn-small" ng-click="addMoneyNew(wallet.amount)" ng-disabled="mywallet.$invalid">
+                            ADD MONEY
+                        </button>
+                    </div>
+                </form>
             </div>
             <!--
             <div class="row btns-wallet no-padding">
@@ -35,7 +39,7 @@
             <h1 class="wallet-txt">
                 Get 10% more every time you add balance!
             </h1>
-              <div class="separator"></div>
+            <div class="separator"></div>
             <div class="coupon">
                 <div class="item-input-inset">
                     <label class="item-input-wrapper">
@@ -45,17 +49,17 @@
                         APPLY
                     </button>
                 </div>
-              
+
                 <div class="money-limit-upgrade">
                     <h1 class="limit-txt">
                   Your monthly money limit remaining is {{user.walletLimit}}
                </h1>
                     <button class="button upgrade-btn no-margin button-clear button-assertive button-block" ng-click="upgrade()" style="font-size: 15px !important;" ng-if="!user.upgraderequested">{{upgradeText}}</button>
-                    
+
                 </div>
                 <div class="upgrade" ng-if="user.upgraderequested">
-                        {{upgradeText}}
-                    </div>
+                    {{upgradeText}}
+                </div>
                 <div class="spacer-small"></div>
 
             </div>

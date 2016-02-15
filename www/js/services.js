@@ -1,15 +1,16 @@
 // var adminurl = "http://192.168.0.126:81/";
 //var adminurl = "http://wohlig.in:81/";
 // var adminurl = "http://104.154.90.30/";
-var adminurl = "http://192.168.0.118:1337/";
+// var adminurl = "http://192.168.0.118:1337/";
+var adminurl = "http://192.168.0.117:81/";
 var imgpath = adminurl + "uploadfile/getupload?file=";
 
 angular.module('starter.services', [])
 
-.factory('MyServices', function ($http) {
+.factory('MyServices', function($http) {
 
     return {
-        loginUser: function (userData, callback, err) {
+        loginUser: function(userData, callback, err) {
             $http({
                 url: adminurl + 'user/login',
                 method: 'POST',
@@ -19,49 +20,49 @@ angular.module('starter.services', [])
                 }
             }).success(callback).error(err);
         },
-        signupUser: function (signupData, callback, err) {
+        signupUser: function(signupData, callback, err) {
             $http({
                 url: adminurl + 'user/save',
                 method: 'POST',
                 data: signupData
             }).success(callback).error(err);
         },
-        register: function (signupData, callback, err) {
+        register: function(signupData, callback, err) {
             $http({
                 url: adminurl + 'user/register',
                 method: 'POST',
                 data: signupData
             }).success(callback).error(err);
         },
-        validateOTP: function (signupData, callback, err) {
+        validateOTP: function(signupData, callback, err) {
             $http({
                 url: adminurl + 'user/validateOTP',
                 method: 'POST',
                 data: signupData
             }).success(callback).error(err);
         },
-        readMoney: function (signupData, callback, err) {
+        readMoney: function(signupData, callback, err) {
             $http({
                 url: adminurl + 'user/readMoney',
                 method: 'POST',
                 data: signupData
             }).success(callback).error(err);
         },
-        findUser: function (signupData, callback, err) {
+        findUser: function(signupData, callback, err) {
             $http({
                 url: adminurl + 'user/findone',
                 method: 'POST',
                 data: signupData
             }).success(callback).error(err);
         },
-        logoutUser: function (logoutData, callback, err) {
+        logoutUser: function(logoutData, callback, err) {
             $http({
                 url: adminurl + 'user/logout',
                 method: 'POST',
                 data: logoutData
             }).success(callback).error(err);
         },
-        updateUser: function (userData, callback, err) {
+        updateUser: function(userData, callback, err) {
             console.log(userData);
             $http({
                 url: adminurl + 'user/save',
@@ -69,7 +70,7 @@ angular.module('starter.services', [])
                 data: userData
             }).success(callback).error(err);
         },
-        findUserByMobile: function (userData, callback, err) {
+        findUserByMobile: function(userData, callback, err) {
             console.log(userData);
             $http({
                 url: adminurl + 'user/findUserByMobile',
@@ -77,21 +78,21 @@ angular.module('starter.services', [])
                 data: userData
             }).success(callback).error(err);
         },
-        changePass: function (userData, callback, err) {
+        changePass: function(userData, callback, err) {
             $http({
                 url: adminurl + 'user/changepassword',
                 method: 'POST',
                 data: userData
             }).success(callback).error(err);
         },
-        forgotPass: function (userData, callback, err) {
+        forgotPass: function(userData, callback, err) {
             $http({
                 url: adminurl + 'user/forgotpassword',
                 method: 'POST',
                 data: userData
             }).success(callback).error(err);
         },
-        validateMobile: function (userData, callback, err) {
+        validateMobile: function(userData, callback, err) {
             console.log(userData);
             $http({
                 url: adminurl + 'user/validateMobile',
@@ -99,7 +100,7 @@ angular.module('starter.services', [])
                 data: userData
             }).success(callback).error(err);
         },
-        updateReferrer: function (userData, callback, err) {
+        updateReferrer: function(userData, callback, err) {
             console.log(userData);
             $http({
                 url: adminurl + 'user/updateReferrer',
@@ -107,26 +108,26 @@ angular.module('starter.services', [])
                 data: userData
             }).success(callback).error(err);
         },
-        addTransaction: function (transactionData, callback, err) {
+        addTransaction: function(transactionData, callback, err) {
             $http({
                 url: adminurl + 'transaction/save',
                 method: 'POST',
                 data: transactionData
             }).success(callback).error(err);
         },
-        findCategories: function (callback, err) {
+        findCategories: function(callback, err) {
             $http({
                 url: adminurl + 'category/find',
                 method: 'GET'
             }).success(callback).error(err);
         },
-        findBanner: function (callback, err) {
+        findBanner: function(callback, err) {
             $http({
                 url: adminurl + 'banner/find',
                 method: 'GET'
             }).success(callback).error(err);
         },
-        findCoupon: function (couponData, callback, err) {
+        findCoupon: function(couponData, callback, err) {
             console.log("inside findCoupon");
             $http({
                 url: adminurl + 'coupon/findcode',
@@ -134,14 +135,14 @@ angular.module('starter.services', [])
                 data: couponData
             }).success(callback).error(err);
         },
-        updateCoupon: function (couponData, callback, err) {
+        updateCoupon: function(couponData, callback, err) {
             $http({
                 url: adminurl + 'coupon/save',
                 method: 'POST',
                 data: couponData
             }).success(callback).error(err);
         },
-        findVendorByCategory: function (category, callback, err) {
+        findVendorByCategory: function(category, callback, err) {
             $http({
                 url: adminurl + 'vendors/findVendorByCategoryID',
                 method: 'POST',
@@ -150,7 +151,7 @@ angular.module('starter.services', [])
                 }
             }).success(callback).error(err);
         },
-        findByType: function (transactionType, callback, err) {
+        findByType: function(transactionType, callback, err) {
             $http({
                 url: adminurl + 'transaction/findByType',
                 method: 'POST',
@@ -159,14 +160,14 @@ angular.module('starter.services', [])
                 }
             }).success(callback).error(err);
         },
-        findByTypeUser: function (transactionFilter, callback, err) {
+        findByTypeUser: function(transactionFilter, callback, err) {
             $http({
                 url: adminurl + 'transaction/findByTypeUser',
                 method: 'POST',
                 data: transactionFilter
             }).success(callback).error(err);
         },
-        findPassbookEntry: function (transactionFilter, callback, err) {
+        findPassbookEntry: function(transactionFilter, callback, err) {
             $http({
                 url: adminurl + 'transaction/findPassbookEntry',
                 method: 'POST',
@@ -177,7 +178,7 @@ angular.module('starter.services', [])
                 }
             }).success(callback).error(err);
         },
-        findCategory: function (category, callback, err) {
+        findCategory: function(category, callback, err) {
             $http({
                 url: adminurl + 'category/findone',
                 method: 'POST',
@@ -186,7 +187,7 @@ angular.module('starter.services', [])
                 }
             }).success(callback).error(err);
         },
-        findVendor: function (vendor, callback, err) {
+        findVendor: function(vendor, callback, err) {
             $http({
                 url: adminurl + 'vendors/findone',
                 method: 'POST',
@@ -195,72 +196,84 @@ angular.module('starter.services', [])
                 }
             }).success(callback).error(err);
         },
-        sendSMS: function (message, callback, err) {
+        sendSMS: function(message, callback, err) {
             $http({
                 url: adminurl + 'transaction/sendSMS',
                 method: 'POST',
                 data: message
             }).success(callback).error(err);
         },
-        notify: function (message, callback, err) {
+        notify: function(message, callback, err) {
             $http({
                 url: adminurl + 'notification/notify',
                 method: 'POST',
                 data: message
             }).success(callback).error(err);
         },
-        sendOTP: function (message, callback, err) {
+        sendOTP: function(message, callback, err) {
             $http({
                 url: 'http://bulksms.mysmsmantra.com:8080/WebSMS/SMSAPI.jsp?username=Paiso&password=157699462&sendername=PAISOO&mobileno=91' + message.mobile + '&message=Dear User, welcome to PAiSO. Your OTP is ' + message.otp + '.',
                 method: 'GET'
             });
         },
-        sendRedeem: function (message, callback, err) {
+        sendRedeem: function(message, callback, err) {
             $http({
                 url: 'http://bulksms.mysmsmantra.com:8080/WebSMS/SMSAPI.jsp?username=Paiso&password=157699462&sendername=PAISOO&mobileno=91' + message.mobile + '&message=Voucher No ' + message.vouchernumber + ' for Rs.' + message.amount + ' spent on ' + message.vendor + ' at ' + message.timestamp + '(Current Balance: Rs.' + message.currentbalance + '). Valid Till : ' + message.validtill + '. Paiso.',
                 method: 'GET'
             });
         },
-        setNotify: function (data) {
+        addNewCard: function(consumer, callback, err) {
+            $http.get(adminurl + 'user/saveCard?consumer=' + consumer).success(callback).error(err);
+        },
+        getListOfCards: function(consumer, callback, err) {
+            $http({
+                url: adminurl + 'user/getListOfCards',
+                method: 'POST',
+                data: {
+                    "consumer": consumer
+                }
+            }).success(callback).error(err);
+        },
+        setNotify: function(data) {
             $.jStorage.set("notify", data);
         },
-        getNotify: function () {
+        getNotify: function() {
             return $.jStorage.get("notify");
         },
-        setNotify: function (data) {
+        setNotify: function(data) {
             $.jStorage.set("notify", data);
         },
-        getNotify: function () {
+        getNotify: function() {
             return $.jStorage.get("notify");
         },
-        setOTP: function (data) {
+        setOTP: function(data) {
             $.jStorage.set("otp", data);
         },
-        getOTP: function () {
+        getOTP: function() {
             return $.jStorage.get("otp");
         },
-        setUser: function (data) {
+        setUser: function(data) {
             $.jStorage.set("user", data);
         },
-        getUser: function () {
+        getUser: function() {
             return $.jStorage.get("user");
         },
-        setDevice: function (data) {
+        setDevice: function(data) {
             $.jStorage.set("device", data);
         },
-        getDevice: function () {
+        getDevice: function() {
             return $.jStorage.get("device");
         },
-        setOS: function (data) {
+        setOS: function(data) {
             $.jStorage.set("os", data);
         },
-        getOS: function () {
+        getOS: function() {
             return $.jStorage.get("os");
         },
-        setReferrer: function (data) {
+        setReferrer: function(data) {
             $.jStorage.set("referrer", data);
         },
-        getReferrer: function () {
+        getReferrer: function() {
             return $.jStorage.get("referrer");
         }
     };

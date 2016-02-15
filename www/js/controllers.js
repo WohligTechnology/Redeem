@@ -6,7 +6,7 @@ var balance = 0;
 
 angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
 
-.controller('AppCtrl', function($ionicPlatform, $scope, $ionicModal, $timeout, MyServices, $ionicPopup, $location, $filter, $state) {
+.controller('AppCtrl', function($ionicPlatform, $scope, $ionicModal, $timeout, MyServices, $ionicPopup, $location, $filter, $state, $interval) {
 
     globalFunction.readMoney = function() {
         MyServices.readMoney({
@@ -22,15 +22,63 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
 
         });
     };
+
+    globalFunction.addMoney = function(amt) {
+        $scope.amtToAdd = amt;
+        MyServices.getListOfCards(MyServices.getUser().consumer_id, function(data) {
+            console.log(data);
+            $scope.myCards = data.comment.cards;
+            $scope.getCard();
+        }, function(err) {
+            if (err) {
+                console.log(err);
+            }
+        })
+    }
+
+    $scope.addNewCard = function() {
+        var cardLength = 0;
+        MyServices.getListOfCards(MyServices.getUser().consumer_id, function(data) {
+            console.log(data);
+            cardLength = data.comment.cards.length;
+        }, function(err) {
+            if (err) {
+                console.log(err);
+            }
+        })
+        MyServices.addNewCard(MyServices.getUser().consumer_id, function(data) {
+            console.log(data);
+            var ref = cordova.InAppBrowser.open(data.link);
+            // var ref = window.open(data.link);
+            var watchInterval = $interval(function() {
+                MyServices.getListOfCards(MyServices.getUser().consumer_id, function(data) {
+                    console.log(data);
+                    if (data.comment.cards.length > cardLength) {
+                        $interval.cancel(watchInterval);
+                        ref.close();
+                        $scope.myCards = data.comment.cards;
+                    }
+                }, function(err) {
+                    if (err) {
+                        console.log(err);
+                    }
+                })
+            }, 3000);
+        }, function(err) {
+            if (err)
+                console.log(err);
+        });
+    }
+
     $ionicModal.fromTemplateUrl('templates/getcard-modal.html', {
         scope: $scope
-    }).then(function (modal) {
+    }).then(function(modal) {
         $scope.modal5 = modal;
     });
-    $scope.closeGetCard = function () {
+    $scope.closeGetCard = function() {
         $scope.modal5.hide();
     };
-    $scope.getCard = function () {
+    $scope.getCard = function() {
         $scope.modal5.show();
     };
     if ($.jStorage.get("user")) {
@@ -1695,6 +1743,11 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             else
                 return true;
         };
+
+        $scope.addMoneyNew = function(amt) {
+            globalFunction.addMoney(amt);
+        }
+
         $scope.addMoney = function() {
 
             $scope.transaction = {};
