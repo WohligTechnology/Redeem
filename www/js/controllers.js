@@ -1,27 +1,29 @@
 var favorite = {};
+var globalFunction = {};
 //var adminurl = "http://192.168.0.117:1337/";
 var adminurl = "http://104.197.111.152/";
 var balance = 0;
 
 angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
-.controller('AppCtrl', function ($ionicPlatform, $scope, $ionicModal, $timeout, MyServices, $ionicPopup, $location, $filter, $state) {
 
-  $scope.readBalance = function(){
-    MyServices.readMoney({
-      "consumer":$.jStorage.get("user").consumer_id
-    },function(data){
-      console.log("balance : "+data.comment.balance);
-      if(data.value){
-        $.jStorage.set("balance",data.comment.balance);
-      }else{
-        
-      }
-    },function(err){
+.controller('AppCtrl', function($ionicPlatform, $scope, $ionicModal, $timeout, MyServices, $ionicPopup, $location, $filter, $state) {
 
-    });
-  };
-    if($.jStorage.get("user")){
-      $scope.readBalance();
+    globalFunction.readBalance = function() {
+        MyServices.readMoney({
+            "consumer": $.jStorage.get("user").consumer_id
+        }, function(data) {
+            console.log("balance : " + data.comment.balance);
+            if (data.value) {
+                $.jStorage.set("balance", data.comment.balance);
+            } else {
+
+            }
+        }, function(err) {
+
+        });
+    };
+    if ($.jStorage.get("user")) {
+        globalFunction.readBalance();
     }
     $scope.user = {};
     $scope.user = MyServices.getUser();
@@ -36,7 +38,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                 title: '',
                 template: '<h4 style="text-align:center;">Please check your internet connection</h4>'
             });
-            alertPopup.then(function (res) {
+            alertPopup.then(function(res) {
                 alertPopup.close();
             });
 
@@ -51,7 +53,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
     } else if (Android) {
         $scope.isIOS = false;
     }
-    $scope.refreshUser = function () {
+    $scope.refreshUser = function() {
         if (MyServices.getUser()) {
             $scope.user = MyServices.getUser();
             console.log($scope.user);
@@ -61,26 +63,26 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
     };
 
     $scope.refreshUser();
-    $scope.refreshUserApply = function () {
+    $scope.refreshUserApply = function() {
         console.log("refreshUserApply");
         $scope.refreshUser();
         console.log($scope.user);
         $scope.$apply();
     };
-    $scope.favoritePage = function () {
+    $scope.favoritePage = function() {
         $scope.canfavorite = true;
     };
     $scope.activefav = false;
-    $scope.nofavoritePage = function () {
+    $scope.nofavoritePage = function() {
         $scope.canfavorite = false;
     };
     $scope.nofavoritePage();
 
     favorite.brand = {};
-    favorite.getBrand = function (data) {
+    favorite.getBrand = function(data) {
         favorite.brand._id = data;
     };
-    favorite.pushFavorite = function () {
+    favorite.pushFavorite = function() {
         $scope.refreshUser();
         console.log("here");
         if ($scope.activefav === false) {
@@ -89,12 +91,12 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                 favorite: $scope.user.favorite
             };
             $scope.updateData.favorite.unshift(favorite.brand);
-            MyServices.updateUser($scope.updateData, function (data) {
+            MyServices.updateUser($scope.updateData, function(data) {
                 if (data.value == true) {
                     $scope.activefav = true;
                     $scope.refreshUser();
                 }
-            }, function (err) {
+            }, function(err) {
 
             });
         } else if ($scope.activefav === true) {
@@ -105,13 +107,13 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             $scope.updateData.favorite = _.dropWhile($scope.updateData.favorite, {
                 '_id': favorite.brand._id
             });
-            MyServices.updateUser($scope.updateData, function (data) {
+            MyServices.updateUser($scope.updateData, function(data) {
                 console.log(data);
                 if (data.value == true) {
                     $scope.activefav = false;
                     $scope.refreshUser();
                 }
-            }, function (err) {
+            }, function(err) {
 
             });
 
@@ -119,19 +121,19 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
 
 
     };
-    favorite.setActive = function (val) {
+    favorite.setActive = function(val) {
         $scope.activefav = val;
     };
 
     $ionicModal.fromTemplateUrl('templates/login.html', {
         scope: $scope
-    }).then(function (modal) {
+    }).then(function(modal) {
         $scope.modal = modal;
     });
-    $scope.closeLogin = function () {
+    $scope.closeLogin = function() {
         $scope.modal.hide();
     };
-    $scope.login = function () {
+    $scope.login = function() {
         $scope.modal.show();
     };
     if (MyServices.getUser()) {
@@ -143,13 +145,13 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
 
     $scope.referralBadge = undefined;
 
-    $scope.testCall = function () {
+    $scope.testCall = function() {
         console.log("in here");
     };
     $scope.count = 0;
-    $scope.refreshNoti = function (item) {
+    $scope.refreshNoti = function(item) {
         $scope.count = 0;
-        _.each(item.notification, function (key) {
+        _.each(item.notification, function(key) {
             if (key.read === false)
                 $scope.count++;
         });
@@ -160,60 +162,58 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         url: '#/app/home',
         state: true,
         icon: "ln-home3"
-  }, {
+    }, {
         title: 'Wallet',
         url: '#/app/wallet',
         state: false,
         icon: "ln-cash"
-  }, {
+    }, {
         title: 'Send Money',
         url: '#/app/sendmoney',
         state: false,
         icon: "ln-arrow-right2"
-  }, {
+    }, {
         title: 'Passbook',
         url: '#/app/passbook',
         state: false,
         icon: "ln-book-closed"
-  }, {
+    }, {
         title: 'Referral',
         url: '#/app/referral',
         state: false,
         badgecount: $scope.referralBadge,
         icon: "ln-users"
-  }, {
+    }, {
         title: 'About Us',
         url: '#/app/aboutus',
         state: false,
         icon: "ion-ios-information-outline"
-  }, {
+    }, {
         title: 'Notification',
         url: '#/app/notification',
         state: false,
         icon: "ion-android-notifications-none"
-  }, {
+    }, {
         title: 'Logout',
         url: '#',
         state: false,
         icon: "ln-exit"
-  }];
+    }];
 
-    $scope.activateMenu = function (index) {
+    $scope.activateMenu = function(index) {
         $scope.refreshUser()
         console.log($scope.menu[index].title);
         if ($scope.menu[index].title === "Logout") {
-            MyServices.logoutUser($scope.user, function (data) {
+            MyServices.logoutUser($scope.user, function(data) {
                 if (data.value == true) {
                     $scope.user = null;
                     $.jStorage.flush();
                     console.log(MyServices.getUser());
                     $location.path('login');
                 }
-            }, function (err) {
+            }, function(err) {
 
             });
-
-
         }
         for (var i = 0; i < $scope.menu.length; i++) {
             $scope.menu[i].state = false;
@@ -221,20 +221,20 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         $scope.menu[index].state = true;
     };
 
-    $scope.openNotification = function () {
+    $scope.openNotification = function() {
         $location.path('/app/notification');
     };
-    $scope.favoriteIt = function (data) {
+    $scope.favoriteIt = function(data) {
         console.log(data);
     };
 
     //    GLOBAL update user function
 
-    $scope.updateUser = function (user) {
+    $scope.updateUser = function(user) {
         console.log(user);
         $scope.flag = undefined;
         if (user.balance >= 0)
-            MyServices.updateUser(user, function (data2) {
+            MyServices.updateUser(user, function(data2) {
                 if (data2) {
                     console.log(data2);
                     if (data2.value === false)
@@ -242,7 +242,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                     else
                         $scope.flag = true;
                 }
-            }, function (err) {});
+            }, function(err) {});
         else
             $scope.flag = false;
         console.log($scope.flag);
@@ -255,9 +255,9 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
 
     //    GLOBAL addTransaction updateTransaction function
 
-    $scope.addTransaction = function (transaction) {
+    $scope.addTransaction = function(transaction) {
         $scope.flag = undefined;
-        MyServices.addTransaction(transaction, function (data2) {
+        MyServices.addTransaction(transaction, function(data2) {
             if (data2) {
                 console.log(data2);
                 if (data2.value === false)
@@ -265,7 +265,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                 else
                     $scope.flag = true;
             }
-        }, function (err) {});
+        }, function(err) {});
         console.log($scope.flag);
         if ($scope.flag === false)
             return false;
@@ -273,12 +273,12 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             return true;
     };
 
-    $scope.alertUser = function (alertTitle, alertDesc, link) {
+    $scope.alertUser = function(alertTitle, alertDesc, link) {
         var alertPopup = $ionicPopup.alert({
             title: alertTitle,
             template: '<h5 style="text-align: center;margin-bottom:0">' + alertDesc + '</h5>'
         });
-        alertPopup.then(function (res) {
+        alertPopup.then(function(res) {
             if (link)
                 $location.path(link);
         });
@@ -286,10 +286,10 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
 
 })
 
-.controller('PlaylistsCtrl', function ($scope) {})
-    .controller('SearchCtrl', function ($scope) {})
+.controller('PlaylistsCtrl', function($scope) {})
+    .controller('SearchCtrl', function($scope) {})
 
-.controller('LoginCtrl', function ($scope, $stateParams, $ionicPlatform, $location, MyServices, $ionicScrollDelegate, $ionicModal, $ionicPopup, $filter, $timeout) {
+.controller('LoginCtrl', function($scope, $stateParams, $ionicPlatform, $location, MyServices, $ionicScrollDelegate, $ionicModal, $ionicPopup, $filter, $timeout) {
     $scope.isIOS = false;
     var IOS = ionic.Platform.isIOS();
     var Android = ionic.Platform.isAndroid();
@@ -300,17 +300,17 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
     }
 
     $scope.phone1 = {};
-    $scope.alertUser = function (alertTitle, alertDesc, link) {
+    $scope.alertUser = function(alertTitle, alertDesc, link) {
         var alertPopup = $ionicPopup.alert({
             title: alertTitle,
             template: '<h5 style="text-align: center;margin-bottom:0">' + alertDesc + '</h5>'
         });
-        alertPopup.then(function (res) {
+        alertPopup.then(function(res) {
             if (link)
                 $location.path(link);
         });
     };
-    $ionicPlatform.registerBackButtonAction(function (event) {
+    $ionicPlatform.registerBackButtonAction(function(event) {
         event.preventDefault();
     }, 100);
     $scope.phone = MyServices.getDevice();
@@ -348,14 +348,14 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         console.log($scope.signup.date);
     }
 
-    $scope.openDate = function () {
+    $scope.openDate = function() {
         datePicker.show(options, onSuccess);
     }
 
-    $scope.sendSMS = function (message) {
+    $scope.sendSMS = function(message) {
         console.log(message);
         $scope.flag = undefined;
-        MyServices.sendSMS(message, function (data2) {
+        MyServices.sendSMS(message, function(data2) {
             if (data2) {
                 console.log(data2);
                 if (data2.value === false)
@@ -363,7 +363,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                 else
                     $scope.flag = true;
             }
-        }, function (err) {});
+        }, function(err) {});
         if ($scope.flag === false)
             return false;
         else
@@ -372,7 +372,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
     };
 
     $scope.highlight = false;
-    $scope.clickTab = function (side) {
+    $scope.clickTab = function(side) {
         $ionicScrollDelegate.scrollTop();
         if (side === "left") {
             $scope.tab.left = true;
@@ -386,11 +386,11 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             $scope.hideButtonOnInput.left = true;
         }
     };
-    $scope.updateUser = function (user) {
+    $scope.updateUser = function(user) {
         console.log(user);
         $scope.flag = undefined;
         if (user.balance >= 0)
-            MyServices.updateUser(user, function (data2) {
+            MyServices.updateUser(user, function(data2) {
                 if (data2) {
                     console.log(data2);
                     if (data2.value === false)
@@ -398,7 +398,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                     else
                         $scope.flag = true;
                 }
-            }, function (err) {});
+            }, function(err) {});
         else
             $scope.flag = false;
         console.log($scope.flag);
@@ -410,7 +410,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
     };
 
     $scope.validateIt = {};
-    $scope.validateLogin = function () {
+    $scope.validateLogin = function() {
         console.log("here");
         $scope.validateIt = {
             mobile: false,
@@ -426,17 +426,17 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         else
             return true;
     };
-    $scope.doLogin = function () {
+    $scope.doLogin = function() {
         console.log($scope.validateLogin());
         if ($scope.validateLogin()) {
-            MyServices.loginUser($scope.login, function (data) {
+            MyServices.loginUser($scope.login, function(data) {
                 if (data) {
                     if (data.value === false) {
                         var alertPopup = $ionicPopup.alert({
                             title: 'Login',
                             template: '<h5 style="text-align:center">Invalid data</h5>'
                         });
-                        alertPopup.then(function (res) {
+                        alertPopup.then(function(res) {
 
                         });
                     } else {
@@ -448,7 +448,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                             _id: data._id,
                             notificationtoken: data.notificationtoken
                         };
-                        MyServices.updateUser(user, function (data2) {
+                        MyServices.updateUser(user, function(data2) {
                             if (data2) {
                                 console.log(data2);
                                 if (data2.value === false) {
@@ -458,11 +458,11 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                                     $scope.user = MyServices.getUser();
                                 }
                             }
-                        }, function (err) {});
+                        }, function(err) {});
                     }
                     console.log(data);
                 }
-            }, function (err) {
+            }, function(err) {
                 if (err) {
                     console.log(err);
                 }
@@ -472,7 +472,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                 title: 'Login',
                 template: '<h5 style="text-align:center">Mobile number or password is incorrect.</h5>'
             });
-            alertPopup.then(function (res) {
+            alertPopup.then(function(res) {
 
             });
         }
@@ -481,7 +481,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
     $scope.ctrlUser = {};
 
     $scope.confirmed = undefined;
-    $scope.checkPassword = function () {
+    $scope.checkPassword = function() {
         console.log("in confirmation");
         console.log($scope.signup.confirmpassword);
         console.log($scope.signup.password);
@@ -497,26 +497,26 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         }
     };
     $scope.type = "text";
-    $scope.toggleDate = function () {
+    $scope.toggleDate = function() {
         if ($scope.type === "text")
             $scope.type = "date";
     };
     $scope.validate = {};
     $scope.referredUser = {};
-    $scope.startSignup=function(input,formValidate){
-      if(formValidate.$valid){
-        $scope.checkDeviceID(input);
-      }else{
-        $scope.alertUser()
-      }
+    $scope.startSignup = function(input, formValidate) {
+        if (formValidate.$valid) {
+            $scope.checkDeviceID(input);
+        } else {
+            $scope.alertUser()
+        }
     };
 
-    $scope.checkReferral = function () {
+    $scope.checkReferral = function() {
         $scope.user = {
             mobile: $scope.signup.referrer
         };
         $scope.flag = undefined;
-        MyServices.findUserByMobile($scope.user, function (data) {
+        MyServices.findUserByMobile($scope.user, function(data) {
             if (data._id) {
                 console.log(data);
                 $scope.referredUser = data;
@@ -524,7 +524,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             } else {
                 $scope.flag = false;
             }
-        }, function (err) {
+        }, function(err) {
             $scope.flag = false;
         });
         if ($scope.flag === false)
@@ -533,18 +533,18 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             return true;
     };
     $scope.data = {};
-    $scope.validateMobile = function () {
+    $scope.validateMobile = function() {
         $scope.usermobile = {
             mobile: $scope.signup.mobile,
             name: $scope.signup.name
         };
-        MyServices.validateMobile($scope.usermobile, function (data) {
+        MyServices.validateMobile($scope.usermobile, function(data) {
             console.log(data);
             if (data.value) {
                 var alertPopup = $ionicPopup.alert({
                     template: '<h4 style="text-align:center;">The mobile number is already registered.</h4>'
                 });
-                alertPopup.then(function (res) {
+                alertPopup.then(function(res) {
 
                 });
             } else {
@@ -562,54 +562,50 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                     title: 'OTP Verification',
                     subTitle: 'Enter the 6-digit OTP :',
                     scope: $scope,
-                    buttons: [
-                        {
-                            text: '<h5>Cancel</h5>',
-                            onTap: function (e) {
-                                myPopup.close();
-                            }
-                        },
-                        {
-                            text: '<h5>Retry</h5>',
-                            onTap: function (e) {
-                                myPopup.close();
-                                $scope.validateMobile();
-                            }
-                        },
-                        {
-                            text: '<b>Verify</b>',
-                            type: 'button-positive',
-                            onTap: function (e) {
-                                if (!$scope.input.otp) {
-                                    //don't allow the user to close unless he enters wifi password
-                                    e.preventDefault();
+                    buttons: [{
+                        text: '<h5>Cancel</h5>',
+                        onTap: function(e) {
+                            myPopup.close();
+                        }
+                    }, {
+                        text: '<h5>Retry</h5>',
+                        onTap: function(e) {
+                            myPopup.close();
+                            $scope.validateMobile();
+                        }
+                    }, {
+                        text: '<b>Verify</b>',
+                        type: 'button-positive',
+                        onTap: function(e) {
+                            if (!$scope.input.otp) {
+                                //don't allow the user to close unless he enters wifi password
+                                e.preventDefault();
+                            } else {
+                                if ($scope.input.otp === data.otp) {
+                                    $scope.checkDeviceID();
                                 } else {
-                                    if ($scope.input.otp === data.otp) {
-                                        $scope.checkDeviceID();
-                                    } else {
-                                        var alertPopup = $ionicPopup.alert({
-                                            template: '<h4 style="text-align:center;">Invalid OTP.</h4>'
-                                        });
-                                        alertPopup.then(function (res) {
+                                    var alertPopup = $ionicPopup.alert({
+                                        template: '<h4 style="text-align:center;">Invalid OTP.</h4>'
+                                    });
+                                    alertPopup.then(function(res) {
 
-                                        });
-                                    }
+                                    });
                                 }
                             }
                         }
-                    ]
+                    }]
                 });
-                myPopup.then(function (res) {
+                myPopup.then(function(res) {
                     console.log('Tapped!', res);
                 });
             }
-        }, function (err) {
+        }, function(err) {
 
         });
     };
 
 
-    $scope.checkOTP = function () {
+    $scope.checkOTP = function() {
         if ($scope.validateThis()) {
             if ($scope.signup.referrer === "" || $scope.signup.referrer === null || $scope.signup.referrer === undefined) {
                 $scope.validateMobile();
@@ -617,7 +613,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                 $scope.item = {
                     mobile: $scope.signup.referrer
                 };
-                MyServices.findUserByMobile($scope.item, function (data) {
+                MyServices.findUserByMobile($scope.item, function(data) {
                     if (data._id) {
                         console.log("here1");
                         $scope.validateMobile();
@@ -626,12 +622,12 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                         var alertPopup = $ionicPopup.alert({
                             template: '<h4 style="text-align:center;">Referral ID does not exist. Invalid.</h4>'
                         });
-                        alertPopup.then(function (res) {
+                        alertPopup.then(function(res) {
 
                         });
 
                     }
-                }, function (err) {
+                }, function(err) {
 
                 });
             }
@@ -639,13 +635,13 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             var alertPopup = $ionicPopup.alert({
                 template: '<h4 style="text-align:center;">Invalid Data</h4>'
             });
-            alertPopup.then(function (res) {
+            alertPopup.then(function(res) {
 
             });
         }
     };
     $scope.isRegistered = false;
-    $scope.checkDeviceID = function (input) {
+    $scope.checkDeviceID = function(input) {
         $scope.isRegistered = false;
         if ($.jStorage.get("device") == null) {
             console.log("here");
@@ -662,7 +658,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                 "windows": {}
             });
 
-            push.on('registration', function (data) {
+            push.on('registration', function(data) {
 
                 console.log(data);
                 $.jStorage.set("device", data.registrationId);
@@ -678,18 +674,18 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
 
             });
 
-            push.on('notification', function (data) {
+            push.on('notification', function(data) {
                 console.log(data);
             });
 
-            push.on('error', function (e) {
+            push.on('error', function(e) {
                 console.log("ERROR");
                 console.log(e);
             });
             if ($scope.isRegistered) {
                 $scope.doSignup(input);
             } else {
-                $timeout(function () {
+                $timeout(function() {
                     $scope.checkDeviceID();
                 }, 3000);
             }
@@ -697,7 +693,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             $scope.doSignup(input);
         }
     };
-    $scope.checkDeviceIDLogin = function () {
+    $scope.checkDeviceIDLogin = function() {
         $scope.isRegistered = false;
         if ($.jStorage.get("device") == null) {
             console.log("here");
@@ -714,7 +710,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                 "windows": {}
             });
 
-            push.on('registration', function (data) {
+            push.on('registration', function(data) {
 
                 console.log(data);
                 $.jStorage.set("device", data.registrationId);
@@ -730,18 +726,18 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
 
             });
 
-            push.on('notification', function (data) {
+            push.on('notification', function(data) {
                 console.log(data);
             });
 
-            push.on('error', function (e) {
+            push.on('error', function(e) {
                 console.log("ERROR");
                 console.log(e);
             });
             if ($scope.isRegistered) {
                 $scope.doLogin();
             } else {
-                $timeout(function () {
+                $timeout(function() {
                     $scope.checkDeviceIDLogin();
                 }, 3000);
             }
@@ -758,124 +754,120 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
     // }, function (err) {
     //     console.log(err);
     // });
-    $scope.doSignup = function (input) {
+    $scope.doSignup = function(input) {
 
-      console.log(input);
+        console.log(input);
         delete input.confirmpassword;
-          var request={
-            mobile:input.mobile,
-            email:input.email,
-            referrer:input.referrer,
-            name:input.name
-          };
-        MyServices.register(request,function(data){
-        $scope.alertUser(data.value, data.comment);
-          if(data.value){
-            $.jStorage.set("consumer_id",data.comment.consumer_id);
-            $scope.input = {};
-            // An elaborate, custom popup
-            smsplugin.startReception(function (message) {
-                console.log(message);
-                $scope.input.otp = message.substr(message.length - 25,message.length - 18);
-                $scope.$apply();
-            }, function (err) {
-                console.log(err);
-            });
-            var myPopup = $ionicPopup.show({
-                template: '<input type="text" ng-model="input.otp" style="margin: 0px auto;width:100px;text-align:center;font-size:20px">',
-                title: 'OTP Verification',
-                subTitle: 'Enter the 6-digit OTP :',
-                scope: $scope,
-                buttons: [
-                    {
+        var request = {
+            mobile: input.mobile,
+            email: input.email,
+            referrer: input.referrer,
+            name: input.name
+        };
+        MyServices.register(request, function(data) {
+            $scope.alertUser(data.value, data.comment);
+            if (data.value) {
+                $.jStorage.set("consumer_id", data.comment.consumer_id);
+                $scope.input = {};
+                // An elaborate, custom popup
+                smsplugin.startReception(function(message) {
+                    console.log(message);
+                    $scope.input.otp = message.substr(message.length - 25, message.length - 18);
+                    $scope.$apply();
+                }, function(err) {
+                    console.log(err);
+                });
+                var myPopup = $ionicPopup.show({
+                    template: '<input type="text" ng-model="input.otp" style="margin: 0px auto;width:100px;text-align:center;font-size:20px">',
+                    title: 'OTP Verification',
+                    subTitle: 'Enter the 6-digit OTP :',
+                    scope: $scope,
+                    buttons: [{
                         text: '<h5>Cancel</h5>',
-                        onTap: function (e) {
+                        onTap: function(e) {
                             myPopup.close();
                         }
-                    },
-                    {
+                    }, {
                         text: '<h5>Retry</h5>',
-                        onTap: function (e) {
+                        onTap: function(e) {
                             myPopup.close();
                             $scope.validateMobile();
                         }
-                    },
-                    {
+                    }, {
                         text: '<b>Verify</b>',
                         type: 'button-positive',
-                        onTap: function (e) {
+                        onTap: function(e) {
                             if (!$scope.input.otp) {
                                 //don't allow the user to close unless he enters wifi password
                                 e.preventDefault();
                             } else {
-                              MyServices.validateOTP({
-                                consumer:$.jStorage.get("consumer_id"),
-                                otp:$scope.input.otp
-                              },function(data){
-                                if(data.value){
-                                  input.consumer_id=$.jStorage.get("consumer_id");
-                                  input.notificationtoken.deviceid = $.jStorage.get("device");
-                                  input.notificationtoken.os = $.jStorage.get("os");
-                                  MyServices.signupUser(input,function(signup){
-                                    if(signup.value){
-                                    MyServices.loginUser({
-                                      mobile:input.mobile,
-                                      password:input.password
-                                    },function(data){
-                                        if(data.value== false){
-                                          $scope.alertUser("login","unable to login");
-                                        }else{
-                                          $location.url('app/home');
-                                          $.jStorage.set("user",signup.user);
-                                        }
-                                    })
-                                    }else{
-                                      $scope.alertUser("signup","unable to signup");
+                                MyServices.validateOTP({
+                                    consumer: $.jStorage.get("consumer_id"),
+                                    otp: $scope.input.otp
+                                }, function(data) {
+                                    if (data.value) {
+                                        input.consumer_id = $.jStorage.get("consumer_id");
+                                        input.notificationtoken.deviceid = $.jStorage.get("device");
+                                        input.notificationtoken.os = $.jStorage.get("os");
+                                        MyServices.signupUser(input, function(signup) {
+                                            if (signup.value) {
+                                                MyServices.loginUser({
+                                                    mobile: input.mobile,
+                                                    password: input.password
+                                                }, function(data) {
+                                                    if (data.value == false) {
+                                                        $scope.alertUser("login", "unable to login");
+                                                    } else {
+                                                        $location.url('app/home');
+                                                        $.jStorage.set("user", signup.user);
+                                                    }
+                                                })
+                                            } else {
+                                                $scope.alertUser("signup", "unable to signup");
+                                            }
+                                        }, function(err) {
+
+                                        })
+                                    } else {
+                                        $scope.alertUser("incorrect OTP", "please retry");
                                     }
-                                  },function(err){
+                                }, function(err) {
 
-                                  })
-                                }else{
-                                  $scope.alertUser("incorrect OTP","please retry");
-                                }
-                              },function(err){
-
-                              })
+                                })
                             }
                         }
-                    }
-                ]
-            });
-            myPopup.then(function (res) {
-                console.log('Tapped!', res);
-            });
-          }else{
-            if(data.comment.error_code =="104"){
-              $scope.alertUser("create user","referrer number is not on PAiSO");
-            }else if(data.comment.error_code =="101"){
-              $scope.alertUser("create user","Mobile number alredy exists" );
+                    }]
+                });
+                myPopup.then(function(res) {
+                    console.log('Tapped!', res);
+                });
+            } else {
+                if (data.comment.error_code == "104") {
+                    $scope.alertUser("create user", "referrer number is not on PAiSO");
+                } else if (data.comment.error_code == "101") {
+                    $scope.alertUser("create user", "Mobile number alredy exists");
+                }
             }
-          }
-        },function(err){
-          console.log(err);
-          if(err){
+        }, function(err) {
+            console.log(err);
+            if (err) {
 
-          }
+            }
         });
     };
     $scope.forgot = {};
     $ionicModal.fromTemplateUrl('templates/forgotpassword.html', {
         scope: $scope
-    }).then(function (modal) {
+    }).then(function(modal) {
         $scope.modal3 = modal;
     });
-    $scope.closeForgotPassword = function () {
+    $scope.closeForgotPassword = function() {
         $scope.modal3.hide();
     };
-    $scope.forgotPassword = function () {
+    $scope.forgotPassword = function() {
         $scope.modal3.show();
     };
-    $scope.forgotPass = function () {
+    $scope.forgotPass = function() {
         $scope.validate.mobile = false;
         if ($scope.forgot.mobile == null || $scope.forgot.mobile == undefined || $scope.forgot.mobile == "") {
             $scope.validate.mobile = true;
@@ -883,39 +875,39 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             var param = {
                 mobile: $scope.forgot.mobile
             };
-            MyServices.forgotPass(param, function (data) {
+            MyServices.forgotPass(param, function(data) {
                 console.log(data);
                 if (data.value == true) {
                     var alertPopup = $ionicPopup.alert({
                         template: '<h4 style="text-align: center;margin-bottom:0">Login with password provided in email</h4>'
                     });
-                    alertPopup.then(function (res) {
+                    alertPopup.then(function(res) {
                         $scope.closeForgotPassword();
                     });
                 }
-            }, function (err) {
+            }, function(err) {
                 console.log(err);
             });
         }
     };
 })
 
-.controller('HomeCtrl', function ($scope, $stateParams, MyServices, $location, $ionicSlideBoxDelegate, $ionicLoading, $timeout) {
+.controller('HomeCtrl', function($scope, $stateParams, MyServices, $location, $ionicSlideBoxDelegate, $ionicLoading, $timeout) {
         $scope.nofavoritePage();
         $scope.banners = [];
         $scope.user = {};
         $scope.favdata = {};
         $scope.navTitle = '<img class="title-image" src="img/title.png">';
-          $scope.readBalance();
+        globalFunction.readBalance();
         $scope.user = MyServices.getUser();
-        $scope.refreshUser = function () {
-            MyServices.findUser($scope.user, function (data) {
+        $scope.refreshUser = function() {
+            MyServices.findUser($scope.user, function(data) {
                 if (data) {
                     console.log(data);
                     MyServices.setUser(data);
                     $scope.user = MyServices.getUser();
                 }
-            }, function (err) {
+            }, function(err) {
 
             });
         };
@@ -925,45 +917,45 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         $scope.refreshNoti($scope.user);
         $scope.category = [];
         $scope.refreshUser();
-        $scope.show = function () {
+        $scope.show = function() {
             $ionicLoading.show({
                 template: '<ion-spinner icon="crescent" class="spinner-assertive"></ion-spinner>'
             });
         };
-        $scope.hide = function () {
+        $scope.hide = function() {
             $ionicLoading.hide();
         };
         $scope.show();
-        $timeout(function () {
+        $timeout(function() {
             $scope.hide();
         }, 3000);
-        MyServices.findCategories(function (data) {
+        MyServices.findCategories(function(data) {
             if (data) {
                 $scope.category = data;
                 console.log(data);
             }
-        }, function (err) {
+        }, function(err) {
             if (err) {
                 console.log(err);
             }
         });
-        MyServices.findBanner(function (data) {
+        MyServices.findBanner(function(data) {
             $scope.hide();
             if (data) {
                 $scope.banners = data;
                 console.log($scope.banners);
                 $ionicSlideBoxDelegate.update();
             }
-        }, function (err) {
+        }, function(err) {
             if (err) {
                 console.log(err);
             }
         })
-        $scope.slideIsSelected = function (index) {
+        $scope.slideIsSelected = function(index) {
             console.log($scope.banners[index]);
             $location.path("/app/redeem/" + $scope.banners[index].vendorid);
         };
-        $scope.routeCategory = function (object) {
+        $scope.routeCategory = function(object) {
             console.log(object);
             if (object.listview == false) {
                 $location.path('app/gridview/' + object._id);
@@ -971,17 +963,17 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                 $location.path('app/listview/' + object._id);
             }
         };
-        $scope.expandFavorites = function () {
+        $scope.expandFavorites = function() {
             $scope.refreshUser();
-            _.each($scope.favorites, function (key) {
+            _.each($scope.favorites, function(key) {
                 if (key) {
                     $scope.favdata.id = key._id;
-                    MyServices.findVendor($scope.favdata, function (data) {
+                    MyServices.findVendor($scope.favdata, function(data) {
                         if (data) {
                             key.name = data.name;
                             key.imgurl = data.logourl;
                         }
-                    }, function (err) {
+                    }, function(err) {
 
                     });
                 }
@@ -990,19 +982,19 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         };
         $scope.expandFavorites();
     })
-    .controller('PlaylistCtrl', function ($scope, $stateParams) {})
-    .controller('ReferralCtrl', function ($scope, $stateParams, $ionicBackdrop, $timeout, MyServices) {
+    .controller('PlaylistCtrl', function($scope, $stateParams) {})
+    .controller('ReferralCtrl', function($scope, $stateParams, $ionicBackdrop, $timeout, MyServices) {
         $scope.nofavoritePage();
 
         $scope.user = MyServices.getUser();
-        $scope.refreshUser = function () {
-            MyServices.findUser($scope.user, function (data) {
+        $scope.refreshUser = function() {
+            MyServices.findUser($scope.user, function(data) {
                 if (data) {
                     console.log(data);
                     MyServices.setUser(data);
                     $scope.user = MyServices.getUser();
                 }
-            }, function (err) {
+            }, function(err) {
 
             });
         };
@@ -1010,12 +1002,12 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         $scope.refreshNoti($scope.user);
         $scope.friendlist = [];
         $scope.referralmoney = 0;
-        $scope.getThisUser = function (id, amountearned) {
+        $scope.getThisUser = function(id, amountearned) {
             $scope.user = {
                 _id: id
             };
             console.log(id);
-            MyServices.findUser($scope.user, function (data) {
+            MyServices.findUser($scope.user, function(data) {
 
                 if (data) {
                     console.log(data);
@@ -1023,16 +1015,16 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                     $scope.referralmoney += data.amountearned;
                     $scope.friendlist.unshift(data);
                 }
-            }, function (err) {});
+            }, function(err) {});
         };
         var i = 0;
         if ($scope.user.referral != null || $scope.user.referral != undefined)
-            _.each($scope.user.referral, function (key) {
+            _.each($scope.user.referral, function(key) {
                 $scope.getThisUser(key._id, key.amountearned);
             });
         console.log($scope.friendlist);
         $scope.sharebutton = false;
-        $timeout(function () {
+        $timeout(function() {
             $scope.sharebutton = true;
         }, 1000);
         $scope.in = $scope.$index;
@@ -1040,43 +1032,43 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             name: 'Rohan',
             imgurl: 'img/profile.jpg',
             price: 350
-    }, {
+        }, {
             name: 'Chirag',
             imgurl: 'img/profile.jpg',
             price: 390
-    }, {
+        }, {
             name: 'Tushar',
             imgurl: 'img/profile.jpg',
             price: 500
-    }, {
+        }, {
             name: 'Chintan',
             imgurl: 'img/profile.jpg',
             price: 450
-    }, {
+        }, {
             name: 'Mahesh',
             imgurl: 'img/profile.jpg',
             price: 390
-    }, {
+        }, {
             name: 'Jay',
             imgurl: 'img/profile.jpg',
             price: 450
-    }, {
+        }, {
             name: 'Amit',
             imgurl: 'img/profile.jpg',
             price: 450
-    }];
+        }];
 
 
 
-        $scope.shareIt = function () {
+        $scope.shareIt = function() {
             $ionicBackdrop.retain();
-            $timeout(function () {
+            $timeout(function() {
                 $ionicBackdrop.release();
             }, 1000);
             window.plugins.socialsharing.share('Hey!Check this out!<br> Now get more and more money on your balance! only on PAiSO App! Download the app from Playstore and use the following Referral code : ' + $scope.user.mobile + ' . <br> - ' + $scope.user.name);
         };
     })
-    .controller('AboutUsCtrl', function ($scope, $stateParams, $ionicScrollDelegate) {
+    .controller('AboutUsCtrl', function($scope, $stateParams, $ionicScrollDelegate) {
         $scope.nofavoritePage();
         $scope.oneAtATime = true;
         $scope.activate = true;
@@ -1085,7 +1077,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             right: false
         }
         $scope.highlight = false;
-        $scope.clickTab = function (side) {
+        $scope.clickTab = function(side) {
             $ionicScrollDelegate.scrollTop();
             if (side === "left") {
                 $scope.tab.left = true;
@@ -1097,18 +1089,18 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             }
         };
     })
-    .controller('PassbookCtrl', function ($scope, $stateParams, $ionicScrollDelegate, MyServices) {
+    .controller('PassbookCtrl', function($scope, $stateParams, $ionicScrollDelegate, MyServices) {
         $scope.nofavoritePage();
         $scope.user = {};
         $scope.user = MyServices.getUser();
-        $scope.refreshUser = function () {
-            MyServices.findUser($scope.user, function (data) {
+        $scope.refreshUser = function() {
+            MyServices.findUser($scope.user, function(data) {
                 if (data) {
                     console.log(data);
                     MyServices.setUser(data);
                     $scope.user = MyServices.getUser();
                 }
-            }, function (err) {
+            }, function(err) {
 
             });
         };
@@ -1129,7 +1121,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             type: "redeem",
             passbook: "available"
         };
-        $scope.moveToUsed = function (transaction) {
+        $scope.moveToUsed = function(transaction) {
             transaction.passbook = "used";
             delete transaction.vendorname;
             transaction.redeemedon = new Date();
@@ -1145,24 +1137,24 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             }
 
         };
-        $scope.loadUsed = function () {
+        $scope.loadUsed = function() {
             $scope.passbookUsed = {
                 from: $scope.user._id,
                 type: "redeem",
                 passbook: "used"
             };
-            MyServices.findPassbookEntry($scope.passbookUsed, function (data) {
+            MyServices.findPassbookEntry($scope.passbookUsed, function(data) {
                     if (data) {
                         $scope.used = data;
                         console.log($scope.used);
-                        _.each($scope.used, function (key) {
+                        _.each($scope.used, function(key) {
                             $scope.item.id = key.to;
-                            MyServices.findVendor($scope.item, function (data) {
+                            MyServices.findVendor($scope.item, function(data) {
                                     if (data) {
                                         key.vendorname = data.name;
                                     }
                                 },
-                                function (err) {
+                                function(err) {
                                     if (err) {
                                         console.log(err);
                                     }
@@ -1170,25 +1162,25 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                         });
                     }
                 },
-                function (err) {
+                function(err) {
 
                 });
         };
 
-        $scope.loadPassbook = function () {
-            MyServices.findPassbookEntry($scope.passbookAvailable, function (data) {
+        $scope.loadPassbook = function() {
+            MyServices.findPassbookEntry($scope.passbookAvailable, function(data) {
                     if (data) {
                         $scope.available = data;
                         $scope.item = {};
                         console.log($scope.available);
-                        _.each($scope.available, function (key) {
+                        _.each($scope.available, function(key) {
                             $scope.item.id = key.to;
-                            MyServices.findVendor($scope.item, function (data) {
+                            MyServices.findVendor($scope.item, function(data) {
                                     if (data) {
                                         key.vendorname = data.name;
                                     }
                                 },
-                                function (err) {
+                                function(err) {
                                     if (err) {
                                         console.log(err);
                                     }
@@ -1196,12 +1188,12 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                         });
                     }
                 },
-                function (err) {
+                function(err) {
 
                 });
         };
         $scope.loadPassbook();
-        $scope.clickTab = function (side) {
+        $scope.clickTab = function(side) {
             $ionicScrollDelegate.scrollTop();
             if (side === "left") {
                 $scope.tab.left = true;
@@ -1221,7 +1213,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                 $scope.openUp(0);
             }
         };
-        $scope.openUp = function (index) {
+        $scope.openUp = function(index) {
             $scope.highlight = true;
             console.log(index);
             if ($scope.tab.center === true) {
@@ -1244,25 +1236,25 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         };
 
     })
-    .controller('SendMoneyCtrl', function ($scope, $stateParams, MyServices, $ionicPopup,$location) {
+    .controller('SendMoneyCtrl', function($scope, $stateParams, MyServices, $ionicPopup, $location) {
         $scope.nofavoritePage();
-          $scope.readBalance();
+        globalFunction.readBalance();
         $scope.send = {};
         $scope.user = {};
         $scope.user = MyServices.getUser();
-        $scope.refreshUser = function () {
-            MyServices.findUser($scope.user, function (data) {
+        $scope.refreshUser = function() {
+            MyServices.findUser($scope.user, function(data) {
                 if (data) {
                     console.log(data);
                     MyServices.setUser(data);
                     $scope.user = MyServices.getUser();
                 }
-            }, function (err) {
+            }, function(err) {
 
             });
         };
-        $scope.selectContact = function () {
-            navigator.contacts.pickContact(function (contact) {
+        $scope.selectContact = function() {
+            navigator.contacts.pickContact(function(contact) {
                 var selectedContact = contact.phoneNumbers[0].value;
                 console.log(selectedContact);
                 selectedContact = selectedContact.toString().split(' ').join('');
@@ -1282,7 +1274,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                     console.log("as is : " + $scope.send.mobile);
                 }
                 $scope.$apply();
-            }, function (err) {
+            }, function(err) {
                 console.log('Error: ' + err);
             });
         };
@@ -1290,17 +1282,17 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         $scope.refreshUser();
         $scope.refreshNoti($scope.user);
 
-        $scope.alertUser = function (alertTitle, alertDesc, link) {
+        $scope.alertUser = function(alertTitle, alertDesc, link) {
             var alertPopup = $ionicPopup.alert({
                 title: alertTitle,
                 template: '<h5 style="text-align: center;margin-bottom:0">' + alertDesc + '</h5>'
             });
-            alertPopup.then(function (res) {
+            alertPopup.then(function(res) {
                 if (link)
                     $location.path('app/wallet');
             });
         };
-        $scope.sendIt = function () {
+        $scope.sendIt = function() {
             $scope.ctrlUser = $scope.user;
             $scope.dirty = {
                 mobile: false,
@@ -1314,7 +1306,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                     $scope.dirty.amount = true;
 
                 } else {
-                    MyServices.findUserByMobile($scope.send, function (data) {
+                    MyServices.findUserByMobile($scope.send, function(data) {
                         if (data._id) {
                             console.log(data);
                             $scope.updateU1 = {
@@ -1331,7 +1323,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                                     title: 'Send money',
                                     template: '<h5 style="text-align: center;margin-bottom:0">Are you sure?</h5>'
                                 });
-                                confirmPopup.then(function (res) {
+                                confirmPopup.then(function(res) {
                                     if (res) {
                                         if ($scope.updateUser($scope.updateU1)) {
                                             $scope.updateU2 = {
@@ -1360,10 +1352,10 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                                                     var alertPopup = $ionicPopup.alert({
                                                         template: '<h4 style="text-align: center;margin-bottom:0">Transaction successful.</h4>'
                                                     });
-                                                    alertPopup.then(function (res) {
-                                                        MyServices.notify($scope.recieverNotify, function (data2) {
-                                                              $location.path('app/home');
-                                                        }, function (err) {
+                                                    alertPopup.then(function(res) {
+                                                        MyServices.notify($scope.recieverNotify, function(data2) {
+                                                            $location.path('app/home');
+                                                        }, function(err) {
 
                                                         });
 
@@ -1389,7 +1381,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                         } else {
                             $scope.alertUser("Send Money", "The user is not on PAiSO.");
                         }
-                    }, function (err) {
+                    }, function(err) {
 
                     });
 
@@ -1397,19 +1389,19 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             }
         }
     })
-    .controller('WalletCtrl', function ($scope, $stateParams, $ionicScrollDelegate, MyServices, $ionicPopup, $location, $ionicModal, $cordovaFileTransfer, $ionicLoading) {
+    .controller('WalletCtrl', function($scope, $stateParams, $ionicScrollDelegate, MyServices, $ionicPopup, $location, $ionicModal, $cordovaFileTransfer, $ionicLoading) {
         $scope.nofavoritePage();
         $scope.user = {};
         $scope.coupon = {};
         $scope.user = MyServices.getUser();
-        $scope.refreshUser = function () {
-            MyServices.findUser($scope.user, function (data) {
+        $scope.refreshUser = function() {
+            MyServices.findUser($scope.user, function(data) {
                 if (data) {
                     console.log(data);
                     MyServices.setUser(data);
                     $scope.user = MyServices.getUser();
                 }
-            }, function (err) {
+            }, function(err) {
 
             });
         };
@@ -1428,7 +1420,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             $scope.upgradeText = "Upgrade your limit to 1,00,000";
         }
         $scope.monthlyRemaining = undefined;
-        $scope.inTheSameMonth = function (d) {
+        $scope.inTheSameMonth = function(d) {
             $scope.now = new Date();
             $scope.nowMonth = $scope.now.getMonth() + 1;
             $scope.checkMonth = d.getMonth() + 1;
@@ -1442,7 +1434,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             center: true,
             right: false
         }
-        $scope.clickTab = function (side) {
+        $scope.clickTab = function(side) {
             $ionicScrollDelegate.scrollTop();
             if (side === "left") {
                 $scope.tab.left = true;
@@ -1458,7 +1450,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                 $scope.tab.center = false;
             }
         };
-        $scope.isRemaining = function () {
+        $scope.isRemaining = function() {
             $scope.monthlyRemaining = null;
             $scope.transactions = [];
             $scope.today = new Date();
@@ -1471,15 +1463,15 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             $scope.transaction = {
                 type: "balance"
             };
-            MyServices.findByType($scope.transaction, function (data) {
+            MyServices.findByType($scope.transaction, function(data) {
                 if (data) {
                     $scope.transactions = data;
                 }
-            }, function (err) {
+            }, function(err) {
 
             });
 
-            _.each($scope.transactions, function (trans) {
+            _.each($scope.transactions, function(trans) {
                 if (trans != null || trans != undefined)
                     if (trans.from === trans.to) { // this means its an add money transaction
                         if (inTheSameMonth(trans.timestamp)) {
@@ -1494,15 +1486,15 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         $scope.isRemaining();
         $ionicModal.fromTemplateUrl('templates/upgradekyc.html', {
             scope: $scope
-        }).then(function (modal) {
+        }).then(function(modal) {
             $scope.modal2 = modal;
         });
 
-        $scope.closeUpgrade = function () {
+        $scope.closeUpgrade = function() {
             $scope.modal2.hide();
         };
 
-        $scope.upgrade = function () {
+        $scope.upgrade = function() {
             $scope.modal2.show();
         };
         $scope.other = "Passport";
@@ -1514,47 +1506,47 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             height: 800,
             quality: 80
         };
-        $scope.addPanImage = function () {
+        $scope.addPanImage = function() {
             $scope.panImage = [];
 
             window.imagePicker.getPictures(
-                function (results) {
-                    _.each(results, function (key) {
+                function(results) {
+                    _.each(results, function(key) {
                         $scope.panImage.push(key)
                     });
                     $scope.$apply();
                 },
-                function (error) {
+                function(error) {
                     console.log('Error: ' + error);
                 }, $scope.options
             );
         };
         $scope.otherImage = [];
-        $scope.addOtherImage = function () {
+        $scope.addOtherImage = function() {
             $scope.otherImage = [];
 
             window.imagePicker.getPictures(
-                function (results) {
-                    _.each(results, function (key) {
+                function(results) {
+                    _.each(results, function(key) {
                         $scope.otherImage.push(key)
                     });
                     $scope.$apply();
 
                 },
-                function (error) {
+                function(error) {
                     console.log('Error: ' + error);
                 }, $scope.options
             );
         };
 
-        $scope.uploadPhoto = function (serverpath, image, callback) {
+        $scope.uploadPhoto = function(serverpath, image, callback) {
             $cordovaFileTransfer.upload(serverpath, image, {})
-                .then(function (result) {
+                .then(function(result) {
                     $scope.uploadedImage++;
                     callback(result);
-                }, function (err) {
+                }, function(err) {
                     console.log(err);
-                }, function (progress) {
+                }, function(progress) {
 
                 });
 
@@ -1562,14 +1554,14 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         $scope.uploadedPan = [];
         $scope.uploadedOther = [];
         $scope.done = false;
-        $scope.upgradeIt = function (other) {
+        $scope.upgradeIt = function(other) {
             $scope.other = other;
             if ($scope.other == "" || $scope.other == null) {
                 var alertPopup = $ionicPopup.alert({
                     title: '',
                     template: '<h5 style="text-align: center;">Select the other document and upload</h5>'
                 });
-                alertPopup.then(function (res) {
+                alertPopup.then(function(res) {
                     if (res) {}
                 });
             } else if ($scope.panImage.length == 0 || $scope.otherImage.length == 0) {
@@ -1577,7 +1569,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                     title: '',
                     template: '<h5 style="text-align: center;">Please upload both the documents</h5>'
                 });
-                alertPopup.then(function (res) {
+                alertPopup.then(function(res) {
                     if (res) {}
                 });
             } else {
@@ -1586,7 +1578,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                     template: '<h5 style="text-align: center;">Are you sure?</h5>'
                 });
 
-                confirmPopup.then(function (res) {
+                confirmPopup.then(function(res) {
                     if (res) {
                         $ionicLoading.show({
                             animation: 'fade-in',
@@ -1596,8 +1588,8 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                         });
                         console.log($scope.panImage);
                         console.log($scope.otherImage);
-                        _.each($scope.panImage, function (key) {
-                            $scope.uploadPhoto(adminurl + "uploadfile/uploadfile", key, function (resp) {
+                        _.each($scope.panImage, function(key) {
+                            $scope.uploadPhoto(adminurl + "uploadfile/uploadfile", key, function(resp) {
                                 if (resp) {
                                     var parsed = JSON.parse(resp.response);
                                     $scope.uploadedPan.push(parsed.fileId);
@@ -1608,8 +1600,8 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                         });
 
                         var i = 1;
-                        _.each($scope.otherImage, function (key) {
-                            $scope.uploadPhoto(adminurl + "uploadfile/uploadfile", key, function (resp) {
+                        _.each($scope.otherImage, function(key) {
+                            $scope.uploadPhoto(adminurl + "uploadfile/uploadfile", key, function(resp) {
                                 if (resp) {
                                     var parsed = JSON.parse(resp.response);
                                     $scope.uploadedOther.push(parsed.fileId);
@@ -1627,7 +1619,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                                                 title: '',
                                                 template: '<h5 style="text-align: center;">Upgrade request sent for approval</h5>'
                                             });
-                                            alertPopup.then(function (res) {
+                                            alertPopup.then(function(res) {
                                                 if (res) {
                                                     $scope.upgradeText = "Request for upgrading monthly limit to Rs. 1,00,000 sent for approval";
                                                     $scope.closeUpgrade();
@@ -1658,41 +1650,41 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         else
             $scope.walletBalance = $scope.user.balance;
 
-        $scope.downIndicator = function () {
+        $scope.downIndicator = function() {
             $scope.indicator = true;
         };
-        $scope.upIndicator = function () {
+        $scope.upIndicator = function() {
             $scope.indicator = false;
         };
 
-        $scope.upgradeAlert = function () {
+        $scope.upgradeAlert = function() {
             var confirmPopup = $ionicPopup.confirm({
                 title: 'Wallet',
                 template: '<h5 style="text-align: center;margin-bottom:0">Amount exceeding monthly limit.<br>Do you want to upgrade KYC?</h5>'
             });
-            confirmPopup.then(function (res) {
+            confirmPopup.then(function(res) {
                 if (res) {
                     $scope.upgrade();
                 } else {}
             });
         };
         $scope.reffererUser = {};
-        $scope.updateReferrer = function (user) {
+        $scope.updateReferrer = function(user) {
             $scope.flag = undefined;
-            MyServices.updateReferrer(user, function (data2) {
+            MyServices.updateReferrer(user, function(data2) {
                 if (data2) {
                     $scope.reffererUser = data2;
                     console.log(data2);
                     $scope.flag = true;
                 }
-            }, function (err) {});
+            }, function(err) {});
             console.log($scope.flag);
             if ($scope.flag === false)
                 return false;
             else
                 return true;
         };
-        $scope.addMoney = function () {
+        $scope.addMoney = function() {
 
             $scope.transaction = {};
             $scope.refreshUser();
@@ -1709,7 +1701,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                     title: 'Wallet',
                     template: '<h5 style="text-align: center;margin-bottom:0">Are you sure you want to add Rs.' + $scope.wallet.amount + ' ? </h5>'
                 });
-                confirmPopup.then(function (res) {
+                confirmPopup.then(function(res) {
                     if (res) {
                         $scope.ctrlUser = {
                             _id: $scope.user._id,
@@ -1768,13 +1760,13 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             }
 
         };
-        $scope.applyCoupon = function () {
+        $scope.applyCoupon = function() {
             console.log("inside applyCoupon");
             if ($scope.coupon.code === undefined || $scope.coupon.code === null || $scope.coupon.code === "") {
                 $scope.alertUser("", "Invalid coupon", 'app/wallet');
             } else {
                 console.log("inside applyCoupon1");
-                MyServices.findCoupon($scope.coupon, function (data) {
+                MyServices.findCoupon($scope.coupon, function(data) {
                     console.log("inside applyCoupon2");
 
                     console.log(data);
@@ -1788,11 +1780,11 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                                 used: true,
                                 user: $scope.user._id
                             };
-                            MyServices.updateCoupon(couponData, function (data) {
+                            MyServices.updateCoupon(couponData, function(data) {
                                 if (data.value == true) {
                                     $scope.alertUser("", "Coupon Validated", 'app/wallet');
                                 }
-                            }, function (err) {
+                            }, function(err) {
 
                             })
 
@@ -1810,49 +1802,49 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                         }
                         $scope.coupon.code = "";
                     }
-                }, function (err) {
+                }, function(err) {
 
                 });
             }
 
         };
-        $scope.getSentMoney = function () {
+        $scope.getSentMoney = function() {
             console.log("herer");
             $scope.transFilter = {
                 type: "sendmoney",
                 from: $scope.user._id,
                 to: $scope.user._id
             };
-            MyServices.findByTypeUser($scope.transFilter, function (data) {
+            MyServices.findByTypeUser($scope.transFilter, function(data) {
                 if (data) {
                     $scope.sentmoney = data;
-                    _.each($scope.sentmoney, function (key) {
+                    _.each($scope.sentmoney, function(key) {
                         if ($scope.user._id === key.from) {
                             $scope.reciever = {
                                 _id: key.to
                             };
-                            MyServices.findUser($scope.reciever, function (data2) {
+                            MyServices.findUser($scope.reciever, function(data2) {
                                 if (data2) {
 
                                     key.username = data2.name;
                                     key.profile = data2.profile;
                                     key.sent = "sent";
                                 }
-                            }, function (err) {
+                            }, function(err) {
 
                             });
                         } else if ($scope.user._id === key.to) {
                             $scope.sender = {
                                 _id: key.from
                             };
-                            MyServices.findUser($scope.sender, function (data2) {
+                            MyServices.findUser($scope.sender, function(data2) {
                                 if (data2) {
                                     key.username = data2.name;
                                     key.profile = data2.profile;
 
                                     key.sent = "recieved";
                                 }
-                            }, function (err) {
+                            }, function(err) {
 
                             });
                         }
@@ -1867,15 +1859,15 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         };
         $ionicModal.fromTemplateUrl('templates/balance-history.html', {
             scope: $scope
-        }).then(function (modal) {
+        }).then(function(modal) {
             $scope.modal1 = modal;
         });
 
-        $scope.closeHistory = function () {
+        $scope.closeHistory = function() {
             $scope.modal1.hide();
         };
 
-        $scope.history = function () {
+        $scope.history = function() {
             $scope.modal1.show();
             $scope.getHistory();
             $scope.getSentMoney();
@@ -1886,21 +1878,21 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             type: "redeem",
             from: $scope.user._id
         };
-        $scope.getRedeem = function () {
-            MyServices.findByTypeUser($scope.transactionPendingFilter, function (data) {
+        $scope.getRedeem = function() {
+            MyServices.findByTypeUser($scope.transactionPendingFilter, function(data) {
                     if (data) {
                         $scope.redeemed = data;
                         $scope.item = {};
                         console.log($scope.redeemed);
-                        _.each($scope.redeemed, function (key) {
+                        _.each($scope.redeemed, function(key) {
                             $scope.item.id = key.to;
-                            MyServices.findVendor($scope.item, function (data) {
+                            MyServices.findVendor($scope.item, function(data) {
                                     if (data) {
                                         key.vendorname = data.name;
                                         key.vendoricon = data.logourl;
                                     }
                                 },
-                                function (err) {
+                                function(err) {
                                     if (err) {
                                         console.log(err);
                                     }
@@ -1908,7 +1900,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                         });
                     }
                 },
-                function (err) {
+                function(err) {
 
                 });
         };
@@ -1919,15 +1911,15 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             type: "balance",
             from: $scope.user._id
         };
-        $scope.getHistory = function () {
+        $scope.getHistory = function() {
             console.log("herer");
-            MyServices.findByTypeUser($scope.transactionFilter, function (data) {
+            MyServices.findByTypeUser($scope.transactionFilter, function(data) {
                 if (data) {
                     $scope.balanceHistory = data;
                     console.log($scope.balanceHistory);
                     console.log($scope.transactionFilter);
                 }
-            }, function (err) {
+            }, function(err) {
 
             });
         };
@@ -1935,10 +1927,10 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
 
 
     })
-    .controller('SpendHistoryCtrl', function ($scope, $stateParams) {
+    .controller('SpendHistoryCtrl', function($scope, $stateParams) {
 
     })
-    .controller('RedeemCtrl', function ($scope, $stateParams, $ionicModal, $timeout, $ionicPopup, $location, MyServices, $ionicLoading) {
+    .controller('RedeemCtrl', function($scope, $stateParams, $ionicModal, $timeout, $ionicPopup, $location, MyServices, $ionicLoading) {
         $scope.favoritePage();
 
         favorite.setActive(false);
@@ -1946,14 +1938,14 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         $scope.params = $stateParams;
         $scope.user = {};
         $scope.user = MyServices.getUser();
-        $scope.refreshUser = function () {
-            MyServices.findUser($scope.user, function (data) {
+        $scope.refreshUser = function() {
+            MyServices.findUser($scope.user, function(data) {
                 if (data) {
                     console.log(data);
                     MyServices.setUser(data);
                     $scope.user = MyServices.getUser();
                 }
-            }, function (err) {
+            }, function(err) {
 
             });
         };
@@ -1968,20 +1960,20 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         $scope.redeem = {
             amount: undefined
         };
-        $scope.show = function () {
+        $scope.show = function() {
             $ionicLoading.show({
                 template: '<ion-spinner icon="crescent" class="spinner-assertive"></ion-spinner>'
             });
         };
-        $scope.hide = function () {
+        $scope.hide = function() {
 
             $ionicLoading.hide();
         };
         $scope.show();
-        $timeout(function () {
+        $timeout(function() {
             $scope.hide();
         }, 3000);
-        MyServices.findVendor($scope.params, function (data) {
+        MyServices.findVendor($scope.params, function(data) {
             if (data) {
                 $scope.hide();
                 $scope.vendor = data;
@@ -2006,13 +1998,13 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                 else
                     favorite.setActive(false);
             }
-        }, function (err) {
+        }, function(err) {
             if (err) {
                 console.log(err);
             }
         });
 
-        $scope.isInLimit = function (value) {
+        $scope.isInLimit = function(value) {
             if ($scope.vendor.amountlimit === undefined) {
                 $scope.crossedLimit = false;
                 return true;
@@ -2030,18 +2022,18 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         //   TERMS AND CONDITIONS MODAL FUNCTIONS
         $ionicModal.fromTemplateUrl('templates/tNc.html', {
             scope: $scope
-        }).then(function (modal) {
+        }).then(function(modal) {
             $scope.modal = modal;
         });
 
         // Triggered in the tNc modal to close it
-        $scope.closeTNC = function () {
+        $scope.closeTNC = function() {
             $scope.readTNC = true;
             $scope.modal.hide();
         };
 
         // Open the tNc modal
-        $scope.tNc = function () {
+        $scope.tNc = function() {
             $scope.modal.show();
         };
         //    MODAL END
@@ -2049,28 +2041,28 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         //   TERMS AND CONDITIONS MODAL FUNCTIONS
         $ionicModal.fromTemplateUrl('templates/detail.html', {
             scope: $scope
-        }).then(function (modal) {
+        }).then(function(modal) {
             $scope.modal3 = modal;
         });
 
         // Triggered in the tNc modal to close it
-        $scope.closeDetail = function () {
+        $scope.closeDetail = function() {
             $scope.readdetail = true;
             $scope.modal3.hide();
         };
 
         // Open the detail modal
-        $scope.detail = function () {
+        $scope.detail = function() {
             $scope.modal3.show();
         };
         //    MODAL END
 
         //        $scope.quickMoney = [500, 1000, 1500];
-        $scope.selectMoney = function (buttonvalue) {
+        $scope.selectMoney = function(buttonvalue) {
             console.log(buttonvalue);
             $scope.redeem.amount = buttonvalue;
         };
-        $scope.addRedeemTransaction = function () {
+        $scope.addRedeemTransaction = function() {
 
             if ($scope.redeem.amount === null || $scope.redeem.amount === 0 || $scope.redeem.amount === undefined || $scope.redeem.amount < 0)
                 $scope.zeroAmount();
@@ -2092,7 +2084,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                         title: 'Redeem',
                         template: '<h5 style="text-align: center;margin-bottom:0">Are you sure?</h5>'
                     });
-                    confirmPopup.then(function (res) {
+                    confirmPopup.then(function(res) {
                         if (res) {
                             if ($scope.updateUser($scope.ctrlUser) == true) {
                                 $scope.transaction = {
@@ -2134,92 +2126,92 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
 
 
         };
-        $scope.proceedAlert = function () {
+        $scope.proceedAlert = function() {
             var alertPopup = $ionicPopup.alert({
                 title: 'Redeem ',
                 template: '<div style="text-align: center;"><img src="img/pending.png" style="width: 25%;"></div><h5 style="text-align: center;margin-bottom:0">Request pending approval</h5>'
             });
-            alertPopup.then(function (res) {
+            alertPopup.then(function(res) {
                 $location.path('app/wallet');
             });
         };
-        $scope.zeroBalance = function () {
+        $scope.zeroBalance = function() {
             var alertPopup = $ionicPopup.alert({
                 title: 'Redeem',
                 template: '<div style="text-align: center;"><img src="img/pending.png" style="width: 25%;"></div><h5 style="text-align: center;margin-bottom:0">Request pending approval</h5>'
             });
-            alertPopup.then(function (res) {
+            alertPopup.then(function(res) {
                 $location.path('app/wallet');
             });
         };
-        $scope.zeroAmount = function () {
+        $scope.zeroAmount = function() {
             var alertPopup = $ionicPopup.alert({
                 title: 'Redeem',
                 template: '<h5 style="text-align: center;margin-bottom:0">Please enter a valid amount.</h5>'
             });
-            alertPopup.then(function (res) {});
+            alertPopup.then(function(res) {});
         };
-        $scope.exceedingLimit = function () {
+        $scope.exceedingLimit = function() {
             var alertPopup = $ionicPopup.alert({
                 title: 'Redeem',
                 template: '<h5 style="text-align: center;margin-bottom:0">The amount redeem limit is ' + $scope.vendor.amountlimit + '.</h5>'
             });
-            alertPopup.then(function (res) {});
+            alertPopup.then(function(res) {});
         };
 
     })
-    .controller('ListViewCtrl', function ($scope, $stateParams, MyServices) {
+    .controller('ListViewCtrl', function($scope, $stateParams, MyServices) {
         $scope.params = $stateParams;
 
-        MyServices.findCategory($scope.params, function (data) {
+        MyServices.findCategory($scope.params, function(data) {
             console.log(data);
             if (data) {
                 $scope.category = data;
             }
-        }, function (err) {
+        }, function(err) {
             if (err) {
                 console.log(err);
             }
         });
         $scope.vendors = [];
-        MyServices.findVendorByCategory($scope.params, function (data) {
+        MyServices.findVendorByCategory($scope.params, function(data) {
             if (data) {
                 $scope.vendors = data;
                 console.log($scope.vendors);
             }
-        }, function (err) {
+        }, function(err) {
             if (err) {
                 console.log(err);
             }
         });
     })
-    .controller('GridViewCtrl', function ($scope, $stateParams, MyServices, $ionicNavBarDelegate, $ionicLoading, $timeout) {
+    .controller('GridViewCtrl', function($scope, $stateParams, MyServices, $ionicNavBarDelegate, $ionicLoading, $timeout) {
         $scope.params = $stateParams;
         $scope.nofavoritePage();
-        $scope.show = function () {
+        $scope.show = function() {
             $ionicLoading.show({
                 template: '<ion-spinner icon="crescent" class="spinner-assertive"></ion-spinner>'
             });
         };
-        $scope.hide = function () {
+        $scope.hide = function() {
             $ionicLoading.hide();
         };
         $scope.show();
-        $timeout(function () {
+        $timeout(function() {
             $scope.hide();
         }, 3000);
-        MyServices.findCategory($scope.params, function (data) {
+        MyServices.findCategory($scope.params, function(data) {
             console.log(data);
             if (data) {
                 $scope.category = data;
             }
-        }, function (err) {
+        }, function(err) {
             if (err) {
                 console.log(err);
             }
         });
         $scope.vendors = [];
-        MyServices.findVendorByCategory($scope.params, function (data) {
+        MyServices.findVendorByCategory($scope.params, function(data) {
             $scope.hide();
             if (data) {
                 $scope.vendors = data;
@@ -2227,29 +2219,29 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                     $scope.vendors = _.chunk($scope.vendors, 3);
                 console.log($scope.vendors);
             }
-        }, function (err) {
+        }, function(err) {
             if (err) {
                 console.log(err);
             }
         });
     })
-    .controller('NotificationCtrl', function ($scope, $stateParams, MyServices, $location, $ionicPopup) {
+    .controller('NotificationCtrl', function($scope, $stateParams, MyServices, $location, $ionicPopup) {
         $scope.nofavoritePage();
 
         $scope.user = {};
         $scope.user = MyServices.getUser();
-        $scope.refreshUser = function () {
-            MyServices.findUser($scope.user, function (data) {
+        $scope.refreshUser = function() {
+            MyServices.findUser($scope.user, function(data) {
                 if (data) {
                     console.log(data);
                     MyServices.setUser(data);
                     $scope.user = MyServices.getUser();
                 }
-            }, function (err) {
+            }, function(err) {
 
             });
         };
-        $scope.markRead = function (item) {
+        $scope.markRead = function(item) {
             var timest = moment(item.timestamp);
             item.read = true;
             if ($scope.updateUser($scope.user)) {
@@ -2258,7 +2250,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                     template: '<h5 style="text-align:center;">' + item.body + '</h5><span style="clear:left;float:right;">' + timest.from(new Date()) + '</span>'
                 });
 
-                alertPopup.then(function (res) {
+                alertPopup.then(function(res) {
                     $scope.refreshUser();
                     alertPopup.close();
                 });
@@ -2268,35 +2260,35 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         };
 
     })
-    .controller('ProfileCtrl', function ($scope, $stateParams, MyServices, $ionicPopup, $cordovaFileTransfer, $ionicLoading, $ionicModal, $ionicPopup) {
+    .controller('ProfileCtrl', function($scope, $stateParams, MyServices, $ionicPopup, $cordovaFileTransfer, $ionicLoading, $ionicModal, $ionicPopup) {
         $scope.nofavoritePage();
         $scope.change = {};
         $scope.user = {};
         $scope.edit = true;
         $scope.user = MyServices.getUser();
-        $scope.refreshUser = function () {
-            MyServices.findUser($scope.user, function (data) {
+        $scope.refreshUser = function() {
+            MyServices.findUser($scope.user, function(data) {
                 if (data) {
                     console.log(data);
                     MyServices.setUser(data);
                     $scope.user = MyServices.getUser();
                 }
-            }, function (err) {
+            }, function(err) {
 
             });
         };
         $scope.refreshUser();
         $scope.refreshNoti($scope.user);
 
-        $scope.toggleEdit = function () {
+        $scope.toggleEdit = function() {
             $scope.edit = $scope.edit === false ? true : false;
         };
-        $scope.alertUser = function (alertTitle, alertDesc, link) {
+        $scope.alertUser = function(alertTitle, alertDesc, link) {
             var alertPopup = $ionicPopup.alert({
                 title: alertTitle,
                 template: '<h5 style="text-align: center;margin-bottom:0">' + alertDesc + '</h5>'
             });
-            alertPopup.then(function (res) {
+            alertPopup.then(function(res) {
                 if (link)
                     $location.path(link);
             });
@@ -2309,10 +2301,10 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         };
         $scope.selectedImage;
         $scope.profilePicChanged = false;
-        $scope.addProfileImage = function () {
+        $scope.addProfileImage = function() {
 
             window.imagePicker.getPictures(
-                function (results) {
+                function(results) {
                     if (results) {
                         $scope.selectedImage = results[0];
                         console.log($scope.selectedImage);
@@ -2322,37 +2314,37 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                         $scope.$apply();
                     }
                 },
-                function (error) {
+                function(error) {
                     console.log('Error: ' + error);
                 }, $scope.options
             );
         };
         $scope.updated = false;
-        $scope.uploadProfilePhoto = function (image, callback) {
+        $scope.uploadProfilePhoto = function(image, callback) {
             $cordovaFileTransfer.upload(adminurl + "uploadfile/uploadfile", image, {})
-                .then(function (result) {
+                .then(function(result) {
 
                     $ionicLoading.hide();
                     callback(result);
-                }, function (err) {
+                }, function(err) {
                     console.log(err);
-                }, function (progress) {
+                }, function(progress) {
                     $ionicLoading.show({
                         template: '<ion-spinner icon="crescent" class="spinner-assertive"></ion-spinner>'
                     });
                 });
         };
-        $scope.saveUser = function () {
+        $scope.saveUser = function() {
             $scope.updated = false;
             if ($scope.profilePicChanged === true) {
-                $scope.uploadProfilePhoto($scope.user.profile, function (resp) {
+                $scope.uploadProfilePhoto($scope.user.profile, function(resp) {
                     if (resp) {
                         console.log(resp);
                         var parsed = JSON.parse(resp.response);
                         $scope.user.profile = parsed.fileId;
                         console.log($scope.user);
                         delete $scope.user.mobile;
-                        MyServices.updateUser($scope.user, function (data2) {
+                        MyServices.updateUser($scope.user, function(data2) {
                             console.log("response aage");
                             console.log(data2);
                             if (data2) {
@@ -2364,14 +2356,14 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                                     $scope.refreshUser();
                                 }
                             }
-                        }, function (err) {});
+                        }, function(err) {});
                     }
                 })
             } else {
                 console.log("no profile pic change");
                 delete $scope.user.profile;
                 delete $scope.user.mobile;
-                MyServices.updateUser($scope.user, function (data2) {
+                MyServices.updateUser($scope.user, function(data2) {
                     console.log("response aage");
                     console.log(data2);
                     if (data2) {
@@ -2383,12 +2375,12 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                             $scope.refreshUser();
                         }
                     }
-                }, function (err) {});
+                }, function(err) {});
             }
         };
         $scope.confirmed = false;
         $scope.validate = {};
-        $scope.validatePass = function () {
+        $scope.validatePass = function() {
             console.log("here");
             $scope.validate = {
                 pass: false,
@@ -2406,7 +2398,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             else
                 return true;
         };
-        $scope.checkPassword = function () {
+        $scope.checkPassword = function() {
             if ($scope.change.editpass != "" || $scope.change.editpass != null || $scope.change.editpass != undefined) {
                 if ($scope.change.confirmeditpass === $scope.change.editpass) {
                     $scope.confirmed = true;
@@ -2418,19 +2410,19 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                 }
             }
         };
-        $scope.changePass = function () {
+        $scope.changePass = function() {
             if ($scope.validatePass()) {
                 var param = {
                     _id: $scope.user._id,
                     password: $scope.change.pass,
                     editpassword: $scope.change.editpass
                 };
-                MyServices.changePass(param, function (data) {
+                MyServices.changePass(param, function(data) {
                     if (data.value == true) {
                         var alertPopup = $ionicPopup.alert({
                             template: '<h4 style="text-align: center;margin-bottom:0">Password changed</h4>'
                         });
-                        alertPopup.then(function (res) {
+                        alertPopup.then(function(res) {
                             $scope.closeChangePassword();
                         });
 
@@ -2439,32 +2431,32 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                             var alertPopup = $ionicPopup.alert({
                                 template: '<h4 style="text-align: center;margin-bottom:0">Current password incorrect</h4>'
                             });
-                            alertPopup.then(function (res) {
+                            alertPopup.then(function(res) {
 
                             });
                         } else if (data.comment == "Same password") {
                             var alertPopup = $ionicPopup.alert({
                                 template: '<h4 style="text-align: center;margin-bottom:0">New password is equal to the old one</h4>'
                             });
-                            alertPopup.then(function (res) {
+                            alertPopup.then(function(res) {
 
                             });
                         }
                     }
-                }, function (err) {
+                }, function(err) {
 
                 });
             }
         };
         $ionicModal.fromTemplateUrl('templates/changepassword.html', {
             scope: $scope
-        }).then(function (modal) {
+        }).then(function(modal) {
             $scope.modal2 = modal;
         });
-        $scope.closeChangePassword = function () {
+        $scope.closeChangePassword = function() {
             $scope.modal2.hide();
         };
-        $scope.changePassword = function () {
+        $scope.changePassword = function() {
             $scope.modal2.show();
         };
 
