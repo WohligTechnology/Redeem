@@ -3,7 +3,7 @@ var globalFunction = {};
 //var adminurl = "http://192.168.0.117:1337/";
 var adminurl = "http://104.197.111.152/";
 var balance = 0;
-
+var myBalance = 0;
 angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
 
 .controller('AppCtrl', function($ionicPlatform, $scope, $ionicModal, $timeout, MyServices, $ionicPopup, $location, $filter, $state, $interval) {
@@ -17,10 +17,9 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                 $.jStorage.set("balance", data.comment.balance);
                 $scope.myBalance = {};
                 $scope.myBalance.balance = data.comment.balance;
+                myBalance = data.comment.balance;
             }
-        }, function(err) {
-
-        });
+        }, function(err) {});
     };
 
     globalFunction.addMoney = function(amt) {
@@ -1365,7 +1364,8 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         };
 
     })
-    .controller('SendMoneyCtrl', function($scope, $stateParams, MyServices, $ionicPopup, $location) {
+
+.controller('SendMoneyCtrl', function($scope, $stateParams, MyServices, $ionicPopup, $location) {
         $scope.nofavoritePage();
         globalFunction.readMoney();
         $scope.send = {};
@@ -1435,85 +1435,119 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                     $scope.dirty.amount = true;
 
                 } else {
-                    MyServices.findUserByMobile($scope.send, function(data) {
-                        if (data._id) {
+                    // MyServices.findUserByMobile($scope.send, function(data) {
+                    //     if (data._id) {
+                    //         console.log(data);
+                    //         $scope.updateU1 = {
+                    //             _id: data._id,
+                    //             balance: data.balance + $scope.send.amount,
+                    //         };
+                    //         if ($scope.user._id === data._id) {
+                    //             $scope.alertUser("Send Money", "You cannot send money to yourself");
+                    //         } else if (($scope.user.balance - $scope.send.amount) <= 0) {
+                    //             $scope.alertUser("Send Money", "Not enough balance");
+                    //         } else {
+                    //
+                    //             var confirmPopup = $ionicPopup.confirm({
+                    //                 title: 'Send money',
+                    //                 template: '<h5 style="text-align: center;margin-bottom:0">Are you sure?</h5>'
+                    //             });
+                    //             confirmPopup.then(function(res) {
+                    //                 if (res) {
+                    //                     if ($scope.updateUser($scope.updateU1)) {
+                    //                         $scope.updateU2 = {
+                    //                             _id: $scope.user._id,
+                    //                             balance: $scope.ctrlUser.balance - $scope.send.amount
+                    //                         };
+                    //                         if ($scope.updateUser($scope.updateU2)) {
+                    //                             $scope.refreshUser();
+                    //                             $scope.transaction = {
+                    //                                 from: $scope.user._id,
+                    //                                 to: data._id,
+                    //                                 type: "sendmoney",
+                    //                                 amount: $scope.send.amount,
+                    //                                 comment: $scope.send.comment
+                    //                             };
+                    //                             if ($scope.addTransaction($scope.transaction)) {
+                    //                                 $scope.recieverNotify = {
+                    //                                     type: "sendmoney",
+                    //                                     deviceid: data.notificationtoken.deviceid,
+                    //                                     os: data.notificationtoken.os,
+                    //                                     user: data._id,
+                    //                                     comment: $scope.send.comment,
+                    //                                     amount: $scope.send.amount,
+                    //                                     name: $scope.user.name
+                    //                                 };
+                    //                                 var alertPopup = $ionicPopup.alert({
+                    //                                     template: '<h4 style="text-align: center;margin-bottom:0">Transaction successful.</h4>'
+                    //                                 });
+                    //                                 alertPopup.then(function(res) {
+                    //                                     MyServices.notify($scope.recieverNotify, function(data2) {
+                    //                                         $location.path('app/home');
+                    //                                     }, function(err) {
+                    //
+                    //                                     });
+                    //
+                    //                                 });
+                    //
+                    //
+                    //                             } else {
+                    //
+                    //                             }
+                    //                         } else {
+                    //                             //revert code for current logged in user
+                    //                         }
+                    //                     } else {
+                    //                         //revert code for reciever
+                    //                     }
+                    //                 } else {
+                    //                     $scope.send.mobile = undefined;
+                    //                     $scope.send.comment = undefined;
+                    //                     $scope.send.amount = undefined;
+                    //                 }
+                    //             });
+                    //         }
+                    //     } else {
+                    //         $scope.alertUser("Send Money", "The user is not on PAiSO.");
+                    //     }
+                    // }, function(err) {
+                    //
+                    // });
+                    if (myBalance >= $scope.send.amount) {
+                        console.log("in else -> if");
+                        var userDetails = MyServices.getUser();
+                        var obj = {};
+                        obj.consumer = userDetails.consumer_id;
+                        obj.mobile = $scope.send.mobile;
+                        obj.email = userDetails.email;
+                        obj.amount = $scope.send.amount;
+                        obj.message = $scope.send.comment;
+                        obj.user = userDetails._id;
+                        MyServices.moneySend(obj, function(data) {
                             console.log(data);
-                            $scope.updateU1 = {
-                                _id: data._id,
-                                balance: data.balance + $scope.send.amount,
-                            };
-                            if ($scope.user._id === data._id) {
+                            if (data.value == false && data.comment == "No data found") {
+                                $scope.alertUser("Send Money", "The user is not on PAiSO.");
+                            }
+                            if (data.value == false && data.comment && data.comment.status_code == "257") {
                                 $scope.alertUser("Send Money", "You cannot send money to yourself");
-                            } else if (($scope.user.balance - $scope.send.amount) <= 0) {
-                                $scope.alertUser("Send Money", "Not enough balance");
-                            } else {
-
-                                var confirmPopup = $ionicPopup.confirm({
-                                    title: 'Send money',
-                                    template: '<h5 style="text-align: center;margin-bottom:0">Are you sure?</h5>'
+                            }
+                            if (data.value == true) {
+                                var alertPopup = $ionicPopup.alert({
+                                    title: "Send Money",
+                                    template: '<h5 style="text-align: center;margin-bottom:0">Transaction successful.</h5>'
                                 });
-                                confirmPopup.then(function(res) {
-                                    if (res) {
-                                        if ($scope.updateUser($scope.updateU1)) {
-                                            $scope.updateU2 = {
-                                                _id: $scope.user._id,
-                                                balance: $scope.ctrlUser.balance - $scope.send.amount
-                                            };
-                                            if ($scope.updateUser($scope.updateU2)) {
-                                                $scope.refreshUser();
-                                                $scope.transaction = {
-                                                    from: $scope.user._id,
-                                                    to: data._id,
-                                                    type: "sendmoney",
-                                                    amount: $scope.send.amount,
-                                                    comment: $scope.send.comment
-                                                };
-                                                if ($scope.addTransaction($scope.transaction)) {
-                                                    $scope.recieverNotify = {
-                                                        type: "sendmoney",
-                                                        deviceid: data.notificationtoken.deviceid,
-                                                        os: data.notificationtoken.os,
-                                                        user: data._id,
-                                                        comment: $scope.send.comment,
-                                                        amount: $scope.send.amount,
-                                                        name: $scope.user.name
-                                                    };
-                                                    var alertPopup = $ionicPopup.alert({
-                                                        template: '<h4 style="text-align: center;margin-bottom:0">Transaction successful.</h4>'
-                                                    });
-                                                    alertPopup.then(function(res) {
-                                                        MyServices.notify($scope.recieverNotify, function(data2) {
-                                                            $location.path('app/home');
-                                                        }, function(err) {
-
-                                                        });
-
-                                                    });
-
-
-                                                } else {
-
-                                                }
-                                            } else {
-                                                //revert code for current logged in user
-                                            }
-                                        } else {
-                                            //revert code for reciever
-                                        }
-                                    } else {
-                                        $scope.send.mobile = undefined;
-                                        $scope.send.comment = undefined;
-                                        $scope.send.amount = undefined;
-                                    }
+                                alertPopup.then(function(res) {
+                                    $location.path('app/wallet');
                                 });
                             }
-                        } else {
-                            $scope.alertUser("Send Money", "The user is not on PAiSO.");
-                        }
-                    }, function(err) {
-
-                    });
-
+                        }, function(err) {
+                            if (err) {
+                                console.log(err);
+                            }
+                        });
+                    } else {
+                        $scope.alertUser("Send Money", "Not enough balance");
+                    }
                 }
             }
         }
@@ -1523,6 +1557,18 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
         $scope.user = {};
         $scope.coupon = {};
         $scope.user = MyServices.getUser();
+
+        MyServices.readMoney({
+            "consumer": $.jStorage.get("user").consumer_id
+        }, function(data) {
+            console.log("balance : " + data.comment.balance);
+            if (data.value) {
+                $.jStorage.set("balance", data.comment.balance);
+                $scope.myBalance = {};
+                $scope.myBalance.balance = data.comment.balance;
+            }
+        }, function(err) {});
+
         $scope.refreshUser = function() {
             MyServices.findUser($scope.user, function(data) {
                 if (data) {
@@ -2210,7 +2256,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
             $scope.redeem.amount = buttonvalue;
         };
         $scope.addRedeemTransaction = function() {
-
+            $scope.input = {};
             if ($scope.redeem.amount === null || $scope.redeem.amount === 0 || $scope.redeem.amount === undefined || $scope.redeem.amount < 0)
                 $scope.zeroAmount();
             else if ($scope.vendor.amountlimit != undefined && $scope.isInLimit($scope.redeem.amount, $scope.vendor.amountlimit))
@@ -2219,7 +2265,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
 
                 $scope.ctrlUser = {
                     _id: $scope.user._id,
-                    balance: $scope.user.balance - $scope.redeem.amount
+                    balance: $scope.myBalance.balance - $scope.redeem.amount
                 }; //updates walletLimit,see isRemainging for more on walletLimit
                 if ($scope.vendor.hasoffer) {
                     var cashback = ($scope.vendor.offerpercent * $scope.redeem.amount) / 100;
@@ -2233,45 +2279,82 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova'])
                     });
                     confirmPopup.then(function(res) {
                         if (res) {
-                            if ($scope.updateUser($scope.ctrlUser) == true) {
-                                $scope.transaction = {
-                                    from: $scope.user._id,
-                                    to: $scope.vendor._id,
-                                    type: "redeem",
-                                    currentbalance: $scope.ctrlUser.balance,
-                                    amount: $scope.redeem.amount,
-                                    name: $scope.user.name,
-                                    email: $scope.user.email,
-                                    vendor: $scope.vendor.name,
-                                    mobile: $scope.user.mobile,
-                                    deviceid: $scope.user.notificationtoken.deviceid,
-                                    os: $scope.user.notificationtoken.os,
-                                    user: $scope.user._id
-                                };
-                                if ($scope.vendor.hasoffer) {
-                                    $scope.transaction.hasoffer = true;
-                                    $scope.transaction.cashback = cashback;
+                            MyServices.generateOtpForDebit(MyServices.getUser().consumer_id, function(data) {
+                                console.log(data);
+                                if (data.value != false)
+                                    openOTP();
+                            }, function(err) {
+                                if (err) {
+                                    console.log(err);
                                 }
-                                if ($scope.addTransaction($scope.transaction)) {
-                                    $scope.user.balance = $scope.ctrlUser.balance;
-                                    $scope.proceedAlert();
-                                    $scope.refreshUser();
-                                } else {
-                                    $scope.alertUser("Redeem", "Unable to redeem amount");
-                                }
-                                MyServices.setUser($scope.user);
-                            } else
-                                $scope.alertUser("Redeem", "Server error. Try again.");
+                            })
                         } else
                             $scope.redeem.amount = undefined;
                     });
+
+                    function openOTP() {
+                        var myPopup = $ionicPopup.show({
+                            template: '<input type="text" ng-model="input.otp" style="margin: 0px auto;width:100px;text-align:center;font-size:20px">',
+                            title: 'OTP Verification',
+                            subTitle: 'Enter the 6-digit OTP :',
+                            scope: $scope,
+                            buttons: [{
+                                text: '<h5>Cancel</h5>',
+                                onTap: function(e) {
+                                    myPopup.close();
+                                }
+                            }, {
+                                text: '<b>Verify</b>',
+                                type: 'button-positive',
+                                onTap: function(e) {
+                                    if (!$scope.input.otp) {
+                                        //don't allow the user to close unless he enters wifi password
+                                        e.preventDefault();
+                                    } else {
+                                        //call remove
+                                        redeemNow();
+                                    }
+                                }
+                            }]
+                        });
+                    }
+
+                    function redeemNow() {
+                        console.log("redeem called");
+                        // if ($scope.updateUser($scope.ctrlUser) == true) {
+                        //     $scope.transaction = {
+                        //         from: $scope.user._id,
+                        //         to: $scope.vendor._id,
+                        //         type: "redeem",
+                        //         currentbalance: $scope.ctrlUser.balance,
+                        //         amount: $scope.redeem.amount,
+                        //         name: $scope.user.name,
+                        //         email: $scope.user.email,
+                        //         vendor: $scope.vendor.name,
+                        //         mobile: $scope.user.mobile,
+                        //         deviceid: $scope.user.notificationtoken.deviceid,
+                        //         os: $scope.user.notificationtoken.os,
+                        //         user: $scope.user._id
+                        //     };
+                        //     if ($scope.vendor.hasoffer) {
+                        //         $scope.transaction.hasoffer = true;
+                        //         $scope.transaction.cashback = cashback;
+                        //     }
+                        //     if ($scope.addTransaction($scope.transaction)) {
+                        //         $scope.user.balance = $scope.ctrlUser.balance;
+                        //         $scope.proceedAlert();
+                        //         $scope.refreshUser();
+                        //     } else {
+                        //         $scope.alertUser("Redeem", "Unable to redeem amount");
+                        //     }
+                        //     MyServices.setUser($scope.user);
+                        // } else
+                        //     $scope.alertUser("Redeem", "Server error. Try again.");
+                    }
                 } else {
                     $scope.alertUser("Redeem", "Not enough balance in your wallet");
                 }
-
             }
-
-
         };
         $scope.proceedAlert = function() {
             var alertPopup = $ionicPopup.alert({

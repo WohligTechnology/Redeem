@@ -1,8 +1,8 @@
 // var adminurl = "http://192.168.0.126:81/";
 //var adminurl = "http://wohlig.in:81/";
 // var adminurl = "http://104.154.90.30/";
-var adminurl = "http://192.168.0.118:1337/";
-// var adminurl = "http://192.168.0.117:81/";
+// var adminurl = "http://192.168.0.118:1337/";
+var adminurl = "http://192.168.0.117:81/";
 var imgpath = adminurl + "uploadfile/getupload?file=";
 
 angular.module('starter.services', [])
@@ -239,6 +239,22 @@ angular.module('starter.services', [])
                 url: adminurl + 'user/walletAdd',
                 method: 'POST',
                 data: wallet
+            }).success(callback).error(err);
+        },
+        generateOtpForDebit: function(consumer, callback, err) {
+            $http({
+                url: adminurl + 'user/generateOtpForDebit',
+                method: 'POST',
+                data: {
+                    "consumer": consumer
+                }
+            }).success(callback).error(err);
+        },
+        moneySend: function(sendmoney, callback, err) {
+            $http({
+                url: adminurl + 'user/moneySend',
+                method: 'POST',
+                data: sendmoney
             }).success(callback).error(err);
         },
         setNotify: function(data) {
