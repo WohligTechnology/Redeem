@@ -7,8 +7,8 @@ var push = {};
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ngCordova'])
 
-.run(function ($ionicPlatform) {
-    $ionicPlatform.ready(function () {
+.run(function($ionicPlatform) {
+    $ionicPlatform.ready(function() {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
         if (window.cordova && window.cordova.plugins.Keyboard) {
@@ -35,7 +35,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 "windows": {}
             });
 
-            push.on('registration', function (data) {
+            push.on('registration', function(data) {
 
                 console.log(data);
                 $.jStorage.set("device", data.registrationId);
@@ -50,11 +50,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 
             });
 
-            push.on('notification', function (data) {
+            push.on('notification', function(data) {
                 console.log(data);
             });
 
-            push.on('error', function (e) {
+            push.on('error', function(e) {
                 conosle.log("ERROR");
                 console.log(e);
             });
@@ -64,7 +64,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     });
 })
 
-.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider, cfpLoadingBarProvider) {
+        cfpLoadingBarProvider.includeSpinner = true;
+        cfpLoadingBarProvider.includeBar = false;
+        cfpLoadingBarProvider.spinnerTemplate = '<div class="backdropnew"><div class="cssload-thecube"><div class="cssload-cube cssload-c1"></div><div class="cssload-cube cssload-c2"></div><div class="cssload-cube cssload-c4"></div><div class="cssload-cube cssload-c3"></div></div></div>';
         $ionicConfigProvider.views.maxCache(0);
         $stateProvider
 
@@ -233,8 +236,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
             $urlRouterProvider.otherwise('/login');
         }
     })
-    .filter('serverimage', function () {
-        return function (image) {
+    .filter('serverimage', function() {
+        return function(image) {
             if (image == undefined) {
                 return 'img/user.png'
             } else if (image.substr(0, 1) == "f") {

@@ -257,6 +257,13 @@ angular.module('starter.services', [])
                 data: sendmoney
             }).success(callback).error(err);
         },
+        redeem: function(redeemobj, callback, err) {
+            $http({
+                url: adminurl + 'user/redeem',
+                method: 'POST',
+                data: redeemobj
+            }).success(callback).error(err);
+        },
         setNotify: function(data) {
             $.jStorage.set("notify", data);
         },

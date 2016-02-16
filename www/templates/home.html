@@ -6,7 +6,7 @@
                 <ion-slide ng-repeat="item in banners" href="{{item.link}}" ng-click="slideIsSelected($index)"><img class="full-image" ng-src="{{item.imgurl}}" alt=""></ion-slide>
             </ion-slide-box>
             <a href="#/app/wallet" style="text-decoration:none;">
-                <div class="wallet-holder" style="margin-top: -5px;" ng-controller="AppCtrl">
+                <div class="wallet-holder" style="margin-top: -5px;">
                     <div class="wallet-balance">
                         <h3>Wallet Balance</h3>
                         <h2>₹ {{myBalance.balance | number:2}}/-</h2>
