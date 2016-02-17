@@ -34,7 +34,8 @@
       "id": "com.synconset.imagepicker"
     },
     "cordova-plugin-file-transfer",
-    "cordova-plugin-inappbrowser"
+    "cordova-plugin-inappbrowser",
+    "cordova-plugin-x-socialsharing"
   ],
   "cordovaPlatforms": [
     "android",

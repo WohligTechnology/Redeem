@@ -107,36 +107,63 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
                     obj.cvv = $scope.cardDetails.cvv;
                     obj.user = userDetails._id;
                     obj.name = userDetails.name;
-                    obj.url = "";
+                    obj.url = adminurl + "user/responseCheck";
                     if (userDetails.referrer)
                         obj.referrer = userDetails.referrer;
                     else
                         obj.referrer = "";
-                    MyServices.walletAdd(obj, function(data) {
+                    var currentbal = 0;
+                    globalFunction.readMoney(function(bal) {
+                        currentbal = bal;
+                    })
+                    MyServices.addToWallet(obj, function(data) {
                         console.log(data);
                         if (data.value == true) {
-                            var alertPopup = $ionicPopup.alert({
-                                title: '',
-                                template: '<h4 style="text-align:center;">Balance added to your wallet</h4>'
-                            });
-                            alertPopup.then(function(res) {
-                                alertPopup.close();
-                                $state.go('app.home');
-                            });
-                        } else {
-                            var alertPopup = $ionicPopup.alert({
-                                title: '',
-                                template: '<h4 style="text-align:center;">Something went wrong. Please try again later</h4>'
-                            });
-                            alertPopup.then(function(res) {
-                                alertPopup.close();
-                            });
+                            // var ref = window.open(data.comment.payment_url);
+                            var ref = cordova.InAppBrowser.open(data.comment.payment_url);
+                            var callinterval = $interval(function() {
+                                globalFunction.readMoney(function(bal) {
+                                    if (bal > currentbal) {
+                                        ref.close();
+                                        $interval.cancel(callinterval);
+                                        callWalletAdd();
+                                    }
+                                })
+                            }, 3000);
                         }
                     }, function(err) {
                         if (err) {
                             console.log(err);
                         }
-                    });
+                    })
+
+                    function callWalletAdd() {
+                        MyServices.walletAdd(obj, function(data) {
+                            console.log(data);
+                            if (data.value == true) {
+                                var alertPopup = $ionicPopup.alert({
+                                    title: '',
+                                    template: '<h4 style="text-align:center;">Balance added to your wallet</h4>'
+                                });
+                                alertPopup.then(function(res) {
+                                    alertPopup.close();
+                                    $state.go('app.home');
+                                });
+                            } else {
+                                var alertPopup = $ionicPopup.alert({
+                                    title: '',
+                                    template: '<h4 style="text-align:center;">Something went wrong. Please try again later</h4>'
+                                });
+                                alertPopup.then(function(res) {
+                                    alertPopup.close();
+                                });
+                            }
+                        }, function(err) {
+                            if (err) {
+                                console.log(err);
+                            }
+                        });
+                    }
                 }
             }]
         })
@@ -1533,6 +1560,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
                             obj.amount = $scope.send.amount;
                             obj.message = $scope.send.comment;
                             obj.user = userDetails._id;
+                            obj.name = userDetails.name;
                             MyServices.moneySend(obj, function(data) {
                                 console.log(data);
                                 if (data.value == false && data.comment == "No data found") {
@@ -2041,7 +2069,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
                         }
                     });
                 }
-            });
+            }, function(err) {});
             $scope.transFilterR = {
                 type: "sendmoney",
                 to: $scope.user._id
