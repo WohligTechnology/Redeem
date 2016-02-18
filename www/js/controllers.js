@@ -41,6 +41,72 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
         })
     }
 
+    globalFunction.addMoneyNew = function(obj) {
+        var currentbal = 0;
+        globalFunction.readMoney(function(bal) {
+            currentbal = bal;
+        })
+        MyServices.netBanking(obj, function(data) {
+            console.log(data);
+            if (data.value == true) {
+                var ref = window.open(data.comment.payment_url);
+                // var ref = cordova.InAppBrowser.open(data.comment.payment_url);
+                ref.addEventListener('exit', function(event) {
+                    $interval.cancel(callinterval);
+                    var alertPopup = $ionicPopup.alert({
+                        title: 'Add Money',
+                        template: '<h4 style="text-align:center;">Some Error Occurred. Payment Failed</h4>'
+                    });
+                    alertPopup.then(function(res) {
+                        alertPopup.close();
+                        $state.go('app.home');
+                    });
+                });
+                var callinterval = $interval(function() {
+                    globalFunction.readMoney(function(bal) {
+                        if (bal > currentbal) {
+                            ref.close();
+                            $interval.cancel(callinterval);
+                            callWalletAdd();
+                        }
+                    })
+                }, 3000);
+            }
+        }, function(err) {
+            if (err) {
+                console.log(err);
+            }
+        });
+
+        function callWalletAdd() {
+            MyServices.walletAdd(obj, function(data) {
+                console.log(data);
+                if (data.value == true) {
+                    var alertPopup = $ionicPopup.alert({
+                        title: '',
+                        template: '<h4 style="text-align:center;">Balance added to your wallet</h4>'
+                    });
+                    alertPopup.then(function(res) {
+                        alertPopup.close();
+                        $state.go('app.home');
+                    });
+                } else {
+                    var alertPopup = $ionicPopup.alert({
+                        title: '',
+                        template: '<h4 style="text-align:center;">Something went wrong. Please try again later</h4>'
+                    });
+                    alertPopup.then(function(res) {
+                        alertPopup.close();
+                    });
+                }
+            }, function(err) {
+                if (err) {
+                    console.log(err);
+                }
+            });
+        }
+    }
+
     $scope.addNewCard = function() {
         var cardLength = 0;
         MyServices.getListOfCards(MyServices.getUser().consumer_id, function(data) {
@@ -1050,352 +1116,356 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
 
 .controller('HomeCtrl', function($scope, $stateParams, MyServices, $location, $ionicSlideBoxDelegate, $ionicLoading, $timeout) {
 
-        $scope.nofavoritePage();
-        $scope.banners = [];
-        $scope.user = {};
-        $scope.favdata = {};
-        $scope.navTitle = '<img class="title-image" src="img/title.png">';
-        globalFunction.readMoney(function(bal) {
-            $scope.myBalance = {
-                balance: bal
-            }
-        })
-        $scope.user = MyServices.getUser();
-        $scope.refreshUser = function() {
-            MyServices.findUser($scope.user, function(data) {
-                if (data) {
-                    MyServices.setUser(data);
-                    $scope.user = MyServices.getUser();
-                }
-            }, function(err) {
-
-            });
-        };
-        $scope.refreshUser();
-
-        $scope.favorites = $scope.user.favorite;
-        $scope.refreshNoti($scope.user);
-        $scope.category = [];
-        $scope.refreshUser();
-        $scope.show = function() {
-            // $ionicLoading.show({
-            //     template: '<ion-spinner icon="crescent" class="spinner-assertive"></ion-spinner>'
-            // });
-        };
-        $scope.hide = function() {
-            $ionicLoading.hide();
-        };
-        $scope.show();
-        $timeout(function() {
-            $scope.hide();
-        }, 3000);
-        MyServices.findCategories(function(data) {
+    $scope.nofavoritePage();
+    $scope.banners = [];
+    $scope.user = {};
+    $scope.favdata = {};
+    $scope.navTitle = '<img class="title-image" src="img/title.png">';
+    globalFunction.readMoney(function(bal) {
+        $scope.myBalance = {
+            balance: bal
+        }
+    })
+    $scope.user = MyServices.getUser();
+    $scope.refreshUser = function() {
+        MyServices.findUser($scope.user, function(data) {
             if (data) {
-                $scope.category = data;
-                console.log(data);
+                MyServices.setUser(data);
+                $scope.user = MyServices.getUser();
             }
         }, function(err) {
-            if (err) {
-                console.log(err);
-            }
+
         });
-        MyServices.findBanner(function(data) {
-            $scope.hide();
+    };
+    $scope.refreshUser();
+
+    $scope.favorites = $scope.user.favorite;
+    $scope.refreshNoti($scope.user);
+    $scope.category = [];
+    $scope.refreshUser();
+    $scope.show = function() {
+        // $ionicLoading.show({
+        //     template: '<ion-spinner icon="crescent" class="spinner-assertive"></ion-spinner>'
+        // });
+    };
+    $scope.hide = function() {
+        $ionicLoading.hide();
+    };
+    $scope.show();
+    $timeout(function() {
+        $scope.hide();
+    }, 3000);
+    MyServices.findCategories(function(data) {
+        if (data) {
+            $scope.category = data;
+            console.log(data);
+        }
+    }, function(err) {
+        if (err) {
+            console.log(err);
+        }
+    });
+    MyServices.findBanner(function(data) {
+        $scope.hide();
+        if (data) {
+            $scope.banners = data;
+            console.log($scope.banners);
+            $ionicSlideBoxDelegate.update();
+        }
+    }, function(err) {
+        if (err) {
+            console.log(err);
+        }
+    })
+    $scope.slideIsSelected = function(index) {
+        console.log($scope.banners[index]);
+        $location.path("/app/redeem/" + $scope.banners[index].vendorid);
+    };
+    $scope.routeCategory = function(object) {
+        console.log(object);
+        if (object.listview == false) {
+            $location.path('app/gridview/' + object._id);
+        } else {
+            $location.path('app/listview/' + object._id);
+        }
+    };
+    $scope.expandFavorites = function() {
+        $scope.refreshUser();
+        _.each($scope.favorites, function(key) {
+            if (key) {
+                $scope.favdata.id = key._id;
+                MyServices.findVendor($scope.favdata, function(data) {
+                    if (data) {
+                        key.name = data.name;
+                        key.imgurl = data.logourl;
+                    }
+                }, function(err) {
+
+                });
+            }
+
+        })
+    };
+    $scope.expandFavorites();
+})
+
+.controller('PlaylistCtrl', function($scope, $stateParams) {})
+
+.controller('ReferralCtrl', function($scope, $stateParams, $ionicBackdrop, $timeout, MyServices) {
+    $scope.nofavoritePage();
+
+    $scope.user = MyServices.getUser();
+    $scope.refreshUser = function() {
+        MyServices.findUser($scope.user, function(data) {
             if (data) {
-                $scope.banners = data;
-                console.log($scope.banners);
-                $ionicSlideBoxDelegate.update();
+                console.log(data);
+                MyServices.setUser(data);
+                $scope.user = MyServices.getUser();
             }
         }, function(err) {
-            if (err) {
-                console.log(err);
+
+        });
+    };
+    $scope.refreshUser();
+    $scope.refreshNoti($scope.user);
+    $scope.friendlist = [];
+    $scope.referralmoney = 0;
+    $scope.getThisUser = function(id, amountearned) {
+        $scope.user = {
+            _id: id
+        };
+        console.log(id);
+        MyServices.findUser($scope.user, function(data) {
+
+            if (data) {
+                console.log(data);
+                data.amountearned = amountearned;
+                $scope.referralmoney += data.amountearned;
+                $scope.friendlist.unshift(data);
             }
-        })
-        $scope.slideIsSelected = function(index) {
-            console.log($scope.banners[index]);
-            $location.path("/app/redeem/" + $scope.banners[index].vendorid);
-        };
-        $scope.routeCategory = function(object) {
-            console.log(object);
-            if (object.listview == false) {
-                $location.path('app/gridview/' + object._id);
-            } else {
-                $location.path('app/listview/' + object._id);
-            }
-        };
-        $scope.expandFavorites = function() {
-            $scope.refreshUser();
-            _.each($scope.favorites, function(key) {
-                if (key) {
-                    $scope.favdata.id = key._id;
-                    MyServices.findVendor($scope.favdata, function(data) {
-                        if (data) {
-                            key.name = data.name;
-                            key.imgurl = data.logourl;
-                        }
-                    }, function(err) {
+        }, function(err) {});
+    };
+    var i = 0;
+    if ($scope.user.referral != null || $scope.user.referral != undefined)
+        _.each($scope.user.referral, function(key) {
+            $scope.getThisUser(key._id, key.amountearned);
+        });
+    console.log($scope.friendlist);
+    $scope.sharebutton = false;
+    $timeout(function() {
+        $scope.sharebutton = true;
+    }, 1000);
+    $scope.in = $scope.$index;
+    $scope.friends = [{
+        name: 'Rohan',
+        imgurl: 'img/profile.jpg',
+        price: 350
+    }, {
+        name: 'Chirag',
+        imgurl: 'img/profile.jpg',
+        price: 390
+    }, {
+        name: 'Tushar',
+        imgurl: 'img/profile.jpg',
+        price: 500
+    }, {
+        name: 'Chintan',
+        imgurl: 'img/profile.jpg',
+        price: 450
+    }, {
+        name: 'Mahesh',
+        imgurl: 'img/profile.jpg',
+        price: 390
+    }, {
+        name: 'Jay',
+        imgurl: 'img/profile.jpg',
+        price: 450
+    }, {
+        name: 'Amit',
+        imgurl: 'img/profile.jpg',
+        price: 450
+    }];
 
-                    });
-                }
 
-            })
-        };
-        $scope.expandFavorites();
-    })
-    .controller('PlaylistCtrl', function($scope, $stateParams) {})
-    .controller('ReferralCtrl', function($scope, $stateParams, $ionicBackdrop, $timeout, MyServices) {
-        $scope.nofavoritePage();
 
-        $scope.user = MyServices.getUser();
-        $scope.refreshUser = function() {
-            MyServices.findUser($scope.user, function(data) {
-                if (data) {
-                    console.log(data);
-                    MyServices.setUser(data);
-                    $scope.user = MyServices.getUser();
-                }
-            }, function(err) {
-
-            });
-        };
-        $scope.refreshUser();
-        $scope.refreshNoti($scope.user);
-        $scope.friendlist = [];
-        $scope.referralmoney = 0;
-        $scope.getThisUser = function(id, amountearned) {
-            $scope.user = {
-                _id: id
-            };
-            console.log(id);
-            MyServices.findUser($scope.user, function(data) {
-
-                if (data) {
-                    console.log(data);
-                    data.amountearned = amountearned;
-                    $scope.referralmoney += data.amountearned;
-                    $scope.friendlist.unshift(data);
-                }
-            }, function(err) {});
-        };
-        var i = 0;
-        if ($scope.user.referral != null || $scope.user.referral != undefined)
-            _.each($scope.user.referral, function(key) {
-                $scope.getThisUser(key._id, key.amountearned);
-            });
-        console.log($scope.friendlist);
-        $scope.sharebutton = false;
+    $scope.shareIt = function() {
+        $ionicBackdrop.retain();
         $timeout(function() {
-            $scope.sharebutton = true;
+            $ionicBackdrop.release();
         }, 1000);
-        $scope.in = $scope.$index;
-        $scope.friends = [{
-            name: 'Rohan',
-            imgurl: 'img/profile.jpg',
-            price: 350
-        }, {
-            name: 'Chirag',
-            imgurl: 'img/profile.jpg',
-            price: 390
-        }, {
-            name: 'Tushar',
-            imgurl: 'img/profile.jpg',
-            price: 500
-        }, {
-            name: 'Chintan',
-            imgurl: 'img/profile.jpg',
-            price: 450
-        }, {
-            name: 'Mahesh',
-            imgurl: 'img/profile.jpg',
-            price: 390
-        }, {
-            name: 'Jay',
-            imgurl: 'img/profile.jpg',
-            price: 450
-        }, {
-            name: 'Amit',
-            imgurl: 'img/profile.jpg',
-            price: 450
-        }];
+        window.plugins.socialsharing.share('Hey!Check this out!<br> Now get more and more money on your balance! only on PAiSO App! Download the app from Playstore and use the following Referral code : ' + $scope.user.mobile + ' . <br> - ' + $scope.user.name);
+    };
+})
 
-
-
-        $scope.shareIt = function() {
-            $ionicBackdrop.retain();
-            $timeout(function() {
-                $ionicBackdrop.release();
-            }, 1000);
-            window.plugins.socialsharing.share('Hey!Check this out!<br> Now get more and more money on your balance! only on PAiSO App! Download the app from Playstore and use the following Referral code : ' + $scope.user.mobile + ' . <br> - ' + $scope.user.name);
-        };
-    })
-    .controller('AboutUsCtrl', function($scope, $stateParams, $ionicScrollDelegate) {
-        $scope.nofavoritePage();
-        $scope.oneAtATime = true;
-        $scope.activate = true;
-        $scope.tab = {
-            left: true,
-            right: false
+.controller('AboutUsCtrl', function($scope, $stateParams, $ionicScrollDelegate) {
+    $scope.nofavoritePage();
+    $scope.oneAtATime = true;
+    $scope.activate = true;
+    $scope.tab = {
+        left: true,
+        right: false
+    }
+    $scope.highlight = false;
+    $scope.clickTab = function(side) {
+        $ionicScrollDelegate.scrollTop();
+        if (side === "left") {
+            $scope.tab.left = true;
+            $scope.tab.right = false;
+        } else {
+            $scope.tab.right = true;
+            $scope.tab.left = false;
+            console.log("here");
         }
-        $scope.highlight = false;
-        $scope.clickTab = function(side) {
-            $ionicScrollDelegate.scrollTop();
-            if (side === "left") {
-                $scope.tab.left = true;
-                $scope.tab.right = false;
-            } else {
-                $scope.tab.right = true;
-                $scope.tab.left = false;
-                console.log("here");
+    };
+})
+
+.controller('PassbookCtrl', function($scope, $stateParams, $ionicScrollDelegate, MyServices) {
+    $scope.nofavoritePage();
+    $scope.user = {};
+    $scope.user = MyServices.getUser();
+    $scope.refreshUser = function() {
+        MyServices.findUser($scope.user, function(data) {
+            if (data) {
+                console.log(data);
+                MyServices.setUser(data);
+                $scope.user = MyServices.getUser();
             }
-        };
-    })
-    .controller('PassbookCtrl', function($scope, $stateParams, $ionicScrollDelegate, MyServices) {
-        $scope.nofavoritePage();
-        $scope.user = {};
-        $scope.user = MyServices.getUser();
-        $scope.refreshUser = function() {
-            MyServices.findUser($scope.user, function(data) {
-                if (data) {
-                    console.log(data);
-                    MyServices.setUser(data);
-                    $scope.user = MyServices.getUser();
-                }
-            }, function(err) {
+        }, function(err) {
 
-            });
-        };
-        $scope.refreshUser();
-        $scope.refreshNoti($scope.user);
+        });
+    };
+    $scope.refreshUser();
+    $scope.refreshNoti($scope.user);
 
-        $scope.availableFlags = {};
-        $scope.available = [];
-        $scope.used = [];
-        $scope.activate = true;
-        $scope.tab = {
-            left: false,
-            center: true,
-            right: false
+    $scope.availableFlags = {};
+    $scope.available = [];
+    $scope.used = [];
+    $scope.activate = true;
+    $scope.tab = {
+        left: false,
+        center: true,
+        right: false
+    }
+    $scope.passbookAvailable = {
+        from: $scope.user._id,
+        type: "redeem",
+        passbook: "available"
+    };
+    $scope.moveToUsed = function(transaction) {
+        transaction.passbook = "used";
+        delete transaction.vendorname;
+        transaction.redeemedon = new Date();
+        if ($scope.addTransaction(transaction)) {
+            $scope.tab.left = false;
+            $scope.tab.center = false;
+            $scope.tab.right = true;
+            $ionicScrollDelegate.scrollTop();
+            $scope.loadUsed();
+            $scope.openUp(0);
+        } else {
+            console.log("unable to move");
         }
-        $scope.passbookAvailable = {
+
+    };
+    $scope.loadUsed = function() {
+        $scope.passbookUsed = {
             from: $scope.user._id,
             type: "redeem",
-            passbook: "available"
+            passbook: "used"
         };
-        $scope.moveToUsed = function(transaction) {
-            transaction.passbook = "used";
-            delete transaction.vendorname;
-            transaction.redeemedon = new Date();
-            if ($scope.addTransaction(transaction)) {
-                $scope.tab.left = false;
-                $scope.tab.center = false;
-                $scope.tab.right = true;
-                $ionicScrollDelegate.scrollTop();
-                $scope.loadUsed();
-                $scope.openUp(0);
-            } else {
-                console.log("unable to move");
-            }
-
-        };
-        $scope.loadUsed = function() {
-            $scope.passbookUsed = {
-                from: $scope.user._id,
-                type: "redeem",
-                passbook: "used"
-            };
-            MyServices.findPassbookEntry($scope.passbookUsed, function(data) {
-                    if (data) {
-                        $scope.used = data;
-                        console.log($scope.used);
-                        _.each($scope.used, function(key) {
-                            $scope.item.id = key.to;
-                            MyServices.findVendor($scope.item, function(data) {
-                                    if (data) {
-                                        key.vendorname = data.name;
-                                    }
-                                },
-                                function(err) {
-                                    if (err) {
-                                        console.log(err);
-                                    }
-                                });
-                        });
-                    }
-                },
-                function(err) {
-
-                });
-        };
-
-        $scope.loadPassbook = function() {
-            MyServices.findPassbookEntry($scope.passbookAvailable, function(data) {
-                    if (data) {
-                        $scope.available = data;
-                        $scope.item = {};
-                        console.log($scope.available);
-                        _.each($scope.available, function(key) {
-                            $scope.item.id = key.to;
-                            MyServices.findVendor($scope.item, function(data) {
-                                    if (data) {
-                                        key.vendorname = data.name;
-                                    }
-                                },
-                                function(err) {
-                                    if (err) {
-                                        console.log(err);
-                                    }
-                                });
-                        });
-                    }
-                },
-                function(err) {
-
-                });
-        };
-        $scope.loadPassbook();
-        $scope.clickTab = function(side) {
-            $ionicScrollDelegate.scrollTop();
-            if (side === "left") {
-                $scope.tab.left = true;
-                $scope.tab.right = false;
-                $scope.tab.center = false;
-            } else if (side === "center") {
-                $scope.tab.right = false;
-                $scope.tab.left = false;
-                $scope.tab.center = true;
-                $scope.loadPassbook();
-                //                $scope.openUp(0);
-            } else {
-                $scope.tab.right = true;
-                $scope.tab.left = false;
-                $scope.tab.center = false;
-                $scope.loadUsed();
-                $scope.openUp(0);
-            }
-        };
-        $scope.openUp = function(index) {
-            $scope.highlight = true;
-            console.log(index);
-            if ($scope.tab.center === true) {
-                for (var i = 0; i < $scope.available.length; i++) {
-                    $scope.availableFlags[i] = false;
+        MyServices.findPassbookEntry($scope.passbookUsed, function(data) {
+                if (data) {
+                    $scope.used = data;
+                    console.log($scope.used);
+                    _.each($scope.used, function(key) {
+                        $scope.item.id = key.to;
+                        MyServices.findVendor($scope.item, function(data) {
+                                if (data) {
+                                    key.vendorname = data.name;
+                                }
+                            },
+                            function(err) {
+                                if (err) {
+                                    console.log(err);
+                                }
+                            });
+                    });
                 }
-            } else if ($scope.tab.right === true) {
-                for (var i = 0; i < $scope.used.length; i++) {
-                    $scope.availableFlags[i] = false;
-                }
-            }
-            //                        _.each($scope.availableFlags, function (n) {
-            //                            $scope.availableFlags[n] = false;
-            //                            console.log($scope.availableFlags[n]);
-            //                        });
-            //                        $scope.availableFlags[index]=true;
-            //                        console.log($scope.availableFlags[index]);
-            $scope.availableFlags[index] = $scope.availableFlags[index] === true ? false : true;
-            console.log($scope.availableFlags[index]);
-        };
+            },
+            function(err) {
 
-    })
+            });
+    };
+
+    $scope.loadPassbook = function() {
+        MyServices.findPassbookEntry($scope.passbookAvailable, function(data) {
+                if (data) {
+                    $scope.available = data;
+                    $scope.item = {};
+                    console.log($scope.available);
+                    _.each($scope.available, function(key) {
+                        $scope.item.id = key.to;
+                        MyServices.findVendor($scope.item, function(data) {
+                                if (data) {
+                                    key.vendorname = data.name;
+                                }
+                            },
+                            function(err) {
+                                if (err) {
+                                    console.log(err);
+                                }
+                            });
+                    });
+                }
+            },
+            function(err) {
+
+            });
+    };
+    $scope.loadPassbook();
+    $scope.clickTab = function(side) {
+        $ionicScrollDelegate.scrollTop();
+        if (side === "left") {
+            $scope.tab.left = true;
+            $scope.tab.right = false;
+            $scope.tab.center = false;
+        } else if (side === "center") {
+            $scope.tab.right = false;
+            $scope.tab.left = false;
+            $scope.tab.center = true;
+            $scope.loadPassbook();
+            //                $scope.openUp(0);
+        } else {
+            $scope.tab.right = true;
+            $scope.tab.left = false;
+            $scope.tab.center = false;
+            $scope.loadUsed();
+            $scope.openUp(0);
+        }
+    };
+    $scope.openUp = function(index) {
+        $scope.highlight = true;
+        console.log(index);
+        if ($scope.tab.center === true) {
+            for (var i = 0; i < $scope.available.length; i++) {
+                $scope.availableFlags[i] = false;
+            }
+        } else if ($scope.tab.right === true) {
+            for (var i = 0; i < $scope.used.length; i++) {
+                $scope.availableFlags[i] = false;
+            }
+        }
+        //                        _.each($scope.availableFlags, function (n) {
+        //                            $scope.availableFlags[n] = false;
+        //                            console.log($scope.availableFlags[n]);
+        //                        });
+        //                        $scope.availableFlags[index]=true;
+        //                        console.log($scope.availableFlags[index]);
+        $scope.availableFlags[index] = $scope.availableFlags[index] === true ? false : true;
+        console.log($scope.availableFlags[index]);
+    };
+
+})
 
 .controller('SendMoneyCtrl', function($scope, $stateParams, MyServices, $ionicPopup, $location) {
         $scope.nofavoritePage();
@@ -1900,7 +1970,19 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
         };
 
         $scope.addMoneyNew = function(amt) {
-            globalFunction.addMoney(amt);
+            var userDetails = MyServices.getUser();
+            var obj = {};
+            obj.consumer = userDetails.consumer_id;
+            obj.amount = amt;
+            obj.email = userDetails.email;
+            obj.user = userDetails._id;
+            obj.name = userDetails.name;
+            obj.url = adminurl + "user/responseCheck";
+            if (userDetails.referrer)
+                obj.referrer = userDetails.referrer;
+            else
+                obj.referrer = "";
+            globalFunction.addMoneyNew(obj);
         }
 
         $scope.addMoney = function() {

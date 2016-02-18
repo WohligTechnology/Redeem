@@ -1,8 +1,8 @@
 // var adminurl = "http://192.168.0.126:81/";
 //var adminurl = "http://wohlig.in:81/";
-var adminurl = "http://104.197.111.152/";
+// var adminurl = "http://104.197.111.152/";
 // var adminurl = "http://192.168.0.118:1337/";
-// var adminurl = "http://192.168.0.120:81/";
+var adminurl = "http://192.168.0.120:81/";
 var imgpath = adminurl + "uploadfile/getupload?file=";
 
 angular.module('starter.services', [])
@@ -267,6 +267,13 @@ angular.module('starter.services', [])
         addToWallet: function(wallet, callback, err) {
             $http({
                 url: adminurl + 'user/addToWallet',
+                method: 'POST',
+                data: wallet
+            }).success(callback).error(err);
+        },
+        netBanking: function(wallet, callback, err) {
+            $http({
+                url: adminurl + 'user/netBanking',
                 method: 'POST',
                 data: wallet
             }).success(callback).error(err);
