@@ -1983,6 +1983,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
             else
                 obj.referrer = "";
             globalFunction.addMoneyNew(obj);
+            // globalFunction.addMoney(amt);
         }
 
         $scope.addMoney = function() {
