@@ -976,8 +976,6 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
     //     console.log(err);
     // });
     $scope.doSignup = function(input) {
-
-        console.log(input);
         delete input.confirmpassword;
         var request = {
             mobile: input.mobile,
