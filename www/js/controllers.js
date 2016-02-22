@@ -49,19 +49,19 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
         MyServices.netBanking(obj, function(data) {
             console.log(data);
             if (data.value == true) {
-                var ref = window.open(data.comment.payment_url);
-                // var ref = cordova.InAppBrowser.open(data.comment.payment_url);
-                ref.addEventListener('exit', function(event) {
-                    $interval.cancel(callinterval);
-                    var alertPopup = $ionicPopup.alert({
-                        title: 'Add Money',
-                        template: '<h4 style="text-align:center;">Some Error Occurred. Payment Failed</h4>'
-                    });
-                    alertPopup.then(function(res) {
-                        alertPopup.close();
-                        $state.go('app.home');
-                    });
-                });
+                // var ref = window.open(data.comment.payment_url);
+                var ref = cordova.InAppBrowser.open(data.comment.payment_url);
+                // ref.addEventListener('exit', function(event) {
+                //     $interval.cancel(callinterval);
+                //     var alertPopup = $ionicPopup.alert({
+                //         title: 'Add Money',
+                //         template: '<h4 style="text-align:center;">Some Error Occurred. Payment Failed</h4>'
+                //     });
+                //     alertPopup.then(function(res) {
+                //         alertPopup.close();
+                //         $state.go('app.home');
+                //     });
+                // });
                 var callinterval = $interval(function() {
                     globalFunction.readMoney(function(bal) {
                         if (bal > currentbal) {
@@ -986,7 +986,6 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
             name: input.name
         };
         MyServices.register(request, function(data) {
-            $scope.alertUser(data.value, data.comment);
             if (data.value) {
                 $.jStorage.set("consumer_id", data.comment.consumer_id);
                 $scope.input = {};
@@ -1032,18 +1031,9 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
                                         input.notificationtoken.deviceid = $.jStorage.get("device");
                                         input.notificationtoken.os = $.jStorage.get("os");
                                         MyServices.signupUser(input, function(signup) {
-                                            if (signup.value) {
-                                                MyServices.loginUser({
-                                                    mobile: input.mobile,
-                                                    password: input.password
-                                                }, function(data) {
-                                                    if (data.value == false) {
-                                                        $scope.alertUser("login", "unable to login");
-                                                    } else {
+                                            if (signup.value == true) {
                                                         $location.url('app/home');
                                                         $.jStorage.set("user", signup.user);
-                                                    }
-                                                })
                                             } else {
                                                 $scope.alertUser("signup", "unable to signup");
                                             }
