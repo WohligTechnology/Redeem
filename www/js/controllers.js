@@ -719,6 +719,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
     };
     $scope.type = "text";
     $scope.toggleDate = function() {
+      
         if ($scope.type === "text")
             $scope.type = "date";
     };
