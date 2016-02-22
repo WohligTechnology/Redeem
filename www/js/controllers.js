@@ -150,7 +150,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
         $scope.cardDetails.amount = $scope.amtToAdd;
         $scope.closeGetCard();
         var myPopup = $ionicPopup.show({
-            template: '<p>Card Name : {{cardDetails.card_id_by_consumer}}</p><p>Exp. : {{cardDetails.expiry_month}}/{{cardDetails.expiry_year}}</p><p>Amount : {{cardDetails.amount}}</p><input type="text" ng-model="cardDetails.cvv" style="margin: 0px auto;width:100px;text-align:center;font-size:20px">',
+            template: '<p>Card Name : {{cardDetails.card_id_by_consumer}}</p><p>Exp. : {{cardDetails.expiry_month}}/{{cardDetails.expiry_year}}</p><p>Amount : {{cardDetails.amount}}</p><input type="tel" ng-model="cardDetails.cvv" style="margin: 0px auto;width:100px;text-align:center;font-size:20px">',
             title: 'Enter CVV Code',
             subTitle: 'Enter the 3-digit CVV :',
             scope: $scope,
@@ -997,7 +997,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
                     console.log(err);
                 });
                 var myPopup = $ionicPopup.show({
-                    template: '<input type="text" ng-model="input.otp" style="margin: 0px auto;width:100px;text-align:center;font-size:20px">',
+                    template: '<input type="tel" ng-model="input.otp" style="margin: 0px auto;width:100px;text-align:center;font-size:20px">',
                     title: 'OTP Verification',
                     subTitle: 'Enter the 6-digit OTP :',
                     scope: $scope,
@@ -2412,7 +2412,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
                             console.log(err);
                         });
                         var myPopup = $ionicPopup.show({
-                            template: '<input type="text" ng-model="redeem.otp" style="margin: 0px auto;width:100px;text-align:center;font-size:20px">',
+                            template: '<input type="tel" ng-model="redeem.otp" style="margin: 0px auto;width:100px;text-align:center;font-size:20px">',
                             title: 'OTP Verification',
                             subTitle: 'Enter the 6-digit OTP :',
                             scope: $scope,
