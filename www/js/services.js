@@ -1,7 +1,7 @@
 // var adminurl = "http://192.168.0.126:81/";
 //var adminurl = "http://wohlig.in:81/";
-// var adminurl = "http://104.197.111.152/";
-var adminurl = "http://192.168.0.122:81/";
+var adminurl = "http://104.197.111.152/";
+// var adminurl = "http://192.168.0.122:81/";
 // var adminurl = "http://192.168.0.120:81/";
 var imgpath = adminurl + "uploadfile/getupload?file=";
 
