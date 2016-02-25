@@ -51,6 +51,26 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
             if (data.value == true) {
                 // var ref = window.open(data.comment.payment_url);
                 var ref = cordova.InAppBrowser.open(data.comment.payment_url);
+                ref.addEventListener('loadstop', function(event) {
+                    console.log(event.url);
+                    if (event.url == "http://wohlig.co.in/paisoapk/fail.html") {
+                        ref.close();
+                        var alertPopup = $ionicPopup.alert({
+                            title: 'Add Money',
+                            template: '<h4 style="text-align:center;">Some Error Occurred. Payment Failed</h4>'
+                        });
+                        alertPopup.then(function(res) {
+                            alertPopup.close();
+                            $state.go('app.home');
+                        });
+                    } else if (event.url == "http://wohlig.co.in/paisoapk/success.html") {
+                        ref.close();
+                        callWalletAdd();
+                    }
+                    // ref.close();
+                    // $interval.cancel(callinterval);
+                    // callWalletAdd();
+                });
                 // ref.addEventListener('exit', function(event) {
                 //     $interval.cancel(callinterval);
                 //     var alertPopup = $ionicPopup.alert({
@@ -62,15 +82,15 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
                 //         $state.go('app.home');
                 //     });
                 // });
-                var callinterval = $interval(function() {
-                    globalFunction.readMoney(function(bal) {
-                        if (bal > currentbal) {
-                            ref.close();
-                            $interval.cancel(callinterval);
-                            callWalletAdd();
-                        }
-                    })
-                }, 3000);
+                // var callinterval = $interval(function() {
+                //     globalFunction.readMoney(function(bal) {
+                //         if (bal > currentbal) {
+                //             ref.close();
+                //             $interval.cancel(callinterval);
+                //             callWalletAdd();
+                //         }
+                //     })
+                // }, 3000);
             }
         }, function(err) {
             if (err) {
@@ -719,7 +739,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
     };
     $scope.type = "text";
     $scope.toggleDate = function() {
-      
+
         if ($scope.type === "text")
             $scope.type = "date";
     };
@@ -1031,8 +1051,8 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
                                         input.notificationtoken.os = $.jStorage.get("os");
                                         MyServices.signupUser(input, function(signup) {
                                             if (signup.value == true) {
-                                                        $location.url('app/home');
-                                                        $.jStorage.set("user", signup.user);
+                                                $location.url('app/home');
+                                                $.jStorage.set("user", signup.user);
                                             } else {
                                                 $scope.alertUser("signup", "unable to signup");
                                             }
