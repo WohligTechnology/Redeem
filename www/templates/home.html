@@ -1,6 +1,6 @@
 <ion-view title="{{navTitle}}">
 
-  <ion-content class="has-header">
+  <ion-content class="has-header has-footer">
     <div class="home">
       <ion-slide-box on-slide-changed="slideHasChanged($index)">
         <ion-slide ng-repeat="item in banners" href="{{item.link}}" ng-click="slideIsSelected($index)"><img class="full-image" ng-src="{{item.imgurl}}" alt=""></ion-slide>
@@ -97,6 +97,9 @@
       <!-- <ion-item ng-click="getCard()">
   Card
             </ion-item> -->
+            <button class="button button-positive" ng-click="showAlert()">
+popup
+</button>
     </div>
   </ion-content>
 </ion-view>

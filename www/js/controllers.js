@@ -1123,7 +1123,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
     };
 })
 
-.controller('HomeCtrl', function($scope, $stateParams, MyServices, $location, $ionicSlideBoxDelegate, $ionicLoading, $timeout) {
+.controller('HomeCtrl', function($scope, $stateParams, MyServices, $location, $ionicSlideBoxDelegate, $ionicLoading, $ionicPopup, $timeout) {
 
     $scope.nofavoritePage();
     $scope.banners = [];
@@ -1216,6 +1216,23 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
         })
     };
     $scope.expandFavorites();
+
+    //popup success
+    $scope.showAlert = function() {
+
+       var alertPopup = $ionicPopup.alert({
+
+          template: 'This is alert popup',
+
+       });
+
+       alertPopup.then(function(res) {
+
+          console.log('Thanks');
+
+       });
+
+    };
 })
 
 .controller('PlaylistCtrl', function($scope, $stateParams) {})
