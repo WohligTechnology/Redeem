@@ -3,7 +3,9 @@
   <ion-content class="has-header has-footer">
     <div class="home">
       <ion-slide-box on-slide-changed="slideHasChanged($index)">
-        <ion-slide ng-repeat="item in banners" href="{{item.link}}" ng-click="slideIsSelected($index)"><img class="full-image" ng-src="{{item.imgurl}}" alt=""></ion-slide>
+        <ion-slide ng-repeat="item in banners" ui-sref="app.redeem({
+          id:item.vendorid
+        })" ng-click="slideIsSelected($index)"><img class="full-image" ng-src="{{item.imgurl}}" alt=""></ion-slide>
       </ion-slide-box>
       <!-- <a href="#/app/wallet" style="text-decoration:none;">
                 <div class="wallet-holder" style="margin-top: -5px;">

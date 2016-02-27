@@ -111,6 +111,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                     }
                 }
             })
+            .state('app.terms', {
+                url: '/terms',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'templates/terms.html',
+                        controller: 'TermsCtrl'
+                    }
+                }
+            })
             .state('app.passbook', {
                 url: '/passbook',
                 views: {

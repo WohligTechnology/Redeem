@@ -1,6 +1,33 @@
 <ion-view view-title="Wallet">
     <ion-content>
+      <div class="home">
+        <ion-slide-box on-slide-changed="slideHasChanged($index)">
+          <ion-slide ng-repeat="item in banners" ui-sref="app.redeem({
+            id:item.vendorid
+          })" ng-click="slideIsSelected($index)"><img class="full-image" ng-src="{{item.imgurl}}" alt=""></ion-slide>
+        </ion-slide-box>
+      </div>
         <div class="wallet-content">
+          <div class="card">
+            <div class="item">
+              <h4 class="text-center font15">Add Balance</h4>
+            <div class="">
+                <form class="" name="mywallet">
+                    <label class="item item-input enter-amount-input no-border">
+                        <span class="input-label icon">₹ </span>
+                        <input type="number" placeholder="Enter amount" ng-model="wallet.amount" name="amount" min="100" required>
+                    </label>
+                    <p class="padding" ng-if="mywallet.amount.$error.min">Minimum amount should be 100.</p>
+                    <div class="padding no-margin text-center mt30">
+                        <button class="button button-assertive button-small btn-small " ng-click="addMoneyNew(wallet.amount)" ng-disabled="mywallet.$invalid">
+                            ADD MONEY
+                        </button>
+                    </div>
+                </form>
+            </div>
+            </div>
+          </div>
+
             <!-- <div class="wallet-holder">
                 <div class="wallet-balance">
                     <h3>Wallet Balance</h3>
@@ -8,20 +35,7 @@
                 </div>
                 <img src="img/walletlock.png" alt="">
             </div> -->
-            <div class="martp">
-                <form class="" name="mywallet">
-                    <label class="item item-input enter-amount-input no-border">
-                        <span class="input-label icon"><img class="currency" src="img/currency.png"></span>
-                        <input type="number" placeholder="Enter amount" ng-model="wallet.amount" name="amount" min="100" required>
-                    </label>
-                    <p class="padding" ng-if="mywallet.amount.$error.min">Minimum amount should be 100.</p>
-                    <div class="padding no-margin text-center">
-                        <button class="button button-assertive button-small btn-small" ng-click="addMoneyNew(wallet.amount)" ng-disabled="mywallet.$invalid">
-                            ADD MONEY
-                        </button>
-                    </div>
-                </form>
-            </div>
+
             <!--
             <div class="row btns-wallet no-padding">
 

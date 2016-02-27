@@ -144,6 +144,7 @@ $pro-bg-image: url(../img/pr-bk.jpg) no-repeat center center;
         font-size: 15px;
         font-weight: 500;
         text-align: center;
+        color: #0060AA;
     }
     .pending-header {
         border-bottom: 2px $assertive solid;
@@ -1297,4 +1298,13 @@ $pro-bg-image: url(../img/pr-bk.jpg) no-repeat center center;
 .list-inset {
     margin: 0px 10px;
 
+}
+.home {
+    border-bottom: 1px solid #ccc;
+}
+.font15{
+      font-size: 15px !important;
+}
+.mt30{
+  margin-top: 20px !important;
 }

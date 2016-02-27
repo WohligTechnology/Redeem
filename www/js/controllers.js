@@ -429,6 +429,11 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
         url: '#/app/aboutus',
         state: false,
         icon: "ion-ios-information-outline"
+    },{
+        title: 'Terms',
+        url: '#/app/terms',
+        state: false,
+        icon: "ln-clipboard"
     }, {
         title: 'Notification',
         url: '#/app/notification',
@@ -1687,12 +1692,25 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
             }
         }
     })
-    .controller('WalletCtrl', function($scope, $stateParams, $ionicScrollDelegate, MyServices, $ionicPopup, $location, $ionicModal, $cordovaFileTransfer, $ionicLoading) {
+    .controller('WalletCtrl', function($scope, $stateParams, $ionicScrollDelegate, MyServices, $ionicPopup, $location, $ionicSlideBoxDelegate,$ionicModal, $cordovaFileTransfer, $ionicLoading) {
         $scope.nofavoritePage();
         $scope.user = {};
         $scope.coupon = {};
-        $scope.user = MyServices.getUser();
+        $scope.banners = [];
 
+        $scope.user = MyServices.getUser();
+        MyServices.findBanner(function(data) {
+
+            if (data) {
+                $scope.banners = data;
+                console.log($scope.banners);
+                $ionicSlideBoxDelegate.update();
+            }
+        }, function(err) {
+            if (err) {
+                console.log(err);
+            }
+        })
         MyServices.readMoney({
             "consumer": $.jStorage.get("user").consumer_id
         }, function(data) {
@@ -2256,6 +2274,9 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
 
     })
     .controller('SpendHistoryCtrl', function($scope, $stateParams) {
+
+    })
+    .controller('TermsCtrl', function($scope, $stateParams) {
 
     })
     .controller('RedeemCtrl', function($scope, $stateParams, $ionicModal, $timeout, $ionicPopup, $location, MyServices, $ionicLoading) {

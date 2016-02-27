@@ -1,18 +1,20 @@
 <ion-view view-title="Passbook">
     <div class="bar bar-subheader no-padding">
         <div class="row ">
+          <div class="col no-padding text-center" ng-class="{'active-tab':tab.center}">
+              <button class="button button-clear no-padding " ng-click="clickTab('center')">
+                  <h5>Available</h5></button>
+          </div>
+          <div class="col no-padding text-center" ng-class="{'active-tab':tab.right}">
+              <button class="button button-clear no-padding " ng-click="clickTab('right')">
+                  <h5>Redeemed</h5></button>
+          </div>
             <div class="col no-padding text-center" ng-class="{'active-tab':tab.left}">
                 <button class="button button-clear no-padding " ng-click="clickTab('left')">
                     <h5>Expired</h5></button>
             </div>
-            <div class="col no-padding text-center" ng-class="{'active-tab':tab.center}">
-                <button class="button button-clear no-padding " ng-click="clickTab('center')">
-                    <h5>Available</h5></button>
-            </div>
-            <div class="col no-padding text-center" ng-class="{'active-tab':tab.right}">
-                <button class="button button-clear no-padding " ng-click="clickTab('right')">
-                    <h5>Used</h5></button>
-            </div>
+
+
         </div>
     </div>
     <ion-content class="has-subheader">
