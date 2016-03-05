@@ -429,7 +429,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
         url: '#/app/aboutus',
         state: false,
         icon: "ion-ios-information-outline"
-    }, {
+    },{
         title: 'Terms',
         url: '#/app/terms',
         state: false,
@@ -536,6 +536,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
     .controller('SearchCtrl', function($scope) {})
 
 .controller('LoginCtrl', function($scope, $stateParams, $ionicPlatform, $location, MyServices, $ionicScrollDelegate, $ionicModal, $ionicPopup, $filter, $timeout) {
+  globalFunction.readMoney(function(bal) {});
     $scope.isIOS = false;
     var IOS = ionic.Platform.isIOS();
     var Android = ionic.Platform.isAndroid();
@@ -1171,7 +1172,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
     }, 3000);
     MyServices.findCategories(function(data) {
         if (data) {
-            $scope.category = _.chunk(data, 3);
+            $scope.category = data;
             console.log(data);
         }
     }, function(err) {
@@ -1225,17 +1226,17 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
     //popup success
     $scope.showAlert = function() {
 
-        var alertPopup = $ionicPopup.alert({
+       var alertPopup = $ionicPopup.alert({
 
-            template: 'This is alert popup',
+          template: 'This is alert popup',
 
-        });
+       });
 
-        alertPopup.then(function(res) {
+       alertPopup.then(function(res) {
 
-            console.log('Thanks');
+          console.log('Thanks');
 
-        });
+       });
 
     };
 })
@@ -1244,7 +1245,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
 
 .controller('ReferralCtrl', function($scope, $stateParams, $ionicBackdrop, $timeout, MyServices) {
     $scope.nofavoritePage();
-
+    globalFunction.readMoney(function(bal) {});
     $scope.user = MyServices.getUser();
     $scope.refreshUser = function() {
         MyServices.findUser($scope.user, function(data) {
@@ -1330,6 +1331,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
 
 .controller('AboutUsCtrl', function($scope, $stateParams, $ionicScrollDelegate) {
     $scope.nofavoritePage();
+    globalFunction.readMoney(function(bal) {});
     $scope.oneAtATime = true;
     $scope.activate = true;
     $scope.tab = {
@@ -1353,6 +1355,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
 .controller('PassbookCtrl', function($scope, $stateParams, $ionicScrollDelegate, MyServices) {
     $scope.nofavoritePage();
     $scope.user = {};
+    globalFunction.readMoney(function(bal) {});
     $scope.user = MyServices.getUser();
     $scope.refreshUser = function() {
         MyServices.findUser($scope.user, function(data) {
@@ -1692,7 +1695,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
             }
         }
     })
-    .controller('WalletCtrl', function($scope, $stateParams, $ionicScrollDelegate, MyServices, $ionicPopup, $location, $ionicSlideBoxDelegate, $ionicModal, $cordovaFileTransfer, $ionicLoading) {
+    .controller('WalletCtrl', function($scope, $stateParams, $ionicScrollDelegate, MyServices, $ionicPopup, $location, $ionicSlideBoxDelegate,$ionicModal, $cordovaFileTransfer, $ionicLoading) {
         $scope.nofavoritePage();
         $scope.user = {};
         $scope.coupon = {};
@@ -2281,7 +2284,6 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
     })
     .controller('RedeemCtrl', function($scope, $stateParams, $ionicModal, $timeout, $ionicPopup, $location, MyServices, $ionicLoading) {
         $scope.favoritePage();
-
         favorite.setActive(false);
         $scope.readTNC = false;
         $scope.params = $stateParams;

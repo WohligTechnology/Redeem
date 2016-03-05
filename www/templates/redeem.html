@@ -10,15 +10,10 @@
                 <ion-slide-box on-slide-changed="slideHasChanged($index)">
                                            <span ng-if="vendor.hasoffer" class="badge redeem-offer-badge badge-calm">{{vendor.offerpercent}}% more</span>
 
-                    <ion-slide>
-                        <img src="{{vendor.bannerurl}}" class="full-image">
+                    <ion-slide ng-repeat="banner in vendor.bannerurl">
+                        <img src="{{banner | serverimage}}" class="full-image">
                     </ion-slide>
-                    <ion-slide>
-                        <img src="{{vendor.bannerurl}}" class="full-image">
-                    </ion-slide>
-                    <ion-slide>
-                        <img src="{{vendor.bannerurl}}" class="full-image">
-                    </ion-slide>
+
                 </ion-slide-box>
             </div>
             <label class="item item-input enter-amount-input padding" ng-class="{'brdr-danger':crossedLimit,'no-border-bottom':!crossedLimit}">

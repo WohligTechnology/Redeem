@@ -4,7 +4,7 @@
         <ion-slide-box on-slide-changed="slideHasChanged($index)">
           <ion-slide ng-repeat="item in banners" ui-sref="app.redeem({
             id:item.vendorid
-          })" ng-click="slideIsSelected($index)"><img class="full-image" ng-src="{{item.imgurl}}" alt=""></ion-slide>
+          })" ng-click="slideIsSelected($index)"><img class="full-image" ng-src="{{item.imgurl | serverimage}}" alt=""></ion-slide>
         </ion-slide-box>
       </div>
         <div class="wallet-content">
