@@ -11,12 +11,13 @@
                                            <span ng-if="vendor.hasoffer" class="badge redeem-offer-badge badge-calm">{{vendor.offerpercent}}% more</span>
 
                     <ion-slide ng-repeat="banner in vendor.bannerurl">
-                        <img src="{{banner | serverimage}}" class="full-image">
+                        <img ng-src="{{banner | serverimage}}" class="full-image" alt="">
                     </ion-slide>
 
                 </ion-slide-box>
             </div>
             <label class="item item-input enter-amount-input padding" ng-class="{'brdr-danger':crossedLimit,'no-border-bottom':!crossedLimit}">
+
                 <span class="input-label icon"><img class="currency" src="img/currency.png"></span>
 
                 <input type="number" placeholder="{{placeholdertext}}" ng-model="redeem.amount" ng-change="isInLimit(redeem.amount)" ng-disabled="fixedinput">
