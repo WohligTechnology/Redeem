@@ -1,13 +1,13 @@
 <ion-view title="{{navTitle}}">
 
-  <ion-content class="has-header has-footer">
-    <div class="home">
-      <ion-slide-box on-slide-changed="slideHasChanged($index)">
-        <ion-slide ng-repeat="item in banners" ui-sref="app.redeem({
+    <ion-content class="has-header has-footer">
+        <div class="home">
+            <ion-slide-box on-slide-changed="slideHasChanged($index)">
+                <ion-slide ng-repeat="item in banners" ui-sref="app.redeem({
           id:item.vendorid
         })" ng-click="slideIsSelected($index)"><img class="full-image" ng-src="{{item.imgurl}}" alt=""></ion-slide>
-      </ion-slide-box>
-      <!-- <a href="#/app/wallet" style="text-decoration:none;">
+            </ion-slide-box>
+            <!-- <a href="#/app/wallet" style="text-decoration:none;">
                 <div class="wallet-holder" style="margin-top: -5px;">
                     <div class="wallet-balance">
                         <h3>Wallet Balance</h3>
@@ -16,92 +16,94 @@
                     <img src="img/walletlock.png" alt="">
                 </div>
             </a> -->
-      <div class="list list-inset">
-        <div class="item item-divider no-border custom-divider">Categories</div>
-        <!-- <ion-item class="item item-avatar" ng-repeat="item in category | orderBy: item.order" ng-if="item.status" ng-click="routeCategory(item)">
+            <div class="list list-inset">
+                <div class="item item-divider no-border custom-divider">Categories</div>
+                <!-- <ion-item class="item item-avatar" ng-repeat="item in category | orderBy: item.order" ng-if="item.status" ng-click="routeCategory(item)">
                     <img ng-src="{{item.icon}}" alt="">
                     <h2 style="line-height: 234%;">{{item.name}}</h2>
                 </ion-item> -->
                 <div class="pt20">
-        <div class="row">
-          <div class="col">
-            <div class="cls-category text-center">
-              <div class="icon-ct">
-                <i class="ln-cart-full"></i>
-              </div>
-              <div class="icon-nm">
-                <span>ecommerce</span>
-              </div>
+                    <div class="row" ng-repeat="cat in category">
+                        <div class="col" ng-repeat="item in cat | orderBy: item.order" ng-if="item.status" ng-click="routeCategory(item)">
+                            <div class="cls-category text-center">
+                                <div class="icon-ct">
+                                    <i class="{{item.icon}}"></i>
+                                    <!-- <i class="ln-cart-full"></i> -->
+                                </div>
+                                <div class="icon-nm">
+                                    <span>{{item.name}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="col">
+                            <div class="cls-category text-center">
+                                <div class="icon-ct">
+                                    <i class="ln-hamburger"></i>
+                                </div>
+                                <div class="icon-nm">
+                                    <span>restaurent</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="cls-category text-center">
+                                <div class="icon-ct">
+                                    <i class="ln-film-play"></i>
+                                </div>
+                                <div class="icon-nm">
+                                    <span>entertainment</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="cls-category text-center">
+                                <div class="icon-ct">
+                                    <i class="ln-loading3"></i>
+                                </div>
+                                <div class="icon-nm">
+                                    <span>sports</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="cls-category text-center">
+                                <div class="icon-ct">
+                                    <i class="ln-shirt"></i>
+                                </div>
+                                <div class="icon-nm">
+                                    <span>retail</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="cls-category text-center">
+                                <div class="icon-ct">
+                                    <i class="ln-film-play"></i>
+                                </div>
+                                <div class="icon-nm">
+                                    <span>entertainment</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
             </div>
-          </div>
-          <div class="col">
-            <div class="cls-category text-center">
-              <div class="icon-ct">
-                <i class="ln-hamburger"></i>
-              </div>
-              <div class="icon-nm">
-                <span>restaurent</span>
-              </div>
+            <div class="list list-inset">
+                <div class="item item-divider no-border custom-divider">Favorites</div>
+                <ion-item class="item item-avatar" ng-repeat="item in favorites | orderBy: item.order" href="#/app/redeem/{{item._id}}">
+                    <img ng-src="{{item.imgurl}}" alt="">
+                    <h2 style="line-height: 234%;">{{item.name}}</h2>
+                </ion-item>
             </div>
-          </div>
-          <div class="col">
-            <div class="cls-category text-center">
-              <div class="icon-ct">
-                <i class="ln-film-play"></i>
-              </div>
-              <div class="icon-nm">
-                <span>entertainment</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col">
-            <div class="cls-category text-center">
-              <div class="icon-ct">
-                <i class="ln-loading3"></i>
-              </div>
-              <div class="icon-nm">
-                <span>sports</span>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="cls-category text-center">
-              <div class="icon-ct">
-                <i class="ln-shirt"></i>
-              </div>
-              <div class="icon-nm">
-                <span>retail</span>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="cls-category text-center">
-              <div class="icon-ct">
-                <i class="ln-film-play"></i>
-              </div>
-              <div class="icon-nm">
-                <span>entertainment</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        </div>
-      </div>
-      <div class="list list-inset">
-        <div class="item item-divider no-border custom-divider">Favorites</div>
-        <ion-item class="item item-avatar" ng-repeat="item in favorites | orderBy: item.order" href="#/app/redeem/{{item._id}}">
-          <img ng-src="{{item.imgurl}}" alt="">
-          <h2 style="line-height: 234%;">{{item.name}}</h2>
-        </ion-item>
-      </div>
-      <!-- <ion-item ng-click="getCard()">
+            <!-- <ion-item ng-click="getCard()">
   Card
             </ion-item> -->
-            <button class="button button-positive" ng-click="showAlert()">
+            <!-- <button class="button button-positive" ng-click="showAlert()">
 popup
-</button>
-    </div>
-  </ion-content>
+</button> -->
+        </div>
+    </ion-content>
 </ion-view>

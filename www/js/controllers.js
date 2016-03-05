@@ -429,7 +429,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
         url: '#/app/aboutus',
         state: false,
         icon: "ion-ios-information-outline"
-    },{
+    }, {
         title: 'Terms',
         url: '#/app/terms',
         state: false,
@@ -1171,7 +1171,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
     }, 3000);
     MyServices.findCategories(function(data) {
         if (data) {
-            $scope.category = data;
+            $scope.category = _.chunk(data, 3);
             console.log(data);
         }
     }, function(err) {
@@ -1225,17 +1225,17 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
     //popup success
     $scope.showAlert = function() {
 
-       var alertPopup = $ionicPopup.alert({
+        var alertPopup = $ionicPopup.alert({
 
-          template: 'This is alert popup',
+            template: 'This is alert popup',
 
-       });
+        });
 
-       alertPopup.then(function(res) {
+        alertPopup.then(function(res) {
 
-          console.log('Thanks');
+            console.log('Thanks');
 
-       });
+        });
 
     };
 })
@@ -1692,7 +1692,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
             }
         }
     })
-    .controller('WalletCtrl', function($scope, $stateParams, $ionicScrollDelegate, MyServices, $ionicPopup, $location, $ionicSlideBoxDelegate,$ionicModal, $cordovaFileTransfer, $ionicLoading) {
+    .controller('WalletCtrl', function($scope, $stateParams, $ionicScrollDelegate, MyServices, $ionicPopup, $location, $ionicSlideBoxDelegate, $ionicModal, $cordovaFileTransfer, $ionicLoading) {
         $scope.nofavoritePage();
         $scope.user = {};
         $scope.coupon = {};

@@ -1,7 +1,7 @@
 <ion-side-menus enable-menu-with-back-views="true">
     <ion-side-menu-content>
         <ion-nav-bar class="bar-stable" align-title="center">
-            <ion-nav-buttons side="left" >
+            <ion-nav-buttons side="left">
                 <button class="button button-icon button-clear ion-navicon" menu-toggle="left" ng-click="refreshUser()">
                 </button>
             </ion-nav-buttons>
@@ -12,36 +12,42 @@
             </ion-nav-buttons>
 -->
             <ion-nav-buttons side="right" class="padding-horizontal">
-                    <div class="padding-horizontal" ng-if="canfavorite">
-                        <button class="button cart-button button-icon button-clear " onclick="favorite.pushFavorite()"><i class="cart-icon icon" ng-class="{'ion-android-star-outline':!activefav,'ion-android-star':activefav, 'clr-fav':activefav}">
+                <div class="padding-horizontal" ng-if="canfavorite">
+                    <button class="button cart-button button-icon button-clear " onclick="favorite.pushFavorite()"><i class="cart-icon icon" ng-class="{'ion-android-star-outline':!activefav,'ion-android-star':activefav, 'clr-fav':activefav}">
                     </i>
-                </button>
-                    </div>
-                    <button class="button cart-button button-icon button-clear " ng-click="openNotification()"><i class="cart-icon icon ion-android-notifications-none">
+                    </button>
+                </div>
+                <button class="button cart-button button-icon button-clear " ng-click="openNotification()"><i class="cart-icon icon ion-android-notifications-none">
                     <span class="custom-badge" ng-if="count != 0">{{count}}</span>
                     </i>
                 </button>
             </ion-nav-buttons>
         </ion-nav-bar>
         <ion-nav-view name="menuContent"></ion-nav-view>
-    <ion-footer-bar class="pad5">
-<div class="icon-footer text-center">
-  <div class="row">
-    <div class="col padding0">
-    <div class="div">  <i class="ln-arrow-down blue-bk"></i></div>
-      <span class="font12">Add Money</span>
-    </div>
-    <div class="col padding0">
-      <div class="rs">₹ <span>{{myBalance.balance | number:2}}</span></div>
-      <span class="font12">Wallet Balance</span>
-    </div>
-    <div class="col padding0">
-    <div class="div">  <i class="ln-arrow-up blue-bk"></i></div>
-      <span class="font12">Reedem Money</span>
-    </div>
-  </div>
-</div>
-  </ion-footer-bar>
+        <ion-footer-bar class="pad5">
+            <div class="icon-footer text-center">
+                <div class="row">
+                    <div class="col padding0" ui-sref="app.wallet">
+                        <div class="div">
+                            <i class="ln-arrow-down blue-bk"></i>
+                        </div>
+                        <span class="font12">Add Money</span>
+                    </div>
+                    <div class="col padding0">
+                        <div class="rs">₹
+                            <span>{{myBalance.balance | number:2}}</span>
+                        </div>
+                        <span class="font12">Wallet Balance</span>
+                    </div>
+                    <div class="col padding0">
+                        <div class="div">
+                            <i class="ln-arrow-up blue-bk"></i>
+                        </div>
+                        <span class="font12">Reedem Money</span>
+                    </div>
+                </div>
+            </div>
+        </ion-footer-bar>
     </ion-side-menu-content>
 
     <ion-side-menu side="left" width="240" class="sidemenu">
@@ -59,11 +65,10 @@
                     <span>+91{{user.mobile}}</span>
                 </ion-item>
                 <ion-item class=" menuitem no-border" menu-close ng-repeat="menuitem in menu track by $index" ng-click="activateMenu($index)" href="{{menuitem.url}}" ng-class="{'active-menuitem': menuitem.state}">
-                      <i class="icon {{menuitem.icon}} side-menu-i"></i>
+                    <i class="icon {{menuitem.icon}} side-menu-i"></i>
                     <span>{{menuitem.title}}</span>
                     <span class="badge badge-assertive" ng-if="menuitem.badgecount != null || menuitem.badgecount != undefined">{{menuitem.badgecount}}</span>
                 </ion-item>
-
             </ion-list>
         </ion-content>
     </ion-side-menu>
