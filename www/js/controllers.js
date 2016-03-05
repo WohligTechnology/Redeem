@@ -536,7 +536,6 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
     .controller('SearchCtrl', function($scope) {})
 
 .controller('LoginCtrl', function($scope, $stateParams, $ionicPlatform, $location, MyServices, $ionicScrollDelegate, $ionicModal, $ionicPopup, $filter, $timeout) {
-    globalFunction.readMoney(function(bal) {});
     $scope.isIOS = false;
     var IOS = ionic.Platform.isIOS();
     var Android = ionic.Platform.isAndroid();
