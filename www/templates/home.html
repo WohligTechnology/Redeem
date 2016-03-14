@@ -24,7 +24,7 @@
                 </ion-item> -->
                 <div class="pt20">
                     <div class="row" ng-repeat="cat in category">
-                        <div class="col-33" ng-repeat="item in cat | orderBy: item.order" ng-if="item.status" ng-click="routeCategory(item)">
+                        <div class="col col-33" ng-repeat="item in cat | orderBy: item.order" ng-if="item.status" ng-click="routeCategory(item)">
                             <div class="cls-category text-center">
                                 <div class="icon-ct">
                                     <i class="{{item.icon}}"></i>

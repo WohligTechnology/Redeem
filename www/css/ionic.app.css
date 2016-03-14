@@ -1123,6 +1123,12 @@ $dark:                            #444 !default;
 .icon-nm {
   font-size: 12px;
   text-transform: capitalize; }
+  .icon-nm span {
+    display: inline-block;
+    width: 74px;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis; }
 
 .icon-ct {
   font-size: 26px;

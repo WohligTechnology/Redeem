@@ -1282,6 +1282,13 @@ $pro-bg-image: url(../img/pr-bk.jpg) no-repeat center center;
 .icon-nm {
     font-size: 12px;
     text-transform: capitalize;
+    span{
+      display: inline-block;
+width: 74px;
+white-space: nowrap;
+overflow: hidden !important;
+text-overflow: ellipsis;
+    }
 }
 .icon-ct{
   font-size: 26px;
