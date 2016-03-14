@@ -10,7 +10,7 @@
        </h1>
         <div class="category-container">
             <div class="row" ng-repeat="row in vendors" ng-if="vendors.length!=0">
-                <a href="#/app/redeem/{{item._id}}" style="text-decoration:none;color: black;" class="col-33 padding" ng-repeat="item in row" ng-if="item.status" >
+                <a href="#/app/redeem/{{item._id}}" style="text-decoration:none;color: black;" class="col-33" ng-repeat="item in row" ng-if="item.status" >
                     <div class="img-holder">
                         <img class="category-image" ng-src="{{item.logourl | serverimage}}" alt="">
                         <span ng-if="item.hasoffer" class="badge offer-badge badge-calm">{{item.offerpercent}}% more</span>

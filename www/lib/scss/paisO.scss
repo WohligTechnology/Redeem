@@ -12,6 +12,7 @@ $button-border-width: 0 !default;
 $headings-font-weight: 300;
 $font-size-list: 13px;
 $pro-bg-image: url(../img/pr-bk.jpg) no-repeat center center;
+@import "www/lib/ionic/scss/ionic";
 // sass mixing
 @mixin transition($transition-property, $transition-time) {
     -webkit-transition: $transition-property $transition-time;
@@ -44,12 +45,12 @@ $pro-bg-image: url(../img/pr-bk.jpg) no-repeat center center;
     font-weight: 300;
 }
 @font-face {
-    font-family: 'karla';
+    font-family: 'Karla';
     src: url(../fonts/Karla-Regular.ttf);
     font-weight: normal;
 }
 @font-face {
-    font-family: 'karla';
+    font-family: 'Karla';
     src: url(../fonts/Karla-Bold.ttf);
     font-weight: 600;
 }
@@ -274,9 +275,6 @@ $pro-bg-image: url(../img/pr-bk.jpg) no-repeat center center;
     .row+.row {
         border-top: 1px #ddd solid;
         margin-top: 0 !important;
-    }
-    .col-33+.col-33 {
-        border-left: 1px #ddd solid;
     }
     .row {
         margin: 0;
@@ -525,7 +523,7 @@ $pro-bg-image: url(../img/pr-bk.jpg) no-repeat center center;
 }
 .button-share-container {
     position: fixed;
-    bottom: 55px;
+    bottom: 65px;
     right: 25px;
     z-index: 9999;
     background-color: $assertive;
@@ -600,10 +598,10 @@ $pro-bg-image: url(../img/pr-bk.jpg) no-repeat center center;
     }
     .img-layer {
         height: 100%;
-        background: -webkit-linear-gradient(rgba(63, 81, 181, 0.16) 18%, rgba(100, 157, 202, 0.68));
-        background: -moz-linear-gradient(rgba(63, 81, 181, 0.16) 18%, rgba(100, 157, 202, 0.68));
-        background: -ms-linear-gradient(rgba(63, 81, 181, 0.16) 18%, rgba(100, 157, 202, 0.68));
-        background: -o-linear-gradient(rgba(63, 81, 181, 0.16) 18%, rgba(100, 157, 202, 0.68));
+        background: -webkit-linear-gradient(transparent 70%, rgba(0, 0, 0, 0.75));
+        background: -moz-linear-gradient(transparent 70%, rgba(0, 0, 0, 0.75));
+        background: -ms-linear-gradient(transparent 70%, rgba(0, 0, 0, 0.75));
+        background: -o-linear-gradient(transparent 70%, rgba(0, 0, 0, 0.75));
         position: relative;
         @include transition(all, 0.5s);
         position: absolute;
@@ -935,18 +933,20 @@ $pro-bg-image: url(../img/pr-bk.jpg) no-repeat center center;
     }
 }
 .offer-badge {
-    transform: rotate(-35deg);
     position: absolute;
-    left: -20px;
-    width: 80%;
-    top: 2px;
+    left: 0px;
+    width: auto;
+    top: 0;
+    border-radius: 0;
+    padding: 2px;
+    font-size: 10px !important;
 }
 .redeem-offer-badge {
-    transform: rotate(-35deg);
     position: absolute;
-    left: -17px;
-    width: 12%;
-    top: 20px;
+    left: 0;
+    width: auto;
+    top: 0px;
+    border-radius: 0;
 }
 .custom-badge {
     background-color: $assertive;
@@ -1253,9 +1253,12 @@ $pro-bg-image: url(../img/pr-bk.jpg) no-repeat center center;
         opacity: 0;
     }
 }
-.bar-footer{
-      border-top: 1px solid #C9C9C9 !important;
-          height: 62px !important;
+.bar-footer {
+      border-top: 1px solid #C9C9C9;
+          height: 62px;
+}
+.has-footer {
+  bottom: 62px;
 }
 .icon-footer{
   width: 100%;
@@ -1314,4 +1317,9 @@ text-overflow: ellipsis;
 }
 .mt30{
   margin-top: 20px !important;
+}
+.bg-img {
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
 }

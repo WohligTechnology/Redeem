@@ -2446,7 +2446,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
                 console.log($scope.ctrlUser);
                 if ($scope.ctrlUser.balance >= 0) {
                     var confirmPopup = $ionicPopup.confirm({
-                        title: 'Redeem',
+                        title: 'Make a voucher',
                         template: '<h5 style="text-align: center;margin-bottom:0">Are you sure?</h5>'
                     });
                     confirmPopup.then(function(res) {
@@ -2527,7 +2527,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
                             console.log(data);
                             if (data.value == true) {
                                 var alertPopup = $ionicPopup.alert({
-                                    title: 'Redeem',
+                                    title: 'Make a voucher',
                                     template: '<h5 style="text-align: center;margin-bottom:0">Redeemed Successfully</h5>'
                                 });
                                 alertPopup.then(function(res) {
@@ -2564,7 +2564,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
         };
         $scope.zeroBalance = function() {
             var alertPopup = $ionicPopup.alert({
-                title: 'Redeem',
+                title: 'Make a voucher',
                 template: '<div style="text-align: center;"><img src="img/pending.png" style="width: 25%;"></div><h5 style="text-align: center;margin-bottom:0">Request pending approval</h5>'
             });
             alertPopup.then(function(res) {
@@ -2573,14 +2573,14 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
         };
         $scope.zeroAmount = function() {
             var alertPopup = $ionicPopup.alert({
-                title: 'Redeem',
+                title: 'Make a voucher',
                 template: '<h5 style="text-align: center;margin-bottom:0">Please enter a valid amount.</h5>'
             });
             alertPopup.then(function(res) {});
         };
         $scope.exceedingLimit = function() {
             var alertPopup = $ionicPopup.alert({
-                title: 'Redeem',
+                title: 'Make a voucher',
                 template: '<h5 style="text-align: center;margin-bottom:0">The amount redeem limit is ' + $scope.vendor.amountlimit + '.</h5>'
             });
             alertPopup.then(function(res) {});
