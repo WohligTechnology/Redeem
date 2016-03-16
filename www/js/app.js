@@ -237,8 +237,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     })
     .filter('serverimage', function() {
         return function(image) {
-            if (image == undefined) {
-                return 'img/user.png'
+            if (image === undefined) {
+                return 'img/user.png';
             } else if (image.substr(0, 1) == "f") {
                 return image;
             } else {
