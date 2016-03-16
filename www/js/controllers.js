@@ -50,7 +50,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
             console.log(data);
             if (data.value == true) {
                 // var ref = window.open(data.comment.payment_url);
-                var ref = cordova.InAppBrowser.open(data.comment.payment_url,'location=no');
+                var ref = cordova.InAppBrowser.open(data.comment.payment_url,'target=_system','location=no');
                 ref.addEventListener('loadstop', function(event) {
                     console.log(event.url);
                     if (event.url == "http://wohlig.co.in/paisoapk/fail.html") {
@@ -139,7 +139,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
         })
         MyServices.addNewCard(MyServices.getUser().consumer_id, function(data) {
             console.log(data);
-            var ref = cordova.InAppBrowser.open(data.link,'location=no');
+            var ref = cordova.InAppBrowser.open(data.link,'target=_system','location=no');
             // var ref = window.open(data.link);
             var watchInterval = $interval(function() {
                 MyServices.getListOfCards(MyServices.getUser().consumer_id, function(data) {
@@ -206,7 +206,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
                         console.log(data);
                         if (data.value == true) {
                             // var ref = window.open(data.comment.payment_url);
-                            var ref = cordova.InAppBrowser.open(data.comment.payment_url,'location=no');
+                            var ref = cordova.InAppBrowser.open(data.comment.payment_url,'target=_system','location=no');
                             var callinterval = $interval(function() {
                                 globalFunction.readMoney(function(bal) {
                                     if (bal > currentbal) {
