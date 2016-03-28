@@ -41,6 +41,13 @@ angular.module('starter.services', [])
                 data: signupData
             }).success(callback).error(err);
         },
+        checkMob: function(checkData, callback, err) {
+            $http({
+                url: adminurl + 'user/checkMob',
+                method: 'POST',
+                data: checkData
+            }).success(callback).error(err);
+        },
         readMoney: function(signupData, callback, err) {
             $http({
                 url: adminurl + 'user/readMoney',

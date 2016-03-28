@@ -940,6 +940,32 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
             $scope.doSignup(input);
         }
     };
+    $scope.statusSignup = function(input){
+    MyServices.checkMob({
+      mobile:input.mobile
+    },function(data){
+      if(data.value == true){
+        $.jStorage.set("consumer_id",data.comment.consumer_id);
+        input.consumer_id = $.jStorage.get("consumer_id");
+        input.notificationtoken.deviceid = $.jStorage.get("device");
+        input.notificationtoken.os = $.jStorage.get("os");
+        MyServices.signupUser(input, function(signup) {
+            if (signup.value == true) {
+                $location.url('app/home');
+                $.jStorage.set("user", signup.user);
+            } else {
+                $scope.alertUser("signup", "unable to signup");
+            }
+        }, function(err) {
+
+        })
+      }else{
+        $scope.doSignup(input);
+      }
+    },function (err) {
+
+    })
+    };
     $scope.checkDeviceIDLogin = function() {
         $scope.isRegistered = false;
         if ($.jStorage.get("device") == null) {
@@ -1036,7 +1062,6 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
                         text: '<h5>Retry</h5>',
                         onTap: function(e) {
                             myPopup.close();
-                            $scope.validateMobile();
                         }
                     }, {
                         text: '<b>Verify</b>',
