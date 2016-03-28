@@ -930,14 +930,14 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
                 console.log(e);
             });
             if ($scope.isRegistered) {
-                $scope.doSignup(input);
+                $scope.statusSignup(input);
             } else {
                 $timeout(function() {
                     $scope.checkDeviceID(input);
                 }, 3000);
             }
         } else {
-            $scope.doSignup(input);
+            $scope.statusSignup(input);
         }
     };
     $scope.statusSignup = function(input){
