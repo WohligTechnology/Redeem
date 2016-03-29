@@ -50,7 +50,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
             console.log(data);
             if (data.value == true) {
                 // var ref = window.open(data.comment.payment_url);
-                var ref = cordova.InAppBrowser.open(data.comment.payment_url,'target=_system','location=no');
+                var ref = cordova.InAppBrowser.open(data.comment.payment_url, 'target=_system', 'location=no');
                 ref.addEventListener('loadstop', function(event) {
                     console.log(event.url);
                     if (event.url == "http://wohlig.co.in/paisoapk/fail.html") {
@@ -139,7 +139,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
         })
         MyServices.addNewCard(MyServices.getUser().consumer_id, function(data) {
             console.log(data);
-            var ref = cordova.InAppBrowser.open(data.link,'target=_system','location=no');
+            var ref = cordova.InAppBrowser.open(data.link, 'target=_system', 'location=no');
             // var ref = window.open(data.link);
             var watchInterval = $interval(function() {
                 MyServices.getListOfCards(MyServices.getUser().consumer_id, function(data) {
@@ -206,7 +206,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
                         console.log(data);
                         if (data.value == true) {
                             // var ref = window.open(data.comment.payment_url);
-                            var ref = cordova.InAppBrowser.open(data.comment.payment_url,'target=_system','location=no');
+                            var ref = cordova.InAppBrowser.open(data.comment.payment_url, 'target=_system', 'location=no');
                             var callinterval = $interval(function() {
                                 globalFunction.readMoney(function(bal) {
                                     if (bal > currentbal) {
@@ -940,31 +940,31 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
             $scope.statusSignup(input);
         }
     };
-    $scope.statusSignup = function(input){
-    MyServices.checkMob({
-      mobile:input.mobile
-    },function(data){
-      if(data.value == true){
-        $.jStorage.set("consumer_id",data.comment.consumer_id);
-        input.consumer_id = $.jStorage.get("consumer_id");
-        input.notificationtoken.deviceid = $.jStorage.get("device");
-        input.notificationtoken.os = $.jStorage.get("os");
-        MyServices.signupUser(input, function(signup) {
-            if (signup.value == true) {
-                $location.url('app/home');
-                $.jStorage.set("user", signup.user);
+    $scope.statusSignup = function(input) {
+        MyServices.checkMob({
+            mobile: input.mobile
+        }, function(data) {
+            if (data.value == true) {
+                $.jStorage.set("consumer_id", data.comment.consumer_id);
+                input.consumer_id = $.jStorage.get("consumer_id");
+                input.notificationtoken.deviceid = $.jStorage.get("device");
+                input.notificationtoken.os = $.jStorage.get("os");
+                MyServices.signupUser(input, function(signup) {
+                    if (signup.value == true) {
+                        $location.url('app/home');
+                        $.jStorage.set("user", signup.user);
+                    } else {
+                        $scope.alertUser("signup", "unable to signup");
+                    }
+                }, function(err) {
+
+                })
             } else {
-                $scope.alertUser("signup", "unable to signup");
+                $scope.doSignup(input);
             }
         }, function(err) {
 
         })
-      }else{
-        $scope.doSignup(input);
-      }
-    },function (err) {
-
-    })
     };
     $scope.checkDeviceIDLogin = function() {
         $scope.isRegistered = false;
@@ -2306,7 +2306,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
     .controller('TermsCtrl', function($scope, $stateParams) {
 
     })
-    .controller('RedeemCtrl', function($scope, $stateParams, $ionicModal, $timeout, $ionicPopup, $location, MyServices, $ionicLoading,$ionicSlideBoxDelegate) {
+    .controller('RedeemCtrl', function($scope, $stateParams, $ionicModal, $timeout, $ionicPopup, $location, MyServices, $ionicLoading, $ionicSlideBoxDelegate) {
         $scope.favoritePage();
         favorite.setActive(false);
         $scope.readTNC = false;
