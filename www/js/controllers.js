@@ -40,7 +40,6 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
             }
         })
     }
-
     globalFunction.addMoneyNew = function(obj) {
         var currentbal = 0;
         globalFunction.readMoney(function(bal) {
@@ -2411,22 +2410,38 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
 
         //   TERMS AND CONDITIONS MODAL FUNCTIONS
         $ionicModal.fromTemplateUrl('templates/tNc.html', {
+            id: '1',
             scope: $scope
         }).then(function(modal) {
-            $scope.modal = modal;
+            $scope.oModal1 = modal;
         });
 
         // Triggered in the tNc modal to close it
         $scope.closeTNC = function() {
             $scope.readTNC = true;
-            $scope.modal.hide();
+            $scope.oModal1.hide();
         };
 
         // Open the tNc modal
         $scope.tNc = function() {
-            $scope.modal.show();
+            $scope.oModal1.show();
         };
         //    MODAL END
+
+        /* How to Redeem */
+        $ionicModal.fromTemplateUrl('templates/modal-howto.html', {
+            id: '2',
+            scope: $scope
+        }).then(function(modal) {
+            $scope.oModal2 = modal;
+        });
+        $scope.hideRedeem = function() {
+            $scope.oModal2.hide();
+        };
+        $scope.showRedeem = function() {
+            $scope.oModal2.show();
+        };
+        /* How to Redeem */
 
         //   TERMS AND CONDITIONS MODAL FUNCTIONS
         $ionicModal.fromTemplateUrl('templates/detail.html', {

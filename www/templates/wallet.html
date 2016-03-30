@@ -1,34 +1,54 @@
 <ion-view view-title="Wallet">
-    <ion-content>
-      <div class="home">
-        <ion-slide-box on-slide-changed="slideHasChanged($index)">
+  <div class="button-upload-container">
+    <button class="button button button-icon icon ln-history button-upload" ng-click="history()"></button>
+  </div>
+  <ion-content>
+    <!-- <div class="home">
+      <ion-slide-box on-slide-changed="slideHasChanged($index)">
           <ion-slide ng-repeat="item in banners" ui-sref="app.redeem({
             id:item.vendorid
           })" ng-click="slideIsSelected($index)"><img class="full-image" ng-src="{{item.imgurl | serverimage}}" alt=""></ion-slide>
         </ion-slide-box>
-      </div>
-        <div class="wallet-content">
-          <div class="card">
-            <div class="item">
-              <h4 class="text-center font15">Add Balance</h4>
-            <div class="">
-                <form class="" name="mywallet">
-                    <label class="item item-input enter-amount-input no-border">
-                        <span class="input-label icon">₹ </span>
-                        <input type="number" placeholder="Enter amount" ng-model="wallet.amount" name="amount" min="100" required>
-                    </label>
-                    <p class="padding" ng-if="mywallet.amount.$error.min">Minimum amount should be 100.</p>
-                    <div class="padding no-margin text-center mt30">
-                        <button class="button button-assertive button-small btn-small " ng-click="addMoneyNew(wallet.amount)" ng-disabled="mywallet.$invalid">
-                            ADD MONEY
-                        </button>
-                    </div>
-                </form>
-            </div>
-            </div>
+    </div> -->
+    <div class="wallet-content">
+      <!-- <div class="card">
+        <div class="item">
+          <h4 class="text-center font15">Add Balance</h4>
+          <div class="">
+            <form class="" name="mywallet">
+              <label class="item item-input enter-amount-input no-border">
+                <span class="input-label icon">₹
+                </span>
+                <input type="number" placeholder="Enter amount" ng-model="wallet.amount" name="amount" min="100" required>
+              </label>
+              <p class="padding" ng-if="mywallet.amount.$error.min">Minimum amount should be 100.</p>
+              <div class="padding no-margin text-center mt30">
+                <button class="button button-assertive button-small btn-small " ng-click="addMoneyNew(wallet.amount)" ng-disabled="mywallet.$invalid">
+                  ADD MONEY
+                </button>
+              </div>
+            </form>
           </div>
+        </div>
+      </div> -->
 
-            <!-- <div class="wallet-holder">
+      <form class="card" name="mywallet">
+        <div class="item item-divider text-center">
+          Add Balance
+        </div>
+        <label class="item item-input">
+          <span class="input-label auto-width">₹</span>
+          <input type="number" placeholder="Enter amount" ng-model="wallet.amount" name="amount" min="100" required>
+        </label>
+        <p class="padding-horizontal danger" ng-if="mywallet.amount.$error.min">*Minimum amount should be 100.</p>
+        <div class="text-center">
+          <button class="button button-assertive button-small button-clear button-block" ng-click="addMoneyNew(wallet.amount)" ng-disabled="mywallet.$invalid">
+            ADD MONEY
+          </button>
+        </div>
+      </form>
+
+      <!-- <div class="wallet-holder">
                 <div class="wallet-balance">
                     <h3>Wallet Balance</h3>
                     <h2>₹ {{myBalance.balance | number:2}}/-</h2>
@@ -36,7 +56,7 @@
                 <img src="img/walletlock.png" alt="">
             </div> -->
 
-            <!--
+      <!--
             <div class="row btns-wallet no-padding">
 
                 <div class="col-80 padding-horizontal">
@@ -50,44 +70,43 @@
             </div>
 -->
 
-            <h1 class="wallet-txt">
-                Get 10% more every time you add balance!
-            </h1>
-            <div class="separator"></div>
-            <div class="coupon">
-                <div class="item-input-inset">
-                    <label class="item-input-wrapper">
-                        <input type="text" placeholder="COUPON CODE" ng-model="coupon.code">
-                    </label>
-                    <button class="button button-assertive btn-cart" ng-click="applyCoupon()">
-                        APPLY
-                    </button>
-                </div>
+      <h1 class="wallet-txt">
+        Get 10% more every time you add balance!
+      </h1>
+      <div class="separator"></div>
+      <div class="coupon">
+        <div class="item-input-inset">
+          <label class="item-input-wrapper">
+            <input type="text" placeholder="COUPON CODE" ng-model="coupon.code">
+          </label>
+          <button class="button button-assertive btn-cart" ng-click="applyCoupon()">
+            APPLY
+          </button>
+        </div>
 
-                <div class="money-limit-upgrade">
-                    <h1 class="limit-txt">
-                  <!-- Your monthly money limit remaining is {{user.walletLimit}} -->
-               </h1>
-                    <!-- <button class="button upgrade-btn no-margin button-clear button-assertive button-block" ng-click="upgrade()" style="font-size: 15px !important;" ng-if="!user.upgraderequested">{{upgradeText}}</button> -->
+        <div class="money-limit-upgrade">
+          <h1 class="limit-txt">
+            <!-- Your monthly money limit remaining is {{user.walletLimit}} -->
+          </h1>
+          <!-- <button class="button upgrade-btn no-margin button-clear button-assertive button-block" ng-click="upgrade()" style="font-size: 15px !important;" ng-if="!user.upgraderequested">{{upgradeText}}</button> -->
 
-                </div>
-                <div class="upgrade" ng-if="user.upgraderequested">
-                    <!-- {{upgradeText}} -->
-                </div>
-                <div class="spacer-small"></div>
+        </div>
+        <div class="upgrade" ng-if="user.upgraderequested">
+          <!-- {{upgradeText}} -->
+        </div>
+        <div class="spacer-small"></div>
 
-            </div>
-            <div class="spacer-small"></div>
-            <div class="rel" style="position:relative;border-bottom:2px solid #0060AA;">
-                <div class="button-upload-container">
-                    <button class="button button button-icon icon ln-history button-upload" ng-click="history()">
-                    </button>
-                </div>
-                <div class="item no-border">
-                    <h2>Balance history</h2>
-                </div>
-            </div>
-            <!--
+      </div>
+      <!-- <div class="spacer-small"></div>
+      <div class="rel" style="position:relative;border-bottom:2px solid #0060AA;">
+        <div class="button-upload-container">
+          <button class="button button button-icon icon ln-history button-upload" ng-click="history()"></button>
+        </div>
+        <div class="item no-border">
+          <h2>Balance history</h2>
+        </div>
+      </div> -->
+      <!--
             <div class="separator"></div>
             <div class="pending-header">
                 <h4>Requests pending approval</h4>
@@ -104,8 +123,8 @@
             </ion-list>
 -->
 
-        </div>
+    </div>
 
-    </ion-content>
+  </ion-content>
 
 </ion-view>

@@ -1,8 +1,12 @@
 <ion-view view-title="Profile">
     <ion-content>
         <div class="over-layer">
-            <div class="layer-over" ng-click="addProfileImage()">
-               <img class="img-hold" ng-src="{{user.profile | serverimage}}">
+            <div class="layer-over" ng-click="addProfileImage();">
+               <div class="img-hold" ng-style="{'background-image': 'url({{(user.profile | serverimage)}})'};">
+                 <div class="black-trans">
+                   EDIT
+                 </div>
+               </div>
                 <p>{{user.name}}</p>
             </div>
         </div>
@@ -12,7 +16,7 @@
                     <input type="text" ng-model="user.name" placeholder="Name" disabled>
                 </label>
                 <label class="item item-input">
-                    <input type="email" ng-model="user.email" placeholder="Email" ng-disabled="edit">
+                    <input type="email" ng-model="user.email" placeholder="Email">
                 </label>
                    <label class="item item-input">
                     <input type="tel" ng-model="user.mobile" placeholder="Mobile" disabled>
@@ -34,9 +38,9 @@
                 </a>
             </div>
             <div class=" padding text-center">
-                <button class="button button-block pr-button button-assertive" ng-click="toggleEdit()">
+                <!-- <button class="button button-block pr-button button-assertive" ng-click="toggleEdit()">
                     Edit
-                </button>
+                </button> -->
                 <button class="button button-block pr-button button-assertive" ng-click="saveUser()">
                     Save
                 </button>

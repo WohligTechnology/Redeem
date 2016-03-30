@@ -10,7 +10,7 @@
                 <button class="button button-icon button-clear ion-ios-search">
                 </button>
             </ion-nav-buttons>
--->
+            -->
             <ion-nav-buttons side="right" class="padding-horizontal">
                 <div class="padding-horizontal" ng-if="canfavorite">
                     <button class="button cart-button button-icon button-clear " onclick="favorite.pushFavorite()"><i class="cart-icon icon" ng-class="{'ion-android-star-outline':!activefav,'ion-android-star':activefav, 'clr-fav':activefav}">
@@ -26,22 +26,22 @@
         <ion-nav-view name="menuContent"></ion-nav-view>
         <ion-footer-bar class="pad5">
             <div class="icon-footer text-center">
-                <div class="row">
+                <div class="row padding0">
                     <div class="col padding0" ui-sref="app.wallet">
-                        <div class="div">
-                            <i class="ln-arrow-down blue-bk"></i>
+                        <div class="blue-bk">
+                            <i class="ln-arrow-down"></i>
                         </div>
                         <span class="font12">Add Money</span>
                     </div>
                     <div class="col padding0">
-                        <div class="rs">₹
+                        <div class="blue-bk rs">₹
                             <span>{{myBalance.balance | number:2}}</span>
                         </div>
                         <span class="font12">Wallet Balance</span>
                     </div>
-                    <div class="col padding0">
-                        <div class="div">
-                            <i class="ln-arrow-up blue-bk"></i>
+                    <div class="col padding0" ui-sref="app.home">
+                        <div class="blue-bk">
+                            <i class="ln-arrow-up"></i>
                         </div>
                         <span class="font12">Reedem Money</span>
                     </div>
@@ -59,7 +59,8 @@
                 </ion-item>
 -->
                 <ion-item class="item item-avatar menuitem no-border" menu-close href="#/app/profile">
-                    <img src="{{user.profile | serverimage}}" alt="">
+                    <!-- <img src="{{user.profile | serverimage}}" alt=""> -->
+                    <div class="img-avatar" ng-style="{'background-image': 'url({{(user.profile | serverimage)}})'};"></div>
                     <p style="font-weight: 600;
                     color: #838080 ;">{{user.name}}</p>
                     <span>+91{{user.mobile}}</span>

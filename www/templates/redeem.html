@@ -42,7 +42,7 @@
                 Get {{vendor.offerpercent}}% cashback on redeeming from {{vendor.name}}.
             </h1>
             <div class="link">
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col">
                         <div class="points-item total-bg">
                             <div class="icon-hold">
@@ -88,7 +88,7 @@
                     <div class="col col-50">
                         <div class="img-m">
                             <img src="img/play.png" class="full-image">
-                        </div>
+                        </div> -->
                         <!--
                         <div class="points-item positives-ap">
                             <div class="icon-hold">
@@ -102,8 +102,7 @@
 -->
                     </div>
                 </div>
-                <div class="det-name">
-
+                <!-- <div class="det-name">
                     <div class="card">
                         <div class="row">
                             <div class="col col-66">
@@ -115,20 +114,22 @@
                                     <p>Mumbai - 400014</p>
                                     <p>Maharashtra</p>
                                     <p>Phone: 022 4921 8333</p>
-                                    <!--                        <a href="#"><h6><i class="ln-map-marker"></i>Map</h6></a>-->
+                                    <a href="#"><h6><i class="ln-map-marker"></i>Map</h6></a>
                                 </div>
                             </div>
                             <div class="col col-33">
                                 <img src="img/map.jpg" class="full-image" style="width: 62px;float: right;">
                             </div>
                         </div>
-
                     </div>
-
-                </div>
-                <ion-item class="tnc" ng-click="tNc()">
-                    Terms & conditions
+                </div> -->
+                <ion-item class="tnc" ng-click="tNc();">
+                    Terms &amp; conditions
                     <i class="icon" ng-class="{'ln-clipboard-check':readTNC,'ln-chevron-right':!readTNC}"></i>
+                </ion-item>
+                <ion-item class="item-icon-right" ng-click="showRedeem();">
+                  <i class="icon ion-ios-help-outline"></i>
+                  How to Redeem
                 </ion-item>
             </div>
     </ion-content>

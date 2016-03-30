@@ -75,6 +75,9 @@ $pro-bg-image: url(../img/pr-bk.jpg) no-repeat center center;
 .brdr-unread {
     border-left: 4px solid $positive;
 }
+.danger {
+  color: $danger;
+}
 .menuitem {
     .item {}
     .item-content {
@@ -145,7 +148,7 @@ $pro-bg-image: url(../img/pr-bk.jpg) no-repeat center center;
         font-size: 15px;
         font-weight: 500;
         text-align: center;
-        color: #0060AA;
+        color: $success;
     }
     .pending-header {
         border-bottom: 2px $assertive solid;
@@ -305,7 +308,7 @@ $pro-bg-image: url(../img/pr-bk.jpg) no-repeat center center;
 .tnc {
     i {
         float: right;
-        font-size: 18px;
+        font-size: 22px;
     }
 }
 .banner-holder {
@@ -541,8 +544,8 @@ $pro-bg-image: url(../img/pr-bk.jpg) no-repeat center center;
 }
 .button-upload-container {
     position: absolute;
-    bottom: -19px;
-    right: 25px;
+    bottom: 75px;
+    right: 15px;
     z-index: 9999;
     background-color: $assertive;
     width: 56px;
@@ -742,11 +745,13 @@ $pro-bg-image: url(../img/pr-bk.jpg) no-repeat center center;
         background-size: contain;
         margin: 8px auto;
         position: initial;
+        background-color: #f8f8f8;
     }
 }
 .pr-form {
     .input-label {
         color: #B4B4B4 !important;
+        font-size: 14px;
     }
 }
 .f-m {
@@ -1267,18 +1272,23 @@ $pro-bg-image: url(../img/pr-bk.jpg) no-repeat center center;
   padding: 0px;
 }
 .blue-bk {
-    font-size: 18px;
-    border: 1px solid #0060AA;
-    color: #FFFFFF;
-    padding: 3px 3px;
-    background: #0060AA;
-    border-radius: 4px;
+  font-size: 18px;
+  color: #FFFFFF;
+  padding: 0 0px;
+  background-color: $success;
+  border-radius: 4px;
+  display: block;
+  width: 32px;
+  line-height: 32px;
+  height: 32px;
+  text-align: center;
+  margin: 0 auto;
+  &.rs {
+    background-color: white;
+    color: #000;
   }
-  .rs {
-      font-size: 18px;
-      font-weight: 600;
-      color: #B3B3B3;
-  }
+}
+
 .font12{
       font-size: 12px;
 }
@@ -1322,4 +1332,33 @@ text-overflow: ellipsis;
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
+}
+.item-avatar {
+  .img-avatar {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-size: contain;
+    background-color: #f8f8f8;
+  }
+}
+.black-trans {
+    color: white;
+    background-color: $success;
+    padding: 1px 0;
+    font-size: 12px;
+}
+input[disabled],
+select[disabled],
+textarea[disabled],
+input[readonly]:not(.cloned-text-input),
+textarea[readonly]:not(.cloned-text-input),
+select[readonly] {
+   background-color: white;
+}
+.auto-width {
+      width: auto;
 }
