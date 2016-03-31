@@ -9291,8 +9291,7 @@ a.button {
   width: auto; }
 
 .category-container {
-  border: 1px #ddd solid;
-  margin: 10px; }
+  padding: 10px; }
   .category-container .row + .row {
     border-top: 1px #ddd solid;
     margin-top: 0 !important; }
@@ -9510,8 +9509,8 @@ a.button {
 
 .button-share-container {
   position: fixed;
-  bottom: 65px;
-  right: 25px;
+  bottom: 75px;
+  right: 15px;
   z-index: 9999;
   background-color: #0060aa;
   width: 56px;
@@ -10193,28 +10192,29 @@ a.button {
   margin: 0 auto; }
   .blue-bk.rs {
     background-color: white;
-    color: #000; }
+    color: #000;
+    width: auto; }
 
 .font12 {
   font-size: 12px; }
 
 .icon-nm {
-  font-size: 12px;
-  text-transform: capitalize; }
+  font-size: 13px;
+  text-transform: uppercase; }
   .icon-nm span {
     display: inline-block;
-    width: 74px;
+    width: 100%;
     white-space: nowrap;
     overflow: hidden !important;
     text-overflow: ellipsis; }
 
 .icon-ct {
-  font-size: 26px;
-  padding: 0px 0px 5px 0px; }
+  font-size: 45px;
+  padding: 0px 0px 8px 0px; }
 
 .cls-category {
   background: #F1F1F1;
-  padding: 10px 6px; }
+  padding: 10px 3px 0; }
 
 .pt20 {
   padding-top: 10px; }
@@ -10262,3 +10262,10 @@ select[readonly] {
 
 .auto-width {
   width: auto; }
+
+.bar-relative {
+  position: static;
+  display: block; }
+
+.fixed-height {
+  height: 40px; }

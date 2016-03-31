@@ -273,8 +273,7 @@ $pro-bg-image: url(../img/pr-bk.jpg) no-repeat center center;
     width: auto;
 }
 .category-container {
-    border: 1px #ddd solid;
-    margin: 10px;
+    padding: 10px;
     .row+.row {
         border-top: 1px #ddd solid;
         margin-top: 0 !important;
@@ -526,8 +525,8 @@ $pro-bg-image: url(../img/pr-bk.jpg) no-repeat center center;
 }
 .button-share-container {
     position: fixed;
-    bottom: 65px;
-    right: 25px;
+    bottom: 75px;
+    right: 15px;
     z-index: 9999;
     background-color: $assertive;
     width: 56px;
@@ -1286,6 +1285,7 @@ $pro-bg-image: url(../img/pr-bk.jpg) no-repeat center center;
   &.rs {
     background-color: white;
     color: #000;
+    width: auto;
   }
 }
 
@@ -1293,24 +1293,24 @@ $pro-bg-image: url(../img/pr-bk.jpg) no-repeat center center;
       font-size: 12px;
 }
 .icon-nm {
-    font-size: 12px;
-    text-transform: capitalize;
-    span{
+    font-size: 13px;
+    text-transform: uppercase;
+    span {
       display: inline-block;
-width: 74px;
-white-space: nowrap;
-overflow: hidden !important;
-text-overflow: ellipsis;
+      width: 100%;
+      white-space: nowrap;
+      overflow: hidden !important;
+      text-overflow: ellipsis;
     }
 }
-.icon-ct{
-  font-size: 26px;
-  padding: 0px 0px 5px 0px;
+.icon-ct {
+  font-size: 45px;
+  padding: 0px 0px 8px 0px;
 
 }
 .cls-category{
     background: #F1F1F1;
-    padding: 10px 6px;
+    padding: 10px 3px 0;
 }
 .pt20{
   padding-top: 10px;
@@ -1361,4 +1361,11 @@ select[readonly] {
 }
 .auto-width {
       width: auto;
+}
+.bar-relative {
+  position: static;
+  display: block;
+}
+.fixed-height {
+  height: 40px;
 }

@@ -20,13 +20,12 @@
     "cordova-plugin-console",
     "cordova-plugin-whitelist",
     "cordova-plugin-splashscreen",
-    "com.ionic.keyboard",
+    "ionic-plugin-keyboard",
     "cordova-plugin-datepicker",
     {
       "locator": "https://github.com/asanka-x/Phonegap-SMS.git",
       "id": "info.asankan.phonegap.smsplugin"
     },
-    "phonegap-plugin-push",
     "org.apache.cordova.contacts",
     "cordova-plugin-network-information",
     {
@@ -35,7 +34,14 @@
     },
     "cordova-plugin-file-transfer",
     "cordova-plugin-inappbrowser",
-    "cordova-plugin-x-socialsharing"
+    "cordova-plugin-x-socialsharing",
+    {
+      "variables": {
+        "SENDER_ID": "965431280304"
+      },
+      "locator": "phonegap-plugin-push",
+      "id": "phonegap-plugin-push"
+    }
   ],
   "cordovaPlatforms": [
     "android",

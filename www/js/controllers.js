@@ -1162,8 +1162,8 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
     globalFunction.readMoney(function(bal) {
         $scope.myBalance = {
             balance: bal
-        }
-    })
+        };
+    });
     $scope.user = MyServices.getUser();
     $scope.refreshUser = function() {
         MyServices.findUser($scope.user, function(data) {
@@ -1178,6 +1178,8 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
     $scope.refreshUser();
 
     $scope.favorites = $scope.user.favorite;
+    $scope.chunkedFav = _.chunk($scope.favorites, 2);
+    console.log($scope.chunkedFav);
     $scope.refreshNoti($scope.user);
     $scope.category = [];
     $scope.refreshUser();
@@ -1195,7 +1197,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
     }, 3000);
     MyServices.findCategories(function(data) {
         if (data) {
-            $scope.category = _.chunk(data, 3);
+            $scope.category = _.chunk(data, 2);
             console.log(data);
         }
     }, function(err) {
@@ -1214,14 +1216,14 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
         if (err) {
             console.log(err);
         }
-    })
+    });
     $scope.slideIsSelected = function(index) {
         console.log($scope.banners[index]);
         $location.path("/app/redeem/" + $scope.banners[index].vendorid);
     };
     $scope.routeCategory = function(object) {
         console.log(object);
-        if (object.listview == false) {
+        if (object.listview === false) {
             $location.path('app/gridview/' + object._id);
         } else {
             $location.path('app/listview/' + object._id);
@@ -1242,7 +1244,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
                 });
             }
 
-        })
+        });
     };
     $scope.expandFavorites();
 
