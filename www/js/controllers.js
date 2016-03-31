@@ -418,16 +418,16 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
         state: false,
         icon: "ln-book-closed"
     }, {
+        title: 'Transactions',
+        url: '#/app/transaction',
+        state: false,
+        icon: "ln-history"
+    }, {
         title: 'Referral',
         url: '#/app/referral',
         state: false,
         badgecount: $scope.referralBadge,
         icon: "ln-users"
-    }, {
-        title: 'About Us',
-        url: '#/app/aboutus',
-        state: false,
-        icon: "ion-ios-information-outline"
     }, {
         title: 'Terms',
         url: '#/app/terms',
@@ -438,6 +438,11 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
         url: '#/app/notification',
         state: false,
         icon: "ion-android-notifications-none"
+    },  {
+        title: 'Contact Us',
+        url: '#/app/contact',
+        state: false,
+        icon: "ln-phone"
     }, {
         title: 'Logout',
         url: '#',
@@ -1211,6 +1216,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
             $scope.banners = data;
             console.log($scope.banners);
             $ionicSlideBoxDelegate.update();
+            $ionicSlideBoxDelegate.loop(true);
         }
     }, function(err) {
         if (err) {
@@ -1350,11 +1356,11 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
         $timeout(function() {
             $ionicBackdrop.release();
         }, 1000);
-        window.plugins.socialsharing.share('Hey!Check this out!<br> Now get more and more money on your balance! only on PAiSO App! Download the app from Playstore and use the following Referral code : ' + $scope.user.mobile + ' . <br> - ' + $scope.user.name);
+        window.plugins.socialsharing.share('Hey, Check this out! Now get more and more money on your balance, only on PAiSO App! Download the app from playstore and use the following referral code: ' + $scope.user.mobile);
     };
 })
 
-.controller('AboutUsCtrl', function($scope, $stateParams, $ionicScrollDelegate) {
+.controller('ContactCtrl', function($scope, $stateParams, $ionicScrollDelegate) {
     $scope.nofavoritePage();
     globalFunction.readMoney(function(bal) {});
     $scope.oneAtATime = true;
@@ -2016,7 +2022,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
         $scope.upgradeAlert = function() {
             var confirmPopup = $ionicPopup.confirm({
                 title: 'Wallet',
-                template: '<h5 style="text-align: center;margin-bottom:0">Amount exceeding monthly limit.<br>Do you want to upgrade KYC?</h5>'
+                template: '<h5 style="text-align: center;margin-bottom:0">Amount exceeding monthly limit.Do you want to upgrade KYC?</h5>'
             });
             confirmPopup.then(function(res) {
                 if (res) {

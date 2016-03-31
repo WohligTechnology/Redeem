@@ -1,11 +1,13 @@
 <ion-view title="{{navTitle}}">
   <ion-content class="has-header has-footer">
-      <ion-slide-box on-slide-changed="slideHasChanged($index)">
-        <ion-slide ng-repeat="item in banners" ui-sref="app.redeem({
-          id:item.vendorid
-        })" ng-click="slideIsSelected($index)"><img class="full-image" ng-src="{{item.imgurl | serverimage}}" alt=""></ion-slide>
-      </ion-slide-box>
-      <!-- <a href="#/app/wallet" style="text-decoration:none;">
+
+    <ion-slide-box on-slide-changed="slideHasChanged($index)" does-continue="true" auto-play="true">
+      <ion-slide ng-repeat="item in banners" ui-sref="app.redeem({id:item.vendorid})" ng-click="slideIsSelected($index)">
+        <img class="full-image" ng-src="{{item.imgurl | serverimage}}" alt="">
+      </ion-slide>
+    </ion-slide-box>
+
+    <!-- <a href="#/app/wallet" style="text-decoration:none;">
                 <div class="wallet-holder" style="margin-top: -5px;">
                     <div class="wallet-balance">
                         <h3>Wallet Balance</h3>
@@ -13,25 +15,25 @@
                     </div>
                     <img src="img/walletlock.png" alt="">
                 </div>
-            </a> -->
+</a> -->
 
-      <div class="bar bar-relative no-padding" ng-init="tab=1">
-        <div class="row ">
-          <div class="col no-padding text-center" ng-class="{'active-tab': tab==1}">
-            <button class="button button-clear no-padding" ng-click="tab=1">
-              <h5>Categories</h5>
-            </button>
-          </div>
-          <div class="col no-padding text-center" ng-class="{'active-tab':tab==2}">
-            <button class="button button-clear no-padding" ng-click="tab=2">
-              <h5>Favorites</h5>
-            </button>
-          </div>
+    <div class="bar bar-relative no-padding" ng-init="tab=1">
+      <div class="row ">
+        <div class="col no-padding text-center" ng-class="{'active-tab': tab==1}">
+          <button class="button button-clear no-padding" ng-click="tab=1">
+            <h5>Categories</h5>
+          </button>
+        </div>
+        <div class="col no-padding text-center" ng-class="{'active-tab':tab==2}">
+          <button class="button button-clear no-padding" ng-click="tab=2">
+            <h5>Favorites</h5>
+          </button>
         </div>
       </div>
+    </div>
 
-      <div class="padding-vertical" ng-if="tab==1">
-        <div class="row" ng-repeat="cat in category">
+    <div class="padding-vertical" ng-if="tab==1">
+      <div class="row" ng-repeat="cat in category">
         <div class="col col-50" ng-repeat="item in cat | orderBy: item.order" ng-if="item.status" ng-click="routeCategory(item)">
           <div class="cls-category text-center">
             <div class="icon-ct">
@@ -45,25 +47,25 @@
       </div>
     </div>
 
-      <div class="padding-vertical" ng-if="tab==2">
-        <div class="row" ng-repeat="items in chunkedFav">
-          <div class="col col-33" ng-repeat="item in items">
-            <div class="img-holder">
-              <img ng-src="{{item.imgurl}}" class="category-image" />
-            </div>
-            <div class="text-center fixed-height">{{item.name}}</div>
+    <div class="padding-vertical" ng-if="tab==2">
+      <div class="row" ng-repeat="items in chunkedFav">
+        <div class="col col-33" ng-repeat="item in items">
+          <div class="img-holder">
+            <img ng-src="{{item.imgurl | serverimage}}" class="category-image"/>
           </div>
+          <div class="text-center fixed-height">{{item.name}}</div>
         </div>
       </div>
-      <!-- <ion-item class="item item-avatar" ng-repeat="item in favorites | orderBy: item.order" href="#/app/redeem/{{item._id}}">
+    </div>
+    <!-- <ion-item class="item item-avatar" ng-repeat="item in favorites | orderBy: item.order" href="#/app/redeem/{{item._id}}">
         <img ng-src="{{item.imgurl}}" alt="">
         <h2 style="line-height: 234%;">{{item.name}}</h2>
       </ion-item> -->
 
-      <!-- <ion-item ng-click="getCard()">
+    <!-- <ion-item ng-click="getCard()">
   Card
             </ion-item> -->
-      <!-- <button class="button button-positive" ng-click="showAlert()">
+    <!-- <button class="button button-positive" ng-click="showAlert()">
 popup
 </button> -->
 

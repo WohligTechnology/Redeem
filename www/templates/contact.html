@@ -1,0 +1,80 @@
+<ion-view view-title="Contact">
+  <div class="bar bar-subheader no-padding">
+    <div class="row ">
+      <div class="col no-padding text-center" ng-class="{'active-tab':tab.left}">
+        <button class="button button-clear no-padding " ng-click="clickTab('left')">
+          <h5>Contact us</h5>
+        </button>
+      </div>
+      <div class="col no-padding text-center" ng-class="{'active-tab':tab.right}">
+        <button class="button button-clear no-padding " ng-click="clickTab('right')">
+          <h5>FAQ</h5>
+        </button>
+      </div>
+    </div>
+  </div>
+  <ion-content class="has-subheader">
+
+    <div class="list" ng-show="tab.left">
+
+      <div class="item item-button-right">
+        Get in touch
+        <a class="button button-positive" href="tel:+919820045678">
+          <i class="icon ion-ios-telephone"></i>
+        </a>
+      </div>
+      <form class="item item-divider">
+        Submit query <span class="assertive" ng-if="">(All below fields are required.)</span>
+      </div>
+      <label class="item item-input">
+        <input placeholder="Name*" type="text" required>
+      </label>
+      <label class="item item-input">
+        <input placeholder="Email*" type="email" required>
+      </label>
+      <label class="item item-input">
+        <input placeholder="Subject*" type="text" required>
+      </label>
+      <label class="item item-input">
+        <textarea placeholder="Comments*" required></textarea>
+      </label>
+      <div class="padding">
+        <button class="button button-positive button-block">Send</button>
+      </div>
+    </form>
+
+    <div class="faq" ng-show="tab.right">
+      <accordion close-others="oneAtATime">
+        <accordion-group heading="What can I do with my PaisO Wallet?" class="accordion-header">
+
+          <ion-item class="item item-text-wrap padding no-border">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod rerum et corporis sequi nulla saepe iusto, earum nemo minima ipsam autem. Molestias, porro, est. Repellendus earum labore, atque expedita dolores.
+          </ion-item>
+
+        </accordion-group>
+        <accordion-group heading="So how does ‘cash’ appear in my PaisO Wallet account?" class="accordion-header">
+
+          <ion-item class="item item-text-wrap padding no-border">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate dolores, aperiam, quibusdam molestiae sint quos itaque error commodi eligendi fugit.
+          </ion-item>
+
+        </accordion-group>
+        <accordion-group heading="How do I avail a voucher?" class="accordion-header">
+
+          <ion-item class="item item-text-wrap padding no-border">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate dolores, aperiam, quibusdam molestiae sint quos itaque error commodi eligendi fugit.
+          </ion-item>
+
+        </accordion-group>
+        <accordion-group heading="How do I redeem an available voucher?" class="accordion-header">
+
+          <ion-item class="item item-text-wrap padding no-border">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate dolores, aperiam, quibusdam molestiae sint quos itaque error commodi eligendi fugit.
+          </ion-item>
+
+        </accordion-group>
+
+      </accordion>
+    </div>
+  </ion-content>
+</ion-view>

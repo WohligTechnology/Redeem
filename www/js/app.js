@@ -58,7 +58,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 console.log(e);
             });
         } catch (e) {
-            console.log(e)
+            console.log(e);
         }
     });
 })
@@ -66,7 +66,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 .config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider, cfpLoadingBarProvider) {
         cfpLoadingBarProvider.includeSpinner = true;
         cfpLoadingBarProvider.includeBar = false;
-        cfpLoadingBarProvider.spinnerTemplate = '<div class="backdropnew"><div class="cssload-thecube"><div class="cssload-cube cssload-c1"></div><div class="cssload-cube cssload-c2"></div><div class="cssload-cube cssload-c4"></div><div class="cssload-cube cssload-c3"></div></div></div>';
+        cfpLoadingBarProvider.spinnerTemplate = '<div class="backdropnew"><div class="white-holder"><div class="loader"><svg class="circular" viewBox="25 25 50 50"><circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/></svg></div></div></div>';
         $ionicConfigProvider.views.maxCache(0);
         $stateProvider
 
@@ -155,6 +155,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                     }
                 }
             })
+            .state('app.transaction', {
+                url: '/transaction',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'templates/transaction.html',
+                        controller: 'WalletCtrl'
+                    }
+                }
+            })
             .state('app.search', {
                 url: '/search',
                 views: {
@@ -191,12 +200,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                     }
                 }
             })
-            .state('app.aboutus', {
-                url: '/aboutus',
+            .state('app.contact', {
+                url: '/contact',
                 views: {
                     'menuContent': {
-                        templateUrl: 'templates/faqNaboutus.html',
-                        controller: 'AboutUsCtrl'
+                        templateUrl: 'templates/contact.html',
+                        controller: 'ContactCtrl'
                     }
                 }
             })
