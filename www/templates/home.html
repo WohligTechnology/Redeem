@@ -51,7 +51,9 @@
       <div class="row" ng-repeat="items in chunkedFav">
         <div class="col col-33" ng-repeat="item in items">
           <div class="img-holder">
-            <img ng-src="{{item.imgurl | serverimage}}" class="category-image"/>
+            <a href="#/app/redeem/{{item._id}}">
+              <img ng-src="{{item.imgurl | serverimage}}" class="category-image"/>
+            </a>
           </div>
           <div class="text-center fixed-height">{{item.name}}</div>
         </div>
