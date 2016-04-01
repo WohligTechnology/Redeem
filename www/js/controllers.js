@@ -963,6 +963,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
     };
     $scope.userExistSignup = function (input){
       MyServices.generateOtpForDebit(input.consumer_id,function(data){
+        $scope.input={};
         if(data.value){
           var myPopup = $ionicPopup.show({
               template: '<input type="tel" ng-model="input.otp" style="margin: 0px auto;width:100px;text-align:center;font-size:20px">',

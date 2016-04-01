@@ -1,10 +1,4 @@
-<ion-modal-view>
-    <ion-header-bar align-title="center" class="bar-stable">
-        <h1 class="title">Balance History</h1>
-        <div class="buttons padding-horizontal ">
-            <button class="button button-clear" ng-click="closeHistory()"><i class="icon ion-ios-close-empty"></i></button>
-        </div>
-    </ion-header-bar>
+<ion-view view-title="Transaction History">
     <div class="bar bar-subheader no-padding">
         <a href="#/app/wallet" style="text-decoration:none;" ng-click="closeHistory()">
             <div class="wallet-holder" style="margin-top: -5px;">
@@ -33,13 +27,6 @@
     <ion-content class="has-customheader">
 
         <div class="me-tab" ng-show="tab.left">
-            <!--
-             <div class="list">
-
-            <ion-item ng-repeat="item in balanceHistory | orderBy: '-timestamp'" ng-if="item.amount != null">
-                <h2>₹ {{item.amount}} <span class="item-note">{{item.timestamp | date:'mediumDate'}}</span></h2>
-            </ion-item>
--->
             <div class="list">
                 <a class="item item-icon-left" ng-repeat="item in balanceHistory | orderBy: '-timestamp'" ng-if="item.amount != null">
                     <i class="ln-calendar3"></i> {{item.timestamp | date:'mediumDate'}}
@@ -76,14 +63,5 @@
 
             </div>
         </div>
-        <!--
-
-        <div class="list">
-           <ion-item class="item-divider">Add Balance</ion-item>
-            <ion-item ng-repeat="item in balanceHistory | orderBy: '-timestamp'" ng-if="item.amount != null">
-                <h2>₹ {{item.amount}} <span class="item-note">{{item.timestamp | date:'mediumDate'}}</span></h2>
-            </ion-item>
-        </div>
--->
     </ion-content>
-</ion-modal-view>
+</ion-view>

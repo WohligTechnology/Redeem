@@ -1,4 +1,10 @@
-<ion-view view-title="Transaction History">
+<ion-modal-view>
+    <ion-header-bar align-title="center" class="bar-stable">
+        <h1 class="title">Balance History</h1>
+        <div class="buttons padding-horizontal ">
+            <button class="button button-clear" ng-click="closeHistory()"><i class="icon ion-ios-close-empty"></i></button>
+        </div>
+    </ion-header-bar>
     <div class="bar bar-subheader no-padding">
         <a href="#/app/wallet" style="text-decoration:none;" ng-click="closeHistory()">
             <div class="wallet-holder" style="margin-top: -5px;">
@@ -80,4 +86,4 @@
         </div>
 -->
     </ion-content>
-</ion-view>
+</ion-modal-view>

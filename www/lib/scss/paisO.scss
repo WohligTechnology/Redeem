@@ -732,6 +732,7 @@ $pro-bg-image: url(../img/pr-bk.jpg) no-repeat center center;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
+        -webkit-transform: translate(-50%, -50%);
         text-align: center;
         p {
             color: $assertive;
@@ -1224,5 +1225,6 @@ select[readonly] {
     padding: 20px 20px 17px;
     border-radius: 2px;
     transform: translate(-50%,-50%);
+    -webkit-transform: translate(-50%,-50%);
 }
 @import "loader";
