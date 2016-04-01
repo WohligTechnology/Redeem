@@ -10099,7 +10099,9 @@ a.button {
   height: 40px;
   border-radius: 50%;
   background-size: contain;
-  background-color: #f8f8f8; }
+  background-color: #f8f8f8;
+  background-repeat: no-repeat;
+  background-position: center center; }
 
 .black-trans {
   color: white;

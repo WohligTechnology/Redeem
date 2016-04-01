@@ -21,6 +21,10 @@
   <preference name="xwalkMode" value="embedded"/>
   <preference name="xwalkMultipleApk" value="true"/>
   <preference name="orientation" value="portrait"/>
+  <preference name="SplashScreenBackgroundColor" value="#fff" />
+  <preference name="SplashMaintainAspectRatio" value="true" />
+  <preference name="SplashScreenDelay" value="3000" />
+
   <feature name="StatusBar">
     <param name="ios-package" onload="true" value="CDVStatusBar"/>
   </feature>
