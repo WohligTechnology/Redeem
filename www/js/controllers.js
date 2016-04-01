@@ -953,22 +953,71 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
                 input.consumer_id = $.jStorage.get("consumer_id");
                 input.notificationtoken.deviceid = $.jStorage.get("device");
                 input.notificationtoken.os = $.jStorage.get("os");
-                MyServices.signupUser(input, function(signup) {
-                    if (signup.value == true) {
-                        $location.url('app/home');
-                        $.jStorage.set("user", signup.user);
-                    } else {
-                        $scope.alertUser("signup", "unable to signup");
-                    }
-                }, function(err) {
-
-                })
+                $scope.userExistSignup(input);
             } else {
                 $scope.doSignup(input);
             }
         }, function(err) {
 
         })
+    };
+    $scope.userExistSignup = function (input){
+      MyServices.generateOtpForDebit(input.consumer_id,function(data){
+        if(data.value){
+          var myPopup = $ionicPopup.show({
+              template: '<input type="tel" ng-model="input.otp" style="margin: 0px auto;width:100px;text-align:center;font-size:20px">',
+              title: 'OTP Verification',
+              subTitle: 'Enter the 6-digit OTP :',
+              scope: $scope,
+              buttons: [{
+                  text: '<h5>Cancel</h5>',
+                  onTap: function(e) {
+                      myPopup.close();
+                  }
+              }, {
+                  text: '<h5>Retry</h5>',
+                  onTap: function(e) {
+
+                      myPopup.close();
+                      $scope.userExistSignup(input);
+                  }
+              }, {
+                  text: '<b>Verify</b>',
+                  type: 'button-positive',
+                  onTap: function(e) {
+                      if (!$scope.input.otp) {
+                          //don't allow the user to close unless he enters wifi password
+                          e.preventDefault();
+                      } else {
+                          MyServices.validateOTP({
+                              consumer: $.jStorage.get("consumer_id"),
+                              otp: $scope.input.otp
+                          }, function(data2) {
+                              if (!data2.value && data2.comment.error_code == "103") {
+                                MyServices.signupUser(input, function(signup) {
+                                    if (signup.value == true) {
+                                        $location.url('app/home');
+                                        $.jStorage.set("user", signup.user);
+                                    } else {
+                                        $scope.alertUser("signup", "unable to signup");
+                                    }
+                                }, function(err) {
+
+                                })
+                              } else {
+                                  $scope.alertUser("incorrect OTP", "please retry");
+                              }
+                          }, function(err) {
+
+                          })
+                      }
+                  }
+              }]
+          });
+        }
+      },function(err){
+
+      })
     };
     $scope.checkDeviceIDLogin = function() {
         $scope.isRegistered = false;
