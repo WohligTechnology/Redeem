@@ -21,7 +21,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
             }
         }, function(err) {});
         MyServices.findUser(MyServices.getUser(), function(data) {
-            if (data) {
+            if (data.value) {
                 MyServices.setUser(data);
                 $scope.refreshNoti(data);
             }
@@ -438,7 +438,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
         url: '#/app/notification',
         state: false,
         icon: "ion-android-notifications-none"
-    },  {
+    }, {
         title: 'Contact Us',
         url: '#/app/contact',
         state: false,
@@ -961,64 +961,64 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
 
         })
     };
-    $scope.userExistSignup = function (input){
-      MyServices.generateOtpForDebit(input.consumer_id,function(data){
-        $scope.input={};
-        if(data.value){
-          var myPopup = $ionicPopup.show({
-              template: '<input type="tel" ng-model="input.otp" style="margin: 0px auto;width:100px;text-align:center;font-size:20px">',
-              title: 'OTP Verification',
-              subTitle: 'Enter the 6-digit OTP :',
-              scope: $scope,
-              buttons: [{
-                  text: '<h5>Cancel</h5>',
-                  onTap: function(e) {
-                      myPopup.close();
-                  }
-              }, {
-                  text: '<h5>Retry</h5>',
-                  onTap: function(e) {
+    $scope.userExistSignup = function(input) {
+        MyServices.generateOtpForDebit(input.consumer_id, function(data) {
+            $scope.input = {};
+            if (data.value) {
+                var myPopup = $ionicPopup.show({
+                    template: '<input type="tel" ng-model="input.otp" style="margin: 0px auto;width:100px;text-align:center;font-size:20px">',
+                    title: 'OTP Verification',
+                    subTitle: 'Enter the 6-digit OTP :',
+                    scope: $scope,
+                    buttons: [{
+                        text: '<h5>Cancel</h5>',
+                        onTap: function(e) {
+                            myPopup.close();
+                        }
+                    }, {
+                        text: '<h5>Retry</h5>',
+                        onTap: function(e) {
 
-                      myPopup.close();
-                      $scope.userExistSignup(input);
-                  }
-              }, {
-                  text: '<b>Verify</b>',
-                  type: 'button-positive',
-                  onTap: function(e) {
-                      if (!$scope.input.otp) {
-                          //don't allow the user to close unless he enters wifi password
-                          e.preventDefault();
-                      } else {
-                          MyServices.validateOTP({
-                              consumer: $.jStorage.get("consumer_id"),
-                              otp: $scope.input.otp
-                          }, function(data2) {
-                              if (!data2.value && data2.comment.error_code == "103") {
-                                MyServices.signupUser(input, function(signup) {
-                                    if (signup.value == true) {
-                                        $location.url('app/home');
-                                        $.jStorage.set("user", signup.user);
+                            myPopup.close();
+                            $scope.userExistSignup(input);
+                        }
+                    }, {
+                        text: '<b>Verify</b>',
+                        type: 'button-positive',
+                        onTap: function(e) {
+                            if (!$scope.input.otp) {
+                                //don't allow the user to close unless he enters wifi password
+                                e.preventDefault();
+                            } else {
+                                MyServices.validateOTP({
+                                    consumer: $.jStorage.get("consumer_id"),
+                                    otp: $scope.input.otp
+                                }, function(data2) {
+                                    if (!data2.value && data2.comment.error_code == "103") {
+                                        MyServices.signupUser(input, function(signup) {
+                                            if (signup.value == true) {
+                                                $location.url('app/home');
+                                                $.jStorage.set("user", signup.user);
+                                            } else {
+                                                $scope.alertUser("signup", "unable to signup");
+                                            }
+                                        }, function(err) {
+
+                                        })
                                     } else {
-                                        $scope.alertUser("signup", "unable to signup");
+                                        $scope.alertUser("incorrect OTP", "please retry");
                                     }
                                 }, function(err) {
 
                                 })
-                              } else {
-                                  $scope.alertUser("incorrect OTP", "please retry");
-                              }
-                          }, function(err) {
+                            }
+                        }
+                    }]
+                });
+            }
+        }, function(err) {
 
-                          })
-                      }
-                  }
-              }]
-          });
-        }
-      },function(err){
-
-      })
+        })
     };
     $scope.checkDeviceIDLogin = function() {
         $scope.isRegistered = false;
@@ -1222,7 +1222,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
     $scope.user = MyServices.getUser();
     $scope.refreshUser = function() {
         MyServices.findUser($scope.user, function(data) {
-            if (data) {
+            if (data.value) {
                 MyServices.setUser(data);
                 $scope.user = MyServices.getUser();
             }
@@ -1330,7 +1330,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
     $scope.user = MyServices.getUser();
     $scope.refreshUser = function() {
         MyServices.findUser($scope.user, function(data) {
-            if (data) {
+            if (data.value) {
                 console.log(data);
                 MyServices.setUser(data);
                 $scope.user = MyServices.getUser();
@@ -1440,7 +1440,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
     $scope.user = MyServices.getUser();
     $scope.refreshUser = function() {
         MyServices.findUser($scope.user, function(data) {
-            if (data) {
+            if (data.value) {
                 console.log(data);
                 MyServices.setUser(data);
                 $scope.user = MyServices.getUser();
@@ -1583,781 +1583,784 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
 })
 
 .controller('SendMoneyCtrl', function($scope, $stateParams, MyServices, $ionicPopup, $location) {
-        $scope.nofavoritePage();
-        globalFunction.readMoney(function(bal) {
-            $scope.myBalance = {
-                balance: bal
-            }
-        })
-        $scope.send = {};
-        $scope.user = {};
-        $scope.user = MyServices.getUser();
-        $scope.refreshUser = function() {
-            MyServices.findUser($scope.user, function(data) {
-                if (data) {
-                    console.log(data);
-                    MyServices.setUser(data);
-                    $scope.user = MyServices.getUser();
-                }
-            }, function(err) {
-
-            });
-        };
-        $scope.selectContact = function() {
-            navigator.contacts.pickContact(function(contact) {
-                var selectedContact = contact.phoneNumbers[0].value;
-                console.log(selectedContact);
-                selectedContact = selectedContact.toString().split(' ').join('');
-                selectedContact = selectedContact.split('-').join('');
-                selectedContact = selectedContact.split('(').join('');
-                selectedContact = selectedContact.split(')').join('');
-                console.log("after trimming :" + selectedContact);
-
-                if (selectedContact.substring(0, 3) == "+91") {
-                    $scope.send.mobile = selectedContact.substring(3);
-                    console.log("+91 number : " + $scope.send.mobile);
-                } else if (selectedContact.substring(0, 2) == "91" && selectedContact.length > 10) {
-                    $scope.send.mobile = selectedContact.substring(2);
-                    console.log("91 number : " + $scope.send.mobile);
-                } else {
-                    $scope.send.mobile = selectedContact;
-                    console.log("as is : " + $scope.send.mobile);
-                }
-                $scope.$apply();
-            }, function(err) {
-                console.log('Error: ' + err);
-            });
-        };
-        $scope.ctrlUser = {};
-        $scope.refreshUser();
-        $scope.refreshNoti($scope.user);
-
-        $scope.alertUser = function(alertTitle, alertDesc, link) {
-            var alertPopup = $ionicPopup.alert({
-                title: alertTitle,
-                template: '<h5 style="text-align: center;margin-bottom:0">' + alertDesc + '</h5>'
-            });
-            alertPopup.then(function(res) {
-                if (link)
-                    $location.path('app/wallet');
-            });
-        };
-        $scope.sendIt = function() {
-            $scope.ctrlUser = $scope.user;
-            $scope.dirty = {
-                mobile: false,
-                amount: false,
-                comment: false
-            };
-            if ($scope.send.mobile === null || $scope.send.mobile === undefined || $scope.send.mobile === "" || $scope.send.mobile === 0) {
-                $scope.dirty.mobile = true;
-            } else {
-                if ($scope.send.amount === null || $scope.send.amount === undefined || $scope.send.amount === "" || $scope.send.amount === 0) {
-                    $scope.dirty.amount = true;
-
-                } else {
-                    // MyServices.findUserByMobile($scope.send, function(data) {
-                    //     if (data._id) {
-                    //         console.log(data);
-                    //         $scope.updateU1 = {
-                    //             _id: data._id,
-                    //             balance: data.balance + $scope.send.amount,
-                    //         };
-                    //         if ($scope.user._id === data._id) {
-                    //             $scope.alertUser("Send Money", "You cannot send money to yourself");
-                    //         } else if (($scope.user.balance - $scope.send.amount) <= 0) {
-                    //             $scope.alertUser("Send Money", "Not enough balance");
-                    //         } else {
-                    //
-                    //             var confirmPopup = $ionicPopup.confirm({
-                    //                 title: 'Send money',
-                    //                 template: '<h5 style="text-align: center;margin-bottom:0">Are you sure?</h5>'
-                    //             });
-                    //             confirmPopup.then(function(res) {
-                    //                 if (res) {
-                    //                     if ($scope.updateUser($scope.updateU1)) {
-                    //                         $scope.updateU2 = {
-                    //                             _id: $scope.user._id,
-                    //                             balance: $scope.ctrlUser.balance - $scope.send.amount
-                    //                         };
-                    //                         if ($scope.updateUser($scope.updateU2)) {
-                    //                             $scope.refreshUser();
-                    //                             $scope.transaction = {
-                    //                                 from: $scope.user._id,
-                    //                                 to: data._id,
-                    //                                 type: "sendmoney",
-                    //                                 amount: $scope.send.amount,
-                    //                                 comment: $scope.send.comment
-                    //                             };
-                    //                             if ($scope.addTransaction($scope.transaction)) {
-                    //                                 $scope.recieverNotify = {
-                    //                                     type: "sendmoney",
-                    //                                     deviceid: data.notificationtoken.deviceid,
-                    //                                     os: data.notificationtoken.os,
-                    //                                     user: data._id,
-                    //                                     comment: $scope.send.comment,
-                    //                                     amount: $scope.send.amount,
-                    //                                     name: $scope.user.name
-                    //                                 };
-                    //                                 var alertPopup = $ionicPopup.alert({
-                    //                                     template: '<h4 style="text-align: center;margin-bottom:0">Transaction successful.</h4>'
-                    //                                 });
-                    //                                 alertPopup.then(function(res) {
-                    //                                     MyServices.notify($scope.recieverNotify, function(data2) {
-                    //                                         $location.path('app/home');
-                    //                                     }, function(err) {
-                    //
-                    //                                     });
-                    //
-                    //                                 });
-                    //
-                    //
-                    //                             } else {
-                    //
-                    //                             }
-                    //                         } else {
-                    //                             //revert code for current logged in user
-                    //                         }
-                    //                     } else {
-                    //                         //revert code for reciever
-                    //                     }
-                    //                 } else {
-                    //                     $scope.send.mobile = undefined;
-                    //                     $scope.send.comment = undefined;
-                    //                     $scope.send.amount = undefined;
-                    //                 }
-                    //             });
-                    //         }
-                    //     } else {
-                    //         $scope.alertUser("Send Money", "The user is not on PAiSO.");
-                    //     }
-                    // }, function(err) {
-                    //
-                    // });
-                    globalFunction.readMoney(function(bal) {
-                        if (bal >= $scope.send.amount) {
-                            console.log("in else -> if");
-                            var userDetails = MyServices.getUser();
-                            var obj = {};
-                            obj.consumer = userDetails.consumer_id;
-                            obj.mobile = $scope.send.mobile;
-                            obj.email = userDetails.email;
-                            obj.amount = $scope.send.amount;
-                            obj.message = $scope.send.comment;
-                            obj.user = userDetails._id;
-                            obj.name = userDetails.name;
-                            MyServices.moneySend(obj, function(data) {
-                                console.log(data);
-                                if (data.value == false && data.comment == "No data found") {
-                                    $scope.alertUser("Send Money", "The user is not on PAiSO.");
-                                }
-                                if (data.value == false && data.comment && data.comment.status_code == "257") {
-                                    $scope.alertUser("Send Money", "You cannot send money to yourself");
-                                }
-                                if (data.value == true) {
-                                    var alertPopup = $ionicPopup.alert({
-                                        title: "Send Money",
-                                        template: '<h5 style="text-align: center;margin-bottom:0">Transaction successful.</h5>'
-                                    });
-                                    alertPopup.then(function(res) {
-                                        $location.path('app/home');
-                                    });
-                                }
-                            }, function(err) {
-                                if (err) {
-                                    console.log(err);
-                                }
-                            });
-                        } else {
-                            $scope.alertUser("Send Money", "Not enough balance");
-                        }
-                    })
-                }
-            }
+    $scope.nofavoritePage();
+    globalFunction.readMoney(function(bal) {
+        $scope.myBalance = {
+            balance: bal
         }
     })
-    .controller('WalletCtrl', function($scope, $stateParams, $ionicScrollDelegate, MyServices, $ionicPopup, $location, $ionicSlideBoxDelegate, $ionicModal, $cordovaFileTransfer, $ionicLoading) {
-        $scope.nofavoritePage();
-        $scope.user = {};
-        $scope.coupon = {};
-        $scope.banners = [];
-
-        $scope.user = MyServices.getUser();
-        MyServices.findBanner(function(data) {
-
-            if (data) {
-                $scope.banners = data;
-                console.log($scope.banners);
-                $ionicSlideBoxDelegate.update();
+    $scope.send = {};
+    $scope.user = {};
+    $scope.user = MyServices.getUser();
+    $scope.refreshUser = function() {
+        MyServices.findUser($scope.user, function(data) {
+            if (data.value) {
+                console.log(data);
+                MyServices.setUser(data);
+                $scope.user = MyServices.getUser();
             }
         }, function(err) {
-            if (err) {
-                console.log(err);
-            }
-        })
-        MyServices.readMoney({
-            "consumer": $.jStorage.get("user").consumer_id
-        }, function(data) {
-            console.log("balance : " + data.comment.balance);
-            if (data.value) {
-                $.jStorage.set("balance", data.comment.balance);
-                $scope.myBalance = {};
-                $scope.myBalance.balance = data.comment.balance;
-            }
-        }, function(err) {});
 
-        $scope.refreshUser = function() {
-            MyServices.findUser($scope.user, function(data) {
-                if (data) {
-                    console.log(data);
-                    MyServices.setUser(data);
-                    $scope.user = MyServices.getUser();
-                }
-            }, function(err) {
+        });
+    };
+    $scope.selectContact = function() {
+        navigator.contacts.pickContact(function(contact) {
+            var selectedContact = contact.phoneNumbers[0].value;
+            console.log(selectedContact);
+            selectedContact = selectedContact.toString().split(' ').join('');
+            selectedContact = selectedContact.split('-').join('');
+            selectedContact = selectedContact.split('(').join('');
+            selectedContact = selectedContact.split(')').join('');
+            console.log("after trimming :" + selectedContact);
 
-            });
-        };
-        $scope.refreshUser();
-        $scope.refreshNoti($scope.user);
-
-        $scope.indicator = true;
-        $scope.ctrlUser = {};
-        $scope.refreshUser();
-        $scope.wallet = {
-            amount: undefined
-        };
-        if ($scope.user.upgraderequested) {
-            $scope.upgradeText = "Request for upgrading monthly limit to Rs. 1,00,000 sent for approval";
-        } else {
-            $scope.upgradeText = "Upgrade your limit to 1,00,000";
-        }
-        $scope.monthlyRemaining = undefined;
-        $scope.inTheSameMonth = function(d) {
-            $scope.now = new Date();
-            $scope.nowMonth = $scope.now.getMonth() + 1;
-            $scope.checkMonth = d.getMonth() + 1;
-            if ($scope.checkMonth === $scope.nowMonth)
-                return true;
-            else
-                return false;
-        };
-        $scope.tab = {
-            left: false,
-            center: true,
-            right: false
-        }
-        $scope.clickTab = function(side) {
-            $ionicScrollDelegate.scrollTop();
-            if (side === "left") {
-                $scope.tab.left = true;
-                $scope.tab.right = false;
-                $scope.tab.center = false;
-            } else if (side === "center") {
-                $scope.tab.right = false;
-                $scope.tab.left = false;
-                $scope.tab.center = true;
+            if (selectedContact.substring(0, 3) == "+91") {
+                $scope.send.mobile = selectedContact.substring(3);
+                console.log("+91 number : " + $scope.send.mobile);
+            } else if (selectedContact.substring(0, 2) == "91" && selectedContact.length > 10) {
+                $scope.send.mobile = selectedContact.substring(2);
+                console.log("91 number : " + $scope.send.mobile);
             } else {
-                $scope.tab.right = true;
-                $scope.tab.left = false;
-                $scope.tab.center = false;
+                $scope.send.mobile = selectedContact;
+                console.log("as is : " + $scope.send.mobile);
             }
+            $scope.$apply();
+        }, function(err) {
+            console.log('Error: ' + err);
+        });
+    };
+    $scope.ctrlUser = {};
+    $scope.refreshUser();
+    $scope.refreshNoti($scope.user);
+
+    $scope.alertUser = function(alertTitle, alertDesc, link) {
+        var alertPopup = $ionicPopup.alert({
+            title: alertTitle,
+            template: '<h5 style="text-align: center;margin-bottom:0">' + alertDesc + '</h5>'
+        });
+        alertPopup.then(function(res) {
+            if (link)
+                $location.path('app/wallet');
+        });
+    };
+    $scope.sendIt = function() {
+        $scope.ctrlUser = $scope.user;
+        $scope.dirty = {
+            mobile: false,
+            amount: false,
+            comment: false
         };
-        $scope.isRemaining = function() {
-            $scope.monthlyRemaining = null;
-            $scope.transactions = [];
-            $scope.today = new Date();
-            if ($scope.today.getDay() === 0) {
-                if ($scope.updatedKYC === true)
-                    $scope.user.amoutLimit = 100000;
-                else
-                    $scope.user.amountLimit = 10000;
-            }
-            $scope.transaction = {
-                type: "balance"
-            };
-            MyServices.findByType($scope.transaction, function(data) {
-                if (data) {
-                    $scope.transactions = data;
-                }
-            }, function(err) {
+        if ($scope.send.mobile === null || $scope.send.mobile === undefined || $scope.send.mobile === "" || $scope.send.mobile === 0) {
+            $scope.dirty.mobile = true;
+        } else {
+            if ($scope.send.amount === null || $scope.send.amount === undefined || $scope.send.amount === "" || $scope.send.amount === 0) {
+                $scope.dirty.amount = true;
 
-            });
-
-            _.each($scope.transactions, function(trans) {
-                if (trans != null || trans != undefined)
-                    if (trans.from === trans.to) { // this means its an add money transaction
-                        if (inTheSameMonth(trans.timestamp)) {
-                            $scope.monthlyRemaining = $scope.monthlyRemaining + trams.amount;
-                        }
+            } else {
+                // MyServices.findUserByMobile($scope.send, function(data) {
+                //     if (data._id) {
+                //         console.log(data);
+                //         $scope.updateU1 = {
+                //             _id: data._id,
+                //             balance: data.balance + $scope.send.amount,
+                //         };
+                //         if ($scope.user._id === data._id) {
+                //             $scope.alertUser("Send Money", "You cannot send money to yourself");
+                //         } else if (($scope.user.balance - $scope.send.amount) <= 0) {
+                //             $scope.alertUser("Send Money", "Not enough balance");
+                //         } else {
+                //
+                //             var confirmPopup = $ionicPopup.confirm({
+                //                 title: 'Send money',
+                //                 template: '<h5 style="text-align: center;margin-bottom:0">Are you sure?</h5>'
+                //             });
+                //             confirmPopup.then(function(res) {
+                //                 if (res) {
+                //                     if ($scope.updateUser($scope.updateU1)) {
+                //                         $scope.updateU2 = {
+                //                             _id: $scope.user._id,
+                //                             balance: $scope.ctrlUser.balance - $scope.send.amount
+                //                         };
+                //                         if ($scope.updateUser($scope.updateU2)) {
+                //                             $scope.refreshUser();
+                //                             $scope.transaction = {
+                //                                 from: $scope.user._id,
+                //                                 to: data._id,
+                //                                 type: "sendmoney",
+                //                                 amount: $scope.send.amount,
+                //                                 comment: $scope.send.comment
+                //                             };
+                //                             if ($scope.addTransaction($scope.transaction)) {
+                //                                 $scope.recieverNotify = {
+                //                                     type: "sendmoney",
+                //                                     deviceid: data.notificationtoken.deviceid,
+                //                                     os: data.notificationtoken.os,
+                //                                     user: data._id,
+                //                                     comment: $scope.send.comment,
+                //                                     amount: $scope.send.amount,
+                //                                     name: $scope.user.name
+                //                                 };
+                //                                 var alertPopup = $ionicPopup.alert({
+                //                                     template: '<h4 style="text-align: center;margin-bottom:0">Transaction successful.</h4>'
+                //                                 });
+                //                                 alertPopup.then(function(res) {
+                //                                     MyServices.notify($scope.recieverNotify, function(data2) {
+                //                                         $location.path('app/home');
+                //                                     }, function(err) {
+                //
+                //                                     });
+                //
+                //                                 });
+                //
+                //
+                //                             } else {
+                //
+                //                             }
+                //                         } else {
+                //                             //revert code for current logged in user
+                //                         }
+                //                     } else {
+                //                         //revert code for reciever
+                //                     }
+                //                 } else {
+                //                     $scope.send.mobile = undefined;
+                //                     $scope.send.comment = undefined;
+                //                     $scope.send.amount = undefined;
+                //                 }
+                //             });
+                //         }
+                //     } else {
+                //         $scope.alertUser("Send Money", "The user is not on PAiSO.");
+                //     }
+                // }, function(err) {
+                //
+                // });
+                globalFunction.readMoney(function(bal) {
+                    if (bal >= $scope.send.amount) {
+                        console.log("in else -> if");
+                        var userDetails = MyServices.getUser();
+                        var obj = {};
+                        obj.consumer = userDetails.consumer_id;
+                        obj.mobile = $scope.send.mobile;
+                        obj.email = userDetails.email;
+                        obj.amount = $scope.send.amount;
+                        obj.message = $scope.send.comment;
+                        obj.user = userDetails._id;
+                        obj.name = userDetails.name;
+                        MyServices.moneySend(obj, function(data) {
+                            console.log(data);
+                            if (data.value == false && data.comment == "No data found") {
+                                $scope.alertUser("Send Money", "The user is not on PAiSO.");
+                            }
+                            if (data.value == false && data.comment && data.comment.status_code == "257") {
+                                $scope.alertUser("Send Money", "You cannot send money to yourself");
+                            }
+                            if (data.value == true) {
+                                var alertPopup = $ionicPopup.alert({
+                                    title: "Send Money",
+                                    template: '<h5 style="text-align: center;margin-bottom:0">Transaction successful.</h5>'
+                                });
+                                alertPopup.then(function(res) {
+                                    $location.path('app/home');
+                                });
+                            }
+                        }, function(err) {
+                            if (err) {
+                                console.log(err);
+                            }
+                        });
+                    } else {
+                        $scope.alertUser("Send Money", "Not enough balance");
                     }
-            });
-            if ($scope.monthlyRemaining) {
-
+                })
             }
+        }
+    }
+})
+
+.controller('WalletCtrl', function($scope, $stateParams, $ionicScrollDelegate, MyServices, $ionicPopup, $location, $ionicSlideBoxDelegate, $ionicModal, $cordovaFileTransfer, $ionicLoading) {
+    $scope.nofavoritePage();
+    $scope.user = {};
+    $scope.coupon = {};
+    $scope.banners = [];
+
+    $scope.user = MyServices.getUser();
+    MyServices.findBanner(function(data) {
+
+        if (data) {
+            $scope.banners = data;
+            console.log($scope.banners);
+            $ionicSlideBoxDelegate.update();
+        }
+    }, function(err) {
+        if (err) {
+            console.log(err);
+        }
+    })
+    MyServices.readMoney({
+        "consumer": $.jStorage.get("user").consumer_id
+    }, function(data) {
+        console.log("balance : " + data.comment.balance);
+        if (data.value) {
+            $.jStorage.set("balance", data.comment.balance);
+            $scope.myBalance = {};
+            $scope.myBalance.balance = data.comment.balance;
+        }
+    }, function(err) {});
+
+    $scope.refreshUser = function() {
+        MyServices.findUser($scope.user, function(data) {
+            if (data.value) {
+                console.log(data);
+                MyServices.setUser(data);
+                $scope.user = MyServices.getUser();
+            }
+        }, function(err) {
+
+        });
+    };
+    $scope.refreshUser();
+    $scope.refreshNoti($scope.user);
+
+    $scope.indicator = true;
+    $scope.ctrlUser = {};
+    $scope.refreshUser();
+    $scope.wallet = {
+        amount: undefined
+    };
+    if ($scope.user.upgraderequested) {
+        $scope.upgradeText = "Request for upgrading monthly limit to Rs. 1,00,000 sent for approval";
+    } else {
+        $scope.upgradeText = "Upgrade your limit to 1,00,000";
+    }
+    $scope.monthlyRemaining = undefined;
+    $scope.inTheSameMonth = function(d) {
+        $scope.now = new Date();
+        $scope.nowMonth = $scope.now.getMonth() + 1;
+        $scope.checkMonth = d.getMonth() + 1;
+        if ($scope.checkMonth === $scope.nowMonth)
+            return true;
+        else
+            return false;
+    };
+    $scope.tab = {
+        left: false,
+        center: true,
+        right: false
+    }
+    $scope.clickTab = function(side) {
+        $ionicScrollDelegate.scrollTop();
+        if (side === "left") {
+            $scope.tab.left = true;
+            $scope.tab.right = false;
+            $scope.tab.center = false;
+        } else if (side === "center") {
+            $scope.tab.right = false;
+            $scope.tab.left = false;
+            $scope.tab.center = true;
+        } else {
+            $scope.tab.right = true;
+            $scope.tab.left = false;
+            $scope.tab.center = false;
+        }
+    };
+    $scope.isRemaining = function() {
+        $scope.monthlyRemaining = null;
+        $scope.transactions = [];
+        $scope.today = new Date();
+        if ($scope.today.getDay() === 0) {
+            if ($scope.updatedKYC === true)
+                $scope.user.amoutLimit = 100000;
+            else
+                $scope.user.amountLimit = 10000;
+        }
+        $scope.transaction = {
+            type: "balance"
         };
-        $scope.isRemaining();
-        $ionicModal.fromTemplateUrl('templates/upgradekyc.html', {
-            scope: $scope
-        }).then(function(modal) {
-            $scope.modal2 = modal;
+        MyServices.findByType($scope.transaction, function(data) {
+            if (data) {
+                $scope.transactions = data;
+            }
+        }, function(err) {
+
         });
 
-        $scope.closeUpgrade = function() {
-            $scope.modal2.hide();
-        };
-
-        $scope.upgrade = function() {
-            $scope.modal2.show();
-        };
-        $scope.other = "Passport";
-        $scope.panImage = [];
-        $scope.uploadedImage = 1;
-        $scope.options = {
-            maximumImagesCount: 4,
-            width: 800,
-            height: 800,
-            quality: 80
-        };
-        $scope.addPanImage = function() {
-            $scope.panImage = [];
-
-            window.imagePicker.getPictures(
-                function(results) {
-                    _.each(results, function(key) {
-                        $scope.panImage.push(key)
-                    });
-                    $scope.$apply();
-                },
-                function(error) {
-                    console.log('Error: ' + error);
-                }, $scope.options
-            );
-        };
-        $scope.otherImage = [];
-        $scope.addOtherImage = function() {
-            $scope.otherImage = [];
-
-            window.imagePicker.getPictures(
-                function(results) {
-                    _.each(results, function(key) {
-                        $scope.otherImage.push(key)
-                    });
-                    $scope.$apply();
-
-                },
-                function(error) {
-                    console.log('Error: ' + error);
-                }, $scope.options
-            );
-        };
-
-        $scope.uploadPhoto = function(serverpath, image, callback) {
-            $cordovaFileTransfer.upload(serverpath, image, {})
-                .then(function(result) {
-                    $scope.uploadedImage++;
-                    callback(result);
-                }, function(err) {
-                    console.log(err);
-                }, function(progress) {
-
-                });
-
-        };
-        $scope.uploadedPan = [];
-        $scope.uploadedOther = [];
-        $scope.done = false;
-        $scope.upgradeIt = function(other) {
-            $scope.other = other;
-            if ($scope.other == "" || $scope.other == null) {
-                var alertPopup = $ionicPopup.alert({
-                    title: '',
-                    template: '<h5 style="text-align: center;">Select the other document and upload</h5>'
-                });
-                alertPopup.then(function(res) {
-                    if (res) {}
-                });
-            } else if ($scope.panImage.length == 0 || $scope.otherImage.length == 0) {
-                var alertPopup = $ionicPopup.alert({
-                    title: '',
-                    template: '<h5 style="text-align: center;">Please upload both the documents</h5>'
-                });
-                alertPopup.then(function(res) {
-                    if (res) {}
-                });
-            } else {
-                var confirmPopup = $ionicPopup.confirm({
-                    title: '',
-                    template: '<h5 style="text-align: center;">Are you sure?</h5>'
-                });
-
-                confirmPopup.then(function(res) {
-                    if (res) {
-                        // $ionicLoading.show({
-                        //     animation: 'fade-in',
-                        //     showBackdrop: true,
-                        //     maxWidth: 200,
-                        //     showDelay: '0'
-                        // });
-                        console.log($scope.panImage);
-                        console.log($scope.otherImage);
-                        _.each($scope.panImage, function(key) {
-                            $scope.uploadPhoto(adminurl + "uploadfile/uploadfile", key, function(resp) {
-                                if (resp) {
-                                    var parsed = JSON.parse(resp.response);
-                                    $scope.uploadedPan.push(parsed.fileId);
-                                    console.log($scope.uploadedPan);
-
-                                }
-                            })
-                        });
-
-                        var i = 1;
-                        _.each($scope.otherImage, function(key) {
-                            $scope.uploadPhoto(adminurl + "uploadfile/uploadfile", key, function(resp) {
-                                if (resp) {
-                                    var parsed = JSON.parse(resp.response);
-                                    $scope.uploadedOther.push(parsed.fileId);
-                                    console.log($scope.uploadedOther);
-                                    if (i == $scope.otherImage.length) {
-                                        $scope.refreshUser();
-                                        $scope.user.panDoc = $scope.uploadedPan;
-                                        $scope.user.otherDoc = $scope.uploadedOther;
-                                        $scope.user.upgraderequested = true;
-                                        $scope.user.other = $scope.other;
-
-                                        $ionicLoading.hide();
-                                        if ($scope.updateUser($scope.user)) {
-                                            var alertPopup = $ionicPopup.alert({
-                                                title: '',
-                                                template: '<h5 style="text-align: center;">Upgrade request sent for approval</h5>'
-                                            });
-                                            alertPopup.then(function(res) {
-                                                if (res) {
-                                                    $scope.upgradeText = "Request for upgrading monthly limit to Rs. 1,00,000 sent for approval";
-                                                    $scope.closeUpgrade();
-                                                }
-                                            });
-                                        } else {
-
-                                        }
-                                    }
-                                    i++;
-                                }
-                            })
-                        });
-
-                    } else {
-
+        _.each($scope.transactions, function(trans) {
+            if (trans != null || trans != undefined)
+                if (trans.from === trans.to) { // this means its an add money transaction
+                    if (inTheSameMonth(trans.timestamp)) {
+                        $scope.monthlyRemaining = $scope.monthlyRemaining + trams.amount;
                     }
+                }
+        });
+        if ($scope.monthlyRemaining) {
+
+        }
+    };
+    $scope.isRemaining();
+    $ionicModal.fromTemplateUrl('templates/upgradekyc.html', {
+        scope: $scope
+    }).then(function(modal) {
+        $scope.modal2 = modal;
+    });
+
+    $scope.closeUpgrade = function() {
+        $scope.modal2.hide();
+    };
+
+    $scope.upgrade = function() {
+        $scope.modal2.show();
+    };
+    $scope.other = "Passport";
+    $scope.panImage = [];
+    $scope.uploadedImage = 1;
+    $scope.options = {
+        maximumImagesCount: 4,
+        width: 800,
+        height: 800,
+        quality: 80
+    };
+    $scope.addPanImage = function() {
+        $scope.panImage = [];
+
+        window.imagePicker.getPictures(
+            function(results) {
+                _.each(results, function(key) {
+                    $scope.panImage.push(key)
                 });
-            }
+                $scope.$apply();
+            },
+            function(error) {
+                console.log('Error: ' + error);
+            }, $scope.options
+        );
+    };
+    $scope.otherImage = [];
+    $scope.addOtherImage = function() {
+        $scope.otherImage = [];
 
+        window.imagePicker.getPictures(
+            function(results) {
+                _.each(results, function(key) {
+                    $scope.otherImage.push(key)
+                });
+                $scope.$apply();
 
-        };
+            },
+            function(error) {
+                console.log('Error: ' + error);
+            }, $scope.options
+        );
+    };
 
-        $scope.transaction = {};
-        $scope.walletBalance = 0;
-        if ($scope.user.balance === null || $scope.user.balance === undefined)
-            $scope.walletBalance = 0;
-        else
-            $scope.walletBalance = $scope.user.balance;
+    $scope.uploadPhoto = function(serverpath, image, callback) {
+        $cordovaFileTransfer.upload(serverpath, image, {})
+            .then(function(result) {
+                $scope.uploadedImage++;
+                callback(result);
+            }, function(err) {
+                console.log(err);
+            }, function(progress) {
 
-        $scope.downIndicator = function() {
-            $scope.indicator = true;
-        };
-        $scope.upIndicator = function() {
-            $scope.indicator = false;
-        };
-
-        $scope.upgradeAlert = function() {
-            var confirmPopup = $ionicPopup.confirm({
-                title: 'Wallet',
-                template: '<h5 style="text-align: center;margin-bottom:0">Amount exceeding monthly limit.Do you want to upgrade KYC?</h5>'
             });
+
+    };
+    $scope.uploadedPan = [];
+    $scope.uploadedOther = [];
+    $scope.done = false;
+    $scope.upgradeIt = function(other) {
+        $scope.other = other;
+        if ($scope.other == "" || $scope.other == null) {
+            var alertPopup = $ionicPopup.alert({
+                title: '',
+                template: '<h5 style="text-align: center;">Select the other document and upload</h5>'
+            });
+            alertPopup.then(function(res) {
+                if (res) {}
+            });
+        } else if ($scope.panImage.length == 0 || $scope.otherImage.length == 0) {
+            var alertPopup = $ionicPopup.alert({
+                title: '',
+                template: '<h5 style="text-align: center;">Please upload both the documents</h5>'
+            });
+            alertPopup.then(function(res) {
+                if (res) {}
+            });
+        } else {
+            var confirmPopup = $ionicPopup.confirm({
+                title: '',
+                template: '<h5 style="text-align: center;">Are you sure?</h5>'
+            });
+
             confirmPopup.then(function(res) {
                 if (res) {
-                    $scope.upgrade();
-                } else {}
-            });
-        };
-        $scope.reffererUser = {};
-        $scope.updateReferrer = function(user) {
-            $scope.flag = undefined;
-            MyServices.updateReferrer(user, function(data2) {
-                if (data2) {
-                    $scope.reffererUser = data2;
-                    console.log(data2);
-                    $scope.flag = true;
-                }
-            }, function(err) {});
-            console.log($scope.flag);
-            if ($scope.flag === false)
-                return false;
-            else
-                return true;
-        };
+                    // $ionicLoading.show({
+                    //     animation: 'fade-in',
+                    //     showBackdrop: true,
+                    //     maxWidth: 200,
+                    //     showDelay: '0'
+                    // });
+                    console.log($scope.panImage);
+                    console.log($scope.otherImage);
+                    _.each($scope.panImage, function(key) {
+                        $scope.uploadPhoto(adminurl + "uploadfile/uploadfile", key, function(resp) {
+                            if (resp) {
+                                var parsed = JSON.parse(resp.response);
+                                $scope.uploadedPan.push(parsed.fileId);
+                                console.log($scope.uploadedPan);
 
-        $scope.addMoneyNew = function(amt) {
-            var userDetails = MyServices.getUser();
-            var obj = {};
-            obj.consumer = userDetails.consumer_id;
-            obj.amount = amt;
-            obj.email = userDetails.email;
-            obj.user = userDetails._id;
-            obj.name = userDetails.name;
-            obj.url = adminurl + "user/responseCheck";
-            if (userDetails.referrer)
-                obj.referrer = userDetails.referrer;
-            else
-                obj.referrer = "";
-            globalFunction.addMoneyNew(obj);
-            // globalFunction.addMoney(amt);
-        }
+                            }
+                        })
+                    });
 
-        $scope.addMoney = function() {
+                    var i = 1;
+                    _.each($scope.otherImage, function(key) {
+                        $scope.uploadPhoto(adminurl + "uploadfile/uploadfile", key, function(resp) {
+                            if (resp) {
+                                var parsed = JSON.parse(resp.response);
+                                $scope.uploadedOther.push(parsed.fileId);
+                                console.log($scope.uploadedOther);
+                                if (i == $scope.otherImage.length) {
+                                    $scope.refreshUser();
+                                    $scope.user.panDoc = $scope.uploadedPan;
+                                    $scope.user.otherDoc = $scope.uploadedOther;
+                                    $scope.user.upgraderequested = true;
+                                    $scope.user.other = $scope.other;
 
-            $scope.transaction = {};
-            $scope.refreshUser();
-            if ($scope.wallet.amount === 0 || $scope.wallet.amount === undefined || $scope.wallet.amount === null) {
-                $scope.alertUser("Wallet", "can not add Rs. 0 to wallet.", 'app/wallet');
-            } else if ($scope.wallet.amount < 0) {
-                $scope.alertUser("Wallet", "Amount can not be negative.", 'app/wallet');
-            } else if ($scope.user.walletLimit <= 0) {
-                $scope.alertUser("Wallet", "To add more money upgrade your KYC. The user is given a monthly limit of Rs.10000", 'app/wallet');
-            } else if ($scope.wallet.amount > $scope.user.walletLimit) {
-                $scope.upgradeAlert();
-            } else {
-                var confirmPopup = $ionicPopup.confirm({
-                    title: 'Wallet',
-                    template: '<h5 style="text-align: center;margin-bottom:0">Are you sure you want to add Rs.' + $scope.wallet.amount + ' ? </h5>'
-                });
-                confirmPopup.then(function(res) {
-                    if (res) {
-                        $scope.ctrlUser = {
-                            _id: $scope.user._id,
-                            balance: $scope.user.balance + ($scope.wallet.amount / 100) * 110,
-                            walletLimit: $scope.user.walletLimit - $scope.wallet.amount
-                        }; //updates walletLimit,see isRemainging for more on walletLimit
-                        console.log($scope.ctrlUser);
-                        if ($scope.updateUser($scope.ctrlUser)) {
-                            $scope.transaction = {
-                                from: $scope.user._id,
-                                to: $scope.user._id,
-                                type: "balance",
-                                currentbalance: $scope.ctrlUser.balance,
-                                amount: $scope.wallet.amount,
-                                mobile: $scope.user.mobile,
-                                name: $scope.user.name
-                            };
-                            MyServices.setUser($scope.user);
-                            if ($scope.addTransaction($scope.transaction)) {
-                                $scope.user.balance = $scope.ctrlUser.balance;
-                                $scope.user.walletLimit = $scope.ctrlUser.walletLimit;
-                                $scope.refreshUser();
-                                $scope.alertUser("Success", "Money added to your wallet.", 'app/home');
-                                if ($scope.user.referrer) {
-                                    console.log($scope.user);
-                                    $scope.updateData = {
-                                        deviceid: $scope.user.notificationtoken.deviceid,
-                                        os: $scope.user.notificationtoken.os,
-                                        type: "referral",
-                                        mobile: $scope.user.referrer,
-                                        _id: $scope.user._id,
-                                        amount: $scope.transaction.amount,
-                                        lastreferral: $scope.user.name
-                                    };
-                                    console.log($scope.updateData);
-                                    if ($scope.updateReferrer($scope.updateData)) {
-
-                                        $scope.refreshUser();
+                                    $ionicLoading.hide();
+                                    if ($scope.updateUser($scope.user)) {
+                                        var alertPopup = $ionicPopup.alert({
+                                            title: '',
+                                            template: '<h5 style="text-align: center;">Upgrade request sent for approval</h5>'
+                                        });
+                                        alertPopup.then(function(res) {
+                                            if (res) {
+                                                $scope.upgradeText = "Request for upgrading monthly limit to Rs. 1,00,000 sent for approval";
+                                                $scope.closeUpgrade();
+                                            }
+                                        });
                                     } else {
 
                                     }
                                 }
-
-                                $scope.wallet.amount = undefined;
-
-                            } else {
-                                $scope.alertUser("Wallet ", "Failed to add money.", 'app/wallet');
+                                i++;
                             }
-                        } else {
-                            $scope.alertUser("Wallet", "Failed to add money.", 'app/wallet');
-                        }
-                    } else {
-                        $scope.wallet.amount = undefined;
-                    }
-                });
-            }
-
-        };
-        $scope.applyCoupon = function() {
-            console.log("inside applyCoupon");
-            if ($scope.coupon.code === undefined || $scope.coupon.code === null || $scope.coupon.code === "") {
-                $scope.alertUser("", "Invalid coupon", 'app/wallet');
-            } else {
-                console.log("inside applyCoupon1");
-                MyServices.findCoupon($scope.coupon, function(data) {
-                    console.log("inside applyCoupon2");
-
-                    console.log(data);
-                    if (data._id) {
-
-                        $scope.user.balance = $scope.user.balance + data.amount;
-                        console.log($scope.user.balance);
-                        if ($scope.updateUser($scope.user)) {
-                            var couponData = {
-                                _id: data._id,
-                                used: true,
-                                user: $scope.user._id
-                            };
-                            MyServices.updateCoupon(couponData, function(data) {
-                                if (data.value == true) {
-                                    $scope.alertUser("", "Coupon Validated", 'app/wallet');
-                                }
-                            }, function(err) {
-
-                            })
-
-                        } else {
-                            $scope.alertUser("", "Unable to add coupon", 'app/wallet');
-
-                        }
-                    } else {
-                        if (data.isUsed) {
-                            $scope.alertUser("", "Coupon has already been used");
-                        } else if (data.isExpired) {
-                            $scope.alertUser("", "Coupon has expired");
-                        } else {
-                            $scope.alertUser("", "Invalid coupon", 'app/wallet');
-                        }
-                        $scope.coupon.code = "";
-                    }
-                }, function(err) {
-
-                });
-            }
-
-        };
-        $scope.getSentMoney = function() {
-            console.log("herer");
-            $scope.transFilter = {
-                type: "sendmoney",
-                from: $scope.user._id,
-                to: $scope.user._id
-            };
-            MyServices.findByTypeUser($scope.transFilter, function(data) {
-                if (data) {
-                    $scope.sentmoney = data;
-                    _.each($scope.sentmoney, function(key) {
-                        if ($scope.user._id === key.from) {
-                            $scope.reciever = {
-                                _id: key.to
-                            };
-                            MyServices.findUser($scope.reciever, function(data2) {
-                                if (data2) {
-
-                                    key.username = data2.name;
-                                    key.profile = data2.profile;
-                                    key.sent = "sent";
-                                }
-                            }, function(err) {
-
-                            });
-                        } else if ($scope.user._id === key.to) {
-                            $scope.sender = {
-                                _id: key.from
-                            };
-                            MyServices.findUser($scope.sender, function(data2) {
-                                if (data2) {
-                                    key.username = data2.name;
-                                    key.profile = data2.profile;
-
-                                    key.sent = "recieved";
-                                }
-                            }, function(err) {
-
-                            });
-                        }
+                        })
                     });
+
+                } else {
+
                 }
-            }, function(err) {});
-            $scope.transFilterR = {
-                type: "sendmoney",
-                to: $scope.user._id
-            };
+            });
+        }
 
-        };
-        $ionicModal.fromTemplateUrl('templates/balance-history.html', {
-            scope: $scope
-        }).then(function(modal) {
-            $scope.modal1 = modal;
+
+    };
+
+    $scope.transaction = {};
+    $scope.walletBalance = 0;
+    if ($scope.user.balance === null || $scope.user.balance === undefined)
+        $scope.walletBalance = 0;
+    else
+        $scope.walletBalance = $scope.user.balance;
+
+    $scope.downIndicator = function() {
+        $scope.indicator = true;
+    };
+    $scope.upIndicator = function() {
+        $scope.indicator = false;
+    };
+
+    $scope.upgradeAlert = function() {
+        var confirmPopup = $ionicPopup.confirm({
+            title: 'Wallet',
+            template: '<h5 style="text-align: center;margin-bottom:0">Amount exceeding monthly limit.Do you want to upgrade KYC?</h5>'
         });
+        confirmPopup.then(function(res) {
+            if (res) {
+                $scope.upgrade();
+            } else {}
+        });
+    };
+    $scope.reffererUser = {};
+    $scope.updateReferrer = function(user) {
+        $scope.flag = undefined;
+        MyServices.updateReferrer(user, function(data2) {
+            if (data2) {
+                $scope.reffererUser = data2;
+                console.log(data2);
+                $scope.flag = true;
+            }
+        }, function(err) {});
+        console.log($scope.flag);
+        if ($scope.flag === false)
+            return false;
+        else
+            return true;
+    };
 
-        $scope.closeHistory = function() {
-            $scope.modal1.hide();
-        };
+    $scope.addMoneyNew = function(amt) {
+        var userDetails = MyServices.getUser();
+        var obj = {};
+        obj.consumer = userDetails.consumer_id;
+        obj.mobile = userDetails.mobile;
+        obj.amount = amt;
+        obj.email = userDetails.email;
+        obj.user = userDetails._id;
+        obj.name = userDetails.name;
+        obj.url = adminurl + "user/responseCheck";
+        if (userDetails.referrer)
+            obj.referrer = userDetails.referrer;
+        else
+            obj.referrer = "";
+        globalFunction.addMoneyNew(obj);
+        // globalFunction.addMoney(amt);
+    }
 
-        $scope.history = function() {
-            $scope.modal1.show();
-            $scope.getHistory();
-            $scope.getSentMoney();
-            $scope.getRedeem();
-        };
-        $scope.redeemed = [];
-        $scope.transactionPendingFilter = {
-            type: "redeem",
-            from: $scope.user._id
-        };
-        $scope.getRedeem = function() {
-            MyServices.findByTypeUser($scope.transactionPendingFilter, function(data) {
-                    if (data) {
-                        $scope.redeemed = data;
-                        $scope.item = {};
-                        console.log($scope.redeemed);
-                        _.each($scope.redeemed, function(key) {
-                            $scope.item.id = key.to;
-                            MyServices.findVendor($scope.item, function(data) {
-                                    if (data) {
-                                        key.vendorname = data.name;
-                                        key.vendoricon = data.logourl;
-                                    }
-                                },
-                                function(err) {
-                                    if (err) {
-                                        console.log(err);
-                                    }
-                                });
-                        });
+    $scope.addMoney = function() {
+
+        $scope.transaction = {};
+        $scope.refreshUser();
+        if ($scope.wallet.amount === 0 || $scope.wallet.amount === undefined || $scope.wallet.amount === null) {
+            $scope.alertUser("Wallet", "can not add Rs. 0 to wallet.", 'app/wallet');
+        } else if ($scope.wallet.amount < 0) {
+            $scope.alertUser("Wallet", "Amount can not be negative.", 'app/wallet');
+        } else if ($scope.user.walletLimit <= 0) {
+            $scope.alertUser("Wallet", "To add more money upgrade your KYC. The user is given a monthly limit of Rs.10000", 'app/wallet');
+        } else if ($scope.wallet.amount > $scope.user.walletLimit) {
+            $scope.upgradeAlert();
+        } else {
+            var confirmPopup = $ionicPopup.confirm({
+                title: 'Wallet',
+                template: '<h5 style="text-align: center;margin-bottom:0">Are you sure you want to add Rs.' + $scope.wallet.amount + ' ? </h5>'
+            });
+            confirmPopup.then(function(res) {
+                if (res) {
+                    $scope.ctrlUser = {
+                        _id: $scope.user._id,
+                        balance: $scope.user.balance + ($scope.wallet.amount / 100) * 110,
+                        walletLimit: $scope.user.walletLimit - $scope.wallet.amount
+                    }; //updates walletLimit,see isRemainging for more on walletLimit
+                    console.log($scope.ctrlUser);
+                    if ($scope.updateUser($scope.ctrlUser)) {
+                        $scope.transaction = {
+                            from: $scope.user._id,
+                            to: $scope.user._id,
+                            type: "balance",
+                            currentbalance: $scope.ctrlUser.balance,
+                            amount: $scope.wallet.amount,
+                            mobile: $scope.user.mobile,
+                            name: $scope.user.name
+                        };
+                        MyServices.setUser($scope.user);
+                        if ($scope.addTransaction($scope.transaction)) {
+                            $scope.user.balance = $scope.ctrlUser.balance;
+                            $scope.user.walletLimit = $scope.ctrlUser.walletLimit;
+                            $scope.refreshUser();
+                            $scope.alertUser("Success", "Money added to your wallet.", 'app/home');
+                            if ($scope.user.referrer) {
+                                console.log($scope.user);
+                                $scope.updateData = {
+                                    deviceid: $scope.user.notificationtoken.deviceid,
+                                    os: $scope.user.notificationtoken.os,
+                                    type: "referral",
+                                    mobile: $scope.user.referrer,
+                                    _id: $scope.user._id,
+                                    amount: $scope.transaction.amount,
+                                    lastreferral: $scope.user.name
+                                };
+                                console.log($scope.updateData);
+                                if ($scope.updateReferrer($scope.updateData)) {
+
+                                    $scope.refreshUser();
+                                } else {
+
+                                }
+                            }
+
+                            $scope.wallet.amount = undefined;
+
+                        } else {
+                            $scope.alertUser("Wallet ", "Failed to add money.", 'app/wallet');
+                        }
+                    } else {
+                        $scope.alertUser("Wallet", "Failed to add money.", 'app/wallet');
                     }
-                },
-                function(err) {
+                } else {
+                    $scope.wallet.amount = undefined;
+                }
+            });
+        }
 
-                });
-        };
-        $scope.getRedeem();
-        $scope.balanceHistory = [];
-        $scope.sentmoney = [];
-        $scope.transactionFilter = {
-            type: "balance",
-            from: $scope.user._id
-        };
-        $scope.getHistory = function() {
-            console.log("herer");
-            MyServices.findByTypeUser($scope.transactionFilter, function(data) {
-                if (data) {
-                    $scope.balanceHistory = data;
-                    console.log($scope.balanceHistory);
-                    console.log($scope.transactionFilter);
+    };
+    $scope.applyCoupon = function() {
+        console.log("inside applyCoupon");
+        if ($scope.coupon.code === undefined || $scope.coupon.code === null || $scope.coupon.code === "") {
+            $scope.alertUser("", "Invalid coupon", 'app/wallet');
+        } else {
+            console.log("inside applyCoupon1");
+            MyServices.findCoupon($scope.coupon, function(data) {
+                console.log("inside applyCoupon2");
+
+                console.log(data);
+                if (data._id) {
+
+                    $scope.user.balance = $scope.user.balance + data.amount;
+                    console.log($scope.user.balance);
+                    if ($scope.updateUser($scope.user)) {
+                        var couponData = {
+                            _id: data._id,
+                            used: true,
+                            user: $scope.user._id
+                        };
+                        MyServices.updateCoupon(couponData, function(data) {
+                            if (data.value == true) {
+                                $scope.alertUser("", "Coupon Validated", 'app/wallet');
+                            }
+                        }, function(err) {
+
+                        })
+
+                    } else {
+                        $scope.alertUser("", "Unable to add coupon", 'app/wallet');
+
+                    }
+                } else {
+                    if (data.isUsed) {
+                        $scope.alertUser("", "Coupon has already been used");
+                    } else if (data.isExpired) {
+                        $scope.alertUser("", "Coupon has expired");
+                    } else {
+                        $scope.alertUser("", "Invalid coupon", 'app/wallet');
+                    }
+                    $scope.coupon.code = "";
                 }
             }, function(err) {
 
             });
+        }
+
+    };
+    $scope.getSentMoney = function() {
+        console.log("herer");
+        $scope.transFilter = {
+            type: "sendmoney",
+            from: $scope.user._id,
+            to: $scope.user._id
+        };
+        MyServices.findByTypeUser($scope.transFilter, function(data) {
+            if (data) {
+                $scope.sentmoney = data;
+                _.each($scope.sentmoney, function(key) {
+                    if ($scope.user._id === key.from) {
+                        $scope.reciever = {
+                            _id: key.to
+                        };
+                        MyServices.findUser($scope.reciever, function(data2) {
+                            if (data2) {
+
+                                key.username = data2.name;
+                                key.profile = data2.profile;
+                                key.sent = "sent";
+                            }
+                        }, function(err) {
+
+                        });
+                    } else if ($scope.user._id === key.to) {
+                        $scope.sender = {
+                            _id: key.from
+                        };
+                        MyServices.findUser($scope.sender, function(data2) {
+                            if (data2) {
+                                key.username = data2.name;
+                                key.profile = data2.profile;
+
+                                key.sent = "recieved";
+                            }
+                        }, function(err) {
+
+                        });
+                    }
+                });
+            }
+        }, function(err) {});
+        $scope.transFilterR = {
+            type: "sendmoney",
+            to: $scope.user._id
         };
 
+    };
+    $ionicModal.fromTemplateUrl('templates/balance-history.html', {
+        scope: $scope
+    }).then(function(modal) {
+        $scope.modal1 = modal;
+    });
 
+    $scope.closeHistory = function() {
+        $scope.modal1.hide();
+    };
 
-    })
-    .controller('SpendHistoryCtrl', function($scope, $stateParams) {
+    $scope.history = function() {
+        $scope.modal1.show();
+        $scope.getHistory();
+        $scope.getSentMoney();
+        $scope.getRedeem();
+    };
+    $scope.redeemed = [];
+    $scope.transactionPendingFilter = {
+        type: "redeem",
+        from: $scope.user._id
+    };
+    $scope.getRedeem = function() {
+        MyServices.findByTypeUser($scope.transactionPendingFilter, function(data) {
+                if (data) {
+                    $scope.redeemed = data;
+                    $scope.item = {};
+                    console.log($scope.redeemed);
+                    _.each($scope.redeemed, function(key) {
+                        $scope.item.id = key.to;
+                        MyServices.findVendor($scope.item, function(data) {
+                                if (data) {
+                                    key.vendorname = data.name;
+                                    key.vendoricon = data.logourl;
+                                }
+                            },
+                            function(err) {
+                                if (err) {
+                                    console.log(err);
+                                }
+                            });
+                    });
+                }
+            },
+            function(err) {
+
+            });
+    };
+    $scope.getRedeem();
+    $scope.balanceHistory = [];
+    $scope.sentmoney = [];
+    $scope.transactionFilter = {
+        type: "balance",
+        from: $scope.user._id
+    };
+    $scope.getHistory = function() {
+        console.log("herer");
+        MyServices.findByTypeUser($scope.transactionFilter, function(data) {
+            if (data) {
+                $scope.balanceHistory = data;
+                console.log($scope.balanceHistory);
+                console.log($scope.transactionFilter);
+            }
+        }, function(err) {
+
+        });
+    };
+
+    globalFunction.readMoney(function(bal) {});
+
+})
+
+.controller('SpendHistoryCtrl', function($scope, $stateParams) {
 
     })
     .controller('TermsCtrl', function($scope, $stateParams) {
@@ -2372,7 +2375,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
         $scope.user = MyServices.getUser();
         $scope.refreshUser = function() {
             MyServices.findUser($scope.user, function(data) {
-                if (data) {
+                if (data.value) {
                     console.log(data);
                     MyServices.setUser(data);
                     $scope.user = MyServices.getUser();
@@ -2757,7 +2760,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
         $scope.user = MyServices.getUser();
         $scope.refreshUser = function() {
             MyServices.findUser($scope.user, function(data) {
-                if (data) {
+                if (data.value) {
                     console.log(data);
                     MyServices.setUser(data);
                     $scope.user = MyServices.getUser();
@@ -2793,7 +2796,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
         $scope.user = MyServices.getUser();
         $scope.refreshUser = function() {
             MyServices.findUser($scope.user, function(data) {
-                if (data) {
+                if (data.value) {
                     console.log(data);
                     MyServices.setUser(data);
                     $scope.user = MyServices.getUser();

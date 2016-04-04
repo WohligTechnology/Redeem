@@ -1,5 +1,5 @@
-var adminurl = "http://104.197.111.152/";
-// var adminurl = "http://192.168.1.116:1337/";
+// var adminurl = "http://104.197.111.152/";
+var adminurl = "http://192.168.1.122:1337/";
 var imgpath = adminurl + "uploadfile/getupload?file=";
 
 angular.module('starter.services', [])

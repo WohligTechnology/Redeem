@@ -9695,6 +9695,7 @@ a.button {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
     text-align: center; }
     .over-layer .layer-over p {
       color: #0060aa; }
@@ -10134,7 +10135,8 @@ select[readonly] {
   background: white;
   padding: 20px 20px 17px;
   border-radius: 2px;
-  transform: translate(-50%, -50%); }
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%); }
 
 body {
   background-color: #eee; }
