@@ -261,6 +261,13 @@ angular.module('starter.services', [])
                 data: sendmoney
             }).success(callback).error(err);
         },
+        sendMoney: function(sendmoney, callback, err) {
+            $http({
+                url: adminurl + 'user/sendMoney',
+                method: 'POST',
+                data: sendmoney
+            }).success(callback).error(err);
+        },
         redeem: function(redeemobj, callback, err) {
             $http({
                 url: adminurl + 'user/redeem',
