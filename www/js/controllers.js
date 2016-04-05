@@ -2482,10 +2482,8 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
 
     $scope.history = function() {
         $scope.modal1.show();
-        $scope.getHistory();
-        $scope.getSentMoney();
-        $scope.getRedeem();
     };
+
     $scope.redeemed = [];
     $scope.transactionPendingFilter = {
         type: "redeem",
@@ -2536,7 +2534,9 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
 
         });
     };
-
+    $scope.getHistory();
+    $scope.getSentMoney();
+    $scope.getRedeem();
     globalFunction.readMoney(function(bal) {});
 
 })
@@ -2965,7 +2965,6 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
                     alertPopup.close();
                 });
             }
-
 
         };
 
