@@ -87,7 +87,9 @@
             <span class="input-label ">Referral code</span>
             <input type="tel" class="login-input" ng-model="signup.referrer" placeholder="Referral code (If any)">
           </label>
-          
+          <ion-checkbox ng-model="signup.terms">I agree Terms &amp; Conditions</ion-checkbox>
+          <div class="text-right positive" ng-click="opentNc()">Terms &amp; Conditions</div>
+
           <div class="padding m50">
             <a class="button button-assertive button-block no-margin" ng-click="startSignup(signup,signupForm);">Sign up</a>
           </div>
