@@ -91,7 +91,7 @@
           <div class="text-right positive" ng-click="opentNc()">Terms &amp; Conditions</div>
 
           <div class="padding m50">
-            <a class="button button-assertive button-block no-margin" ng-click="startSignup(signup,signupForm);">Sign up</a>
+            <button class="button button-assertive button-block no-margin" ng-click="startSignup(signup,signupForm);" ng-disabled="!signup.terms">Sign up</button>
           </div>
         </div>
       </form>
