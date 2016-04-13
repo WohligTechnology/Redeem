@@ -66,8 +66,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 .config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider, cfpLoadingBarProvider) {
         cfpLoadingBarProvider.includeSpinner = true;
         cfpLoadingBarProvider.includeBar = false;
+        $ionicConfigProvider.scrolling.jsScrolling(false);
+        $ionicConfigProvider.views.maxCache(5);
         cfpLoadingBarProvider.spinnerTemplate = '<div class="backdropnew"><div class="white-holder"><div class="loader"><svg class="circular" viewBox="25 25 50 50"><circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/></svg></div></div></div>';
-        $ionicConfigProvider.views.maxCache(0);
         $stateProvider
 
             .state('app', {
