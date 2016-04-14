@@ -50,8 +50,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
       if (data.value == true) {
         // var ref = window.open(data.comment.payment_url);
         var ref = cordova.InAppBrowser.open(data.comment.payment_url, 'target=_system', 'location=no');
-        ref.addEventListener('loadstop', function(event) {
-          console.log(event.url);
+        ref.addEventListener('loadstart', function(event) {
           if (event.url == "http://wohlig.co.in/paisoapk/fail.html") {
             ref.close();
             var alertPopup = $ionicPopup.alert({
