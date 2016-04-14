@@ -5,12 +5,6 @@
                 <button class="button button-icon button-clear ion-navicon" menu-toggle="left" ng-click="refreshUser()">
                 </button>
             </ion-nav-buttons>
-            <!--
-            <ion-nav-buttons side="right">
-                <button class="button button-icon button-clear ion-ios-search">
-                </button>
-            </ion-nav-buttons>
-            -->
             <ion-nav-buttons side="right" class="padding-horizontal">
                 <div class="padding-horizontal" ng-if="canfavorite">
                     <button class="button cart-button button-icon button-clear " onclick="favorite.pushFavorite()"><i class="cart-icon icon" ng-class="{'ion-android-star-outline':!activefav,'ion-android-star':activefav, 'clr-fav':activefav}">
