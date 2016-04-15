@@ -1132,6 +1132,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
             text: '<h5>Retry</h5>',
             onTap: function(e) {
               myPopup.close();
+              $scope.doSignup(input);
             }
           }, {
             text: '<b>Verify</b>',
@@ -2315,7 +2316,6 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
   }
 
   $scope.addMoney = function() {
-
     $scope.transaction = {};
     $scope.refreshUser();
     if ($scope.wallet.amount === 0 || $scope.wallet.amount === undefined || $scope.wallet.amount === null) {
