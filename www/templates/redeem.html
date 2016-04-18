@@ -25,7 +25,7 @@
             <div class="row no-padding input-options">
                 <div class="col no-padding" ng-repeat="item in vendor.amountselect" style="background-color: white !important;">
                     <button class="button no-margin button-clear button-assertive button-block" ng-click="selectMoney(item)" style="
-    font-size: 16px !important;">₹ {{item}}</button>
+    font-size: 16px !important;"> <span class="input-label-small icon"><img class="currency-small" src="img/currency.png"></span>  {{item}}</button>
                 </div>
             </div>
 
@@ -33,7 +33,7 @@
                 <span ng-class="{'red-color':crossedLimit}">Redeem limit : {{vendor.amountlimit}}</span>
             </div>
             <div class="item-note padding" style="float:left;" style="background-color: white !important;">
-                <span>Wallet balance : ₹ {{myBalance.balance | number:2}}</span>
+                <span>Wallet balance :  <span class="input-label-small icon"><img class="currency-small" src="img/currency.png"></span>  {{myBalance.balance | number:2}}</span>
             </div>
             <div class="padding">
                 <button class="button button-block button-assertive no-margin" ng-click="addRedeemTransaction()">Make a voucher</button>

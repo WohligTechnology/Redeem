@@ -10,7 +10,7 @@
             <div class="wallet-holder" style="margin-top: -5px;">
                 <div class="wallet-balance">
                     <h3>Wallet Balance</h3>
-                    <h2>₹ {{myBalance.balance | number:2}}/-</h2>
+                    <h2><span class="input-label-small icon"><img class="currency-small" src="img/currency.png"></span> {{myBalance.balance | number:2}}/-</h2>
                 </div>
                 <img src="img/walletlock.png" alt="">
             </div>
@@ -37,14 +37,14 @@
              <div class="list">
 
             <ion-item ng-repeat="item in balanceHistory | orderBy: '-timestamp'" ng-if="item.amount != null">
-                <h2>₹ {{item.amount}} <span class="item-note">{{item.timestamp | date:'mediumDate'}}</span></h2>
+                <h2><span class="input-label-small icon"><img class="currency-small" src="img/currency.png"></span> {{item.amount}} <span class="item-note">{{item.timestamp | date:'mediumDate'}}</span></h2>
             </ion-item>
 -->
             <div class="list">
                 <a class="item item-icon-left" ng-repeat="item in balanceHistory | orderBy: '-timestamp'" ng-if="item.amount != null">
                     <i class="ln-calendar3"></i> {{item.timestamp | date:'mediumDate'}}
                     <span class="item-note">
-      ₹ {{item.amount}}
+      <span class="input-label-small icon"><img class="currency-small" src="img/currency.png"></span> {{item.amount}}
     </span>
                 </a>
             </div>
@@ -81,7 +81,7 @@
         <div class="list">
            <ion-item class="item-divider">Add Balance</ion-item>
             <ion-item ng-repeat="item in balanceHistory | orderBy: '-timestamp'" ng-if="item.amount != null">
-                <h2>₹ {{item.amount}} <span class="item-note">{{item.timestamp | date:'mediumDate'}}</span></h2>
+                <h2><span class="input-label-small icon"><img class="currency-small" src="img/currency.png"></span> {{item.amount}} <span class="item-note">{{item.timestamp | date:'mediumDate'}}</span></h2>
             </ion-item>
         </div>
 -->

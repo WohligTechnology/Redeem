@@ -29,7 +29,7 @@
                     <br>
                     <h5 ng-show="availableFlags[{{$index}}]">Voucher Number : {{item.vouchernumber}}</h5>
                     <h5 ng-show="availableFlags[{{$index}}]">Valid Till : {{item.validtill |  date:'mediumDate'}}</h5>
-                    <p>₹ {{item.amount}}</p>
+                    <p><span class="input-label-small icon"><img class="currency-small" src="img/currency.png"></span> {{item.amount}}</p>
                     <div class="separator" ng-show="availableFlags[{{$index}}]"></div>
                     <div class="text-center" > <img src="http://www.barcodes4.me/barcode/c128c/{{item.vouchernumber}}.png" alt="" style="width:70%" ng-show="availableFlags[{{$index}}]">
                     </div>
@@ -52,7 +52,7 @@
                     <h5 ng-show="availableFlags[{{$index}}]">Voucher Number : {{item.vouchernumber}}</h5>
                     <h5 ng-show="availableFlags[{{$index}}]">Redeemed on : {{item.redeemedon |  date:'mediumDate'}}</h5>
 
-                    <p>₹ {{item.amount}}</p>
+                    <p><span class="input-label-small icon"><img class="currency-small" src="img/currency.png"></span> {{item.amount}}</p>
                     <div class="separator" ng-show="availableFlags[{{$index}}]"></div>
 
                 </ion-item>

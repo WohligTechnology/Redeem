@@ -11,7 +11,7 @@
                 <div class="wallet-holder" style="margin-top: -5px;">
                     <div class="wallet-balance">
                         <h3>Wallet Balance</h3>
-                        <h2>₹ {{myBalance.balance | number:2}}/-</h2>
+                        <h2><span class="input-label-small icon"><img class="currency-small" src="img/currency.png"></span> {{myBalance.balance | number:2}}/-</h2>
                     </div>
                     <img src="img/walletlock.png" alt="">
                 </div>

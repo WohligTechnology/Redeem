@@ -4,7 +4,7 @@
             <ion-item class=" item history-item" ng-repeat="item in spendhistory" ng-class="{'border-left-failed':!item.success,'border-left-success' : item.success}">
                 <h4>{{item.date}}</h4>
                 <h2>{{item.category}} > <span>{{item.name}}</span></h2>
-                <p>₹ {{item.amount}}</p>
+                <p><span class="input-label-small icon"><img class="currency-small" src="img/currency.png"></span> {{item.amount}}</p>
             </ion-item>
         </ion-list>
     </ion-content>
