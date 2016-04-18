@@ -1785,91 +1785,14 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
       amount: false,
       comment: false
     };
-    if ($scope.send.mobile === null || $scope.send.mobile === undefined || $scope.send.mobile === "" || $scope.send.mobile === 0) {
+    if ($scope.send.mobile === null || $scope.send.mobile === undefined || $scope.send.mobile === "" || $scope.send.mobile === 0 || parseInt($scope.send.mobile) < 999999999) {
       $scope.dirty.mobile = true;
     } else {
       if ($scope.send.amount === null || $scope.send.amount === undefined || $scope.send.amount === "" || $scope.send.amount === 0) {
         $scope.dirty.amount = true;
 
       } else {
-        // MyServices.findUserByMobile($scope.send, function(data) {
-        //     if (data._id) {
-        //         console.log(data);
-        //         $scope.updateU1 = {
-        //             _id: data._id,
-        //             balance: data.balance + $scope.send.amount,
-        //         };
-        //         if ($scope.user._id === data._id) {
-        //             $scope.alertUser("Send Money", "You cannot send money to yourself");
-        //         } else if (($scope.user.balance - $scope.send.amount) <= 0) {
-        //             $scope.alertUser("Send Money", "Not enough balance");
-        //         } else {
-        //
-        //             var confirmPopup = $ionicPopup.confirm({
-        //                 title: 'Send money',
-        //                 template: '<h5 style="text-align: center;margin-bottom:0">Are you sure?</h5>'
-        //             });
-        //             confirmPopup.then(function(res) {
-        //                 if (res) {
-        //                     if ($scope.updateUser($scope.updateU1)) {
-        //                         $scope.updateU2 = {
-        //                             _id: $scope.user._id,
-        //                             balance: $scope.ctrlUser.balance - $scope.send.amount
-        //                         };
-        //                         if ($scope.updateUser($scope.updateU2)) {
-        //                             $scope.refreshUser();
-        //                             $scope.transaction = {
-        //                                 from: $scope.user._id,
-        //                                 to: data._id,
-        //                                 type: "sendmoney",
-        //                                 amount: $scope.send.amount,
-        //                                 comment: $scope.send.comment
-        //                             };
-        //                             if ($scope.addTransaction($scope.transaction)) {
-        //                                 $scope.recieverNotify = {
-        //                                     type: "sendmoney",
-        //                                     deviceid: data.notificationtoken.deviceid,
-        //                                     os: data.notificationtoken.os,
-        //                                     user: data._id,
-        //                                     comment: $scope.send.comment,
-        //                                     amount: $scope.send.amount,
-        //                                     name: $scope.user.name
-        //                                 };
-        //                                 var alertPopup = $ionicPopup.alert({
-        //                                     template: '<h4 style="text-align: center;margin-bottom:0">Transaction successful.</h4>'
-        //                                 });
-        //                                 alertPopup.then(function(res) {
-        //                                     MyServices.notify($scope.recieverNotify, function(data2) {
-        //                                         $location.path('app/home');
-        //                                     }, function(err) {
-        //
-        //                                     });
-        //
-        //                                 });
-        //
-        //
-        //                             } else {
-        //
-        //                             }
-        //                         } else {
-        //                             //revert code for current logged in user
-        //                         }
-        //                     } else {
-        //                         //revert code for reciever
-        //                     }
-        //                 } else {
-        //                     $scope.send.mobile = undefined;
-        //                     $scope.send.comment = undefined;
-        //                     $scope.send.amount = undefined;
-        //                 }
-        //             });
-        //         }
-        //     } else {
-        //         $scope.alertUser("Send Money", "The user is not on PAiSO.");
-        //     }
-        // }, function(err) {
-        //
-        // });
+
         globalFunction.readMoney(function(bal) {
           if (bal >= $scope.send.amount) {
             MyServices.generateOtpForDebit(MyServices.getUser().consumer_id, function(data) {

@@ -5,9 +5,9 @@
        </h1>
     </ion-nav-title>
     <ion-content>
-        <h1 class="category-header-txt">
+        <!-- <h1 class="category-header-txt">
            Choose from popular online markets!
-       </h1>
+       </h1> -->
         <a ng-repeat="item in vendors" ng-if="item.status" href="#/app/redeem/{{item._id}}" class="video-set" style="text-decoration:none">
             <figure class="bg-img" ng-style="{'background-image': 'url({{item.bannerurl[0] | serverimage}})'}">
                 <!-- <img ng-src="{{item.bannerurl[0] | serverimage}}" class="full-image"> -->

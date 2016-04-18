@@ -5,9 +5,9 @@
        </h1>
    </ion-nav-title>
     <ion-content>
-       <h1 class="category-header-txt">
+       <!-- <h1 class="category-header-txt">
            Choose from popular online markets!
-       </h1>
+       </h1> -->
         <div class="category-container">
             <div class="row" ng-repeat="row in vendors" ng-if="vendors.length!=0">
                 <a href="#/app/redeem/{{item._id}}" style="text-decoration:none;color: black;" class="col col-33" ng-repeat="item in row" ng-if="item.status" >
