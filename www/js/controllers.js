@@ -428,7 +428,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
     badgecount: $scope.referralBadge,
     icon: "ln-users"
   }, {
-    title: 'Terms',
+    title: 'T&C',
     url: '#/app/terms',
     state: false,
     icon: "ln-clipboard"
@@ -1110,14 +1110,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
         $.jStorage.set("consumer_id", data.comment.consumer_id);
         $scope.input = {};
         // An elaborate, custom popup
-        smsplugin.startReception(function(message) {
-          console.log(message);
-          $scope.input.otp = message.toString().substr((message.length - 25), 6);
-          $scope.$apply();
-          smsplugin.stopReception(function() {}, function() {});
-        }, function(err) {
-          console.log(err);
-        });
+
         var myPopup = $ionicPopup.show({
           template: '<input type="tel" ng-model="input.otp" style="margin: 0px auto;width:100px;text-align:center;font-size:20px">',
           title: 'OTP Verification',
@@ -1703,14 +1696,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
         });
 
         function openOTP() {
-          smsplugin.startReception(function(message) {
-            console.log(message);
-            $scope.redeem.otp = message.toString().substr((message.length - 25), 6);
-            $scope.$apply();
-            smsplugin.stopReception(function() {}, function() {});
-          }, function(err) {
-            console.log(err);
-          });
+
           var myPopup = $ionicPopup.show({
             template: '<input type="tel" ng-model="redeem.otp" style="margin: 0px auto;width:100px;text-align:center;font-size:20px">',
             title: 'OTP Verification',
@@ -2042,8 +2028,8 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
       return false;
   };
   $scope.tab = {
-    left: false,
-    center: true,
+    left: true,
+    center: false,
     right: false
   }
   $scope.clickTab = function(side) {
@@ -2765,14 +2751,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
         });
 
         function openOTP() {
-          smsplugin.startReception(function(message) {
-            console.log(message);
-            $scope.redeem.otp = message.toString().substr((message.length - 25), 6);
-            $scope.$apply();
-            smsplugin.stopReception(function() {}, function() {});
-          }, function(err) {
-            console.log(err);
-          });
+
           var myPopup = $ionicPopup.show({
             template: '<input type="tel" ng-model="redeem.otp" style="margin: 0px auto;width:100px;text-align:center;font-size:20px">',
             title: 'OTP Verification',
