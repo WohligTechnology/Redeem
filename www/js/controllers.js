@@ -350,7 +350,6 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
         console.log(data);
         if (data.value == true) {
           $scope.activefav = false;
-          $scope.refreshUser();
         }
       }, function(err) {
 
