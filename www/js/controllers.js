@@ -450,19 +450,29 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
   }];
 
   $scope.activateMenu = function(index) {
-    $scope.refreshUser()
+    $scope.refreshUser();
     console.log($scope.menu[index].title);
     if ($scope.menu[index].title === "Logout") {
-      MyServices.logoutUser($scope.user, function(data) {
-        if (data.value == true) {
-          $scope.user = null;
-          $.jStorage.flush();
-          console.log(MyServices.getUser());
-          $location.path('login');
-        }
-      }, function(err) {
+      var confirmPopup = $ionicPopup.confirm({
+     template: '<h5 style="text-align: center;margin-bottom:0">Are you sure?</h5>'
+   });
 
-      });
+   confirmPopup.then(function(res) {
+     if(res) {
+       MyServices.logoutUser($scope.user, function(data) {
+         if (data.value == true) {
+           $scope.user = null;
+           $.jStorage.flush();
+           console.log(MyServices.getUser());
+           $location.path('login');
+         }
+       }, function(err) {
+
+       });
+     } else {
+     }
+   });
+
     }
     for (var i = 0; i < $scope.menu.length; i++) {
       $scope.menu[i].state = false;
@@ -2474,7 +2484,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
 
 })
 
-.controller('RedeemCtrl', function($scope, $stateParams, $ionicModal, $timeout, $ionicPopup, $location, MyServices, $ionicLoading, $ionicSlideBoxDelegate) {
+.controller('RedeemCtrl', function($scope, $stateParams, $ionicModal, $timeout, $ionicPopup, $location, MyServices, $ionicLoading, $ionicSlideBoxDelegate,$filter) {
   $scope.favoritePage();
   favorite.setActive(false);
   $scope.readTNC = false;
@@ -2729,11 +2739,11 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
             console.log(data);
             if (data.value == true) {
               var alertPopup = $ionicPopup.alert({
-                title: 'Make a voucher',
-                template: '<h5 style="text-align: center;margin-bottom:0">Redeemed Successfully</h5>'
+                template: '<div style="text-align: center;"><img src="'+$filter('serverimage')($scope.vendor.logourl)+'" style="width: 25%;"></div><h5 style="text-align: center;margin-bottom:0">Redeemed Successfully</h5>'
               });
               alertPopup.then(function(res) {
-                $location.path('app/wallet');
+                $location.path('app/redeem/'+$scope.params.id);
+
               });
             }
           }, function(err) {
@@ -2757,11 +2767,11 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
   };
   $scope.proceedAlert = function() {
     var alertPopup = $ionicPopup.alert({
-      title: 'Redeem ',
-      template: '<div style="text-align: center;"><img src="img/pending.png" style="width: 25%;"></div><h5 style="text-align: center;margin-bottom:0">Request pending approval</h5>'
+      template: '<div style="text-align: center;"><img src="'+$filter('serverimage')($scope.vendor.logourl)+'" style="width: 25%;"></div><h5 style="text-align: center;margin-bottom:0">Redeemed Successfully</h5>'
     });
     alertPopup.then(function(res) {
-      $location.path('app/wallet');
+      $location.path('app/redeem/'+$scope.params.id);
+
     });
   };
   $scope.zeroBalance = function() {
