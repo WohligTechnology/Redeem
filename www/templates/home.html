@@ -49,7 +49,7 @@
 
     <div class="padding-vertical" ng-if="tab==2">
       <div class="row" ng-repeat="items in chunkedFav">
-        <div class="col col-33" ng-repeat="item in items">
+        <div class="col " ng-repeat="item in items">
           <div class="img-holder">
             <a href="#/app/redeem/{{item._id}}">
               <img ng-src="{{item.imgurl | serverimage}}" class="category-image"/>

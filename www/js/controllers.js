@@ -1252,7 +1252,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
   $scope.refreshUser();
 
   $scope.favorites = $scope.user.favorite;
-  $scope.chunkedFav = _.chunk($scope.favorites, 2);
+  $scope.chunkedFav = _.chunk($scope.favorites, 3);
   console.log($scope.chunkedFav);
   $scope.refreshNoti($scope.user);
   $scope.category = [];
