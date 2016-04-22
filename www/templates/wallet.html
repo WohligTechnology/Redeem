@@ -38,9 +38,9 @@
         </div>
         <label class="item item-input">
           <span class="input-label auto-width">₹</span>
-          <input type="number" placeholder="Enter amount" ng-model="wallet.amount" name="amount" min="10" required>
+          <input type="number" placeholder="Enter amount" ng-model="wallet.amount" name="amount" min="100" required>
         </label>
-        <p class="padding-horizontal danger" ng-if="mywallet.amount.$error.min">*Minimum amount should be 10.</p>
+        <p class="padding-horizontal danger" ng-if="mywallet.amount.$error.min">*Minimum amount should be 100.</p>
         <div class="text-center">
           <button class="button button-assertive button-small button-clear button-block" ng-click="addMoneyNew(wallet.amount)" ng-disabled="mywallet.$invalid">
             ADD MONEY
