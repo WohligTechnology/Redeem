@@ -27,7 +27,15 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
       }
     }, function(err) {});
   };
-
+  // globalFunction.popAlert = function(gloTemplate){
+  //   var alertPopup = $ionicPopup.alert({
+  //        template: gloTemplate
+  //      });
+  //
+  //      alertPopup.then(function(res) {
+  //
+  //      });
+  //    };
   globalFunction.addMoney = function(amt) {
     $scope.amtToAdd = amt;
     MyServices.getListOfCards(MyServices.getUser().consumer_id, function(data) {
@@ -54,7 +62,6 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
           if (event.url == "http://wohlig.co.in/paisoapk/fail.html") {
             ref.close();
             var alertPopup = $ionicPopup.alert({
-              title: 'Add Money',
               template: '<h4 style="text-align:center;">Some Error Occurred. Payment Failed</h4>'
             });
             alertPopup.then(function(res) {
@@ -101,7 +108,6 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
         console.log(data);
         if (data.value == true) {
           var alertPopup = $ionicPopup.alert({
-            title: '',
             template: '<h4 style="text-align:center;">Balance added to your wallet</h4>'
           });
           alertPopup.then(function(res) {
@@ -110,7 +116,6 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
           });
         } else {
           var alertPopup = $ionicPopup.alert({
-            title: '',
             template: '<h4 style="text-align:center;">Something went wrong. Please try again later</h4>'
           });
           alertPopup.then(function(res) {
@@ -169,7 +174,6 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
     $scope.closeGetCard();
     var myPopup = $ionicPopup.show({
       template: '<p>Card Name : {{cardDetails.card_id_by_consumer}}</p><p>Exp. : {{cardDetails.expiry_month}}/{{cardDetails.expiry_year}}</p><p>Amount : {{cardDetails.amount}}</p><input type="tel" ng-model="cardDetails.cvv" style="margin: 0px auto;width:100px;text-align:center;font-size:20px">',
-      title: 'Enter CVV Code',
       subTitle: 'Enter the 3-digit CVV :',
       scope: $scope,
       buttons: [{
@@ -226,7 +230,6 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
               console.log(data);
               if (data.value == true) {
                 var alertPopup = $ionicPopup.alert({
-                  title: '',
                   template: '<h4 style="text-align:center;">Balance added to your wallet</h4>'
                 });
                 alertPopup.then(function(res) {
@@ -235,7 +238,6 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
                 });
               } else {
                 var alertPopup = $ionicPopup.alert({
-                  title: '',
                   template: '<h4 style="text-align:center;">Something went wrong. Please try again later</h4>'
                 });
                 alertPopup.then(function(res) {
@@ -277,7 +279,6 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
     function onOffline() {
       console.log("listening");
       var alertPopup = $ionicPopup.alert({
-        title: '',
         template: '<h4 style="text-align:center;">Please check your internet connection</h4>'
       });
       alertPopup.then(function(res) {
@@ -533,7 +534,6 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
 
   $scope.alertUser = function(alertTitle, alertDesc, link) {
     var alertPopup = $ionicPopup.alert({
-      title: alertTitle,
       template: '<h5 style="text-align: center;margin-bottom:0">' + alertDesc + '</h5>'
     });
     alertPopup.then(function(res) {
@@ -577,7 +577,6 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
   $scope.phone1 = {};
   $scope.alertUser = function(alertTitle, alertDesc, link) {
     var alertPopup = $ionicPopup.alert({
-      title: alertTitle,
       template: '<h5 style="text-align: center;margin-bottom:0">' + alertDesc + '</h5>'
     });
     alertPopup.then(function(res) {
@@ -708,7 +707,6 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
         if (data) {
           if (data.value === false) {
             var alertPopup = $ionicPopup.alert({
-              title: 'Login',
               template: '<h5 style="text-align:center">Invalid data</h5>'
             });
             alertPopup.then(function(res) {
@@ -744,7 +742,6 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
       });
     } else {
       var alertPopup = $ionicPopup.alert({
-        title: 'Login',
         template: '<h5 style="text-align:center">Mobile number or password is incorrect.</h5>'
       });
       alertPopup.then(function(res) {
@@ -1025,7 +1022,7 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
                         $location.url('app/home');
                         $.jStorage.set("user", signup.user);
                       } else {
-                        $scope.alertUser("signup", "unable to signup");
+                        $scope.alertUser("signup", "User already exists");
                       }
                     }, function(err) {
 
@@ -1157,13 +1154,13 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
                         $location.url('app/home');
                         $.jStorage.set("user", signup.user);
                       } else {
-                        $scope.alertUser("signup", "unable to signup");
+                        $scope.alertUser("signup", "User already exists");
                       }
                     }, function(err) {
 
                     })
                   } else {
-                    $scope.alertUser("incorrect OTP", "please retry");
+                    $scope.alertUser("incorrect OTP", "Please retry");
                   }
                 }, function(err) {
 
@@ -1652,7 +1649,6 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
 
   $scope.alertUser = function(alertTitle, alertDesc, link) {
     var alertPopup = $ionicPopup.alert({
-      title: alertTitle,
       template: '<h5 style="text-align: center;margin-bottom:0">' + alertDesc + '</h5>'
     });
     alertPopup.then(function(res) {
@@ -1686,7 +1682,6 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
       console.log($scope.ctrlUser);
       if ($scope.ctrlUser.balance >= 0) {
         var confirmPopup = $ionicPopup.confirm({
-          title: 'Make a voucher',
           template: '<h5 style="text-align: center;margin-bottom:0">Are you sure?</h5>'
         });
         confirmPopup.then(function(res) {
@@ -1760,7 +1755,6 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
             console.log(data);
             if (data.value == true) {
               var alertPopup = $ionicPopup.alert({
-                title: 'Make a voucher',
                 template: '<h5 style="text-align: center;margin-bottom:0">Redeemed Successfully</h5>'
               });
               alertPopup.then(function(res) {
@@ -1872,7 +1866,6 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
                 }
                 if (data.value == true) {
                   var alertPopup = $ionicPopup.alert({
-                    title: "Send Money",
                     template: '<h5 style="text-align: center;margin-bottom:0">Transaction successful.</h5>'
                   });
                   alertPopup.then(function(res) {
@@ -2088,7 +2081,6 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
     $scope.other = other;
     if ($scope.other == "" || $scope.other == null) {
       var alertPopup = $ionicPopup.alert({
-        title: '',
         template: '<h5 style="text-align: center;">Select the other document and upload</h5>'
       });
       alertPopup.then(function(res) {
@@ -2096,7 +2088,6 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
       });
     } else if ($scope.panImage.length == 0 || $scope.otherImage.length == 0) {
       var alertPopup = $ionicPopup.alert({
-        title: '',
         template: '<h5 style="text-align: center;">Please upload both the documents</h5>'
       });
       alertPopup.then(function(res) {
@@ -2104,7 +2095,6 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
       });
     } else {
       var confirmPopup = $ionicPopup.confirm({
-        title: '',
         template: '<h5 style="text-align: center;">Are you sure?</h5>'
       });
 
@@ -2146,7 +2136,6 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
                   $ionicLoading.hide();
                   if ($scope.updateUser($scope.user)) {
                     var alertPopup = $ionicPopup.alert({
-                      title: '',
                       template: '<h5 style="text-align: center;">Upgrade request sent for approval</h5>'
                     });
                     alertPopup.then(function(res) {
@@ -2189,7 +2178,6 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
 
   $scope.upgradeAlert = function() {
     var confirmPopup = $ionicPopup.confirm({
-      title: 'Wallet',
       template: '<h5 style="text-align: center;margin-bottom:0">Amount exceeding monthly limit.Do you want to upgrade KYC?</h5>'
     });
     confirmPopup.then(function(res) {
@@ -2246,7 +2234,6 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
       $scope.upgradeAlert();
     } else {
       var confirmPopup = $ionicPopup.confirm({
-        title: 'Wallet',
         template: '<h5 style="text-align: center;margin-bottom:0">Are you sure you want to add Rs.' + $scope.wallet.amount + ' ? </h5>'
       });
       confirmPopup.then(function(res) {
@@ -2664,7 +2651,6 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
       console.log($scope.ctrlUser);
       if ($scope.ctrlUser.balance >= 0) {
         var confirmPopup = $ionicPopup.confirm({
-          title: 'Make a voucher',
           template: '<h5 style="text-align: center;margin-bottom:0">Are you sure?</h5>'
         });
         confirmPopup.then(function(res) {
@@ -2775,7 +2761,6 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
   };
   $scope.zeroBalance = function() {
     var alertPopup = $ionicPopup.alert({
-      title: 'Make a voucher',
       template: '<div style="text-align: center;"><img src="img/pending.png" style="width: 25%;"></div><h5 style="text-align: center;margin-bottom:0">Request pending approval</h5>'
     });
     alertPopup.then(function(res) {
@@ -2784,14 +2769,12 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
   };
   $scope.zeroAmount = function() {
     var alertPopup = $ionicPopup.alert({
-      title: 'Make a voucher',
       template: '<h5 style="text-align: center;margin-bottom:0">Please enter a valid amount.</h5>'
     });
     alertPopup.then(function(res) {});
   };
   $scope.exceedingLimit = function() {
     var alertPopup = $ionicPopup.alert({
-      title: 'Make a voucher',
       template: '<h5 style="text-align: center;margin-bottom:0">The amount redeem limit is ' + $scope.vendor.amountlimit + '.</h5>'
     });
     alertPopup.then(function(res) {});
@@ -2927,7 +2910,6 @@ angular.module('starter.controllers', ['ui.bootstrap', 'ngCordova', 'angular-loa
   };
   $scope.alertUser = function(alertTitle, alertDesc, link) {
     var alertPopup = $ionicPopup.alert({
-      title: alertTitle,
       template: '<h5 style="text-align: center;margin-bottom:0">' + alertDesc + '</h5>'
     });
     alertPopup.then(function(res) {

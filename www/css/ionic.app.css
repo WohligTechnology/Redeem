@@ -9529,6 +9529,9 @@ a.button {
   .button-share-container .button {
     min-height: 56px !important; }
 
+.img-circle {
+  border-radius: 50%; }
+
 .button-upload-container {
   position: absolute;
   bottom: 75px;
@@ -9692,6 +9695,9 @@ a.button {
   width: 90px;
   padding: 12px 0 0; }
 
+.slider-pager {
+  height: 0px !important; }
+
 .slider-pager .slider-pager-page {
   color: #0060aa !important; }
 
@@ -9743,7 +9749,7 @@ a.button {
   font-size: 14px; }
 
 .f-m {
-  font-size: 10px;
+  font-size: 13px;
   font-weight: 400px; }
 
 .me-tab .list {
@@ -9759,7 +9765,7 @@ a.button {
       font-size: 17px;
       padding-right: 6px; }
     .me-tab .list .item .item-note {
-      font-size: 12px; }
+      font-size: 13px; }
 
 .img-hold {
   width: 50px;
@@ -9789,7 +9795,7 @@ a.button {
     margin-bottom: 7px; }
   .noti .item p {
     color: #848484;
-    font-size: 12px;
+    font-size: 13px;
     margin-bottom: 2px;
     font-weight: 300;
     margin: 0;
@@ -10080,8 +10086,8 @@ a.button {
     color: #000;
     width: auto; }
 
-.font12 {
-  font-size: 12px; }
+.font13 {
+  font-size: 13px; }
 
 .icon-nm {
   font-size: 13px;
@@ -10202,7 +10208,7 @@ body {
 .path {
   stroke-dasharray: 1,200;
   stroke-dashoffset: 0;
-  animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
+  animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
   stroke-linecap: round; }
 
 @keyframes rotate {
