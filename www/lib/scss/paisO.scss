@@ -175,7 +175,14 @@ width: 35%;
 color: #444;
 font-size: 16px;
 }
-
+.poweredBy{
+  // width: 100%;
+  .poweredImage{
+    width: 200px;
+float: right;
+margin: 50px 10px 0px 0px;
+  }
+}
 .sidemenu {
     ion-content {
         //            background-color: $dark-secondary;

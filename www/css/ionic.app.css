@@ -9211,6 +9211,11 @@ a.button {
   color: #444;
   font-size: 16px; }
 
+.poweredBy .poweredImage {
+  width: 200px;
+  float: right;
+  margin: 50px 10px 0px 0px; }
+
 .sidemenu .item .item-content {
   color: #6D6969;
   font-size: 16px; }
